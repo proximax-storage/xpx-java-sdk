@@ -17,6 +17,9 @@ import io.nem.xpx.crypto.BinaryPBKDF2Cipher;
 import io.nem.xpx.model.ResponseEntity;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -96,12 +99,20 @@ public class DownloadApiTest {
 		byte[] responseE;
 		try {
 
-			responseE = api.downloadStreamUsingHashUsingPOST("QmQhXMDie1UGCmxXpdiE7cFZ4mceqMVH8HZRWywASBYddw");
+			responseE = api.downloadStreamUsingHashUsingPOST("QmWEXre36dMiZPZPAdRxtRAAWcDfYfav3KSP1CG6jKtt4B");
 			BinaryPBKDF2Cipher a = new BinaryPBKDF2Cipher();
-			byte[] dec = a.decrypt(responseE, "t388u1urtkEDjObrc+U6Gw==".toCharArray());
+			byte[] dec = a.decrypt(responseE, "dFYo8HUEs/2mk/rmA8ZETw==".toCharArray());
 			//responseE = api.downloadRawBytesUsingHashUsingPOST("QmdGC7faR1TnzbCYKs85T7eZGoXvWh6L8MyoubZCTLbDfK");
 			System.out.println(new String(responseE, "UTF-8"));
 			System.out.println(new String(dec, "UTF-8"));
+			
+			try (FileOutputStream fos = new FileOutputStream("pathname.jpg")) {
+				   fos.write(dec);
+				   fos.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 		} catch (ApiException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchAlgorithmException | NoSuchPaddingException e) {
 			e.printStackTrace();

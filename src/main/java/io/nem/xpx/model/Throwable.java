@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Throwable
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-13T17:26:30.135+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-13T18:03:17.277+08:00")
 public class Throwable {
   @SerializedName("cause")
   private Throwable cause = null;
