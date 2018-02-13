@@ -20,7 +20,7 @@ public class ConnectorFactory {
 	/**
 	 * Creates a new Connector object.
 	 *
-	 * @return the default async nem connector< api id>
+	 * @return the default async nem connector 
 	 */
 	public static DefaultAsyncNemConnector<ApiId> createConnector() {
 		final DefaultAsyncNemConnector<ApiId> connector = new DefaultAsyncNemConnector<>(CLIENT, r -> {

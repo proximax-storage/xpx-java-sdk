@@ -13,23 +13,17 @@
 
 package io.nem.xpx;
 
+import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
 import org.junit.Test;
-import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for AccountApi
  */
-@Ignore
 public class AccountApiTest {
-
-    private final AccountApi api = new AccountApi();
+	
+    private final AccountApi api = new AccountApi(new ApiClient().setBasePath("http://p2ptest.smartproof.io/xpxstest2"));
 
     
     /**

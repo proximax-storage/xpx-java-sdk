@@ -39,9 +39,8 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
-	 * @throws ApiException 
+	 * @param transaction            the transaction
+	 * @throws ApiException the api exception
 	 */
 	public static void sendTransaction(Transaction transaction) throws ApiException {
 
@@ -75,10 +74,9 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transfer transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException 
+	 * @throws ApiException the api exception
 	 */
 	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -95,6 +93,14 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send transfer transaction.
+	 *
+	 * @param data the data
+	 * @param signature the signature
+	 * @return the nem announce result
+	 * @throws ApiException the api exception
+	 */
 	public static NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws ApiException {
 
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
@@ -110,6 +116,13 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send future transfer transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the completable future
+	 * @throws ApiException the api exception
+	 */
 	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction) throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -121,10 +134,9 @@ public class TransactionSenderUtil {
 	/**
 	 * Send multi sig transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException 
+	 * @throws ApiException the api exception
 	 */
 	public static NemAnnounceResult sendMultiSigTransaction(MultisigTransaction transaction) throws ApiException {
 
@@ -142,6 +154,13 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send future multi sig transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the completable future
+	 * @throws ApiException the api exception
+	 */
 	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction) throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -153,10 +172,9 @@ public class TransactionSenderUtil {
 	/**
 	 * Send multisig signature transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException 
+	 * @throws ApiException the api exception
 	 */
 	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction) throws ApiException {
 
@@ -177,10 +195,9 @@ public class TransactionSenderUtil {
 	/**
 	 * Send future multisig signature transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the completable future
-	 * @throws ApiException 
+	 * @throws ApiException the api exception
 	 */
 	public static CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(
 			MultisigSignatureTransaction transaction) throws ApiException {

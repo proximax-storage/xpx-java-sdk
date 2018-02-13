@@ -7,7 +7,7 @@
 	<name>xpx-java-sdk</name>
 	<version>1.0.0</version>
 	<url>https://github.com/swagger-api/swagger-codegen</url>
-	<description>Proximax P2P File Storage SDK</description>
+	<description>Proximax P2P File Storage Java SDK</description>
 	<scm>
 		<connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
 		<developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
@@ -27,10 +27,10 @@
 
 	<developers>
 		<developer>
-			<name>Swagger</name>
-			<email>apiteam@swagger.io</email>
-			<organization>Swagger</organization>
-			<organizationUrl>http://swagger.io</organizationUrl>
+			<name>Alvin Reyes</name>
+			<email>alvin.reyes@botmill.io</email>
+			<organization>Proximax.io</organization>
+			<organizationUrl>http://proximax.io</organizationUrl>
 		</developer>
 	</developers>
 
@@ -141,6 +141,15 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -198,6 +207,11 @@
 			<groupId>org.nem.core</groupId>
 			<artifactId>nem-core</artifactId>
 			<version>${nem.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.ipfs</groupId>
+			<artifactId>api</artifactId>
+			<version>v1.2.0</version>
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>

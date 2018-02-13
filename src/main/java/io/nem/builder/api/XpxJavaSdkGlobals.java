@@ -109,11 +109,12 @@ public class XpxJavaSdkGlobals {
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
 	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
+	
 	/**
 	 * Gets the node endpoint.
 	 *
 	 * @return the node endpoint
-	 * @throws ApiException 
+	 * @throws ApiException the api exception
 	 */
 	public static NodeEndpoint getNodeEndpoint() throws ApiException {
 		NodeInfo nodeInfo = new NodeApi().getNodeInfoUsingGET();

@@ -439,6 +439,133 @@ public class DownloadApi {
         return call;
     }
     /**
+     * Build call for downloadRawBytesUsingHashUsingPOST
+     * @param hash The Data Hash (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/download/data/rawbytes";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (hash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "hash", hash));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'hash' is set
+        if (hash == null) {
+            throw new ApiException("Missing the required parameter 'hash' when calling downloadRawBytesUsingHashUsingPOST(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTCall(hash, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @return byte[]
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public byte[] downloadRawBytesUsingHashUsingPOST(String hash) throws ApiException {
+        ApiResponse<byte[]> resp = downloadRawBytesUsingHashUsingPOSTWithHttpInfo(hash);
+        return resp.getData();
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @return ApiResponse&lt;byte[]&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<byte[]> downloadRawBytesUsingHashUsingPOSTWithHttpInfo(String hash) throws ApiException {
+        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(hash, null, null);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash (asynchronously)
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTAsync(String hash, final ApiCallback<byte[]> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(hash, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
      * Build call for downloadSecureMessageFileUsingNemHashUsingGET
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
      * @param nemhash The NEM Transaction Hash (required)
@@ -829,6 +956,133 @@ public class DownloadApi {
         }
 
         com.squareup.okhttp.Call call = downloadStreamSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, xPvkey, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for downloadStreamUsingHashUsingPOST
+     * @param hash The Data Hash (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/download/data/stream";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (hash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "hash", hash));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'hash' is set
+        if (hash == null) {
+            throw new ApiException("Missing the required parameter 'hash' when calling downloadStreamUsingHashUsingPOST(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTCall(hash, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @return byte[]
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException {
+        ApiResponse<byte[]> resp = downloadStreamUsingHashUsingPOSTWithHttpInfo(hash);
+        return resp.getData();
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @return ApiResponse&lt;byte[]&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<byte[]> downloadStreamUsingHashUsingPOSTWithHttpInfo(String hash) throws ApiException {
+        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTValidateBeforeCall(hash, null, null);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Download secured encrypted resource/file using Data Hash (asynchronously)
+     * This endpoint returns a byte array format of the actual encrypted file
+     * @param hash The Data Hash (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTAsync(String hash, final ApiCallback<byte[]> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTValidateBeforeCall(hash, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

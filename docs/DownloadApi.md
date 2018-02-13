@@ -7,9 +7,11 @@ Method | HTTP request | Description
 [**downloadPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/{nemhash} | Download resource/file using NEM Transaction Hash
 [**downloadRawBytesPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadRawBytesPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/rawbytes/{nemhash} | Download plain resource/file using NEM Transaction Hash
 [**downloadRawBytesSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadRawBytesSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/rawbytes/{nemhash} | Download secured resource/file using NEM Transaction Hash
+[**downloadRawBytesUsingHashUsingPOST**](DownloadApi.md#downloadRawBytesUsingHashUsingPOST) | **POST** /download/data/rawbytes | Download secured encrypted resource/file using Data Hash
 [**downloadSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/{nemhash} | Download resource/file using NEM Transaction Hash
 [**downloadStreamPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadStreamPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/stream/{nemhash} | Download plain resource/file using NEM Transaction Hash
 [**downloadStreamSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadStreamSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/stream/{nemhash} | Download secured resource/file using NEM Transaction Hash
+[**downloadStreamUsingHashUsingPOST**](DownloadApi.md#downloadStreamUsingHashUsingPOST) | **POST** /download/data/stream | Download secured encrypted resource/file using Data Hash
 
 
 <a name="downloadPlainMessageFileUsingNemHashUsingGET"></a>
@@ -149,6 +151,51 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
+<a name="downloadRawBytesUsingHashUsingPOST"></a>
+# **downloadRawBytesUsingHashUsingPOST**
+> byte[] downloadRawBytesUsingHashUsingPOST(hash)
+
+Download secured encrypted resource/file using Data Hash
+
+This endpoint returns a byte array format of the actual encrypted file
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.DownloadApi;
+
+
+DownloadApi apiInstance = new DownloadApi();
+String hash = "hash_example"; // String | The Data Hash
+try {
+    byte[] result = apiInstance.downloadRawBytesUsingHashUsingPOST(hash);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DownloadApi#downloadRawBytesUsingHashUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **hash** | **String**| The Data Hash |
+
+### Return type
+
+**byte[]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
 <a name="downloadSecureMessageFileUsingNemHashUsingGET"></a>
 # **downloadSecureMessageFileUsingNemHashUsingGET**
 > ResponseEntity downloadSecureMessageFileUsingNemHashUsingGET(xPvkey, nemhash)
@@ -274,6 +321,51 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **nemhash** | **String**| The NEM Transaction Hash |
  **xPvkey** | **String**| The Sender or Receiver&#39;s Private Key | [optional]
+
+### Return type
+
+**byte[]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="downloadStreamUsingHashUsingPOST"></a>
+# **downloadStreamUsingHashUsingPOST**
+> byte[] downloadStreamUsingHashUsingPOST(hash)
+
+Download secured encrypted resource/file using Data Hash
+
+This endpoint returns a byte array format of the actual encrypted file
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.DownloadApi;
+
+
+DownloadApi apiInstance = new DownloadApi();
+String hash = "hash_example"; // String | The Data Hash
+try {
+    byte[] result = apiInstance.downloadStreamUsingHashUsingPOST(hash);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DownloadApi#downloadStreamUsingHashUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **hash** | **String**| The Data Hash |
 
 ### Return type
 

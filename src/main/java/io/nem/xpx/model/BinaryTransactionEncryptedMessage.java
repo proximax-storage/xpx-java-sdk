@@ -26,13 +26,16 @@ import java.io.IOException;
 /**
  * BinaryTransactionEncryptedMessage
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-06T23:01:14.896+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-13T17:26:30.135+08:00")
 public class BinaryTransactionEncryptedMessage {
   @SerializedName("digest")
   private String digest = null;
 
   @SerializedName("hash")
   private String hash = null;
+
+  @SerializedName("hashKey")
+  private String hashKey = null;
 
   @SerializedName("keywords")
   private String keywords = null;
@@ -86,6 +89,24 @@ public class BinaryTransactionEncryptedMessage {
 
   public void setHash(String hash) {
     this.hash = hash;
+  }
+
+  public BinaryTransactionEncryptedMessage hashKey(String hashKey) {
+    this.hashKey = hashKey;
+    return this;
+  }
+
+   /**
+   * Get hashKey
+   * @return hashKey
+  **/
+  @ApiModelProperty(value = "")
+  public String getHashKey() {
+    return hashKey;
+  }
+
+  public void setHashKey(String hashKey) {
+    this.hashKey = hashKey;
   }
 
   public BinaryTransactionEncryptedMessage keywords(String keywords) {
@@ -208,6 +229,7 @@ public class BinaryTransactionEncryptedMessage {
     BinaryTransactionEncryptedMessage binaryTransactionEncryptedMessage = (BinaryTransactionEncryptedMessage) o;
     return Objects.equals(this.digest, binaryTransactionEncryptedMessage.digest) &&
         Objects.equals(this.hash, binaryTransactionEncryptedMessage.hash) &&
+        Objects.equals(this.hashKey, binaryTransactionEncryptedMessage.hashKey) &&
         Objects.equals(this.keywords, binaryTransactionEncryptedMessage.keywords) &&
         Objects.equals(this.metaData, binaryTransactionEncryptedMessage.metaData) &&
         Objects.equals(this.name, binaryTransactionEncryptedMessage.name) &&
@@ -218,7 +240,7 @@ public class BinaryTransactionEncryptedMessage {
 
   @Override
   public int hashCode() {
-    return Objects.hash(digest, hash, keywords, metaData, name, size, timestamp, type);
+    return Objects.hash(digest, hash, hashKey, keywords, metaData, name, size, timestamp, type);
   }
 
 
@@ -229,6 +251,7 @@ public class BinaryTransactionEncryptedMessage {
     
     sb.append("    digest: ").append(toIndentedString(digest)).append("\n");
     sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
+    sb.append("    hashKey: ").append(toIndentedString(hashKey)).append("\n");
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
     sb.append("    metaData: ").append(toIndentedString(metaData)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

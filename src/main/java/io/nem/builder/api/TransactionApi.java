@@ -20,12 +20,13 @@ import io.nem.xpx.NodeApi;
  */
 public class TransactionApi {
 
+	
 	/**
-	 * Announce the Transaction
-	 * 
-	 * @param endpoint
-	 * @param request
-	 * @return
+	 * Announce transaction.
+	 *
+	 * @param endpoint the endpoint
+	 * @param request the request
+	 * @return the completable future
 	 */
 	public static CompletableFuture<Deserializer> announceTransaction(final NodeEndpoint endpoint,
 			final RequestAnnounce request) {

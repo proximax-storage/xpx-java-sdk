@@ -10,124 +10,138 @@
  * Do not edit the class manually.
  */
 
-
 package io.nem.xpx;
 
 import io.nem.ApiException;
+import io.nem.xpx.crypto.BinaryPBKDF2Cipher;
 import io.nem.xpx.model.ResponseEntity;
 import org.junit.Test;
-import org.junit.Ignore;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import org.junit.Ignore;
 
 /**
  * API tests for DownloadApi
  */
-@Ignore
 public class DownloadApiTest {
 
-    private final DownloadApi api = new DownloadApi();
+	private final DownloadApi api = new DownloadApi();
 
-    
-    /**
-     * Download resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String nemhash = null;
-        ResponseEntity response = api.downloadPlainMessageFileUsingNemHashUsingGET(nemhash);
+	/**
+	 * Download resource/file using NEM Transaction Hash
+	 *
+	 * This endpoint returns either a byte array format of the actual file OR a
+	 * JSON format GenericMessageResponse.
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void downloadPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
+		String nemhash = null;
+		ResponseEntity response = api.downloadPlainMessageFileUsingNemHashUsingGET(nemhash);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Download plain resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns a byte array format of the actual file
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadRawBytesPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String nemhash = null;
-        byte[] response = api.downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash);
+		// TODO: test validations
+	}
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Download secured resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns a byte array format of the actual file
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadRawBytesSecureMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
-        String nemhash = "46ba9d7b141c6bed8e91493fa94ae7bf027a15fb1c4e591f48b8e776ce6d259c";
-        byte[] response = api.downloadRawBytesSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
-    }
-    
-    /**
-     * Download resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadSecureMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String xPvkey = null;
-        String nemhash = null;
-        ResponseEntity response = api.downloadSecureMessageFileUsingNemHashUsingGET(xPvkey, nemhash);
+	/**
+	 * Download plain resource/file using NEM Transaction Hash
+	 *
+	 * This endpoint returns a byte array format of the actual file
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void downloadRawBytesPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
+		String nemhash = null;
+		byte[] response = api.downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Download plain resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns a byte array format of the actual file
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadStreamPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String nemhash = null;
-        byte[] response = api.downloadStreamPlainMessageFileUsingNemHashUsingGET(nemhash);
+		// TODO: test validations
+	}
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Download secured resource/file using NEM Transaction Hash
-     *
-     * This endpoint returns a byte array format of the actual file
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void downloadStreamSecureMessageFileUsingNemHashUsingGETTest() throws ApiException {
-        String nemhash = null;
-        String xPvkey = null;
-        byte[] response = api.downloadStreamSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
+	/**
+	 * Download secured resource/file using NEM Transaction Hash
+	 *
+	 * This endpoint returns a byte array format of the actual file
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void downloadRawBytesSecureMessageFileUsingNemHashUsingGETTest() throws ApiException {
+		String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
+		String nemhash = "a6be4e9060f084eb84ab1886925e218735573706cedae32591ce28be976b8b9f";
+		byte[] response = api.downloadRawBytesSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
 
-        // TODO: test validations
-    }
-    
+		System.out.println(response);
+	}
+
+	
+	@Test
+	public void downloadRawBytesUsingHashUsingPOSTTest() {
+		String xPvkey = null;
+		String nemhash = null;
+		// ResponseEntity response =
+		// api.downloadSecureMessageFileUsingNemHashUsingGET(xPvkey, nemhash);
+		byte[] responseE;
+		try {
+
+			responseE = api.downloadStreamUsingHashUsingPOST("QmQhXMDie1UGCmxXpdiE7cFZ4mceqMVH8HZRWywASBYddw");
+			BinaryPBKDF2Cipher a = new BinaryPBKDF2Cipher();
+			byte[] dec = a.decrypt(responseE, "t388u1urtkEDjObrc+U6Gw==".toCharArray());
+			//responseE = api.downloadRawBytesUsingHashUsingPOST("QmdGC7faR1TnzbCYKs85T7eZGoXvWh6L8MyoubZCTLbDfK");
+			System.out.println(new String(responseE, "UTF-8"));
+			System.out.println(new String(dec, "UTF-8"));
+			
+		} catch (ApiException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+			e.printStackTrace();
+		}
+
+		// TODO: test validations
+	}
+
+	/**
+	 * Download plain resource/file using NEM Transaction Hash
+	 *
+	 * This endpoint returns a byte array format of the actual file
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void downloadStreamPlainMessageFileUsingNemHashUsingGETTest() throws ApiException {
+		String nemhash = null;
+		byte[] response = api.downloadStreamPlainMessageFileUsingNemHashUsingGET(nemhash);
+
+		// TODO: test validations
+	}
+
+	/**
+	 * Download secured resource/file using NEM Transaction Hash
+	 *
+	 * This endpoint returns a byte array format of the actual file
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void downloadStreamSecureMessageFileUsingNemHashUsingGETTest() throws ApiException {
+		String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
+		String nemhash = "bd4d6e81cce9fb971d8f295bea7314f2465a28b887e91df9bff944f493dcb1ba";
+		byte[] response = api.downloadStreamSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
+
+		// TODO: test validations
+		System.out.println(response);
+	}
+
 }

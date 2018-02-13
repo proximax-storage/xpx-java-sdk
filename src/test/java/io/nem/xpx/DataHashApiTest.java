@@ -147,7 +147,6 @@ public class DataHashApiTest {
         String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
         String xPubkey = "d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94";
 
-
         // TODO: test validations
         System.out.println(response);
         
@@ -157,10 +156,10 @@ public class DataHashApiTest {
 				.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
 		
 		 PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
-	        String string = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+	     String string = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 	        
 	        
-	        System.out.println(string);
+	     System.out.println(string);
     }
     
 }
