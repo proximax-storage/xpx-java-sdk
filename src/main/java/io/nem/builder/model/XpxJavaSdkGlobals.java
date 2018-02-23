@@ -1,4 +1,4 @@
-package io.nem.builder.api;
+package io.nem.builder.model;
 
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
@@ -10,7 +10,6 @@ import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
 
 import io.nem.ApiException;
-import io.nem.builder.model.ConnectorFactory;
 import io.nem.xpx.NodeApi;
 import io.nem.xpx.model.NodeInfo;
 

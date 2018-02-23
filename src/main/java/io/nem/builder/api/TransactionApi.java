@@ -13,6 +13,7 @@ import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
+import io.nem.builder.model.XpxJavaSdkGlobals;
 import io.nem.xpx.NodeApi;
 
 /**

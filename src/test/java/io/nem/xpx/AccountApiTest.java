@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class AccountApiTest {
 	
-    private final AccountApi api = new AccountApi(new ApiClient().setBasePath("http://p2ptest.smartproof.io/xpxstest2"));
+    private final AccountApi api = new AccountApi(new ApiClient().setBasePath("http://p2ptest.smartproof.io/xpxstest1"));
 
     
     /**

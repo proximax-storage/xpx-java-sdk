@@ -12,12 +12,20 @@
 
 package io.nem.xpx;
 
+import io.nem.ApiClient;
 import io.nem.ApiException;
+import io.nem.utils.CryptoUtils;
 import io.nem.xpx.crypto.BinaryPBKDF2Cipher;
 import io.nem.xpx.model.ResponseEntity;
 import org.junit.Test;
+import org.nem.core.crypto.CryptoEngines;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
+import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
+import org.nem.core.messages.SecureMessage;
+import org.nem.core.utils.HexEncoder;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,19 +33,16 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
-import org.junit.Ignore;
 
 /**
  * API tests for DownloadApi
  */
 public class DownloadApiTest {
 
-	private final DownloadApi api = new DownloadApi();
+	private final DownloadApi api = new DownloadApi(new ApiClient().setBasePath("http://localhost:8881/areyes1"));
 
 	/**
 	 * Download resource/file using NEM Transaction Hash
@@ -99,22 +104,15 @@ public class DownloadApiTest {
 		byte[] responseE;
 		try {
 
-			responseE = api.downloadStreamUsingHashUsingPOST("QmWEXre36dMiZPZPAdRxtRAAWcDfYfav3KSP1CG6jKtt4B");
-			BinaryPBKDF2Cipher a = new BinaryPBKDF2Cipher();
-			byte[] dec = a.decrypt(responseE, "dFYo8HUEs/2mk/rmA8ZETw==".toCharArray());
-			//responseE = api.downloadRawBytesUsingHashUsingPOST("QmdGC7faR1TnzbCYKs85T7eZGoXvWh6L8MyoubZCTLbDfK");
+			Ed25519CryptoEngine engine = (Ed25519CryptoEngine) CryptoEngines.ed25519Engine();
+			responseE = api.downloadStreamUsingHashUsingPOST("QmR56iyHS4BKCF4Py1BgAG5UV3QnefTFz6wc584Q7koN1Q");
 			System.out.println(new String(responseE, "UTF-8"));
-			System.out.println(new String(dec, "UTF-8"));
-			
-			try (FileOutputStream fos = new FileOutputStream("pathname.jpg")) {
-				   fos.write(dec);
-				   fos.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-		} catch (ApiException | UnsupportedEncodingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+			byte[] decrypted = engine.createBlockCipher(
+					new KeyPair(PublicKey.fromHexString("d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94"),engine),
+					new KeyPair(PrivateKey.fromHexString("8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd"),engine))
+					.decrypt(HexEncoder.getBytes(new String(responseE, "UTF-8")));
+			System.out.println(new String(decrypted,"UTF-8"));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

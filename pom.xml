@@ -208,11 +208,6 @@
 			<artifactId>nem-core</artifactId>
 			<version>${nem.core.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>io.ipfs</groupId>
-			<artifactId>api</artifactId>
-			<version>v1.2.0</version>
-		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

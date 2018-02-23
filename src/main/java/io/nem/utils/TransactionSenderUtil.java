@@ -1,4 +1,4 @@
-package io.nem.builder.util;
+package io.nem.utils;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -25,7 +25,7 @@ import org.nem.core.utils.StringEncoder;
 
 import io.nem.ApiException;
 import io.nem.builder.api.TransactionApi;
-import io.nem.builder.api.XpxJavaSdkGlobals;
+import io.nem.builder.model.XpxJavaSdkGlobals;
 import net.minidev.json.JSONObject;
 
 /**

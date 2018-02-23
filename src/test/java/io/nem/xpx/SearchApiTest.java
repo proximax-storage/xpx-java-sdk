@@ -17,11 +17,7 @@ import io.nem.ApiException;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import org.junit.Test;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for SearchApi
@@ -30,8 +26,6 @@ import java.util.Map;
 public class SearchApiTest {
 
     private final SearchApi api = new SearchApi();
-
-    
     /**
      * Search through all the owner&#39;s documents to find a content that matches the text specified.
      *

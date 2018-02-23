@@ -1,4 +1,4 @@
-package io.nem.builder.util;
+package io.nem.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
