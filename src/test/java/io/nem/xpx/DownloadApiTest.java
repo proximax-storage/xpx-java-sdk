@@ -29,10 +29,11 @@ import org.nem.core.utils.HexEncoder;
 import java.io.UnsupportedEncodingException;
 
 /**
- * API tests for DownloadApi
+ * API tests for DownloadApi.
  */
 public class DownloadApiTest extends AbstractApiTest {
 
+	/** The api. */
 	private final DownloadApi api = new DownloadApi();
 
 	/**
@@ -54,12 +55,11 @@ public class DownloadApiTest extends AbstractApiTest {
 
 	/**
 	 * Download plain resource/file using NEM Transaction Hash
+	 * 
+	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * This endpoint returns a byte array format of the actual file
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
-	 * @throws UnsupportedEncodingException
+	 * @throws ApiException             if the Api call fails
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
@@ -73,12 +73,11 @@ public class DownloadApiTest extends AbstractApiTest {
 
 	/**
 	 * Download secured resource/file using NEM Transaction Hash
+	 * 
+	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * This endpoint returns a byte array format of the actual file
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
-	 * @throws UnsupportedEncodingException
+	 * @throws ApiException             if the Api call fails
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
@@ -91,6 +90,9 @@ public class DownloadApiTest extends AbstractApiTest {
 		Assert.assertNotNull(new String(response, "UTF-8"));
 	}
 
+	/**
+	 * Download raw bytes using hash using POST test.
+	 */
 	@Test
 	public void downloadRawBytesUsingHashUsingPOSTTest() {
 		byte[] securedResponse;
@@ -122,12 +124,11 @@ public class DownloadApiTest extends AbstractApiTest {
 
 	/**
 	 * Download plain resource/file using NEM Transaction Hash
+	 * 
+	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * This endpoint returns a byte array format of the actual file
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
-	 * @throws UnsupportedEncodingException
+	 * @throws ApiException             if the Api call fails
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
 	 */
 	@Test
 	public void downloadStreamPlainMessageFileUsingNemHashUsingGETTest()
@@ -139,12 +140,11 @@ public class DownloadApiTest extends AbstractApiTest {
 
 	/**
 	 * Download secured resource/file using NEM Transaction Hash
+	 * 
+	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * This endpoint returns a byte array format of the actual file
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
-	 * @throws UnsupportedEncodingException 
+	 * @throws ApiException             if the Api call fails
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")

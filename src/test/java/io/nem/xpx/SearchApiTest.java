@@ -19,11 +19,12 @@ import org.junit.Ignore;
 import java.util.List;
 
 /**
- * API tests for SearchApi
+ * API tests for SearchApi.
  */
 @Ignore
 public class SearchApiTest extends AbstractApiTest {
 
+	/** The api. */
 	private final SearchApi api = new SearchApi();
 
 	/**

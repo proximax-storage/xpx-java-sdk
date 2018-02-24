@@ -19,19 +19,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * API tests for AccountApi
+ * API tests for AccountApi.
  */
 public class AccountApiTest extends AbstractApiTest {
 
+	/** The api. */
 	private final AccountApi api = new AccountApi();
 
 	/**
-	 * getAllIncomingNemAddressTransactions
+	 * getAllIncomingNemAddressTransactions.
 	 *
-	 * 
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
+	 * @return the all incoming nem address transactions using GET test
+	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
 	public void getAllIncomingNemAddressTransactionsUsingGETTest() throws ApiException {
@@ -42,12 +41,10 @@ public class AccountApiTest extends AbstractApiTest {
 	}
 
 	/**
-	 * getAllNemAddressTransactions
+	 * getAllNemAddressTransactions.
 	 *
-	 * 
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
+	 * @return the all nem address transactions using GET test
+	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
 	public void getAllNemAddressTransactionsUsingGETTest() throws ApiException {
@@ -58,12 +55,10 @@ public class AccountApiTest extends AbstractApiTest {
 	}
 
 	/**
-	 * getAllNemAddressTransactionsWithPageSize
+	 * getAllNemAddressTransactionsWithPageSize.
 	 *
-	 * 
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
+	 * @return the all nem address transactions with page size using GET test
+	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
 	public void getAllNemAddressTransactionsWithPageSizeUsingGETTest() throws ApiException {
@@ -75,12 +70,10 @@ public class AccountApiTest extends AbstractApiTest {
 	}
 
 	/**
-	 * getAllOutgoingNemAddressTransactions
+	 * getAllOutgoingNemAddressTransactions.
 	 *
-	 * 
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
+	 * @return the all outgoing nem address transactions using GET test
+	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
 	public void getAllOutgoingNemAddressTransactionsUsingGETTest() throws ApiException {
@@ -93,12 +86,12 @@ public class AccountApiTest extends AbstractApiTest {
 
 	/**
 	 * Get the NEM Address Details
-	 *
+	 * 
 	 * This endpoint returns the NEM Address/Account Information of a given
-	 * address
+	 * address.
 	 *
-	 * @throws ApiException
-	 *             if the Api call fails
+	 * @return the nem address details using GET test
+	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
 	public void getNemAddressDetailsUsingGETTest() throws ApiException {

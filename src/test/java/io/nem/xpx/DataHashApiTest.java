@@ -36,10 +36,11 @@ import org.nem.core.crypto.PublicKey;
 import org.nem.core.utils.HexEncoder;
 
 /**
- * API tests for DataHashApi
+ * API tests for DataHashApi.
  */
 public class DataHashApiTest extends AbstractApiTest {
 
+	/** The api. */
 	private final DataHashApi api = new DataHashApi();
 
 	/**
@@ -52,13 +53,19 @@ public class DataHashApiTest extends AbstractApiTest {
 	 *             if the Api call fails
 	 */
 	@Test
-	public void generateHashAndExposeFileToNetworkUsingPOSTTest() throws ApiException {
+	public void generateHashForFileOnlyUsingPOSTTest() throws ApiException {
 		File file = new File("src\\test\\resources\\small_file_test.txt");
-		String keywords = null;
-		String metadata = null;
-		BinaryTransactionEncryptedMessage response = api.generateHashAndExposeFileToNetworkUsingPOST(file, keywords,
+    	//	keywords
+        String keywords = "small,file,test";
+        
+        //	string,string map
+		Map<String, String> smallMetadataTest = new HashMap<String, String>();
+		smallMetadataTest.put("type", "small");
+		smallMetadataTest.put("value", "file");
+		String metadata = JsonUtils.toJson(smallMetadataTest);
+		BinaryTransactionEncryptedMessage response = api.generateHashForFileOnlyUsingPOST(file, keywords,
 				metadata);
-
+	
 		Assert.assertNotNull(response);
 
 	}
@@ -78,8 +85,14 @@ public class DataHashApiTest extends AbstractApiTest {
 		String xPubkey = this.xPubkey;
 		String messageType = "SECURE";
 		String data = "Expose this free form data";
-		String keywords = null;
-		String metadata = null;
+    	//	keywords
+        String keywords = "small,file,test";
+        
+        //	string,string map
+		Map<String, String> smallMetadataTest = new HashMap<String, String>();
+		smallMetadataTest.put("type", "small");
+		smallMetadataTest.put("value", "file");
+		String metadata = JsonUtils.toJson(smallMetadataTest);
 		
 		RequestAnnounceDataSignature response = api.generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST(xPvkey,
 				xPubkey, messageType, data, keywords, metadata);
@@ -108,8 +121,14 @@ public class DataHashApiTest extends AbstractApiTest {
 		String xPubkey = this.xPubkey;
 		String messageType = "SECURE";
 		File file = new File("src\\test\\resources\\small_file_test.txt");
-		String keywords = null;
-		String metadata = null;
+    	//	keywords
+        String keywords = "small,file,test";
+        
+        //	string,string map
+		Map<String, String> smallMetadataTest = new HashMap<String, String>();
+		smallMetadataTest.put("type", "small");
+		smallMetadataTest.put("value", "file");
+		String metadata = JsonUtils.toJson(smallMetadataTest);
 		RequestAnnounceDataSignature response = api.generateHashExposeFileToNetworkBuildAndSignUsingPOST(xPvkey,
 				xPubkey, messageType, file, keywords, metadata);
 
@@ -119,20 +138,19 @@ public class DataHashApiTest extends AbstractApiTest {
 	/**
 	 * Generates the encrypted datahash and uploads the JSON Format String data
 	 * to the P2P Storage Network.
-	 *
+	 * 
 	 * This endpoint can be used to generates the encrypted datahash and uploads
 	 * the file in the process.
 	 *
-	 * @throws ApiException
-	 *             if the Api call fails
-	 * @throws BadPaddingException
-	 * @throws IllegalBlockSizeException
-	 * @throws InvalidAlgorithmParameterException
-	 * @throws NoSuchPaddingException
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
-	 * @throws InvalidKeyException
-	 * @throws IOException
+	 * @throws ApiException             if the Api call fails
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@Test
 	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException,

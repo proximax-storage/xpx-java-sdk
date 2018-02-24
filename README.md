@@ -1,4 +1,4 @@
-# xpx-java-sdk
+# Official Proximax P2P Storage Java SDK
 
 ## Requirements
 
@@ -56,31 +56,107 @@ Then manually install the following JARs:
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
+## Generating a Data Hash from a File or Free form data.
+
+Initialize the Configuration Node  
+
 ```java
+Configuration.setDefaultApiClient(new ApiClient().setBaseUrl("<node endpoint url>");
+DataHashApi dataHashApi = new DataHashApi();
+DownloadApi downloadApi = new DownloadApi();
+PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
+```
+Generating a Data Hash for a File (note that this process uploads the file to the P2P Nodes permanently)
+```java
+File file = new File("src\\test\\resources\\small_file_test.txt");
+//	keywords
+String keywords = "small,file,test";
 
-import io.nem.*;
-import io.nem.auth.*;
-import io.nem.xpx.model.*;
-import io.nem.xpx.AccountApi;
+//	string,string map
+Map<String, String> smallMetadataTest = new HashMap<String, String>();
+smallMetadataTest.put("type", "small");
+smallMetadataTest.put("value", "file");
+String metadata = JsonUtils.toJson(smallMetadataTest);
+BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForFileOnlyUsingPOST(file, keywords,
+		metadata);
 
-import java.io.File;
-import java.util.*;
+```
+Generating a Data Hash for a Free form data (note that this process uploads the file to the P2P Nodes permanently)
+```java
+String data = "this is a free form string data";
+//	keywords
+String keywords = "small,file,test";
 
-public class AccountApiExample {
+//	string,string map
+Map<String, String> smallMetadataTest = new HashMap<String, String>();
+smallMetadataTest.put("type", "small");
+smallMetadataTest.put("value", "file");
+String metadata = JsonUtils.toJson(smallMetadataTest);
+BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
+		metadata);
+```
 
-    public static void main(String[] args) {
-        
-        AccountApi apiInstance = new AccountApi();
-        String publicKey = "publicKey_example"; // String | The NEM Account Public Key
-        try {
-            String result = apiInstance.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling AccountApi#getAllIncomingNemAddressTransactionsUsingGET");
-            e.printStackTrace();
-        }
-    }
-}
+## Announcing a Plain Data Hash to NEM Blockchain
+Attach the message as a plain message transaction
+```java
+BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
+		metadata);
+		
+RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
+			.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
+			.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
+			.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildAndSignTransaction();
+
+String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+```
+## Announcing a Secure Data Hash to NEM Blockchain
+Attach the message as a secure message transaction. 
+```java
+BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
+		metadata);
+		
+RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
+			.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
+			.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
+			.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
+
+String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+```
+## Searching for Messages in NEM Blockchain
+
+```java
+TransactionApi.getTransaction(this.testnetSecureNemTxnHash);
+TransactionApi.getAllTransaction("<address>");
+```
+
+## Decoding Plain Data Hash
+```java
+DownloadApi.downloadRawBytesPlainMessageFileUsingNemHashUsingGET("<nem txn hash>")
+```
+
+## Decoding Secured Data Hash
+
+Once you have the Txn ID, you can decrypt the Transaction, pull the data hash and decrypt the uploaded file or data.
+```java
+TransferTransaction transaction  = (TransferTransaction) TransactionApi.getTransaction(this.testnetSecureNemTxnHash).getEntity();
+
+SecureMessage message = SecureMessage.fromEncodedPayload(
+					new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))), 
+					new Account(new KeyPair(PublicKey.fromHexString(this.xPubkey))),
+					transaction.getMessage().getEncodedPayload()
+					);
+			
+//	 We now have the decrypted secure message.
+BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload(),"UTF-8"), BinaryTransactionEncryptedMessage.class);
+
+// 	We need to pull down the file in a form of a byte array.
+byte[] securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
+
+//	We then decrypt with NEM Keys. This will return the decrypted file / data.
+byte[] decrypted = engine
+		.createBlockCipher(new KeyPair(PublicKey.fromHexString(this.xPubkey), engine),
+				new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine))
+		.decrypt(HexEncoder.getBytes(new String(securedResponse, "UTF-8")));
 
 ```
 

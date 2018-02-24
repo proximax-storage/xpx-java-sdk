@@ -18,6 +18,7 @@ import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.NodeInfo;
 
 import org.junit.Test;
+import org.junit.Assert;
 import org.junit.Ignore;
 
 import java.util.ArrayList;
@@ -26,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API tests for NodeApi
+ * API tests for NodeApi.
  */
-@Ignore
 public class NodeApiTest {
 
+    /** The api. */
     private final NodeApi api = new NodeApi();
 
     
@@ -45,41 +46,41 @@ public class NodeApiTest {
     @Test
     public void checkNodeUsingGETTest() throws ApiException {
     	GenericResponseMessage response = api.checkNodeUsingGET();
-
-        // TODO: test validations
+    	
+    	Assert.assertNotNull(response);
     }
     
     /**
      * Get Storage Node Information
+     * 
+     * This endpoint returns the information of the P2P Storage Node.
      *
-     * This endpoint returns the information of the P2P Storage Node
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @return the node info using GET test
+     * @throws ApiException          if the Api call fails
      */
     @Test
     public void getNodeInfoUsingGETTest() throws ApiException {
         NodeInfo response = api.getNodeInfoUsingGET();
 
-        // TODO: test validations
+        Assert.assertNotNull(response);
     }
     
     /**
      * Get Storage Node Information
+     * 
+     * This endpoint returns the information of the P2P Storage Node.
      *
-     * This endpoint returns the information of the P2P Storage Node
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException          if the Api call fails
      */
     @Test
+    @Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
     public void setBlockchainNodeConnectionUsingPOSTTest() throws ApiException {
         String network = null;
         String domain = null;
         String port = null;
         String response = api.setBlockchainNodeConnectionUsingPOST(network, domain, port);
 
-        // TODO: test validations
+        Assert.assertNotNull(response);
     }
     
 }

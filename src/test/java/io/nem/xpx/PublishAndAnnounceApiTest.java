@@ -36,21 +36,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API tests for PublishAndAnnounceApi
+ * API tests for PublishAndAnnounceApi.
  */
 public class PublishAndAnnounceApiTest extends AbstractApiTest {
+	
+	/** The datahash api. */
 	private final DataHashApi datahashApi = new DataHashApi();
+    
+    /** The publish and announce api. */
     private final PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
 
     
     /**
      * Announce the DataHash to NEM/P2P Storage and P2P Database
-     *
+     * 
      * Endpoint that can be use to announce the data hash transaction. This will grab the signed BinaryTransaferTransaction and create the P2P Database Entry for the specific data hash / transaction.
      *
-     * @throws ApiException
-     *          if the Api call fails
-     * @throws IOException 
+     * @throws ApiException          if the Api call fails
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Test
     public void announceRequestPublishDataSignatureUsingPOSTTest() throws ApiException, IOException {
@@ -82,7 +85,7 @@ public class PublishAndAnnounceApiTest extends AbstractApiTest {
 
 		String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 		Assert.assertNotNull(publishedData);
-		System.out.print(publishedData);
+
 
     }
     
@@ -102,6 +105,7 @@ public class PublishAndAnnounceApiTest extends AbstractApiTest {
         String messageType = null;
         File file = null;
         String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
+        Assert.assertNotNull(response);
     }
     
     /**
