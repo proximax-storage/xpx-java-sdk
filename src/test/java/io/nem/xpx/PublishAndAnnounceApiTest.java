@@ -14,13 +14,23 @@
 package io.nem.xpx;
 
 import io.nem.ApiException;
+import io.nem.builder.BinaryTransferTransactionBuilder;
+import io.nem.utils.JsonUtils;
 import java.io.File;
+import java.io.IOException;
+import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.ResponseEntity;
 import org.junit.Test;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
+import org.nem.core.model.Account;
+import org.nem.core.model.Address;
+import org.nem.core.model.MessageTypes;
+import org.nem.core.utils.HexEncoder;
+import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +38,9 @@ import java.util.Map;
 /**
  * API tests for PublishAndAnnounceApi
  */
-@Ignore
-public class PublishAndAnnounceApiTest {
-
-    private final PublishAndAnnounceApi api = new PublishAndAnnounceApi();
+public class PublishAndAnnounceApiTest extends AbstractApiTest {
+	private final DataHashApi datahashApi = new DataHashApi();
+    private final PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
 
     
     /**
@@ -41,13 +50,40 @@ public class PublishAndAnnounceApiTest {
      *
      * @throws ApiException
      *          if the Api call fails
+     * @throws IOException 
      */
     @Test
-    public void announceRequestPublishDataSignatureUsingPOSTTest() throws ApiException {
-        RequestAnnounceDataSignature requestAnnounceDataSignature = null;
-        String response = api.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+    public void announceRequestPublishDataSignatureUsingPOSTTest() throws ApiException, IOException {
+        
+    	//	keywords
+        String keywords = "small,file,test";
+        
+        //	string,string map
+		Map<String, String> smallMetadataTest = new HashMap<String, String>();
+		smallMetadataTest.put("type", "small");
+		smallMetadataTest.put("value", "file");
+		String metadata = JsonUtils.toJson(smallMetadataTest);
+		
+		byte[] encrypted = engine
+				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
+						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
+				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file_test.txt")));
 
-        // TODO: test validations
+		// pass the hex encoded string of the data.
+		String data = HexEncoder.getString(encrypted);
+		BinaryTransactionEncryptedMessage response = datahashApi.uploadJsonDataAndGenerateHashUsingPOST(data, keywords,
+				metadata);
+
+		//	Announce The Signature
+		RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
+				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
+				.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
+
+		String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+		Assert.assertNotNull(publishedData);
+		System.out.print(publishedData);
+
     }
     
     /**
@@ -59,14 +95,13 @@ public class PublishAndAnnounceApiTest {
      *          if the Api call fails
      */
     @Test
+    @Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
     public void publishAndSendSingleFileToAddressUsingPOSTTest() throws ApiException {
         String xPvkey = null;
         String address = null;
         String messageType = null;
         File file = null;
-        String response = api.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
-
-        // TODO: test validations
+        String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
     }
     
     /**
@@ -78,14 +113,13 @@ public class PublishAndAnnounceApiTest {
      *          if the Api call fails
      */
     @Test
+    @Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
     public void publishAndSendSingleFileToAddressesUsingPOSTTest() throws ApiException {
         String xPvkey = null;
         List<String> addresses = null;
         String messageType = null;
         File file = null;
-        String response = api.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
-
-        // TODO: test validations
+        String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
     }
     
 }

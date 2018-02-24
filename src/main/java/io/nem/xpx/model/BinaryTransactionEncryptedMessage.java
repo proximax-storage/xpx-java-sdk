@@ -14,14 +14,9 @@
 package io.nem.xpx.model;
 
 import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+
 
 /**
  * BinaryTransactionEncryptedMessage
@@ -33,9 +28,6 @@ public class BinaryTransactionEncryptedMessage {
 
   @SerializedName("hash")
   private String hash = null;
-
-  @SerializedName("hashKey")
-  private String hashKey = null;
 
   @SerializedName("keywords")
   private String keywords = null;
@@ -91,23 +83,7 @@ public class BinaryTransactionEncryptedMessage {
     this.hash = hash;
   }
 
-  public BinaryTransactionEncryptedMessage hashKey(String hashKey) {
-    this.hashKey = hashKey;
-    return this;
-  }
 
-   /**
-   * Get hashKey
-   * @return hashKey
-  **/
-  @ApiModelProperty(value = "")
-  public String getHashKey() {
-    return hashKey;
-  }
-
-  public void setHashKey(String hashKey) {
-    this.hashKey = hashKey;
-  }
 
   public BinaryTransactionEncryptedMessage keywords(String keywords) {
     this.keywords = keywords;
@@ -229,7 +205,6 @@ public class BinaryTransactionEncryptedMessage {
     BinaryTransactionEncryptedMessage binaryTransactionEncryptedMessage = (BinaryTransactionEncryptedMessage) o;
     return Objects.equals(this.digest, binaryTransactionEncryptedMessage.digest) &&
         Objects.equals(this.hash, binaryTransactionEncryptedMessage.hash) &&
-        Objects.equals(this.hashKey, binaryTransactionEncryptedMessage.hashKey) &&
         Objects.equals(this.keywords, binaryTransactionEncryptedMessage.keywords) &&
         Objects.equals(this.metaData, binaryTransactionEncryptedMessage.metaData) &&
         Objects.equals(this.name, binaryTransactionEncryptedMessage.name) &&
@@ -240,7 +215,7 @@ public class BinaryTransactionEncryptedMessage {
 
   @Override
   public int hashCode() {
-    return Objects.hash(digest, hash, hashKey, keywords, metaData, name, size, timestamp, type);
+    return Objects.hash(digest, hash, keywords, metaData, name, size, timestamp, type);
   }
 
 
@@ -251,7 +226,6 @@ public class BinaryTransactionEncryptedMessage {
     
     sb.append("    digest: ").append(toIndentedString(digest)).append("\n");
     sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
-    sb.append("    hashKey: ").append(toIndentedString(hashKey)).append("\n");
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
     sb.append("    metaData: ").append(toIndentedString(metaData)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

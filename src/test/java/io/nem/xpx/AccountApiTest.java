@@ -10,117 +10,102 @@
  * Do not edit the class manually.
  */
 
-
 package io.nem.xpx;
 
-import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * API tests for AccountApi
  */
-public class AccountApiTest {
-	
-    private final AccountApi api = new AccountApi(new ApiClient().setBasePath("http://p2ptest.smartproof.io/xpxstest1"));
+public class AccountApiTest extends AbstractApiTest {
 
-    
-    /**
-     * getAllIncomingNemAddressTransactions
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getAllIncomingNemAddressTransactionsUsingGETTest() throws ApiException {
-        String publicKey = null;
-        String response = api.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
+	private final AccountApi api = new AccountApi();
 
-        // TODO: test validations
-    }
-    
-    /**
-     * getAllNemAddressTransactions
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getAllNemAddressTransactionsUsingGETTest() throws ApiException {
-        String publicKey = null;
-        String response = api.getAllNemAddressTransactionsUsingGET(publicKey);
+	/**
+	 * getAllIncomingNemAddressTransactions
+	 *
+	 * 
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void getAllIncomingNemAddressTransactionsUsingGETTest() throws ApiException {
+		String publicKey = this.xPubkey;
+		String response = api.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
+		Assert.assertNotNull(response);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * getAllNemAddressTransactionsWithPageSize
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getAllNemAddressTransactionsWithPageSizeUsingGETTest() throws ApiException {
-        String publicKey = null;
-        String pageSize = null;
-        String response = api.getAllNemAddressTransactionsWithPageSizeUsingGET(publicKey, pageSize);
+	}
 
-        // TODO: test validations
-    }
-    
-    /**
-     * getAllOutgoingNemAddressTransactions
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getAllOutgoingNemAddressTransactionsUsingGETTest() throws ApiException {
-        String publicKey = null;
-        String response = api.getAllOutgoingNemAddressTransactionsUsingGET(publicKey);
+	/**
+	 * getAllNemAddressTransactions
+	 *
+	 * 
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void getAllNemAddressTransactionsUsingGETTest() throws ApiException {
+		String publicKey = this.xPubkey;
+		String response = api.getAllNemAddressTransactionsUsingGET(publicKey);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * getAllUnconfirmedNemAddressTransactions
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getAllUnconfirmedNemAddressTransactionsUsingGETTest() throws ApiException {
-        String publicKey = null;
-        String response = api.getAllUnconfirmedNemAddressTransactionsUsingGET(publicKey);
+		Assert.assertNotNull(response);
+	}
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Get the NEM Address Details
-     *
-     * This endpoint returns the NEM Address/Account Information of a given address
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getNemAddressDetailsUsingGETTest() throws ApiException {
-        String publicKey = null;
-        AccountMetaDataPair response = api.getNemAddressDetailsUsingGET(publicKey);
+	/**
+	 * getAllNemAddressTransactionsWithPageSize
+	 *
+	 * 
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void getAllNemAddressTransactionsWithPageSizeUsingGETTest() throws ApiException {
+		String publicKey = this.xPubkey;
+		String pageSize = "100";
+		String response = api.getAllNemAddressTransactionsWithPageSizeUsingGET(publicKey, pageSize);
 
-        // TODO: test validations
-    }
-    
+		Assert.assertNotNull(response);
+	}
+
+	/**
+	 * getAllOutgoingNemAddressTransactions
+	 *
+	 * 
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void getAllOutgoingNemAddressTransactionsUsingGETTest() throws ApiException {
+		String publicKey = this.xPubkey;
+		String response = api.getAllOutgoingNemAddressTransactionsUsingGET(publicKey);
+
+		Assert.assertNotNull(response);
+
+	}
+
+	/**
+	 * Get the NEM Address Details
+	 *
+	 * This endpoint returns the NEM Address/Account Information of a given
+	 * address
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void getNemAddressDetailsUsingGETTest() throws ApiException {
+		String publicKey = this.xPubkey;
+		AccountMetaDataPair response = api.getNemAddressDetailsUsingGET(publicKey);
+
+		Assert.assertNotNull(response);
+	}
+
 }

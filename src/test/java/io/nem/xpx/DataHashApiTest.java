@@ -12,12 +12,8 @@
 
 package io.nem.xpx;
 
-import io.nem.ApiClient;
 import io.nem.ApiException;
-import io.nem.builder.BinaryTransferTransactionBuilder;
-import io.nem.utils.CryptoUtils;
 import io.nem.utils.JsonUtils;
-import io.nem.xpx.crypto.BinaryPBKDF2Cipher;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import java.io.File;
 import java.io.IOException;
@@ -25,34 +21,26 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-
 import io.nem.xpx.model.RequestAnnounceDataSignature;
-
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Test;
-import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
-import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
-import org.nem.core.model.Account;
-import org.nem.core.model.Address;
-import org.nem.core.model.MessageTypes;
 import org.nem.core.utils.HexEncoder;
 
 /**
  * API tests for DataHashApi
  */
-public class DataHashApiTest {
+public class DataHashApiTest extends AbstractApiTest {
 
-	private final DataHashApi api = new DataHashApi(
-			new ApiClient().setBasePath("http://localhost:8881/areyes1"));
+	private final DataHashApi api = new DataHashApi();
 
 	/**
 	 * Generates the encrypted datahash and uploads the file in the process.
@@ -65,26 +53,13 @@ public class DataHashApiTest {
 	 */
 	@Test
 	public void generateHashAndExposeFileToNetworkUsingPOSTTest() throws ApiException {
-		File file = new File("D:\\Downloads\\7z1602-x64.exe");
-		String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
-		String xPubkey = "d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94";
+		File file = new File("src\\test\\resources\\small_file_test.txt");
 		String keywords = null;
 		String metadata = null;
 		BinaryTransactionEncryptedMessage response = api.generateHashAndExposeFileToNetworkUsingPOST(file, keywords,
 				metadata);
 
-		// TODO: test validations
-		System.out.println(response);
-
-		RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(xPvkey))))
-				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(xPubkey))))
-				.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
-
-		PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
-		String string = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		System.out.println(string);
+		Assert.assertNotNull(response);
 
 	}
 
@@ -99,22 +74,22 @@ public class DataHashApiTest {
 	 */
 	@Test
 	public void generateHashExposeByteArrayToNetworkBuildAndSignUsingPOSTTest() throws ApiException {
-		String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
-		String xPubkey = "d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94";
+		String xPvkey = this.xPvkey;
+		String xPubkey = this.xPubkey;
 		String messageType = "SECURE";
-		String data = ":yehey11111:111";
+		String data = "Expose this free form data";
 		String keywords = null;
 		String metadata = null;
+		
 		RequestAnnounceDataSignature response = api.generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST(xPvkey,
 				xPubkey, messageType, data, keywords, metadata);
 
-		// TODO: test validations
-		System.out.println(response);
+		Assert.assertNotNull(response);
 
 		PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
-		String string = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(response);
+		String publishResponse = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(response);
 
-		System.out.println(string);
+		Assert.assertNotNull(publishResponse);
 
 	}
 
@@ -129,16 +104,16 @@ public class DataHashApiTest {
 	 */
 	@Test
 	public void generateHashExposeFileToNetworkBuildAndSignUsingPOSTTest() throws ApiException {
-		String xPvkey = null;
-		String xPubkey = null;
-		String messageType = null;
-		File file = null;
+		String xPvkey = this.xPvkey;
+		String xPubkey = this.xPubkey;
+		String messageType = "SECURE";
+		File file = new File("src\\test\\resources\\small_file_test.txt");
 		String keywords = null;
 		String metadata = null;
 		RequestAnnounceDataSignature response = api.generateHashExposeFileToNetworkBuildAndSignUsingPOST(xPvkey,
 				xPubkey, messageType, file, keywords, metadata);
 
-		// TODO: test validations
+		Assert.assertNotNull(response);
 	}
 
 	/**
@@ -150,49 +125,39 @@ public class DataHashApiTest {
 	 *
 	 * @throws ApiException
 	 *             if the Api call fails
-	 * @throws BadPaddingException 
-	 * @throws IllegalBlockSizeException 
-	 * @throws InvalidAlgorithmParameterException 
-	 * @throws NoSuchPaddingException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidKeySpecException 
-	 * @throws InvalidKeyException 
-	 * @throws IOException 
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 * @throws InvalidKeyException
+	 * @throws IOException
 	 */
 	@Test
-	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException {
-		String data1 = "yehey";
-		String keywords = null;
-		String metadata = null;
-		
-		Ed25519CryptoEngine engine = (Ed25519CryptoEngine) CryptoEngines.ed25519Engine();
+	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException,
+			InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
+			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException {
 
-		byte[] encrypted = engine.createBlockCipher(
-				new KeyPair(PrivateKey.fromHexString("8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd"),engine), 
-				new KeyPair(PublicKey.fromHexString("d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94"),engine))
-				.encrypt(FileUtils.readFileToByteArray(new File("D:\\Projects\\eworkspace\\proximaxsdks\\xpx-java-sdk\\git_push.sh")));
-		
+		String keywords = "small,file,test";
+
+		Map<String, String> smallMetadataTest = new HashMap<String, String>();
+		smallMetadataTest.put("type", "small");
+		smallMetadataTest.put("value", "file");
+		String metadata = JsonUtils.toJson(smallMetadataTest);
+
+		byte[] encrypted = engine
+				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
+						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
+				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file_test.txt")));
+
+		// pass the hex encoded string of the data.
 		String data = HexEncoder.getString(encrypted);
-		BinaryTransactionEncryptedMessage response = api.uploadJsonDataAndGenerateHashUsingPOST(
-				data,
-				keywords,
+		BinaryTransactionEncryptedMessage response = api.uploadJsonDataAndGenerateHashUsingPOST(data, keywords,
 				metadata);
-		
-		System.out.println(response.getHash());
-		String xPvkey = "8e75544a9f90253fcd880ea73b78f3bc84e1fad032c0cd1062f5694c4fc28bcd";
-		String xPubkey = "d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94";
-		
-		System.out.println(response);
 
-		RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(xPvkey))))
-				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(xPubkey))))
-				.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
+		Assert.assertNotNull(response);
 
-		PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
-		String string = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		System.out.println(string);
 	}
 
 }
