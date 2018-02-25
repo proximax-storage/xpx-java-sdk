@@ -38,6 +38,7 @@ public class SearchApiTest extends AbstractApiTest {
 	 *             if the Api call fails
 	 */
 	@Test
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
 	public void searchContentUsingAllNemHashUsingGETTest() throws ApiException {
 		String xPvkey = null;
 		String nemHash = null;
@@ -95,6 +96,7 @@ public class SearchApiTest extends AbstractApiTest {
 	 *             if the Api call fails
 	 */
 	@Test
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
 	public void searchTransactionPvKeyWithKeywordUsingGETTest() throws ApiException {
 		String xPvkey = null;
 		String keywords = null;

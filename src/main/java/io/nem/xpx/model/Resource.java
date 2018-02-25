@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  * Resource
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-23T17:52:39.402-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-24T22:58:22.311-05:00")
 public class Resource {
   @SerializedName("description")
   private String description = null;

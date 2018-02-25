@@ -178,6 +178,8 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		IBuild addMosaic(MosaicId mosaic, Quantity quantity);
 
+		IBuild addMosaics(Mosaic... mosaic);
+
 		IBuild encryptedMessage(String encryptedMessage);
 
 		/**
@@ -584,7 +586,7 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public IBuild addMosaic(Mosaic mosaic) {
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(mosaic));
+				this.attachment = new TransferTransactionAttachment();
 			} else {
 				this.attachment.addMosaic(mosaic);
 			}
@@ -602,6 +604,14 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
 			this.attachment.addMosaic(mosaic, quantity);
+			return this;
+		}
+
+		@Override
+		public IBuild addMosaics(Mosaic... mosaics) {
+			for (Mosaic mosaic : mosaics) {
+				this.attachment.addMosaic(mosaic);
+			}
 			return this;
 		}
 	}

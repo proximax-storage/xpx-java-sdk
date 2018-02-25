@@ -61,105 +61,70 @@ Please follow the [installation](#installation) instruction and execute the foll
 Initialize the Configuration Node  
 
 ```java
-Configuration.setDefaultApiClient(new ApiClient().setBaseUrl("<node endpoint url>");
-DataHashApi dataHashApi = new DataHashApi();
-DownloadApi downloadApi = new DownloadApi();
-PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
-```
-Generating a Data Hash for a File (note that this process uploads the file to the P2P Nodes permanently)
+RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://localhost:8881/areyes1");
+
+
+## Upload a File or Free Form Data
+Attach a file as a plain message on a NEM Txn
 ```java
-File file = new File("src\\test\\resources\\small_file_test.txt");
-//	keywords
-String keywords = "small,file,test";
-
-//	string,string map
-Map<String, String> smallMetadataTest = new HashMap<String, String>();
-smallMetadataTest.put("type", "small");
-smallMetadataTest.put("value", "file");
-String metadata = JsonUtils.toJson(smallMetadataTest);
-BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForFileOnlyUsingPOST(file, keywords,
-		metadata);
-
+Upload upload = new Upload(remotePeerConnection);
+try {
+	String nemhash = upload.uploadFile(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file_test.txt"), null, null);
+} catch (ApiException | IOException e) {
+	e.printStackTrace();
+}
 ```
-Generating a Data Hash for a Free form data (note that this process uploads the file to the P2P Nodes permanently)
+Attach a free form data (string) as a plain message on a NEM Txn
 ```java
-String data = "this is a free form string data";
-//	keywords
-String keywords = "small,file,test";
 
-//	string,string map
-Map<String, String> smallMetadataTest = new HashMap<String, String>();
-smallMetadataTest.put("type", "small");
-smallMetadataTest.put("value", "file");
-String metadata = JsonUtils.toJson(smallMetadataTest);
-BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
-		metadata);
+Upload upload = new Upload(remotePeerConnection);
+try {
+	String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null);
+} catch (ApiException e) {
+	e.printStackTrace();
+}
 ```
-
-## Announcing a Plain Data Hash to NEM Blockchain
-Attach the message as a plain message transaction
+Attach a file as a secure message on a NEM Txn
 ```java
-BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
-		metadata);
+Upload upload = new Upload(remotePeerConnection);
+try {
+	String nemhash = upload.uploadFile(MessageTypes.SECURE, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file_test.txt"), null, null);
+} catch (ApiException | IOException e) {
+	e.printStackTrace();
+}
+```
+Attach a free form data (string) as a secure message on a NEM Txn
+```java
+
+Upload upload = new Upload(remotePeerConnection);
+try {
+	String nemhash = upload.uploadData(MessageTypes.SECURE, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null);
+} catch (ApiException e) {
+	e.printStackTrace();
+}
+```
+## Download a File or Free Form Data
+Download a file from a plain/secure message
+```java
+Download download = new Download(remotePeerConnection);
+DownloadData message = download.downloadData(
+		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f",
+		this.xPvkey, this.xPubkey);
 		
-RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
-			.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
-			.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
-			.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildAndSignTransaction();
+String message = new String(message.getData(), "UTF-8");
 
-String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+FileUtils.writeByteArrayToFile(new File("src//test//resources//file_"
+		+ message.getDataMessage().getName() + System.currentTimeMillis() + ".zip"), message.getData());	
 ```
-## Announcing a Secure Data Hash to NEM Blockchain
-Attach the message as a secure message transaction. 
+Attach a free form data (string) as a plain/secure message on a NEM Txn
 ```java
-BinaryTransactionEncryptedMessage response = dataHashApi.generateHashForDataOnlyUsingPOST(data, keywords,
-		metadata);
+Download download = new Download(remotePeerConnection);
+DownloadData message = download.downloadData(
+		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f",
+		this.xPvkey, this.xPubkey);
 		
-RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
-			.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
-			.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
-			.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
-
-String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+String message = new String(message.getData(), "UTF-8");
 ```
-## Searching for Messages in NEM Blockchain
-
-```java
-TransactionApi.getTransaction(this.testnetSecureNemTxnHash);
-TransactionApi.getAllTransaction("<address>");
-```
-
-## Decoding Plain Data Hash
-```java
-DownloadApi.downloadRawBytesPlainMessageFileUsingNemHashUsingGET("<nem txn hash>")
-```
-
-## Decoding Secured Data Hash
-
-Once you have the Txn ID, you can decrypt the Transaction, pull the data hash and decrypt the uploaded file or data.
-```java
-TransferTransaction transaction  = (TransferTransaction) TransactionApi.getTransaction(this.testnetSecureNemTxnHash).getEntity();
-
-SecureMessage message = SecureMessage.fromEncodedPayload(
-					new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))), 
-					new Account(new KeyPair(PublicKey.fromHexString(this.xPubkey))),
-					transaction.getMessage().getEncodedPayload()
-					);
-			
-//	 We now have the decrypted secure message.
-BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload(),"UTF-8"), BinaryTransactionEncryptedMessage.class);
-
-// 	We need to pull down the file in a form of a byte array.
-byte[] securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
-
-//	We then decrypt with NEM Keys. This will return the decrypted file / data.
-byte[] decrypted = engine
-		.createBlockCipher(new KeyPair(PublicKey.fromHexString(this.xPubkey), engine),
-				new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine))
-		.decrypt(HexEncoder.getBytes(new String(securedResponse, "UTF-8")));
-
-```
-
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://localhost:8881/areyes1*

@@ -14,14 +14,19 @@
 package io.nem.xpx.model;
 
 import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import java.io.IOException;
 
 /**
  * BinaryTransactionEncryptedMessage
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-23T17:52:39.402-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-24T22:58:22.311-05:00")
 public class BinaryTransactionEncryptedMessage {
   @SerializedName("digest")
   private String digest = null;
@@ -82,8 +87,6 @@ public class BinaryTransactionEncryptedMessage {
   public void setHash(String hash) {
     this.hash = hash;
   }
-
-
 
   public BinaryTransactionEncryptedMessage keywords(String keywords) {
     this.keywords = keywords;

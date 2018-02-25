@@ -171,7 +171,7 @@ public class DataHashApiTest extends AbstractApiTest {
 
 		// pass the hex encoded string of the data.
 		String data = HexEncoder.getString(encrypted);
-		BinaryTransactionEncryptedMessage response = api.uploadJsonDataAndGenerateHashUsingPOST(data, keywords,
+		BinaryTransactionEncryptedMessage response = api.generateHashAndExposeDataToNetworkUsingPOST(data, "small_file_test", keywords,
 				metadata);
 
 		Assert.assertNotNull(response);

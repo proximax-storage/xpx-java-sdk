@@ -11,6 +11,7 @@
  */
 
 package io.nem.xpx;
+
 import io.nem.ApiException;
 import io.nem.builder.api.TransactionApi;
 import io.nem.utils.JsonUtils;
@@ -58,8 +59,10 @@ public class DownloadApiTest extends AbstractApiTest {
 	 * 
 	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * @throws ApiException             if the Api call fails
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
@@ -67,7 +70,7 @@ public class DownloadApiTest extends AbstractApiTest {
 			throws ApiException, UnsupportedEncodingException {
 		String nemhash = this.testnetPlainNemTxnHash;
 		byte[] response = api.downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash);
-		System.out.println(new String(response, "UTF-8"));
+		
 		Assert.assertNotNull(new String(response, "UTF-8"));
 	}
 
@@ -76,17 +79,20 @@ public class DownloadApiTest extends AbstractApiTest {
 	 * 
 	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * @throws ApiException             if the Api call fails
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
 	public void downloadRawBytesSecureMessageFileUsingNemHashUsingGETTest()
 			throws ApiException, UnsupportedEncodingException {
+
 		String xPvkey = this.xPvkey;
 		String nemhash = this.testnetSecureNemTxnHash;
 		byte[] response = api.downloadRawBytesSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
-		
+
 		Assert.assertNotNull(new String(response, "UTF-8"));
 	}
 
@@ -97,26 +103,27 @@ public class DownloadApiTest extends AbstractApiTest {
 	public void downloadRawBytesUsingHashUsingPOSTTest() {
 		byte[] securedResponse;
 		try {
-			TransferTransaction transaction  = (TransferTransaction) TransactionApi.getTransaction(this.testnetSecureNemTxnHash).getEntity();
+			TransferTransaction transaction = (TransferTransaction) TransactionApi
+					.getTransaction(this.testnetSecureNemTxnHash).getEntity();
 			SecureMessage message = SecureMessage.fromEncodedPayload(
-					new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))), 
+					new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))),
 					new Account(new KeyPair(PublicKey.fromHexString(this.xPubkey))),
-					transaction.getMessage().getEncodedPayload()
-					);
-			
-			BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload(),"UTF-8"), BinaryTransactionEncryptedMessage.class);
-			
-			//	Grab the Hash.
+					transaction.getMessage().getEncodedPayload());
+
+			BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils.fromJson(
+					new String(message.getDecodedPayload(), "UTF-8"), BinaryTransactionEncryptedMessage.class);
+
+			// Grab the Hash.
 			securedResponse = api.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
-			
-			//	Decrypt with NEM Keys
+
+			// Decrypt with NEM Keys
 			byte[] decrypted = engine
 					.createBlockCipher(new KeyPair(PublicKey.fromHexString(this.xPubkey), engine),
 							new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine))
 					.decrypt(HexEncoder.getBytes(new String(securedResponse, "UTF-8")));
-			
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a small file for SDK Testing",
-					new String(decrypted, "UTF-8"));
+
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected",
+					"This is a small file for SDK Testing", new String(decrypted, "UTF-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -127,8 +134,10 @@ public class DownloadApiTest extends AbstractApiTest {
 	 * 
 	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * @throws ApiException             if the Api call fails
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
 	 */
 	@Test
 	public void downloadStreamPlainMessageFileUsingNemHashUsingGETTest()
@@ -143,12 +152,15 @@ public class DownloadApiTest extends AbstractApiTest {
 	 * 
 	 * This endpoint returns a byte array format of the actual file.
 	 *
-	 * @throws ApiException             if the Api call fails
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
-	public void downloadStreamSecureMessageFileUsingNemHashUsingGETTest() throws ApiException, UnsupportedEncodingException {
+	public void downloadStreamSecureMessageFileUsingNemHashUsingGETTest()
+			throws ApiException, UnsupportedEncodingException {
 		String xPvkey = this.xPvkey;
 		String nemhash = this.testnetSecureNemTxnHash;
 		byte[] response = api.downloadStreamSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);

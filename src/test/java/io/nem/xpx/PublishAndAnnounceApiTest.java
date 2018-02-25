@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package io.nem.xpx;
 
 import io.nem.ApiException;
@@ -39,34 +38,37 @@ import java.util.Map;
  * API tests for PublishAndAnnounceApi.
  */
 public class PublishAndAnnounceApiTest extends AbstractApiTest {
-	
+
 	/** The datahash api. */
 	private final DataHashApi datahashApi = new DataHashApi();
-    
-    /** The publish and announce api. */
-    private final PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
 
-    
-    /**
-     * Announce the DataHash to NEM/P2P Storage and P2P Database
-     * 
-     * Endpoint that can be use to announce the data hash transaction. This will grab the signed BinaryTransaferTransaction and create the P2P Database Entry for the specific data hash / transaction.
-     *
-     * @throws ApiException          if the Api call fails
-     * @throws IOException Signals that an I/O exception has occurred.
-     */
-    @Test
-    public void announceRequestPublishDataSignatureUsingPOSTTest() throws ApiException, IOException {
-        
-    	//	keywords
-        String keywords = "small,file,test";
-        
-        //	string,string map
+	/** The publish and announce api. */
+	private final PublishAndAnnounceApi publishAndAnnounceApi = new PublishAndAnnounceApi();
+
+	/**
+	 * Announce the DataHash to NEM/P2P Storage and P2P Database
+	 * 
+	 * Endpoint that can be use to announce the data hash transaction. This will
+	 * grab the signed BinaryTransaferTransaction and create the P2P Database
+	 * Entry for the specific data hash / transaction.
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	@Test
+	public void announceRequestPublishDataSignatureUsingPOSTTest() throws ApiException, IOException {
+
+		// keywords
+		String keywords = "small,file,test";
+
+		// string,string map
 		Map<String, String> smallMetadataTest = new HashMap<String, String>();
 		smallMetadataTest.put("type", "small");
 		smallMetadataTest.put("value", "file");
 		String metadata = JsonUtils.toJson(smallMetadataTest);
-		
+
 		byte[] encrypted = engine
 				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
 						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
@@ -74,56 +76,61 @@ public class PublishAndAnnounceApiTest extends AbstractApiTest {
 
 		// pass the hex encoded string of the data.
 		String data = HexEncoder.getString(encrypted);
-		BinaryTransactionEncryptedMessage response = datahashApi.uploadJsonDataAndGenerateHashUsingPOST(data, keywords,
-				metadata);
+		BinaryTransactionEncryptedMessage response = datahashApi.generateHashAndExposeDataToNetworkUsingPOST(data,
+				"small_file_test", keywords, metadata);
 
-		//	Announce The Signature
+		// Announce The Signature
 		RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(this.xPvkey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(this.xPubkey))))
 				.message(JsonUtils.toJson(response), MessageTypes.SECURE).buildAndSignTransaction();
 
-		String publishedData = publishAndAnnounceApi.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+		String publishedData = publishAndAnnounceApi
+				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 		Assert.assertNotNull(publishedData);
 
+	}
 
-    }
-    
-    /**
-     * Store a single file that can only be access by the given address
-     *
-     * This endpoint can be used to share a file to a specific address only.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    @Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
-    public void publishAndSendSingleFileToAddressUsingPOSTTest() throws ApiException {
-        String xPvkey = null;
-        String address = null;
-        String messageType = null;
-        File file = null;
-        String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
-        Assert.assertNotNull(response);
-    }
-    
-    /**
-     * Store a single file that can only be access by the given addresses
-     *
-     * This endpoint can be used to exclusively share files across a set of given addresses. This means that the file that&#39;s published here can only be viewed or downloaded by the given addresses including the uploader.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    @Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
-    public void publishAndSendSingleFileToAddressesUsingPOSTTest() throws ApiException {
-        String xPvkey = null;
-        List<String> addresses = null;
-        String messageType = null;
-        File file = null;
-        String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
-    }
-    
+	/**
+	 * Store a single file that can only be access by the given address
+	 *
+	 * This endpoint can be used to share a file to a specific address only.
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
+	public void publishAndSendSingleFileToAddressUsingPOSTTest() throws ApiException {
+		String xPvkey = null;
+		String address = null;
+		String messageType = null;
+		File file = null;
+		String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType,
+				file);
+		Assert.assertNotNull(response);
+	}
+
+	/**
+	 * Store a single file that can only be access by the given addresses
+	 *
+	 * This endpoint can be used to exclusively share files across a set of
+	 * given addresses. This means that the file that&#39;s published here can
+	 * only be viewed or downloaded by the given addresses including the
+	 * uploader.
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
+	public void publishAndSendSingleFileToAddressesUsingPOSTTest() throws ApiException {
+		String xPvkey = null;
+		List<String> addresses = null;
+		String messageType = null;
+		File file = null;
+		String response = publishAndAnnounceApi.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses,
+				messageType, file);
+	}
+
 }
