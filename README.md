@@ -61,7 +61,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 Initialize the Configuration Node  
 
 ```java
-RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://localhost:8881/areyes1");
+RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://p2ptest.smartproof.io:8881");
 ```
 
 ## Upload a File or Free Form Data
