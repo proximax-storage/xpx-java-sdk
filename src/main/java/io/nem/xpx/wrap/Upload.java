@@ -35,9 +35,9 @@ public class Upload {
 		this.publishAndAnnounceApi = new PublishAndAnnounceApi();
 	}
 
-	public String uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
+	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData) throws ApiException, IOException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -59,18 +59,20 @@ public class Upload {
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), messageType).buildAndSignTransaction();
-
+		
+		
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 
-	public String uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
+	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData, Mosaic mosaic) throws ApiException, IOException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -91,18 +93,20 @@ public class Upload {
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), messageType).addMosaic(mosaic).buildAndSignTransaction();
-
+		
+		
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 
-	public String uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
+	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData, Mosaic... mosaics) throws ApiException, IOException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -127,14 +131,15 @@ public class Upload {
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 
-	public String uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data, String name,
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data, String name,
 			String keywords, String metaData) throws ApiException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -157,14 +162,15 @@ public class Upload {
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 
-	public String uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
 			String keywords, String metaData, Mosaic mosaic) throws ApiException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -187,14 +193,15 @@ public class Upload {
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 
-	public String uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
 			String keywords, String metaData, Mosaic... mosaics) throws ApiException {
-
+		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
@@ -217,8 +224,9 @@ public class Upload {
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-
-		return publishedData;
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
 
 	}
 

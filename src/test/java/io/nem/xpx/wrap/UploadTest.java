@@ -24,7 +24,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data1",
-					null, null, null);
+					null, null, null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException e) {
@@ -41,7 +41,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadFile(MessageTypes.PLAIN, this.xPvkey, this.xPubkey,
-					new File("src//test//resources//small_file.txt"), null, null);
+					new File("src//test//resources//small_file.txt"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | IOException e) {
@@ -58,7 +58,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadFile(MessageTypes.PLAIN, this.xPvkey, this.xPubkey,
-					new File("src//test//resources//large_file.zip"), null, null);
+					new File("src//test//resources//large_file.zip"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {
@@ -75,7 +75,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadData(MessageTypes.SECURE, this.xPvkey, this.xPubkey,
-					"This is a Secure Test Data", null, null, null);
+					"This is a Secure Test Data", null, null, null).getNemHash();
 			LOGGER.info(nemhash);
 		} catch (ApiException e) {
 			e.printStackTrace();
@@ -91,7 +91,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadFile(MessageTypes.SECURE, this.xPvkey, this.xPubkey,
-					new File("src//test//resources//small_file.txt"), null, null);
+					new File("src//test//resources//small_file.txt"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {
@@ -108,7 +108,7 @@ public class UploadTest extends AbstractApiTest {
 		Upload upload = new Upload(remotePeerConnection);
 		try {
 			String nemhash = upload.uploadFile(MessageTypes.SECURE, this.xPvkey, this.xPubkey,
-					new File("src//test//resources//large_file.zip"), null, null);
+					new File("src//test//resources//large_file.zip"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {

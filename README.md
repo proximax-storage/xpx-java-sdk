@@ -79,7 +79,7 @@ Attach a free form data (string) as a plain message on a NEM Txn
 
 Upload upload = new Upload(remotePeerConnection);
 try {
-	String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null);
+	String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
 }
@@ -88,7 +88,7 @@ Attach a file as a secure message on a NEM Txn
 ```java
 Upload upload = new Upload(remotePeerConnection);
 try {
-	String nemhash = upload.uploadFile(MessageTypes.SECURE, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file_test.txt"), null, null);
+	String nemhash = upload.uploadFile(MessageTypes.SECURE, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file_test.txt"), null, null).getNemHash();
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
 }
@@ -98,15 +98,10 @@ Attach a free form data (string) as a secure message on a NEM Txn
 
 Upload upload = new Upload(remotePeerConnection);
 try {
-	String nemhash = upload.uploadData(MessageTypes.SECURE, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null);
+	String nemhash = upload.uploadData(MessageTypes.SECURE, this.xPvkey, this.xPubkey, "This is a test data1", null, null, null).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
 }
-```
-## Search a File or Free Form data using a given keyword
-```java
-Search search = new Search(remotePeerConnection);
-search.searchDataWithKeyword(this.xPvkey, this.xPubkey, "keyword1","keyword1")
 ```
 
 ## Download a File or Free Form Data
@@ -144,7 +139,7 @@ String message = new String(message.getData(), "UTF-8");
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost:8881/areyes1*
+All URIs are relative to *http://p2ptest.smartproof.io:8881*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

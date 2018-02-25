@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.nem.core.utils.HexEncoder;
 
 import io.nem.ApiException;
-import io.nem.utils.Hex2StringUtils;
 import io.nem.xpx.AbstractApiTest;
 
 // TODO: Auto-generated Javadoc
@@ -156,7 +155,7 @@ public class DownloadTest extends AbstractApiTest {
 
 			DownloadData message = download
 					.downloadPublicData("1c04846e4043a8c5a1908a0f200c8b70bb83e03e78b57ebf3b70002098de2a91");
-			Hex2StringUtils.hex2String(new String(message.getData()));
+			new String(message.getData());
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainPublicFileTest_"
 					+ message.getDataMessage().getName() + timeStamp + ".txt"),
