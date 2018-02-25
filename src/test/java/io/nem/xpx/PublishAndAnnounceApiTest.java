@@ -72,7 +72,7 @@ public class PublishAndAnnounceApiTest extends AbstractApiTest {
 		byte[] encrypted = engine
 				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
 						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
-				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file_test.txt")));
+				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file.txt")));
 
 		// pass the hex encoded string of the data.
 		String data = HexEncoder.getString(encrypted);

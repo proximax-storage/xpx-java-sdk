@@ -69,7 +69,7 @@ Attach a file as a plain message on a NEM Txn
 ```java
 Upload upload = new Upload(remotePeerConnection);
 try {
-	String nemhash = upload.uploadFile(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file_test.txt"), null, null);
+	String nemhash = upload.uploadFile(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, new File("src//test//resources//small_file.txt"), null, null);
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
 }
@@ -108,28 +108,40 @@ try {
 Search search = new Search(remotePeerConnection);
 search.searchDataWithKeyword(this.xPvkey, this.xPubkey, "keyword1","keyword1")
 ```
-## Download a File or Free Form Data
-Download a file from a plain/secure message
-```java
-Download download = new Download(remotePeerConnection);
-DownloadData message = download.downloadData(
-		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f", // nem txn hash
-		this.xPvkey, this.xPubkey);
-		
-String message = new String(message.getData(), "UTF-8");
 
-FileUtils.writeByteArrayToFile(new File("src//test//resources//file_"
-		+ message.getDataMessage().getName() + System.currentTimeMillis() + ".zip"), message.getData());	
+## Download a File or Free Form Data
+Download a file from a plain message
+```java
+Download download = new Download(remotePeerConnection);
+DownloadData message = download.downloadPublicData(
+		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f");
+		
+FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName(),
+		HexEncoder.getBytes(new String(message.getData())));
 ```
-Attach a free form data (string) as a plain/secure message on a NEM Txn
+Download a file from a secure message
 ```java
 Download download = new Download(remotePeerConnection);
 DownloadData message = download.downloadData(
-		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f", // nem txn hash
-		this.xPvkey, this.xPubkey);
-		
+		"37098d2d5d36070ec9e9db94e3e7d07659866b0de53c2d3c30b8918cb5967de4", this.xPvkey, this.xPubkey);
+
+FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName()), message.getData());
+```
+Download a free form data from a plain message
+```java
+Download download = new Download(remotePeerConnection);
+DownloadData message = download.downloadPublicData(
+					"565e5eafe7902d856a5a2c05a9b5a15c5aa5f941cbff7c19369ecbe4367f0b9c");
 String message = new String(message.getData(), "UTF-8");
 ```
+Download a free form data from a secure message
+```java
+Download download = new Download(remotePeerConnection);
+DownloadData message = download.downloadData(
+					"82dda8b1f2c5be931e1ada8ab41a1ce79be8b21c6b1a89eef0678b97783c4b2c", this.xPvkey, this.xPubkey);
+String message = new String(message.getData(), "UTF-8");
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://localhost:8881/areyes1*

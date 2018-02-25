@@ -29,6 +29,7 @@ import javax.crypto.NoSuchPaddingException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -54,18 +55,17 @@ public class DataHashApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void generateHashForFileOnlyUsingPOSTTest() throws ApiException {
-		File file = new File("src\\test\\resources\\small_file_test.txt");
-    	//	keywords
-        String keywords = "small,file,test";
-        
-        //	string,string map
+		File file = new File("src\\test\\resources\\small_file.txt");
+		// keywords
+		String keywords = "small,file,test";
+
+		// string,string map
 		Map<String, String> smallMetadataTest = new HashMap<String, String>();
 		smallMetadataTest.put("type", "small");
 		smallMetadataTest.put("value", "file");
 		String metadata = JsonUtils.toJson(smallMetadataTest);
-		BinaryTransactionEncryptedMessage response = api.generateHashForFileOnlyUsingPOST(file, keywords,
-				metadata);
-	
+		BinaryTransactionEncryptedMessage response = api.generateHashForFileOnlyUsingPOST(file, keywords, metadata);
+
 		Assert.assertNotNull(response);
 
 	}
@@ -80,29 +80,36 @@ public class DataHashApiTest extends AbstractApiTest {
 	 *             if the Api call fails
 	 */
 	@Test
-	public void generateHashExposeByteArrayToNetworkBuildAndSignUsingPOSTTest() throws ApiException {
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
+	public void generateHashExposeByteArrayToNetworkBuildAndSignUsingPOSTTest() {
 		String xPvkey = this.xPvkey;
 		String xPubkey = this.xPubkey;
 		String messageType = "SECURE";
 		String data = "Expose this free form data";
-    	//	keywords
-        String keywords = "small,file,test";
-        
-        //	string,string map
+		// keywords
+		String keywords = "small,file,test";
+
+		// string,string map
 		Map<String, String> smallMetadataTest = new HashMap<String, String>();
 		smallMetadataTest.put("type", "small");
 		smallMetadataTest.put("value", "file");
 		String metadata = JsonUtils.toJson(smallMetadataTest);
-		
-		RequestAnnounceDataSignature response = api.generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST(xPvkey,
-				xPubkey, messageType, data, keywords, metadata);
 
-		Assert.assertNotNull(response);
+		RequestAnnounceDataSignature response;
+		try {
+			response = api.generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST(xPvkey, xPubkey, messageType, data,
+					keywords, metadata);
 
-		PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
-		String publishResponse = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(response);
+			Assert.assertNotNull(response);
 
-		Assert.assertNotNull(publishResponse);
+			PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
+			String publishResponse = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(response);
+
+			Assert.assertNotNull(publishResponse);
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -116,15 +123,16 @@ public class DataHashApiTest extends AbstractApiTest {
 	 *             if the Api call fails
 	 */
 	@Test
+	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")
 	public void generateHashExposeFileToNetworkBuildAndSignUsingPOSTTest() throws ApiException {
 		String xPvkey = this.xPvkey;
 		String xPubkey = this.xPubkey;
 		String messageType = "SECURE";
-		File file = new File("src\\test\\resources\\small_file_test.txt");
-    	//	keywords
-        String keywords = "small,file,test";
-        
-        //	string,string map
+		File file = new File("src\\test\\resources\\small_file.txt");
+		// keywords
+		String keywords = "small,file,test";
+
+		// string,string map
 		Map<String, String> smallMetadataTest = new HashMap<String, String>();
 		smallMetadataTest.put("type", "small");
 		smallMetadataTest.put("value", "file");
@@ -142,15 +150,24 @@ public class DataHashApiTest extends AbstractApiTest {
 	 * This endpoint can be used to generates the encrypted datahash and uploads
 	 * the file in the process.
 	 *
-	 * @throws ApiException             if the Api call fails
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException
+	 *             if the Api call fails
+	 * @throws InvalidKeyException
+	 *             the invalid key exception
+	 * @throws InvalidKeySpecException
+	 *             the invalid key spec exception
+	 * @throws NoSuchAlgorithmException
+	 *             the no such algorithm exception
+	 * @throws NoSuchPaddingException
+	 *             the no such padding exception
+	 * @throws InvalidAlgorithmParameterException
+	 *             the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException
+	 *             the illegal block size exception
+	 * @throws BadPaddingException
+	 *             the bad padding exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	@Test
 	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException,
@@ -167,12 +184,12 @@ public class DataHashApiTest extends AbstractApiTest {
 		byte[] encrypted = engine
 				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
 						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
-				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file_test.txt")));
+				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file.txt")));
 
 		// pass the hex encoded string of the data.
 		String data = HexEncoder.getString(encrypted);
-		BinaryTransactionEncryptedMessage response = api.generateHashAndExposeDataToNetworkUsingPOST(data, "small_file_test", keywords,
-				metadata);
+		BinaryTransactionEncryptedMessage response = api.generateHashAndExposeDataToNetworkUsingPOST(data, "small_file",
+				keywords, metadata);
 
 		Assert.assertNotNull(response);
 

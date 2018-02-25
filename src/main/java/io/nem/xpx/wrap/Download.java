@@ -1,5 +1,7 @@
 package io.nem.xpx.wrap;
 
+import java.util.concurrent.ExecutionException;
+
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
@@ -12,6 +14,7 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.utils.HexEncoder;
 
+import io.nem.ApiException;
 import io.nem.utils.JsonUtils;
 import io.nem.xpx.DownloadApi;
 import io.nem.xpx.TransactionApi;
@@ -29,86 +32,100 @@ public class Download {
 		this.downloadApi = new DownloadApi();
 	}
 
+	public DownloadData downloadPublicData(String nemHash)
+			throws InterruptedException, ExecutionException, ApiException {
+
+		DownloadData downloadData = new DownloadData();
+		byte[] securedResponse = null;
+		BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
+
+		TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+
+		binaryEncryptedData = JsonUtils.fromJson(new String(transaction.getMessage().getDecodedPayload()),
+				BinaryTransactionEncryptedMessage.class);
+
+		securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
+
+		downloadData.setData(securedResponse);
+		downloadData.setDataMessage(binaryEncryptedData);
+		downloadData.setMessageType(MessageTypes.PLAIN);
+		return downloadData;
+
+	}
+
 	public DownloadData downloadData(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey) {
+			String senderOrReceiverPublicKey) throws ApiException, InterruptedException, ExecutionException {
 		DownloadData downloadData = new DownloadData();
 		byte[] securedResponse = null;
 		SecureMessage message;
 		BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
-		try {
 
-			// get the addresses
-			// private key address
-			PrivateKey privateKey = PrivateKey.fromHexString(senderOrReceiverPrivateKey);
-			KeyPair keyPair = new KeyPair(privateKey);
-			String senderOrReceiverPrivateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
+		// get the addresses
+		// private key address
+		PrivateKey privateKey = PrivateKey.fromHexString(senderOrReceiverPrivateKey);
+		KeyPair keyPair = new KeyPair(privateKey);
+		String senderOrReceiverPrivateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-			// Evauate the transaction.
-			TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+		// Evauate the transaction.
+		TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
 
-			if (transaction.getMessage().getType() == 2) {
-				if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
+		if (transaction.getMessage().getType() == 2) {
+			if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
 
-					message = SecureMessage.fromEncodedPayload(
-							new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
-							new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
-							transaction.getMessage().getEncodedPayload());
+				message = SecureMessage.fromEncodedPayload(
+						new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
+						new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
+						transaction.getMessage().getEncodedPayload());
 
-					binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload()),
-							BinaryTransactionEncryptedMessage.class);
-					
-					securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
-
-					byte[] decrypted = engine
-							.createBlockCipher(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine),
-									new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
-							.decrypt(HexEncoder.getBytes(new String(securedResponse)));
-
-					downloadData.setData(decrypted);
-					downloadData.setDataMessage(binaryEncryptedData);
-					downloadData.setMessageType(MessageTypes.SECURE);
-					return downloadData;
-				} else if (transaction.getRecipient().getAddress().getEncoded()
-						.equals(senderOrReceiverPrivateKeyAddress)) {
-
-					message = SecureMessage.fromEncodedPayload(
-							new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
-							new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
-							transaction.getMessage().getEncodedPayload());
-
-					binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload()),
-							BinaryTransactionEncryptedMessage.class);
-
-					securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
-
-					byte[] decrypted = engine
-							.createBlockCipher(
-									new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine),
-									new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
-							.decrypt(HexEncoder.getBytes(new String(securedResponse)));
-
-					downloadData.setData(decrypted);
-					downloadData.setDataMessage(binaryEncryptedData);
-					downloadData.setMessageType(MessageTypes.SECURE);
-					return downloadData;
-
-				}
-
-			} else if (transaction.getMessage().getType() == 1) {
-
-				binaryEncryptedData = JsonUtils.fromJson(new String(transaction.getMessage().getDecodedPayload()),
+				binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload()),
 						BinaryTransactionEncryptedMessage.class);
 
 				securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
 
-				downloadData.setData(securedResponse);
+				byte[] decrypted = engine
+						.createBlockCipher(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine),
+								new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
+						.decrypt(HexEncoder.getBytes(new String(securedResponse)));
+
+				downloadData.setData(decrypted);
 				downloadData.setDataMessage(binaryEncryptedData);
-				downloadData.setMessageType(MessageTypes.PLAIN);
+				downloadData.setMessageType(MessageTypes.SECURE);
 				return downloadData;
+			} else if (transaction.getRecipient().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
+
+				message = SecureMessage.fromEncodedPayload(
+						new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
+						new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
+						transaction.getMessage().getEncodedPayload());
+
+				binaryEncryptedData = JsonUtils.fromJson(new String(message.getDecodedPayload()),
+						BinaryTransactionEncryptedMessage.class);
+
+				securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
+
+				byte[] decrypted = engine
+						.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine),
+								new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
+						.decrypt(HexEncoder.getBytes(new String(securedResponse)));
+
+				downloadData.setData(decrypted);
+				downloadData.setDataMessage(binaryEncryptedData);
+				downloadData.setMessageType(MessageTypes.SECURE);
+				return downloadData;
+
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else if (transaction.getMessage().getType() == 1) {
+
+			binaryEncryptedData = JsonUtils.fromJson(new String(transaction.getMessage().getDecodedPayload()),
+					BinaryTransactionEncryptedMessage.class);
+
+			securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
+
+			downloadData.setData(securedResponse);
+			downloadData.setDataMessage(binaryEncryptedData);
+			downloadData.setMessageType(MessageTypes.PLAIN);
+			return downloadData;
 		}
 
 		return downloadData;

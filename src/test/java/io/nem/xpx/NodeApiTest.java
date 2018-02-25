@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for NodeApi.
  */
-public class NodeApiTest {
+public class NodeApiTest extends AbstractApiTest {
 
     /** The api. */
     private final NodeApi api = new NodeApi();
