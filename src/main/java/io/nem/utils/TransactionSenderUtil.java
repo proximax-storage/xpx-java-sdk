@@ -11,8 +11,8 @@ import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
-import io.nem.builder.api.TransactionApi;
 import io.nem.builder.model.XpxJavaSdkGlobals;
+import io.nem.xpx.TransactionApi;
 
 /**
  * The Class TransactionSenderUtil.

@@ -13,7 +13,6 @@
 package io.nem.xpx;
 
 import io.nem.ApiException;
-import io.nem.builder.api.TransactionApi;
 import io.nem.utils.JsonUtils;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.ResponseEntity;

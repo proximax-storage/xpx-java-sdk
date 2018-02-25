@@ -11,9 +11,10 @@ import org.nem.core.model.Address;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.utils.HexEncoder;
-import io.nem.builder.api.TransactionApi;
+
 import io.nem.utils.JsonUtils;
 import io.nem.xpx.DownloadApi;
+import io.nem.xpx.TransactionApi;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 
 public class Download {

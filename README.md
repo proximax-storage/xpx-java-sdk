@@ -104,8 +104,10 @@ try {
 }
 ```
 ## Search a File or Free Form data using a given keyword
-
-
+```java
+Search search = new Search(remotePeerConnection);
+search.searchDataWithKeyword(this.xPvkey, this.xPubkey, "keyword1","keyword1")
+```
 ## Download a File or Free Form Data
 Download a file from a plain/secure message
 ```java

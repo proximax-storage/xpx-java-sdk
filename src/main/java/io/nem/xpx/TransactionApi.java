@@ -1,4 +1,4 @@
-package io.nem.builder.api;
+package io.nem.xpx;
 
 import java.util.ArrayList;
 import java.util.List;
