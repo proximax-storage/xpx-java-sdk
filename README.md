@@ -62,7 +62,7 @@ Initialize the Configuration Node
 
 ```java
 RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://localhost:8881/areyes1");
-
+```
 
 ## Upload a File or Free Form Data
 Attach a file as a plain message on a NEM Txn
@@ -103,12 +103,15 @@ try {
 	e.printStackTrace();
 }
 ```
+## Search a File or Free Form data using a given keyword
+
+
 ## Download a File or Free Form Data
 Download a file from a plain/secure message
 ```java
 Download download = new Download(remotePeerConnection);
 DownloadData message = download.downloadData(
-		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f",
+		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f", // nem txn hash
 		this.xPvkey, this.xPubkey);
 		
 String message = new String(message.getData(), "UTF-8");
@@ -120,7 +123,7 @@ Attach a free form data (string) as a plain/secure message on a NEM Txn
 ```java
 Download download = new Download(remotePeerConnection);
 DownloadData message = download.downloadData(
-		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f",
+		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f", // nem txn hash
 		this.xPvkey, this.xPubkey);
 		
 String message = new String(message.getData(), "UTF-8");
