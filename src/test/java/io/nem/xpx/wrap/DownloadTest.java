@@ -14,7 +14,6 @@ import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DownloadTest.
  */
@@ -27,6 +26,7 @@ public class DownloadTest extends AbstractApiTest {
 	public void downloadPlainDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(downloadNodeBasePath);
 		Download download = new Download(remotePeerConnection);
+		
 		try {
 
 			DownloadData message = download.downloadData(

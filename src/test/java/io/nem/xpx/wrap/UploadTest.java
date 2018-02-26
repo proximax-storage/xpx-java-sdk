@@ -1,5 +1,7 @@
 package io.nem.xpx.wrap;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -29,6 +31,7 @@ public class UploadTest extends AbstractApiTest {
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -46,6 +49,7 @@ public class UploadTest extends AbstractApiTest {
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | IOException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -63,6 +67,7 @@ public class UploadTest extends AbstractApiTest {
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -79,6 +84,7 @@ public class UploadTest extends AbstractApiTest {
 			LOGGER.info(nemhash);
 		} catch (ApiException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -96,6 +102,7 @@ public class UploadTest extends AbstractApiTest {
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -113,6 +120,7 @@ public class UploadTest extends AbstractApiTest {
 			System.out.print(nemhash);
 		} catch (ApiException | IOException e) {
 			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 

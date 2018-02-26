@@ -5,7 +5,16 @@
 Building the API client library requires [Maven](https://maven.apache.org/) to be installed.
 
 ## Installation
+To install the IPFS API
 
+```shell
+mvn install:install-file -DgroupId=io.ipfs -DartifactId=api -Dversion=1.2.0 -Dpackaging=jar -Dfile=lib/api-v1.2.0.jar
+```
+To install NEM Core API
+
+```shell
+mvn install:install-file -DgroupId=org.nem.core -DartifactId=nem-core -Dversion=0.6.93-BETA -Dpackaging=jar -Dfile=lib/nem-core-0.6.93-BETA.jar
+```
 To install the API client library to your local Maven repository, simply execute:
 
 ```shell
@@ -51,6 +60,8 @@ Then manually install the following JARs:
 
 * target/xpx-java-sdk-1.0.0.jar
 * target/lib/*.jar
+
+
 
 ## Getting Started
 
