@@ -78,6 +78,7 @@ import io.nem.auth.Authentication;
 import io.nem.auth.HttpBasicAuth;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
+import io.nem.utils.StringUtils;
 
 public class ApiClient {
     public static final double JAVA_VERSION;
@@ -770,7 +771,7 @@ public class ApiClient {
                 return accept;
             }
         }
-        return StringUtil.join(accepts, ",");
+        return StringUtils.join(accepts, ",");
     }
 
     /**

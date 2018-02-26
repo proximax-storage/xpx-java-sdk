@@ -14,7 +14,9 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
+import io.nem.builder.BinaryTransferTransaction;
 import io.nem.builder.BinaryTransferTransactionBuilder;
+import io.nem.builder.MultisigTransactionBuilder;
 import io.nem.utils.JsonUtils;
 import io.nem.xpx.DataHashApi;
 import io.nem.xpx.PublishAndAnnounceApi;
@@ -34,6 +36,84 @@ public class Upload {
 		this.dataHashApi = new DataHashApi();
 		this.publishAndAnnounceApi = new PublishAndAnnounceApi();
 	}
+	
+	public UploadData uploadDataOnMultisigTransaction(int messageType, String senderPrivateKey,
+			String recipientPublicKey, String data, String name, String keywords, String metaData) throws ApiException {
+
+		UploadData uploadData = new UploadData();
+		byte[] encrypted = null;
+		BinaryTransactionEncryptedMessage response = null;
+		if (messageType == MessageTypes.SECURE) {
+			encrypted = engine.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
+					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
+
+			String encryptedData = HexEncoder.getString(encrypted);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
+		} else { // PLAIN
+
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
+		}
+
+		// Announce The Signature.
+		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
+				.message(JsonUtils.toJson(response), messageType).buildTransaction();
+
+		// multisig builder.
+		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+
+		// Return the NEM Txn Hash.
+		String publishedData = publishAndAnnounceApi
+				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
+
+	}
+
+	public UploadData uploadFileOnMultisigTransaction(int messageType, String senderPrivateKey,
+			String recipientPublicKey, File file, String keywords, String metaData) throws IOException, ApiException {
+
+		UploadData uploadData = new UploadData();
+		byte[] encrypted = null;
+		BinaryTransactionEncryptedMessage response = null;
+		if (messageType == MessageTypes.SECURE) {
+
+			encrypted = engine
+					.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
+							new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine))
+					.encrypt(FileUtils.readFileToByteArray(file));
+
+			String data = HexEncoder.getString(encrypted);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
+		} else { // PLAIN
+			String data = HexEncoder.getString(FileUtils.readFileToByteArray(file));
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
+		}
+
+		// Announce The Signature
+		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
+				.message(JsonUtils.toJson(response), messageType).buildTransaction();
+
+		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+
+		// Return the NEM Txn Hash
+		String publishedData = publishAndAnnounceApi
+				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+		uploadData.setDataMessage(response);
+		uploadData.setNemHash(publishedData);
+		return uploadData;
+
+	}
 
 	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData) throws ApiException, IOException {
@@ -41,17 +121,19 @@ public class Upload {
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
 		if (messageType == MessageTypes.SECURE) {
-			
+
 			encrypted = engine
 					.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
 							new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine))
 					.encrypt(FileUtils.readFileToByteArray(file));
-			
+
 			String data = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		} else { // PLAIN
 			String data = HexEncoder.getString(FileUtils.readFileToByteArray(file));
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		}
 
 		// Announce The Signature
@@ -59,8 +141,7 @@ public class Upload {
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), messageType).buildAndSignTransaction();
-		
-		
+
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
@@ -82,10 +163,12 @@ public class Upload {
 					.encrypt(FileUtils.readFileToByteArray(file));
 
 			String data = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		} else { // PLAIN
 			String data = HexEncoder.getString(FileUtils.readFileToByteArray(file));
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		}
 
 		// Announce The Signature
@@ -93,8 +176,7 @@ public class Upload {
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), messageType).addMosaic(mosaic).buildAndSignTransaction();
-		
-		
+
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
 				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
@@ -116,10 +198,12 @@ public class Upload {
 					.encrypt(FileUtils.readFileToByteArray(file));
 
 			String data = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		} else { // PLAIN
 			String data = HexEncoder.getString(FileUtils.readFileToByteArray(file));
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(),keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+					metaData);
 		}
 
 		// Announce The Signature
@@ -137,8 +221,8 @@ public class Upload {
 
 	}
 
-	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data, String name,
-			String keywords, String metaData) throws ApiException {
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
+			String name, String keywords, String metaData) throws ApiException {
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
@@ -147,10 +231,10 @@ public class Upload {
 					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
 
 			String encryptedData = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
 		} else { // PLAIN
 
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
 		}
 
 		// Announce The Signature
@@ -168,8 +252,8 @@ public class Upload {
 
 	}
 
-	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
-			String keywords, String metaData, Mosaic mosaic) throws ApiException {
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
+			String name, String keywords, String metaData, Mosaic mosaic) throws ApiException {
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
@@ -178,10 +262,10 @@ public class Upload {
 					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
 
 			String encryptedData = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
 		} else { // PLAIN
 
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
 		}
 
 		// Announce The Signature
@@ -199,8 +283,8 @@ public class Upload {
 
 	}
 
-	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,String name,
-			String keywords, String metaData, Mosaic... mosaics) throws ApiException {
+	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
+			String name, String keywords, String metaData, Mosaic... mosaics) throws ApiException {
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
@@ -209,10 +293,10 @@ public class Upload {
 					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
 
 			String encryptedData = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
 		} else { // PLAIN
 
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name,keywords, metaData);
+			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
 		}
 
 		// Announce The Signature

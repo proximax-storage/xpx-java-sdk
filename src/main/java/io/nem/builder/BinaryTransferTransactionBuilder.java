@@ -27,8 +27,6 @@ import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeInstant;
 import io.nem.ApiException;
-import io.nem.builder.model.AttachmentFactory;
-import io.nem.builder.model.BinaryTransferTransaction;
 import io.nem.utils.TransactionSenderUtil;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 

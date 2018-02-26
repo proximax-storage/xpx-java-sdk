@@ -11,10 +11,10 @@
  */
 
 
-package io.nem;
+package io.nem.utils;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-24T22:58:22.311-05:00")
-public class StringUtil {
+public class StringUtils {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
    *

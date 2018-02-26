@@ -1,4 +1,4 @@
-package io.nem.builder.model;
+package io.nem.builder;
 
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
