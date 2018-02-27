@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.xpx.wrap;
 
 import java.util.concurrent.ExecutionException;
@@ -20,18 +23,40 @@ import io.nem.xpx.DownloadApi;
 import io.nem.xpx.TransactionApi;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 
+/**
+ * The Class Download.
+ */
 public class Download {
 
+	/** The peer connection. */
 	private PeerConnection peerConnection;
+	
+	/** The download api. */
 	private DownloadApi downloadApi = new DownloadApi();
+	
+	/** The engine. */
 	private CryptoEngine engine;
 
+	/**
+	 * Instantiates a new download.
+	 *
+	 * @param peerConnection the peer connection
+	 */
 	public Download(PeerConnection peerConnection) {
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
 		this.downloadApi = new DownloadApi();
 	}
 
+	/**
+	 * Download public data.
+	 *
+	 * @param nemHash the nem hash
+	 * @return the download data
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
+	 */
 	public DownloadData downloadPublicData(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException {
 
@@ -53,6 +78,17 @@ public class Download {
 
 	}
 
+	/**
+	 * Download data.
+	 *
+	 * @param nemHash the nem hash
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public DownloadData downloadData(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey) throws ApiException, InterruptedException, ExecutionException {
 		DownloadData downloadData = new DownloadData();

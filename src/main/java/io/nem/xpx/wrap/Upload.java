@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.xpx.wrap;
 
 import java.io.File;
@@ -23,13 +26,28 @@ import io.nem.xpx.PublishAndAnnounceApi;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 
+/**
+ * The Class Upload.
+ */
 public class Upload {
 
+	/** The peer connection. */
 	private PeerConnection peerConnection;
+	
+	/** The engine. */
 	private CryptoEngine engine;
+	
+	/** The data hash api. */
 	private DataHashApi dataHashApi;
+	
+	/** The publish and announce api. */
 	private PublishAndAnnounceApi publishAndAnnounceApi;
 
+	/**
+	 * Instantiates a new upload.
+	 *
+	 * @param peerConnection the peer connection
+	 */
 	public Upload(PeerConnection peerConnection) {
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
@@ -37,28 +55,42 @@ public class Upload {
 		this.publishAndAnnounceApi = new PublishAndAnnounceApi();
 	}
 	
-	public UploadData uploadDataOnMultisigTransaction(int messageType, String senderPrivateKey,
+	
+	/**
+	 * Upload data on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 */
+	public UploadData uploadDataOnMultisigTransaction(String senderPrivateKey,
 			String recipientPublicKey, String data, String name, String keywords, String metaData) throws ApiException {
 
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
-		if (messageType == MessageTypes.SECURE) {
-			encrypted = engine.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
-					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
-
-			String encryptedData = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
-		} else { // PLAIN
+//		if (messageType == MessageTypes.SECURE) {
+//			encrypted = engine.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
+//					new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine)).encrypt(data.getBytes());
+//
+//			String encryptedData = HexEncoder.getString(encrypted);
+//			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
+//		} else { // PLAIN
 
 			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
-		}
+//		}
 
 		// Announce The Signature.
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-				.message(JsonUtils.toJson(response), messageType).buildTransaction();
+				.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
 		// multisig builder.
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
@@ -74,33 +106,46 @@ public class Upload {
 
 	}
 
-	public UploadData uploadFileOnMultisigTransaction(int messageType, String senderPrivateKey,
+	/**
+	 * Upload file on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @return the upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
+	public UploadData uploadFileOnMultisigTransaction(String senderPrivateKey,
 			String recipientPublicKey, File file, String keywords, String metaData) throws IOException, ApiException {
 
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
-		if (messageType == MessageTypes.SECURE) {
-
-			encrypted = engine
-					.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
-							new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine))
-					.encrypt(FileUtils.readFileToByteArray(file));
-
-			String data = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
-					metaData);
-		} else { // PLAIN
+//		if (messageType == MessageTypes.SECURE) {
+//
+//			encrypted = engine
+//					.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderPrivateKey), engine),
+//							new KeyPair(PublicKey.fromHexString(recipientPublicKey), engine))
+//					.encrypt(FileUtils.readFileToByteArray(file));
+//
+//			String data = HexEncoder.getString(encrypted);
+//			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
+//					metaData);
+//		} else { // PLAIN
 			String data = HexEncoder.getString(FileUtils.readFileToByteArray(file));
 			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
 					metaData);
-		}
+//		}
 
 		// Announce The Signature
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-				.message(JsonUtils.toJson(response), messageType).buildTransaction();
+				.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
@@ -115,6 +160,19 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload file.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData) throws ApiException, IOException {
 		UploadData uploadData = new UploadData();
@@ -151,6 +209,20 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload file.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaic the mosaic
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData, Mosaic mosaic) throws ApiException, IOException {
 		UploadData uploadData = new UploadData();
@@ -186,6 +258,20 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload file.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public UploadData uploadFile(int messageType, String senderPrivateKey, String recipientPublicKey, File file,
 			String keywords, String metaData, Mosaic... mosaics) throws ApiException, IOException {
 		UploadData uploadData = new UploadData();
@@ -221,6 +307,19 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload data.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 */
 	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
 			String name, String keywords, String metaData) throws ApiException {
 		UploadData uploadData = new UploadData();
@@ -252,6 +351,20 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload data.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaic the mosaic
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 */
 	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
 			String name, String keywords, String metaData, Mosaic mosaic) throws ApiException {
 		UploadData uploadData = new UploadData();
@@ -283,6 +396,20 @@ public class Upload {
 
 	}
 
+	/**
+	 * Upload data.
+	 *
+	 * @param messageType the message type
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the upload data
+	 * @throws ApiException the api exception
+	 */
 	public UploadData uploadData(int messageType, String senderPrivateKey, String recipientPublicKey, String data,
 			String name, String keywords, String metaData, Mosaic... mosaics) throws ApiException {
 		UploadData uploadData = new UploadData();
