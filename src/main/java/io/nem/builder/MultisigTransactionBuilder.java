@@ -207,24 +207,24 @@ public class MultisigTransactionBuilder {
 				this.timeStamp = XpxJavaSdkGlobals.TIME_PROVIDER.getCurrentTime();
 			}
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
-
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(Amount.fromNem(0));
-			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-
-			}
+//
+//			if (this.fee == null && this.feeCalculator == null) {
+//				instance.setFee(Amount.fromNem(0));
+//			} else {
+//
+//				if (this.fee != null) {
+//					instance.setFee(this.fee);
+//				} else if (this.feeCalculator != null) {
+//					TransactionFeeCalculator feeCalculator;
+//					if (this.feeCalculator != null) {
+//						feeCalculator = this.feeCalculator;
+//					} else {
+//						feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
+//					}
+//					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+//				}
+//
+//			}
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);

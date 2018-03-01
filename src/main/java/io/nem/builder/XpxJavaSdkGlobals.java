@@ -106,8 +106,8 @@ public class XpxJavaSdkGlobals {
 	private static NodeEndpoint NODE_ENDPOINT;
 	
 	/** The fee calculator. */
-	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
-	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
+	//private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
+	//private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
 	
 	/**
 	 * Gets the node endpoint.
@@ -127,26 +127,26 @@ public class XpxJavaSdkGlobals {
 	 *
 	 * @param feeCalculator the new global transaction fee
 	 */
-	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxJavaSdkGlobals.feeCalculator = feeCalculator;
-	}
-	
-	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxJavaSdkGlobals.feeCalculatorMultiSig = feeCalculator;
-	}
+//	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
+//		XpxJavaSdkGlobals.feeCalculator = feeCalculator;
+//	}
+//	
+//	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
+//		XpxJavaSdkGlobals.feeCalculatorMultiSig = feeCalculator;
+//	}
 
 	/**
 	 * Gets the global transaction fee.
 	 *
 	 * @return the global transaction fee
 	 */
-	public static TransactionFeeCalculator getGlobalTransactionFee() {
-		return feeCalculator;
-	}
-	
-	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
-		return feeCalculatorMultiSig;
-	}
+//	public static TransactionFeeCalculator getGlobalTransactionFee() {
+//		return feeCalculator;
+//	}
+//	
+//	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
+//		return feeCalculatorMultiSig;
+//	}
 	// = new NodeEndpoint(
 	// AppPropertiesUtil.getProperty("node.endpoint.protocol"),
 	// AppPropertiesUtil.getProperty("node.endpoint.uri"),

@@ -30,14 +30,14 @@ public class DownloadTest extends AbstractApiTest {
 		try {
 
 			DownloadData message = download.downloadData(
-					"565e5eafe7902d856a5a2c05a9b5a15c5aa5f941cbff7c19369ecbe4367f0b9c", this.xPvkey, this.xPubkey);
+					"091c687e59e2c4f83f0b176b86bf178778f0022f47d98cb5e8c6066da4bb56fd", this.xPvkey, this.xPubkey);
 
 			// validate the name.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1519574600186",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1519880173787",
 					message.getDataMessage().getName());
 			LOGGER.info(message.getDataMessage().getName());
 			// validate the content.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a test data1",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a test data",
 					new String(message.getData(), "UTF-8"));
 
 		} catch (UnsupportedEncodingException | ApiException | InterruptedException | ExecutionException e) {
@@ -58,7 +58,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 
 			DownloadData message = download.downloadData(
-					"1c04846e4043a8c5a1908a0f200c8b70bb83e03e78b57ebf3b70002098de2a91", this.xPvkey, this.xPubkey);
+					"5d7cc02e8643d5fc08995730014052ef3d32561efbcc93778caccbee0c21a2e9", this.xPvkey, this.xPubkey);
 			
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
@@ -93,7 +93,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
 			DownloadData message = download.downloadData(
-					"d4ac2a34df6e9dcff27115f66cf88fb902d62092e4f54fa3637d0dafa1c9b362", this.xPvkey, this.xPubkey);
+					"fbfd6ba3202acbe5cc8a58fc7a4fc14b70eab0ca7a9922026f280593c4c5fa24", this.xPvkey, this.xPubkey);
 
 			FileUtils
 					.writeByteArrayToFile(
@@ -126,14 +126,14 @@ public class DownloadTest extends AbstractApiTest {
 		try {
 
 			DownloadData message = download
-					.downloadPublicData("f260b569a32c00fa49533e0af976bb356e781f2a703cbdd9ae3372fda8e4f43a");
+					.downloadPublicData("091c687e59e2c4f83f0b176b86bf178778f0022f47d98cb5e8c6066da4bb56fd");
 
 			// validate the name.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1519535969725",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1519880173787",
 					message.getDataMessage().getName());
 			LOGGER.info(message.getDataMessage().getName());
 			// validate the content.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a test data1",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a test data",
 					new String(message.getData(), "UTF-8"));
 			LOGGER.info(new String(message.getData(), "UTF-8"));
 		} catch (UnsupportedEncodingException | ApiException | InterruptedException | ExecutionException e) {
@@ -154,7 +154,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 
 			DownloadData message = download
-					.downloadPublicData("1c04846e4043a8c5a1908a0f200c8b70bb83e03e78b57ebf3b70002098de2a91");
+					.downloadPublicData("5d7cc02e8643d5fc08995730014052ef3d32561efbcc93778caccbee0c21a2e9");
 			new String(message.getData());
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainPublicFileTest_"
@@ -191,7 +191,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
 			DownloadData message = download
-					.downloadPublicData("359f9808b2b535f4816377a0adfef7adc6637dabc2131e7fcb329bbccf437be8");
+					.downloadPublicData("fbfd6ba3202acbe5cc8a58fc7a4fc14b70eab0ca7a9922026f280593c4c5fa24");
 
 			FileUtils
 					.writeByteArrayToFile(
@@ -222,7 +222,7 @@ public class DownloadTest extends AbstractApiTest {
 
 		try {
 			DownloadData message = download.downloadData(
-					"82dda8b1f2c5be931e1ada8ab41a1ce79be8b21c6b1a89eef0678b97783c4b2c", this.xPvkey, this.xPubkey);
+					"400136341450013b911dc81034bded605cfb6313616921a68e5528b55569cdc3", this.xPvkey, this.xPubkey);
 
 			LOGGER.info(new String(message.getData(), "UTF-8"));
 			Assert.assertTrue(true);
@@ -246,7 +246,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractSmallFileSize();
 			DownloadData message = download.downloadData(
-					"37098d2d5d36070ec9e9db94e3e7d07659866b0de53c2d3c30b8918cb5967de4", this.xPvkey, this.xPubkey);
+					"f79f46fa6b3d94b09b05e31a0c0529c09220982e551296cfbbd55a61abe79a62", this.xPvkey, this.xPubkey);
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureFileTest_"
 					+ message.getDataMessage().getName() + timeStamp + ".txt"), message.getData());
@@ -279,7 +279,7 @@ public class DownloadTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
 			DownloadData message = download.downloadData(
-					"e7c985d1ab4ad527240f49d743d779260aee28c6f1de0a250fa90e7a222959eb", this.xPvkey, this.xPubkey);
+					"3ff40773e2cd81de034db30e756d0297a7a458264c25918808d2b9b70ced486f", this.xPvkey, this.xPubkey);
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureLargeFileTest_"
 					+ message.getDataMessage().getName() + timeStamp + ".zip"), message.getData());

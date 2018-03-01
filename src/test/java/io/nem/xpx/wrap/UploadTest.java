@@ -25,7 +25,7 @@ public class UploadTest extends AbstractApiTest {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		Upload upload = new Upload(remotePeerConnection);
 		try {
-			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data1",
+			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data",
 					null, null, null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
