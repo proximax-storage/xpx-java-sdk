@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nem.core.model.HashUtils;
 import org.nem.core.model.MessageTypes;
 
 import io.nem.ApiException;

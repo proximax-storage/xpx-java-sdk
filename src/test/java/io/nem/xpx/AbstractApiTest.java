@@ -25,7 +25,7 @@ public abstract class AbstractApiTest {
 	protected String xPvkey = "deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763";
 
 	/** The x pubkey. */
-	protected String xPubkey = "d24fcd87f3d1f661a0dc15f658cbbffb51b1a13cea3ad99acf73df9b896aed94";
+	protected String xPubkey = "092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d";
 
 	/** The testnet secure nem txn hash. */
 	protected String testnetSecureNemTxnHash = "7eb54829f1241a6f2c55334e457dbffff8e2460a7bb02c12cb093554ce36a8c9";
@@ -39,7 +39,7 @@ public abstract class AbstractApiTest {
 	protected String localNodeBasePath = "http://138.197.163.64:8881";
 	protected String uploadNodeBasePath = "http://p2ptest.smartproof.io:8881";
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8882";
-	//protected String downloadNodeBasePath = "http://138.197.163.64:8881";
+	
 	/**
 	 * Instantiates a new abstract api test.
 	 */

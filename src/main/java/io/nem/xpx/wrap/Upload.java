@@ -103,7 +103,7 @@ public class Upload {
 	 * @throws BadPaddingException
 	 *             the bad padding exception
 	 */
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPrivateKey,
+	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
@@ -127,7 +127,7 @@ public class Upload {
 
 		// Announce The Signature.
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -146,7 +146,7 @@ public class Upload {
 
 	}
 
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPrivateKey,
+	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic mosaic)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
@@ -170,7 +170,7 @@ public class Upload {
 
 		// Announce The Signature.
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.addMosaic(mosaic).message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -189,7 +189,7 @@ public class Upload {
 
 	}
 
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPrivateKey, String senderPrivateKey,
+	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey, String senderPrivateKey,
 			String recipientPublicKey, String data, String name, String keywords, String metaData, Mosaic... mosaics)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -212,7 +212,7 @@ public class Upload {
 
 		// Announce The Signature.
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.addMosaics(mosaics).message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -259,7 +259,7 @@ public class Upload {
 	 * @throws InvalidKeySpecException
 	 * @throws InvalidKeyException
 	 */
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType,  String multisigPrivateKey, String senderPrivateKey,
+	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType,  String multisigPublicKey, String senderPrivateKey,
 			String recipientPublicKey, File file, String keywords, String metaData)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -285,7 +285,7 @@ public class Upload {
 
 		// Announce The Signature
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -302,7 +302,7 @@ public class Upload {
 
 	}
 
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPrivateKey,  String senderPrivateKey,
+	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,  String senderPrivateKey,
 			String recipientPublicKey, File file, String keywords, String metaData, Mosaic mosaic)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -328,7 +328,7 @@ public class Upload {
 
 		// Announce The Signature
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.addMosaic(mosaic).message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -345,7 +345,7 @@ public class Upload {
 
 	}
 
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPrivateKey,String senderPrivateKey,
+	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,String senderPrivateKey,
 			String recipientPublicKey, File file, String keywords, String metaData, Mosaic... mosaics)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -371,7 +371,7 @@ public class Upload {
 
 		// Announce The Signature
 		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(multisigPrivateKey))))
+				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
 				.addMosaics(mosaics).message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
 
@@ -602,7 +602,8 @@ public class Upload {
 		RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
 				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-				.message(JsonUtils.toJson(response), messageType).buildAndSignTransaction();
+				.message(JsonUtils.toJson(response), messageType)
+				.buildAndSignTransaction();
 
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi

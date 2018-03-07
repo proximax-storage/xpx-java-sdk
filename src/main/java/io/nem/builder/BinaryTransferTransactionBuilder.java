@@ -10,6 +10,7 @@ import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
+import org.nem.core.model.HashUtils;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
@@ -355,6 +356,26 @@ public class BinaryTransferTransactionBuilder {
 				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
+			if (!this.instance.getMosaics().isEmpty()) {
+				instance.setFee(XpxJavaSdkGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+			} else {
+				if (this.fee == null && this.feeCalculator == null) {
+					instance.setFee(XpxJavaSdkGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				} else {
+
+					if (this.fee != null) {
+						instance.setFee(this.fee);
+					} else if (this.feeCalculator != null) {
+						TransactionFeeCalculator feeCalculator;
+						if (this.feeCalculator != null) {
+							feeCalculator = this.feeCalculator;
+						} else {
+							feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
+						}
+						instance.setFee(feeCalculator.calculateMinimumFee(instance));
+					}
+				}
+			}
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
@@ -370,7 +391,7 @@ public class BinaryTransferTransactionBuilder {
 			if (this.encryptedMessage != null) {
 				instance.setEncryptedMessage(this.encryptedMessage);
 			}
-			instance.sign();
+
 			return instance;
 		}
 
@@ -390,6 +411,26 @@ public class BinaryTransferTransactionBuilder {
 			} else {
 				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
+			}
+			if (!this.instance.getMosaics().isEmpty()) {
+				instance.setFee(XpxJavaSdkGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+			} else {
+				if (this.fee == null && this.feeCalculator == null) {
+					instance.setFee(XpxJavaSdkGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				} else {
+
+					if (this.fee != null) {
+						instance.setFee(this.fee);
+					} else if (this.feeCalculator != null) {
+						TransactionFeeCalculator feeCalculator;
+						if (this.feeCalculator != null) {
+							feeCalculator = this.feeCalculator;
+						} else {
+							feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
+						}
+						instance.setFee(feeCalculator.calculateMinimumFee(instance));
+					}
+				}
 			}
 
 			if (this.deadline != null) {
@@ -414,7 +455,8 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() throws ApiException {
-			return TransactionSenderUtil.sendTransferTransaction(this.buildTransaction());
+			this.buildTransaction();
+			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
 
 		/*
@@ -558,7 +600,8 @@ public class BinaryTransferTransactionBuilder {
 
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException {
-			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
+			this.buildTransaction();
+			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
 		}
 
 		@Override
