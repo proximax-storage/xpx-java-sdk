@@ -43,4 +43,40 @@ public class SearchTest extends AbstractApiTest {
 		}
 		
 	}
+	
+	@Test
+	public void searchKeySearchRegexSample() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(downloadNodeBasePath);
+		Search search = new Search(remotePeerConnection);
+		try {
+			String s = search.searchAllTransactionWithRegexKeyword(this.xPvkey, "alvinreyes");
+			System.out.println(s);
+			if(s.contains("alvinreyes")) {
+				LOGGER.info("Found it");
+				assert(true);
+			}
+			assert(false);
+		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException | ApiException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void searchPublicKeySearchRegexSample() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(downloadNodeBasePath);
+		Search search = new Search(remotePeerConnection);
+		try {
+			String s = search.searchAllPublicTransactionWithRegexKeyword(this.xPubkey, "alvinreyes");
+			System.out.println(s);
+			if(s.contains("alvinreyes")) {
+				LOGGER.info("Found it");
+				assert(true);
+			}
+			assert(false);
+		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException | ApiException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
