@@ -30,10 +30,10 @@ public class DownloadTest extends AbstractApiTest {
 		try {
 
 			DownloadData message = download.downloadData(
-					"091c687e59e2c4f83f0b176b86bf178778f0022f47d98cb5e8c6066da4bb56fd", this.xPvkey, this.xPubkey);
+					"7c7b7f868f166e95b150654a306478bcfc139387fce3cfb7195a9499668bdf64", this.xPvkey, this.xPubkey);
 
 			// validate the name.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1519880173787",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1520718531585",
 					message.getDataMessage().getName());
 			LOGGER.info(message.getDataMessage().getName());
 			// validate the content.

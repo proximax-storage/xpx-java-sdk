@@ -36,9 +36,9 @@ public abstract class AbstractApiTest {
 	/** The engine. */
 	protected Ed25519CryptoEngine engine = (Ed25519CryptoEngine) CryptoEngines.ed25519Engine();
 	
-	protected String localNodeBasePath = "http://138.197.163.64:8881";
-	protected String uploadNodeBasePath = "http://p2ptest.smartproof.io:8881";
-	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8882";
+	protected String localNodeBasePath = "http://localhost:8881";
+	protected String uploadNodeBasePath = "http://128.199.196.118:8881";
+	protected String downloadNodeBasePath = "http://178.62.225.175:8881";
 	
 	/**
 	 * Instantiates a new abstract api test.
