@@ -114,6 +114,12 @@ try {
 	e.printStackTrace();
 }
 ```
+## Search using Keywords
+```java
+RemotePeerConnection remotePeerConnection = new RemotePeerConnection(remotePeerConnection);
+Search search = new Search(remotePeerConnection);
+String jsonResult = search.searchAllTransactionWithRegexKeyword(this.xPvkey, "alvinreyes");
+```		
 
 ## Download a File or Free Form Data
 Download a file from a plain message
