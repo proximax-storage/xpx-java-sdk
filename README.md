@@ -67,18 +67,29 @@ Then manually install the following JARs:
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
-## Generating a Data Hash from a File or Free form data.
+## Connect as a Client Only or Peer Participant 
 
-Initialize the Configuration Node  
+Initialize the Configuration Node 
 
 ```java
+//	Connected to a remote live node endpoint api
 RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://p2ptest.smartproof.io:8881");
 ```
+
+For local connection, your local computer needs to run the proximax daemon.
+
+```java
+//	Connected to a local live node endpoint api
+LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+new NodeEndpoint("http", "http://104.128.226.60", 7890)) // NEM Node.
+,"/ip4/127.0.0.1/tcp/5001");
+```
+
 
 ## Upload a File or Free Form Data
 Attach a file as a plain message on a NEM Txn
 ```java
-Upload upload = new Upload(remotePeerConnection);
+Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	String nemhash = upload.uploadFile(MessageTypes.PLAIN, "<sender private key>", "<receiver public key>", new File("src//test//resources//small_file.txt"), null, null);
 } catch (ApiException | IOException e) {
@@ -88,7 +99,7 @@ try {
 Attach a free form data (string) as a plain message on a NEM Txn
 ```java
 
-Upload upload = new Upload(remotePeerConnection);
+Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	String nemhash = upload.uploadData(MessageTypes.PLAIN, "<sender private key>", "<receiver public key>", "This is a test data1", null, null, null).getNemHash();
 } catch (ApiException e) {
@@ -97,7 +108,7 @@ try {
 ```
 Attach a file as a secure message on a NEM Txn
 ```java
-Upload upload = new Upload(remotePeerConnection);
+Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	String nemhash = upload.uploadFile(MessageTypes.SECURE, "<sender private key>", "<receiver public key>", new File("src//test//resources//small_file_test.txt"), null, null).getNemHash();
 } catch (ApiException | IOException e) {
@@ -107,7 +118,7 @@ try {
 Attach a free form data (string) as a secure message on a NEM Txn
 ```java
 
-Upload upload = new Upload(remotePeerConnection);
+Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	String nemhash = upload.uploadData(MessageTypes.SECURE, "<sender private key>", "<receiver public key>", "This is a test data1", null, null, null).getNemHash();
 } catch (ApiException e) {
@@ -117,14 +128,14 @@ try {
 ## Search using Keywords
 ```java
 RemotePeerConnection remotePeerConnection = new RemotePeerConnection(remotePeerConnection);
-Search search = new Search(remotePeerConnection);
+Search search = new Search(remotePeerConnection); // or localPeerConnection
 String jsonResult = search.searchAllTransactionWithRegexKeyword(this.xPvkey, "alvinreyes");
 ```		
 
 ## Download a File or Free Form Data
 Download a file from a plain message
 ```java
-Download download = new Download(remotePeerConnection);
+Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadPublicData(
 		"199ce1da8b677556aa515d53b213f444c182efccd7240b053682ca7912342c7f");
 		
@@ -133,7 +144,7 @@ FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName(),
 ```
 Download a file from a secure message
 ```java
-Download download = new Download(remotePeerConnection);
+Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadData(
 		"37098d2d5d36070ec9e9db94e3e7d07659866b0de53c2d3c30b8918cb5967de4", "<sender or receiver private key>", "<sender or receiver public key>");
 
@@ -141,14 +152,14 @@ FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName()), mes
 ```
 Download a free form data from a plain message
 ```java
-Download download = new Download(remotePeerConnection);
+Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadPublicData(
 					"565e5eafe7902d856a5a2c05a9b5a15c5aa5f941cbff7c19369ecbe4367f0b9c");
 String message = new String(message.getData(), "UTF-8");
 ```
 Download a free form data from a secure message
 ```java
-Download download = new Download(remotePeerConnection);
+Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadData(
 					"82dda8b1f2c5be931e1ada8ab41a1ce79be8b21c6b1a89eef0678b97783c4b2c", "<sender or receiver private key>", "<sender or receiver public key>");
 String message = new String(message.getData(), "UTF-8");
@@ -228,5 +239,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-
+Alvin P. Reyes
 

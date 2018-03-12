@@ -1,6 +1,6 @@
 # DownloadApi
 
-All URIs are relative to *http://localhost:8881/areyes1*
+All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

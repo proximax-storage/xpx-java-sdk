@@ -1,12 +1,13 @@
 # SearchApi
 
-All URIs are relative to *http://localhost:8881/areyes1*
+All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**searchContentUsingAllNemHashUsingGET**](SearchApi.md#searchContentUsingAllNemHashUsingGET) | **GET** /search/all/content/hash/{nemHash} | Search through all the owner&#39;s documents to find a content that matches the text specified.
 [**searchContentUsingPublicNemHashUsingGET**](SearchApi.md#searchContentUsingPublicNemHashUsingGET) | **GET** /search/public/content/hash/{nemHash} | Search through all the owner&#39;s documents to find a content that matches the text specified.
 [**searchContentUsingTextUsingGET**](SearchApi.md#searchContentUsingTextUsingGET) | **GET** /search/public/content/{text} | Search through all the owner&#39;s documents to find a content that matches the text specified.
+[**searchDataHashUsingPublicNemHashUsingGET**](SearchApi.md#searchDataHashUsingPublicNemHashUsingGET) | **GET** /search/public/content/hashonly/{nemHash} | Search through all the owner&#39;s documents to find the data hash that matches the nemhash specified.
 [**searchTransactionPvKeyWithKeywordUsingGET**](SearchApi.md#searchTransactionPvKeyWithKeywordUsingGET) | **GET** /search/all/content/keyword/{keywords} | Search through all the owners documents to find a content that matches the text specified.
 [**searchTransactionWithKeywordUsingGET**](SearchApi.md#searchTransactionWithKeywordUsingGET) | **GET** /search/public/content/keyword/{keywords} | Search through all the owners documents to find a content that matches the text specified.
 [**searchTransactionWithMetadataUsingGET**](SearchApi.md#searchTransactionWithMetadataUsingGET) | **GET** /search/public/content/metadata/{text} | Search through all the owners documents to find a key that matches the specified parameter key
@@ -139,6 +140,51 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xPubkey** | **String**| The Sender or Receiver&#39;s Public Key |
  **text** | **String**| Text or Keyword that will be match to the files available |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="searchDataHashUsingPublicNemHashUsingGET"></a>
+# **searchDataHashUsingPublicNemHashUsingGET**
+> String searchDataHashUsingPublicNemHashUsingGET(nemHash)
+
+Search through all the owner&#39;s documents to find the data hash that matches the nemhash specified.
+
+This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.SearchApi;
+
+
+SearchApi apiInstance = new SearchApi();
+String nemHash = "nemHash_example"; // String | NEM Hash that will be matched to the files available
+try {
+    String result = apiInstance.searchDataHashUsingPublicNemHashUsingGET(nemHash);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling SearchApi#searchDataHashUsingPublicNemHashUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **nemHash** | **String**| NEM Hash that will be matched to the files available |
 
 ### Return type
 

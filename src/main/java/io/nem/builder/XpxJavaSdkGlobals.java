@@ -9,6 +9,8 @@ import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
 
+import io.ipfs.api.IPFS;
+import io.ipfs.multiaddr.MultiAddress;
 import io.nem.ApiException;
 import io.nem.xpx.NodeApi;
 import io.nem.xpx.model.NodeInfo;
@@ -23,6 +25,7 @@ public class XpxJavaSdkGlobals {
 
 	/** The Constant NODE_ENDPOINT. */
 	private static NodeEndpoint NODE_ENDPOINT;
+	private static IPFS PROXIMAX_CONNECTION;
 	
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
@@ -39,6 +42,10 @@ public class XpxJavaSdkGlobals {
 		NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort()));
 		
 		return NODE_ENDPOINT;
+	}
+	
+	public static IPFS getProximaxConnection() throws ApiException {
+		return PROXIMAX_CONNECTION;
 	}
 
 	/**
@@ -78,6 +85,10 @@ public class XpxJavaSdkGlobals {
 	 */
 	public static void setNodeEndpoint(NodeEndpoint endpoint) {
 		XpxJavaSdkGlobals.NODE_ENDPOINT = endpoint;
+	}
+	
+	public static void setProximaxConnection(String multiAddress) {
+		XpxJavaSdkGlobals.PROXIMAX_CONNECTION = new IPFS(new MultiAddress(multiAddress));
 	}
 
 	/** The Constant CONNECTOR. */

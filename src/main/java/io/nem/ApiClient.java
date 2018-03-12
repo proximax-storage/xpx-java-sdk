@@ -78,7 +78,6 @@ import io.nem.auth.Authentication;
 import io.nem.auth.HttpBasicAuth;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
-import io.nem.utils.StringUtils;
 
 public class ApiClient {
     public static final double JAVA_VERSION;
@@ -113,7 +112,7 @@ public class ApiClient {
      */
     public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
-    private String basePath = "http://localhost:8881/areyes1";
+    private String basePath = "http://localhost:8881";
     private boolean lenientOnJson = false;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -140,9 +139,8 @@ public class ApiClient {
      */
     public ApiClient() {
         httpClient = new OkHttpClient();
-        httpClient.setConnectTimeout(60, TimeUnit.SECONDS);
-        httpClient.setReadTimeout(60, TimeUnit.SECONDS);  
-        
+
+
         verifyingSsl = true;
 
         json = new JSON(this);
@@ -181,7 +179,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://localhost:8881/areyes1
+     * @param basePath Base path of the URL (e.g http://localhost:8881
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {
@@ -771,7 +769,7 @@ public class ApiClient {
                 return accept;
             }
         }
-        return StringUtils.join(accepts, ",");
+        return StringUtil.join(accepts, ",");
     }
 
     /**

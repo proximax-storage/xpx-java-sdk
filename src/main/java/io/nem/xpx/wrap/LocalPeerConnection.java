@@ -1,22 +1,18 @@
 package io.nem.xpx.wrap;
 
-import io.nem.ApiClient;
-import io.nem.Configuration;
+import org.nem.core.node.NodeEndpoint;
+import io.nem.builder.XpxJavaSdkGlobals;
 
 public class LocalPeerConnection implements PeerConnection {
-	
-	public LocalPeerConnection() {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath("http://127.0.0.1:8881"));
+
+	public LocalPeerConnection(NodeEndpoint nodeEndpoint) {
+		XpxJavaSdkGlobals.setNodeEndpoint(nodeEndpoint);
+		XpxJavaSdkGlobals.setProximaxConnection("/ip4/127.0.0.1/tcp/5001");	// yes, constant.
 	}
 	
-	/**
-	 * Sets the peer base url.
-	 *
-	 * @param baseUrl the base url
-	 * @return the remote peer connection
-	 */
-	public LocalPeerConnection setLocalBasePort(String basePort) {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath("http://127.0.0.1:"+basePort));
-		return this;
+	public LocalPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
+		XpxJavaSdkGlobals.setNodeEndpoint(nodeEndpoint);
+		XpxJavaSdkGlobals.setProximaxConnection(multiAddress);
 	}
+
 }

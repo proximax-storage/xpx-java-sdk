@@ -3,6 +3,7 @@
  */
 package io.nem.xpx.wrap;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import org.nem.core.crypto.CryptoEngine;
@@ -20,8 +21,14 @@ import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
 import io.nem.utils.JsonUtils;
 import io.nem.xpx.DownloadApi;
+import io.nem.xpx.DownloadApiInterface;
+import io.nem.xpx.LocalDataHashApi;
+import io.nem.xpx.LocalDownloadApi;
+import io.nem.xpx.RemoteDataHashApi;
+import io.nem.xpx.RemoteDownloadApi;
 import io.nem.xpx.TransactionApi;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 
 /**
  * The Class Download.
@@ -30,35 +37,56 @@ public class Download {
 
 	/** The peer connection. */
 	private PeerConnection peerConnection;
-	
+
 	/** The download api. */
-	private DownloadApi downloadApi = new DownloadApi();
-	
+	private DownloadApiInterface downloadApi;
+
 	/** The engine. */
 	private CryptoEngine engine;
+
+	public Download() {
+	}
 
 	/**
 	 * Instantiates a new download.
 	 *
-	 * @param peerConnection the peer connection
+	 * @param peerConnection
+	 *            the peer connection
+	 * @throws PeerConnectionNotFoundException
 	 */
-	public Download(PeerConnection peerConnection) {
+	public Download(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+
+		if (peerConnection == null) {
+			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
+		}
+
+		if (peerConnection instanceof RemotePeerConnection) {
+			this.downloadApi = new RemoteDownloadApi();
+		} else {
+			this.downloadApi = new LocalDownloadApi();
+		}
+
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
-		this.downloadApi = new DownloadApi();
+
 	}
 
 	/**
 	 * Download public data.
 	 *
-	 * @param nemHash the nem hash
+	 * @param nemHash
+	 *            the nem hash
 	 * @return the download data
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
-	 * @throws ApiException the api exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws IOException
 	 */
 	public DownloadData downloadPublicData(String nemHash)
-			throws InterruptedException, ExecutionException, ApiException {
+			throws InterruptedException, ExecutionException, ApiException, IOException {
 
 		DownloadData downloadData = new DownloadData();
 		byte[] securedResponse = null;
@@ -81,16 +109,24 @@ public class Download {
 	/**
 	 * Download data.
 	 *
-	 * @param nemHash the nem hash
-	 * @param senderOrReceiverPrivateKey the sender or receiver private key
-	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @param nemHash
+	 *            the nem hash
+	 * @param senderOrReceiverPrivateKey
+	 *            the sender or receiver private key
+	 * @param senderOrReceiverPublicKey
+	 *            the sender or receiver public key
 	 * @return the download data
-	 * @throws ApiException the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
+	 * @throws IOException
 	 */
 	public DownloadData downloadData(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey) throws ApiException, InterruptedException, ExecutionException {
+			String senderOrReceiverPublicKey)
+			throws ApiException, InterruptedException, ExecutionException, IOException {
 		DownloadData downloadData = new DownloadData();
 		byte[] securedResponse = null;
 		SecureMessage message;

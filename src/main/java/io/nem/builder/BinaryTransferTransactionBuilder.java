@@ -220,6 +220,8 @@ public class BinaryTransferTransactionBuilder {
 		RequestAnnounceDataSignature buildAndSignTransaction();
 
 		NemAnnounceResult buildAndSendTransaction() throws ApiException;
+		
+		NemAnnounceResult buildSignAndSendTransaction() throws ApiException;
 
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException;
 	}
@@ -449,6 +451,12 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() throws ApiException {
 			this.buildTransaction();
+			return TransactionSenderUtil.sendTransferTransaction(this.instance);
+		}
+		
+		@Override
+		public NemAnnounceResult buildSignAndSendTransaction() throws ApiException {
+			this.buildTransaction().sign();
 			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
 
