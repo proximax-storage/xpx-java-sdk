@@ -169,6 +169,45 @@ String message = new String(message.getData(), "UTF-8");
 
 The SDK comes with a built in monitoring tool to allow developers to monitor a specific address (https://github.com/NEMPH/nem-transaction-monitor)
 
+Monitor a single address
+```java
+WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
+	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
+	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
+	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
+	.monitor(); // trigger the monitoring process
+```
+
+Monitor a single address
+```java
+WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
+	.addressesToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y","MDYSYWVWGC6JDD7BGE4JBZMUED7BGE4JBD") // address to monitor
+	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
+	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
+	.monitor(); // trigger the monitoring process
+```
+
+Creating a custom transaction monitor handler
+```java
+public class CustomTransactionMonitor implements TransactionMonitorHandler {
+	@Override
+	public Type getPayloadType(StompHeaders headers) {
+		return String.class;
+	}
+	@Override
+	public void handleFrame(StompHeaders headers, Object payload) {
+		System.out.println(payload.toString()); // handle the payload.
+	}
+}
+```
+
+```java
+WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
+	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y")
+	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitor())
+	.monitor();
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://p2ptest.smartproof.io:8881*
