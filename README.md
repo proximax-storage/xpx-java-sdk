@@ -165,6 +165,10 @@ DownloadData message = download.downloadData(
 String message = new String(message.getData(), "UTF-8");
 ```
 
+## Listening to incoming Transactions (confirmed or unconfirmed).
+
+The SDK comes with a built in monitoring tool to allow developers to monitor a specific address (https://github.com/NEMPH/nem-transaction-monitor)
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://p2ptest.smartproof.io:8881*

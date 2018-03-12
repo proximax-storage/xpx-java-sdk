@@ -69,7 +69,7 @@ public class DownloadApiTest extends AbstractApiTest {
 			throws ApiException, UnsupportedEncodingException {
 		String nemhash = this.testnetPlainNemTxnHash;
 		byte[] response = api.downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash);
-		
+
 		Assert.assertNotNull(new String(response, "UTF-8"));
 	}
 
@@ -109,8 +109,8 @@ public class DownloadApiTest extends AbstractApiTest {
 					new Account(new KeyPair(PublicKey.fromHexString(this.xPubkey))),
 					transaction.getMessage().getEncodedPayload());
 
-			BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils.fromJson(
-					new String(message.getDecodedPayload()), BinaryTransactionEncryptedMessage.class);
+			BinaryTransactionEncryptedMessage binaryEncryptedData = JsonUtils
+					.fromJson(new String(message.getDecodedPayload()), BinaryTransactionEncryptedMessage.class);
 
 			// Grab the Hash.
 			securedResponse = api.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
@@ -122,7 +122,7 @@ public class DownloadApiTest extends AbstractApiTest {
 					.decrypt(HexEncoder.getBytes(new String(securedResponse, "UTF-8")));
 
 			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected",
-					"This is a Secure Test Data", new String(decrypted, "UTF-8"));
+					"This is a small file for SDK Testing", new String(decrypted, "UTF-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
