@@ -31,7 +31,7 @@ public class UploadLocalTest extends AbstractApiTest {
 		
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data222211133",
+			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data",
 					null, "alvinreyes", null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);

@@ -78,6 +78,13 @@ RemotePeerConnection remotePeerConnection = new RemotePeerConnection("http://p2p
 
 For local connection, your local computer needs to run the proximax daemon.
 
+Download the Light weight node
+
+Windows - *https://sp1.ams3.digitaloceanspaces.com/P2PNODELW/p2pnodelw-v.0.0.1-BETA.zip*
+Linux - To follow
+
+Extract and run runp2p.bat(Windows) or runp2p.sh(Linux)
+
 ```java
 //	Connected to a local live node endpoint api
 LocalPeerConnection localPeerConnection = new LocalPeerConnection(
