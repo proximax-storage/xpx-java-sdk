@@ -27,7 +27,6 @@ public class SearchTest extends AbstractApiTest {
 		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException | ApiException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Test

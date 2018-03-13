@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package io.nem.xpx;
 
 import io.ipfs.api.MerkleNode;
@@ -30,11 +29,12 @@ import io.nem.utils.JsonUtils;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
-
 
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.DataHashByteArrayEntity;
+import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.PublishResult;
 
 import java.security.MessageDigest;
@@ -42,19 +42,18 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
-
 public class LocalDataHashApi implements DataHashApiInterface {
-	
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	@Override
-    public BinaryTransactionEncryptedMessage generateHashAndExposeDataToNetworkUsingPOST(String data, String name,
-    		String keywords, String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
-    	
+	public BinaryTransactionEncryptedMessage generateHashAndExposeDataToNetworkUsingPOST(String data, String name,
+			String keywords, String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
+
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 		dataHashByteArrayEntity.setFile(data.getBytes());
-		if(name == null || (name != null && name.equals(""))) {
+		if (name == null || (name != null && name.equals(""))) {
 			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
-		}else {
+		} else {
 			dataHashByteArrayEntity.setName(name);
 		}
 		dataHashByteArrayEntity.setKeywords(keywords);
@@ -74,13 +73,22 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		binaryEncryptedMessage.setKeywords(dataHashByteArrayEntity.getKeywords());
 		binaryEncryptedMessage.setMetaData(JsonUtils.toJson(dataHashByteArrayEntity.getMetadata()));
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		binaryEncryptedMessage.setDigest(new String(org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(multiHashString.getBytes()))));
-		
+		binaryEncryptedMessage.setDigest(new String(
+				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(multiHashString.getBytes()))));
 
 		return binaryEncryptedMessage;
-    }
-    
-    private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
+	}
+
+	@Override
+	public String cleanupPinnedContentUsingPOST(String multiHash) throws IOException, ApiException {
+		XpxJavaSdkGlobals.getProximaxConnection().pin.rm(Multihash.fromBase58(multiHash));
+		XpxJavaSdkGlobals.getProximaxConnection().repo.gc();
+
+		return "Clean up success";
+
+	}
+
+	private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
 		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().add(byteArrayWrapper);
@@ -88,5 +96,17 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		result.setMerkleNode(node);
 		result.setMultiHash(pinned);
 		return result;
-    }
+	}
+
+	private PublishResult getBinaryHashOnly(String name, byte[] binary) throws IOException, ApiException {
+		PublishResult result = null;
+
+		// store it in ipfs
+		result = new PublishResult();
+		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
+		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().getHashOnly(byteArrayWrapper);
+		result.setMerkleNode(node);
+
+		return result;
+	}
 }

@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**cleanupPinnedContentUsingPOST**](DataHashApi.md#cleanupPinnedContentUsingPOST) | **POST** /datahash/cleanup | Calls the garbage clean up and tries to unpin the given hash
 [**generateHashAndExposeDataToNetworkUsingPOST**](DataHashApi.md#generateHashAndExposeDataToNetworkUsingPOST) | **POST** /datahash/upload/data/generate | Generates the encrypted datahash and uploads the JSON Format String data to the P2P Storage Network.
 [**generateHashAndExposeFileToNetworkUsingPOST**](DataHashApi.md#generateHashAndExposeFileToNetworkUsingPOST) | **POST** /datahash/upload/generate | Generates the encrypted datahash and uploads the file in the process.
 [**generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST**](DataHashApi.md#generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST) | **POST** /datahash/upload/data/generate-sign | This endpoint can be used to generate the transaction along with the data hash with the private key signature.
@@ -11,6 +12,51 @@ Method | HTTP request | Description
 [**generateHashForDataOnlyUsingPOST**](DataHashApi.md#generateHashForDataOnlyUsingPOST) | **POST** /datahash/generate/data/hashonly | Generates the datahash but doesn&#39;t upload the entire file.
 [**generateHashForFileOnlyUsingPOST**](DataHashApi.md#generateHashForFileOnlyUsingPOST) | **POST** /datahash/generate/hashonly | Generates the datahash but doesn&#39;t upload the entire file.
 
+
+<a name="cleanupPinnedContentUsingPOST"></a>
+# **cleanupPinnedContentUsingPOST**
+> String cleanupPinnedContentUsingPOST(multihash)
+
+Calls the garbage clean up and tries to unpin the given hash
+
+This endpoint can be used to generates the datahash and uploads the file in the process.
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.DataHashApi;
+
+
+DataHashApi apiInstance = new DataHashApi();
+String multihash = "multihash_example"; // String | The pinned multihash
+try {
+    String result = apiInstance.cleanupPinnedContentUsingPOST(multihash);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DataHashApi#cleanupPinnedContentUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **multihash** | **String**| The pinned multihash |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="generateHashAndExposeDataToNetworkUsingPOST"></a>
 # **generateHashAndExposeDataToNetworkUsingPOST**

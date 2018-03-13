@@ -15,6 +15,7 @@ import org.nem.core.node.NodeEndpoint;
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadException;
 
 /**
  * The Class UploadTest.
@@ -30,11 +31,11 @@ public class UploadLocalTest extends AbstractApiTest {
 		
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data",
+			String nemhash = upload.uploadData(MessageTypes.PLAIN, this.xPvkey, this.xPubkey, "This is a test data222211133",
 					null, "alvinreyes", null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | NoSuchAlgorithmException | IOException e) {
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -53,7 +54,7 @@ public class UploadLocalTest extends AbstractApiTest {
 					new File("src//test//resources//small_file.txt"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | NoSuchAlgorithmException e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -72,7 +73,7 @@ public class UploadLocalTest extends AbstractApiTest {
 					new File("src//test//resources//large_file.zip"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | NoSuchAlgorithmException e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -90,7 +91,7 @@ public class UploadLocalTest extends AbstractApiTest {
 			String nemhash = upload.uploadData(MessageTypes.SECURE, this.xPvkey, this.xPubkey,
 					"This is a Secure Test Data", null, null, null).getNemHash();
 			LOGGER.info(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | NoSuchAlgorithmException | IOException e) {
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -109,7 +110,7 @@ public class UploadLocalTest extends AbstractApiTest {
 					new File("src//test//resources//small_file.txt"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | NoSuchAlgorithmException e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -128,7 +129,7 @@ public class UploadLocalTest extends AbstractApiTest {
 					new File("src//test//resources//large_file.zip"), null, null).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | NoSuchAlgorithmException e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
