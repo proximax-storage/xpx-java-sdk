@@ -8,11 +8,21 @@ import java.security.NoSuchAlgorithmException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.HashUtils;
 import org.nem.core.model.MessageTypes;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.mosaic.MosaicFeeInformation;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
+import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
+import io.nem.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
@@ -133,6 +143,38 @@ public class UploadLocalTest extends AbstractApiTest {
 			e.printStackTrace();
 			assertTrue(false);
 		}
+	}
+	
+	@Test
+	public void uploadPlainDataWithMosaicTest() {
+		try {
+			LocalPeerConnection localPeerConnection = new LocalPeerConnection(new NodeEndpoint("http", "104.128.226.60", 7890));
+			XpxJavaSdkGlobals.setGlobalTransactionFee(new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+			Upload upload = new Upload(localPeerConnection);
+			String nemhash = upload.uploadData(
+					MessageTypes.PLAIN, 
+					this.xPvkey, this.xPubkey, 
+					"This is a test data",
+					null, "alvinreyes",null, 
+					new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"), Quantity.fromValue(0))).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	private MosaicFeeInformationLookup mosaicInfoLookup() {
+		return id -> {
+			System.out.println(id.getName());
+			if (id.getName().equals("registry")) {
+				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
+			}
+			final int multiplier = Integer.parseInt(id.getName().substring(4));
+			final int divisibilityChange = multiplier - 1;
+			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
+		};
 	}
 
 }

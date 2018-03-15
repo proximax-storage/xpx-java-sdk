@@ -1,6 +1,7 @@
 package io.nem.utils;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
@@ -8,11 +9,14 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
 import io.nem.builder.XpxJavaSdkGlobals;
+import io.nem.xpx.NemAccountApi;
 import io.nem.xpx.TransactionApi;
+import io.nem.xpx.model.InsufficientAmountException;
 
 /**
  * The Class TransactionSenderUtil.
@@ -25,11 +29,13 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transaction.
 	 *
-	 * @param transaction            the transaction
-	 * @throws ApiException the api exception
+	 * @param transaction
+	 *            the transaction
+	 * @throws ApiException
+	 *             the api exception
 	 */
 	public static void sendTransaction(Transaction transaction) throws ApiException {
-
+		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
@@ -60,11 +66,19 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transfer transaction.
 	 *
-	 * @param transaction            the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws InsufficientAmountException 
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException {
+	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
+		
+		checkAddressBalanceAgainstAmount(transaction.getSigner().getAddress().toString(), transaction.getAmount());
+		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		final CompletableFuture<Deserializer> future = TransactionApi
@@ -74,6 +88,7 @@ public class TransactionSenderUtil {
 
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOGGER.warning("Error Occured: " + e.getMessage());
 		}
 		return null;
@@ -82,10 +97,13 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transfer transaction.
 	 *
-	 * @param data the data
-	 * @param signature the signature
+	 * @param data
+	 *            the data
+	 * @param signature
+	 *            the signature
 	 * @return the nem announce result
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
 	public static NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws ApiException {
 
@@ -105,12 +123,20 @@ public class TransactionSenderUtil {
 	/**
 	 * Send future transfer transaction.
 	 *
-	 * @param transaction the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the completable future
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws InsufficientAmountException 
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction) throws ApiException {
-
+	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction)
+			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
+		
+		checkAddressBalanceAgainstAmount(transaction.getSigner().getAddress().toString(), transaction.getAmount());
+		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
@@ -120,12 +146,14 @@ public class TransactionSenderUtil {
 	/**
 	 * Send multi sig transaction.
 	 *
-	 * @param transaction            the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
-	public static NemAnnounceResult sendMultiSigTransaction(MultisigTransaction transaction) throws ApiException {
-
+	public static NemAnnounceResult sendMultisigTransaction(MultisigTransaction transaction) throws ApiException {
+		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
@@ -143,11 +171,14 @@ public class TransactionSenderUtil {
 	/**
 	 * Send future multi sig transaction.
 	 *
-	 * @param transaction the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the completable future
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
-	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction) throws ApiException {
+	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction)
+			throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
@@ -158,11 +189,14 @@ public class TransactionSenderUtil {
 	/**
 	 * Send multisig signature transaction.
 	 *
-	 * @param transaction            the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
-	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction) throws ApiException {
+	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction)
+			throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
@@ -181,9 +215,11 @@ public class TransactionSenderUtil {
 	/**
 	 * Send future multisig signature transaction.
 	 *
-	 * @param transaction            the transaction
+	 * @param transaction
+	 *            the transaction
 	 * @return the completable future
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
 	public static CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(
 			MultisigSignatureTransaction transaction) throws ApiException {
@@ -192,6 +228,16 @@ public class TransactionSenderUtil {
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		return TransactionApi.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
 
+	}
+
+	public static void checkAddressBalanceAgainstAmount(String address, Amount amount) throws InterruptedException, ExecutionException, ApiException, InsufficientAmountException {
+		long balance = NemAccountApi.getAccountByAddress(address).getEntity().getBalance().getNumNem();
+		long transactionAmount = amount.getNumNem();
+		if (balance < transactionAmount) {
+			
+			throw new InsufficientAmountException("Insufficient amount for Address: " + address + ". Balance: " +amount.getNumNem() + ". Transaction Amount: " + transactionAmount);
+
+		}
 	}
 
 }

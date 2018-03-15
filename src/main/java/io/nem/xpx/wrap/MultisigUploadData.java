@@ -2,6 +2,8 @@ package io.nem.xpx.wrap;
 
 import java.io.Serializable;
 
+import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+
 public class MultisigUploadData implements Serializable {
 
 	/**
@@ -10,6 +12,7 @@ public class MultisigUploadData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private UploadData uploadData;
 	private String secretKey;
+
 
 	public MultisigUploadData() {
 		this.uploadData = new UploadData();

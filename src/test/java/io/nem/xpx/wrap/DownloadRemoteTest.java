@@ -30,7 +30,7 @@ public class DownloadRemoteTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			DownloadData message = download.downloadData(
-					"7c7b7f868f166e95b150654a306478bcfc139387fce3cfb7195a9499668bdf64", this.xPvkey, this.xPubkey);
+					"9db71cffbd3250e853c75f08ee5077b30017acc17f4d8cc370d42ba6a83ee0a0", this.xPvkey, this.xPubkey);
 
 			// validate the name.
 			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1520718531585",

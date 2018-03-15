@@ -31,10 +31,35 @@ public class DownloadLocalTest extends AbstractApiTest {
 		try {
 			Download download = new Download(localPeerConnection);
 			DownloadData message = download.downloadData(
-					"4c32292dbaf7058ba4e531191fd3aa05b2e163f66c81c97b15632d9fb9237f4a", this.xPvkey, this.xPubkey);
+					"9db71cffbd3250e853c75f08ee5077b30017acc17f4d8cc370d42ba6a83ee0a0", this.xPvkey, this.xPubkey);
 
 			// validate the name.
 			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1520920472278",
+					message.getDataMessage().getName());
+			LOGGER.info(message.getDataMessage().getName());
+			// validate the content.
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "This is a test data",
+					new String(message.getData(), "UTF-8"));
+
+		} catch (ApiException | InterruptedException | ExecutionException | IOException
+				| PeerConnectionNotFoundException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void downloadPlainDataFromMosaicTest() {
+		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+				new NodeEndpoint("http", "104.128.226.60", 7890));
+
+		try {
+			Download download = new Download(localPeerConnection);
+			DownloadData message = download.downloadData(
+					"14b01a0e6112fd569c23935980bfc9b2803470515894916d035294dc674c5b14", this.xPvkey, this.xPubkey);
+
+			// validate the name.
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1521067599401",
 					message.getDataMessage().getName());
 			LOGGER.info(message.getDataMessage().getName());
 			// validate the content.

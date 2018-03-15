@@ -140,9 +140,9 @@ public class MultisigTransactionBuilder {
 		 *
 		 * @return the nem announce result
 		 */
-		RequestAnnounceDataSignature buildAndSendMultisigTransaction() throws ApiException;
+		NemAnnounceResult buildAndSendMultisigTransaction() throws ApiException;
 
-		
+		RequestAnnounceDataSignature buildAndSignMultisigTransaction() throws ApiException;
 		
 		CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException;
 	}
@@ -253,7 +253,7 @@ public class MultisigTransactionBuilder {
 		 * buildAndSendMultisigTransaction()
 		 */
 		@Override
-		public RequestAnnounceDataSignature buildAndSendMultisigTransaction() throws ApiException {
+		public NemAnnounceResult buildAndSendMultisigTransaction() throws ApiException {
 			
 			this.buildMultisigTransaction().sign();
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
@@ -263,7 +263,7 @@ public class MultisigTransactionBuilder {
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
 			requestAnnounceDataSignature.setSignature(
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
-			return requestAnnounceDataSignature;
+			return TransactionSenderUtil.sendMultisigTransaction(instance);
 
 		}
 
@@ -372,6 +372,20 @@ public class MultisigTransactionBuilder {
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException {
 			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
+		}
+
+		@Override
+		public RequestAnnounceDataSignature buildAndSignMultisigTransaction() throws ApiException {
+			this.buildMultisigTransaction().sign();
+			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
+			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
+			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
+			requestAnnounceDataSignature.setData(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
+			requestAnnounceDataSignature.setSignature(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
+			
+			return requestAnnounceDataSignature;
 		}
 
 	}

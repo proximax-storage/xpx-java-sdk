@@ -7,12 +7,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
@@ -23,18 +21,23 @@ import org.nem.core.model.Account;
 import org.nem.core.model.Address;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.ncc.NemAnnounceResult;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.utils.HexEncoder;
-
 import io.nem.ApiException;
 import io.nem.builder.BinaryTransferTransaction;
 import io.nem.builder.BinaryTransferTransactionBuilder;
 import io.nem.builder.MultisigTransactionBuilder;
 import io.nem.utils.CryptoUtils;
 import io.nem.utils.JsonUtils;
-import io.nem.xpx.DataHashApi;
+import io.nem.xpx.DataHashApiInterface;
+import io.nem.xpx.LocalDataHashApi;
 import io.nem.xpx.PublishAndAnnounceApi;
+import io.nem.xpx.RemoteDataHashApi;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadException;
 
 public class MultisigUpload {
 	/** The peer connection. */
@@ -44,21 +47,33 @@ public class MultisigUpload {
 	private CryptoEngine engine;
 
 	/** The data hash api. */
-	private DataHashApi dataHashApi;
+	private DataHashApiInterface dataHashApi;
 
 	/** The publish and announce api. */
 	private PublishAndAnnounceApi publishAndAnnounceApi;
+
+	private boolean isLocalPeerConnection = false;
 
 	/**
 	 * Instantiates a new upload.
 	 *
 	 * @param peerConnection
 	 *            the peer connection
+	 * @throws PeerConnectionNotFoundException 
 	 */
-	public MultisigUpload(PeerConnection peerConnection) {
-		this.peerConnection = peerConnection;
+	public MultisigUpload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+		if (peerConnection == null) {
+			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
+		}
+
+		if (peerConnection instanceof RemotePeerConnection) {
+			this.dataHashApi = new RemoteDataHashApi();
+		} else {
+			this.isLocalPeerConnection = true;
+			this.dataHashApi = new LocalDataHashApi();
+		}
+
 		this.engine = CryptoEngines.ed25519Engine();
-		this.dataHashApi = new DataHashApi();
 		this.publishAndAnnounceApi = new PublishAndAnnounceApi();
 	}
 
@@ -96,46 +111,73 @@ public class MultisigUpload {
 	 *             the illegal block size exception
 	 * @throws BadPaddingException
 	 *             the bad padding exception
+	 * @throws IOException 
+	 * @throws UploadException 
 	 */
 	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
-			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
 
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
-		if (messageType == MessageTypes.SECURE) {
-			KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-			keyGen.init(128);
-			String keyRandom = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+		
+		
+		try {
+			if (messageType == MessageTypes.SECURE) {
+				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+				keyGen.init(128);
+				String keyRandom = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
-			encrypted = CryptoUtils.encrypt(data.getBytes(), keyRandom.toCharArray());
-			String encryptedData = HexEncoder.getString(encrypted);
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
-			multisigUploadData.setSecretKey(keyRandom);
-		} else { // PLAIN
-			response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
+				encrypted = CryptoUtils.encrypt(data.getBytes(), keyRandom.toCharArray());
+				String encryptedData = HexEncoder.getString(encrypted);
+				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData, name, keywords, metaData);
+				multisigUploadData.setSecretKey(keyRandom);
+			} else { // PLAIN
+				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, name, keywords, metaData);
+			}
+
+			String publishedData = "";
+			if (this.isLocalPeerConnection) {
+				
+				BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
+						.amount(Amount.fromNem(1l))
+						.message(JsonUtils.toJson(response), messageType).buildTransaction();
+				
+				NemAnnounceResult announceResult = MultisigTransactionBuilder
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				
+				publishedData = announceResult.getTransactionHash().toString();
+
+			} else {
+				// Announce The Signature
+				BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
+						.amount(Amount.fromNem(1l))
+						.message(JsonUtils.toJson(response), messageType).buildTransaction();
+				
+				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.otherTransaction(transaction).buildAndSignMultisigTransaction();
+
+				// Return the NEM Txn Hash
+				publishedData = publishAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+			}
+
+			multisigUploadData.getUploadData().setDataMessage(response);
+			multisigUploadData.getUploadData().setNemHash(publishedData);
+		} catch (Exception e) {
+			
+			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
+			throw new UploadException(e);
 		}
-
-		// Announce The Signature.
-		BinaryTransferTransaction transaction = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
-				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-				.message(JsonUtils.toJson(response), MessageTypes.PLAIN).buildTransaction();
-
-		// multisig builder.
-		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
-
-		// Return the NEM Txn Hash.
-		String publishedData = publishAndAnnounceApi
-				.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-		multisigUploadData.getUploadData().setDataMessage(response);
-		multisigUploadData.getUploadData().setNemHash(publishedData);
-
 		return multisigUploadData;
 
 	}
@@ -144,11 +186,12 @@ public class MultisigUpload {
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic mosaic)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
-			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException {
 
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
 		BinaryTransactionEncryptedMessage response = null;
+		
 		if (messageType == MessageTypes.SECURE) {
 			KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 			keyGen.init(128);
@@ -171,7 +214,7 @@ public class MultisigUpload {
 		// multisig builder.
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 		// Return the NEM Txn Hash.
 		String publishedData = publishAndAnnounceApi
@@ -187,7 +230,7 @@ public class MultisigUpload {
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic... mosaics)
 			throws ApiException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
-			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException {
 
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
@@ -214,7 +257,7 @@ public class MultisigUpload {
 		// multisig builder.
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 		// Return the NEM Txn Hash.
 		String publishedData = publishAndAnnounceApi
@@ -286,7 +329,7 @@ public class MultisigUpload {
 
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
@@ -330,7 +373,7 @@ public class MultisigUpload {
 
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi
@@ -374,7 +417,7 @@ public class MultisigUpload {
 
 		RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.otherTransaction(transaction).buildAndSendMultisigTransaction();
+				.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 		// Return the NEM Txn Hash
 		String publishedData = publishAndAnnounceApi

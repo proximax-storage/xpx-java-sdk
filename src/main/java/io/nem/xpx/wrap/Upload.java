@@ -113,7 +113,6 @@ public class Upload {
 		BinaryTransactionEncryptedMessage response = null;
 
 		try {
-
 			if (messageType == MessageTypes.SECURE) {
 
 				encrypted = engine
@@ -129,6 +128,7 @@ public class Upload {
 				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data, file.getName(), keywords,
 						metaData);
 			}
+			
 			String publishedData = "";
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
@@ -140,6 +140,7 @@ public class Upload {
 				publishedData = announceResult.getTransactionHash().toString();
 
 			} else {
+				
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
 						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))

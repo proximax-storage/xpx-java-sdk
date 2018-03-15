@@ -1,6 +1,7 @@
 package io.nem.builder;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -29,6 +30,8 @@ import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeInstant;
 import io.nem.ApiException;
 import io.nem.utils.TransactionSenderUtil;
+import io.nem.xpx.NemAccountApi;
+import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 
 /**
@@ -219,11 +222,11 @@ public class BinaryTransferTransactionBuilder {
 
 		RequestAnnounceDataSignature buildAndSignTransaction();
 
-		NemAnnounceResult buildAndSendTransaction() throws ApiException;
+		NemAnnounceResult buildAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 		
-		NemAnnounceResult buildSignAndSendTransaction() throws ApiException;
+		NemAnnounceResult buildSignAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 
-		CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException;
+		CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 	}
 
 	/**
@@ -449,13 +452,13 @@ public class BinaryTransferTransactionBuilder {
 		 * buildAndSendTransaction()
 		 */
 		@Override
-		public NemAnnounceResult buildAndSendTransaction() throws ApiException {
+		public NemAnnounceResult buildAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction();
 			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
 		
 		@Override
-		public NemAnnounceResult buildSignAndSendTransaction() throws ApiException {
+		public NemAnnounceResult buildSignAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction().sign();
 			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
@@ -600,7 +603,7 @@ public class BinaryTransferTransactionBuilder {
 		}
 
 		@Override
-		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException {
+		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction();
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
 		}
@@ -613,6 +616,8 @@ public class BinaryTransferTransactionBuilder {
 
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
+			
+			
 			this.buildUnsignedTransaction().sign();
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
 			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
