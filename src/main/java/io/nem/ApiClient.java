@@ -27,6 +27,11 @@ import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
+import io.nem.xpx.auth.ApiKeyAuth;
+import io.nem.xpx.auth.Authentication;
+import io.nem.xpx.auth.HttpBasicAuth;
+import io.nem.xpx.auth.OAuth;
+
 import java.lang.reflect.Type;
 
 import java.util.Collection;
@@ -73,11 +78,6 @@ import javax.net.ssl.X509TrustManager;
 
 import okio.BufferedSink;
 import okio.Okio;
-
-import io.nem.auth.Authentication;
-import io.nem.auth.HttpBasicAuth;
-import io.nem.auth.ApiKeyAuth;
-import io.nem.auth.OAuth;
 
 public class ApiClient {
     public static final double JAVA_VERSION;

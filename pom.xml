@@ -117,11 +117,7 @@
 			<artifactId>api</artifactId>
 			<version>v1.2.0</version>
 		</dependency>
-		<dependency>
-			<groupId>io.nem</groupId>
-			<artifactId>nem-transaction-monitor</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

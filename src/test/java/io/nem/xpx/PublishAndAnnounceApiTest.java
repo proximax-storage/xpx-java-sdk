@@ -13,12 +13,15 @@
 package io.nem.xpx;
 
 import io.nem.ApiException;
-import io.nem.builder.BinaryTransferTransactionBuilder;
-import io.nem.utils.JsonUtils;
+
 import java.io.File;
 import java.io.IOException;
+
+import io.nem.xpx.builder.BinaryTransferTransactionBuilder;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.utils.JsonUtils;
+
 import org.junit.Test;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;

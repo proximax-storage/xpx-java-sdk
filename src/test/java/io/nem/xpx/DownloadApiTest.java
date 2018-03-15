@@ -13,9 +13,10 @@
 package io.nem.xpx;
 
 import io.nem.ApiException;
-import io.nem.utils.JsonUtils;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.ResponseEntity;
+import io.nem.xpx.utils.JsonUtils;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

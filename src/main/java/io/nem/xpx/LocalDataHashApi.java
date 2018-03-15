@@ -23,19 +23,18 @@ import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
-import io.nem.builder.XpxJavaSdkGlobals;
-
-import io.nem.utils.JsonUtils;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
 
+import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.PublishResult;
+import io.nem.xpx.utils.JsonUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -67,7 +66,7 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
 
 		binaryEncryptedMessage.setTimestamp(System.currentTimeMillis());
-		binaryEncryptedMessage.setHash(multiHashString);
+		binaryEncryptedMessage.setHash(multiHashString);	
 		binaryEncryptedMessage.setName(spfsBlockResult.getMerkleNode().get(0).name.get());
 		binaryEncryptedMessage.setType(spfsBlockResult.getMerkleNode().get(0).type.toString());
 		binaryEncryptedMessage.setKeywords(dataHashByteArrayEntity.getKeywords());
@@ -95,6 +94,14 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		List<Multihash> pinned = XpxJavaSdkGlobals.getProximaxConnection().pin.add(node.get(0).hash);
 		result.setMerkleNode(node);
 		result.setMultiHash(pinned);
+		return result;
+	}
+	
+	private PublishResult exposeBinary(String name, byte[] binary) throws IOException, ApiException {
+		PublishResult result = new PublishResult();
+		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
+		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().add(byteArrayWrapper);
+		result.setMerkleNode(node);
 		return result;
 	}
 

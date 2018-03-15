@@ -13,7 +13,6 @@
 package io.nem.xpx;
 
 import io.nem.ApiException;
-import io.nem.utils.JsonUtils;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +26,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.utils.JsonUtils;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Ignore;

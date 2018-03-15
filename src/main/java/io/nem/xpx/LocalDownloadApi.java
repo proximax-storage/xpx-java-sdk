@@ -22,13 +22,12 @@ import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
-import io.nem.builder.XpxJavaSdkGlobals;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-
+import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.ResponseEntity;
 
 import java.lang.reflect.Type;

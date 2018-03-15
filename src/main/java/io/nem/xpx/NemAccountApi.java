@@ -13,7 +13,7 @@ import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.ApiException;
-import io.nem.builder.XpxJavaSdkGlobals;
+import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.GeneratedAccount;
 
 public class NemAccountApi {

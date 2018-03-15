@@ -11,7 +11,7 @@ import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
-import io.nem.builder.XpxJavaSdkGlobals;
+import io.nem.xpx.builder.XpxJavaSdkGlobals;
 
 /**
  * The Class TransactionApi.
