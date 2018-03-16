@@ -25,8 +25,6 @@ public class MultisigCoSign {
 	/** The peer connection. */
 	private PeerConnection peerConnection;
 	
-	/** The engine. */
-	private CryptoEngine engine;
 
 	/**
 	 * Instantiates a new multisig co sign.
@@ -35,7 +33,6 @@ public class MultisigCoSign {
 	 */
 	public MultisigCoSign(PeerConnection peerConnection) {
 		this.peerConnection = peerConnection;
-		this.engine = CryptoEngines.ed25519Engine();
 	}
 
 	/**

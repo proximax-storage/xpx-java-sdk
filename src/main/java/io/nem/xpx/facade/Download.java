@@ -4,7 +4,15 @@
 package io.nem.xpx.facade;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.ExecutionException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
@@ -17,13 +25,9 @@ import org.nem.core.model.Address;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.utils.HexEncoder;
-
 import io.nem.ApiException;
-import io.nem.xpx.DownloadApi;
 import io.nem.xpx.DownloadApiInterface;
-import io.nem.xpx.LocalDataHashApi;
 import io.nem.xpx.LocalDownloadApi;
-import io.nem.xpx.RemoteDataHashApi;
 import io.nem.xpx.RemoteDownloadApi;
 import io.nem.xpx.TransactionApi;
 import io.nem.xpx.facade.connection.PeerConnection;
@@ -31,6 +35,7 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
 
 /**
@@ -47,8 +52,7 @@ public class Download {
 	/** The engine. */
 	private CryptoEngine engine;
 
-	public Download() {
-	}
+	public Download() {}
 
 	/**
 	 * Instantiates a new download.
@@ -206,4 +210,41 @@ public class Download {
 		return downloadData;
 	}
 
+	public DownloadData downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)
+			throws ApiException, InterruptedException, ExecutionException, IOException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
+		DownloadData downloadData = new DownloadData();
+		byte[] securedResponse = null;
+		BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
+
+	
+
+		// Evauate the transaction.
+		TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+		
+		
+		if(transaction.getSignature() != null) {
+			if(messageType == MessageTypes.SECURE) {
+				byte[] decrypted = null;
+				binaryEncryptedData = JsonUtils.fromJson(new String(transaction.getMessage().getDecodedPayload()),
+						BinaryTransactionEncryptedMessage.class);
+				securedResponse = downloadApi.downloadStreamUsingHashUsingPOST(binaryEncryptedData.getHash());
+				decrypted = CryptoUtils.decrypt(securedResponse, keySecret.toCharArray());
+				//String encryptedData = HexEncoder.getString(decrypted);
+				downloadData.setData(decrypted);
+				downloadData.setDataMessage(binaryEncryptedData);
+				downloadData.setMessageType(MessageTypes.SECURE);
+				return downloadData;
+			} else {
+				byte[] decrypted = null;
+				binaryEncryptedData = JsonUtils.fromJson(new String(transaction.getMessage().getDecodedPayload()),
+						BinaryTransactionEncryptedMessage.class);
+				//String encryptedData = HexEncoder.getString(decrypted);
+				downloadData.setData(decrypted);
+				downloadData.setDataMessage(binaryEncryptedData);
+				downloadData.setMessageType(MessageTypes.PLAIN);
+				return downloadData;
+			}
+		}
+		return downloadData;
+	}
 }
