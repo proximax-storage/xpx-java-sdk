@@ -111,15 +111,11 @@
 			<groupId>org.nem.core</groupId>
 			<artifactId>nem-core</artifactId>
 			<version>${nem.core.version}</version>
-			<systemPath>${basedir}/lib/nem-core-0.6.93-BETA.jar</systemPath>
-			<scope>system</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.ipfs</groupId>
 			<artifactId>api</artifactId>
 			<version>v1.2.0</version>
-			<systemPath>${basedir}/lib/api-v1.2.0.jar</systemPath>
-			<scope>system</scope>
 		</dependency>
 
 		<!-- test dependencies -->
