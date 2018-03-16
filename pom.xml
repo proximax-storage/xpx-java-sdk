@@ -22,7 +22,7 @@
 		<developer>
 			<name>Alvin Reyes</name>
 			<email>alvin.reyes@botmill.io</email>
-			<organization>Proximax.io</organization>
+			<organization>proximax.io</organization>
 			<organizationUrl>https://proximax.io</organizationUrl>
 		</developer>
 	</developers>
@@ -115,9 +115,13 @@
 		<dependency>
 			<groupId>io.ipfs</groupId>
 			<artifactId>api</artifactId>
-			<version>v1.2.0</version>
+			<version>${ipfs.java.api.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>io.nem</groupId>
+			<artifactId>nem-transaction-monitor</artifactId>
+			<version>${nem.transaction.monitor.version}</version>
+		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -138,5 +142,7 @@
 		<junit-version>4.12</junit-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<nem.core.version>0.6.93-BETA</nem.core.version>
+		<ipfs.java.api.version>v1.2.0</ipfs.java.api.version>
+		<nem.transaction.monitor.version>0.0.1-SNAPSHOT</nem.transaction.monitor.version>
 	</properties>
 </project>

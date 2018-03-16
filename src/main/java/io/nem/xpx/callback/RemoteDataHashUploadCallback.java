@@ -2,10 +2,8 @@ package io.nem.xpx.callback;
 
 import java.util.List;
 import java.util.Map;
-
 import io.nem.ApiCallback;
 import io.nem.ApiException;
-import io.nem.ProgressResponseBody.ProgressListener;
 
 public class RemoteDataHashUploadCallback implements ApiCallback<String> {
 
