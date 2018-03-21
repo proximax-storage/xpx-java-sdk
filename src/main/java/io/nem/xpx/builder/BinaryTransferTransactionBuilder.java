@@ -15,6 +15,7 @@ import org.nem.core.model.HashUtils;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
+import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
@@ -32,6 +33,7 @@ import io.nem.ApiException;
 import io.nem.xpx.NemAccountApi;
 import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
 /**
@@ -218,7 +220,11 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		BinaryTransferTransaction buildTransaction();
 
+		BinaryTransferTransaction buildTransaction(boolean isForMultisig);
+
 		BinaryTransferTransaction buildUnsignedTransaction();
+
+		BinaryTransferTransaction buildUnsignedTransaction(boolean isForMultisig);
 
 		RequestAnnounceDataSignature buildAndSignTransaction();
 
@@ -364,8 +370,14 @@ public class BinaryTransferTransactionBuilder {
 				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
+
+			Amount amountFee = null;
+			TransactionFeeCalculator transactionFeeCalculator = null;
+			transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
+			amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(XpxJavaSdkGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(amountFee);
 			} else {
 
 				if (this.fee != null) {
@@ -375,7 +387,7 @@ public class BinaryTransferTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
+						feeCalculator = transactionFeeCalculator;
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
@@ -417,8 +429,13 @@ public class BinaryTransferTransactionBuilder {
 						this.amount, this.attachment);
 			}
 
+			Amount amountFee = null;
+			TransactionFeeCalculator transactionFeeCalculator = null;
+			transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
+			amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(XpxJavaSdkGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(amountFee);
 			} else {
 
 				if (this.fee != null) {
@@ -428,7 +445,7 @@ public class BinaryTransferTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = XpxJavaSdkGlobals.getGlobalTransactionFee();
+						feeCalculator = transactionFeeCalculator;
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
@@ -667,6 +684,126 @@ public class BinaryTransferTransactionBuilder {
 				}
 			}
 			return this;
+		}
+
+		@Override
+		public BinaryTransferTransaction buildTransaction(boolean isForMultisig) {
+			if (this.timeStamp == null) {
+				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
+			}
+
+			if (this.amount == null) {
+				this.amount(Amount.fromNem(0));
+			}
+
+			if (this.version == 0) {
+				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+						this.attachment);
+			} else {
+				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+						this.amount, this.attachment);
+			}
+
+			Amount amountFee = null;
+			TransactionFeeCalculator transactionFeeCalculator = null;
+			if (!isForMultisig) {
+				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
+				amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+			} else {
+				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
+				amountFee = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance);
+			}
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(amountFee);
+			} else {
+
+				if (this.fee != null) {
+					instance.setFee(this.fee);
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = transactionFeeCalculator;
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				}
+
+			}
+
+			if (this.deadline != null) {
+				instance.setDeadline(this.deadline);
+			} else {
+				instance.setDeadline(this.timeStamp.addHours(23));
+			}
+			if (this.signature != null) {
+				instance.setSignature(this.signature);
+			}
+			if (this.signBy != null) {
+				instance.signBy(this.signBy);
+			}
+
+			return instance;
+		}
+
+		@Override
+		public BinaryTransferTransaction buildUnsignedTransaction(boolean isForMultisig) {
+			if (this.timeStamp == null) {
+				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
+			}
+
+			if (this.amount == null) {
+				this.amount(Amount.fromNem(0));
+			}
+
+			if (this.version == 0) {
+				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+						this.attachment);
+			} else {
+				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+						this.amount, this.attachment);
+			}
+
+			Amount amountFee = null;
+			TransactionFeeCalculator transactionFeeCalculator = null;
+			if (!isForMultisig) {
+				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
+				amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+			} else {
+				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
+				amountFee = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance);
+			}
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(amountFee);
+			} else {
+
+				if (this.fee != null) {
+					instance.setFee(this.fee);
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = transactionFeeCalculator;
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				}
+
+			}
+
+			if (this.deadline != null) {
+				instance.setDeadline(this.deadline);
+			} else {
+				instance.setDeadline(this.timeStamp.addHours(23));
+			}
+			if (this.signature != null) {
+				instance.setSignature(this.signature);
+			}
+			if (this.signBy != null) {
+				instance.signBy(this.signBy);
+			}
+
+			return instance;
 		}
 	}
 

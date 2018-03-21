@@ -1,4 +1,4 @@
-package io.nem.xpx.builder;
+package io.nem.xpx.model;
 
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
@@ -13,13 +13,13 @@ import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
 import io.nem.ApiException;
 import io.nem.xpx.NodeApi;
-import io.nem.xpx.model.NodeInfo;
+import io.nem.xpx.builder.ConnectorFactory;
 
 
 /**
  * The Class Globals.
  */
-public class XpxJavaSdkGlobals {
+public class XpxSdkGlobalConstants {
 	/** The Constant TIME_PROVIDER. */
 	public static final TimeProvider TIME_PROVIDER = new SystemTimeProvider();
 
@@ -54,11 +54,11 @@ public class XpxJavaSdkGlobals {
 	 * @param feeCalculator the new global transaction fee
 	 */
 	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxJavaSdkGlobals.feeCalculator = feeCalculator;
+		XpxSdkGlobalConstants.feeCalculator = feeCalculator;
 	}
 	
 	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxJavaSdkGlobals.feeCalculatorMultiSig = feeCalculator;
+		XpxSdkGlobalConstants.feeCalculatorMultiSig = feeCalculator;
 	}
 
 	/**
@@ -84,11 +84,11 @@ public class XpxJavaSdkGlobals {
 	 * @param endpoint the new node endpoint
 	 */
 	public static void setNodeEndpoint(NodeEndpoint endpoint) {
-		XpxJavaSdkGlobals.NODE_ENDPOINT = endpoint;
+		XpxSdkGlobalConstants.NODE_ENDPOINT = endpoint;
 	}
 	
 	public static void setProximaxConnection(String multiAddress) {
-		XpxJavaSdkGlobals.PROXIMAX_CONNECTION = new IPFS(new MultiAddress(multiAddress));
+		XpxSdkGlobalConstants.PROXIMAX_CONNECTION = new IPFS(new MultiAddress(multiAddress));
 	}
 
 	/** The Constant CONNECTOR. */

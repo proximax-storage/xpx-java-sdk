@@ -13,8 +13,8 @@ import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.ApiException;
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.GeneratedAccount;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 public class NemAccountApi {
 
@@ -29,8 +29,8 @@ public class NemAccountApi {
 	public static AccountMetaDataPair getAccountByAddress(String address)
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
-		des = XpxJavaSdkGlobals.CONNECTOR
-				.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
+		des = XpxSdkGlobalConstants.CONNECTOR
+				.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -49,7 +49,7 @@ public class NemAccountApi {
 	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<Mosaic> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address).get();
 		list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
 		return list;
@@ -68,8 +68,8 @@ public class NemAccountApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<HarvestInfo> list;
-		des = XpxJavaSdkGlobals.CONNECTOR
-				.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_HARVESTS, "address=" + address)
+		des = XpxSdkGlobalConstants.CONNECTOR
+				.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_HARVESTS, "address=" + address)
 				.get();
 		list = (ArrayList<HarvestInfo>) des.readObjectArray("data", HarvestInfo::new);
 

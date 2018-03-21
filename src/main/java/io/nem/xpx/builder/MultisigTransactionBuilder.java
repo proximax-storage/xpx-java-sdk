@@ -21,6 +21,7 @@ import org.nem.core.time.TimeInstant;
 
 import io.nem.ApiException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
 /**
@@ -204,12 +205,12 @@ public class MultisigTransactionBuilder {
 		@Override
 		public MultisigTransaction buildMultisigTransaction() {
 			if (this.timeStamp == null) {
-				this.timeStamp = XpxJavaSdkGlobals.TIME_PROVIDER.getCurrentTime();
+				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
 			}
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 //
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(XpxJavaSdkGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
@@ -219,7 +220,7 @@ public class MultisigTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = XpxJavaSdkGlobals.getGlobalMultisigTransactionFee();
+						feeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}

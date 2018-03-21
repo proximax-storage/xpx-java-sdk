@@ -15,8 +15,8 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
 import io.nem.xpx.NemAccountApi;
 import io.nem.xpx.TransactionApi;
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.InsufficientAmountException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 /**
  * The Class TransactionSenderUtil.
@@ -40,7 +40,7 @@ public class TransactionSenderUtil {
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		final CompletableFuture<Deserializer> future = TransactionApi
-				.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			future.thenAcceptAsync(d -> {
 				final NemAnnounceResult result = new NemAnnounceResult(d);
@@ -82,7 +82,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		final CompletableFuture<Deserializer> future = TransactionApi
-				.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 
@@ -109,7 +109,7 @@ public class TransactionSenderUtil {
 
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
 		final CompletableFuture<Deserializer> future = TransactionApi
-				.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 
@@ -140,7 +140,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class TransactionSenderUtil {
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		final CompletableFuture<Deserializer> future = TransactionApi
-				.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -183,7 +183,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class TransactionSenderUtil {
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
 		final CompletableFuture<Deserializer> future = TransactionApi
-				.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -226,7 +226,7 @@ public class TransactionSenderUtil {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxJavaSdkGlobals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 
 	}
 

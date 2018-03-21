@@ -23,11 +23,11 @@ import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalPeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 /**
  * The Class UploadTest.
@@ -151,7 +151,7 @@ public class UploadLocalTest extends AbstractApiTest {
 	public void uploadPlainDataWithMosaicTest() {
 		try {
 			LocalPeerConnection localPeerConnection = new LocalPeerConnection(new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxJavaSdkGlobals.setGlobalTransactionFee(new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+			XpxSdkGlobalConstants.setGlobalTransactionFee(new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 			String nemhash = upload.uploadData(
 					MessageTypes.PLAIN, 

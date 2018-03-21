@@ -11,7 +11,7 @@ import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 /**
  * The Class TransactionApi.
@@ -30,8 +30,8 @@ public class TransactionApi {
 	public static TransactionMetaDataPair getTransaction(String hash) throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		TransactionMetaDataPair trans;
-		des = XpxJavaSdkGlobals.CONNECTOR
-				.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash).get();
+		des = XpxSdkGlobalConstants.CONNECTOR
+				.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash).get();
 		trans = new TransactionMetaDataPair(des);
 		return trans;
 	}
@@ -49,7 +49,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -69,7 +69,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address + "&pageSize=" + pageSize).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -89,7 +89,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -110,7 +110,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address + "&hash=" + hash + "&id=" + id).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -129,7 +129,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -149,7 +149,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -170,7 +170,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address + "&hash=" + hash + "&id=" + id)
 				.get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
@@ -190,7 +190,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -210,7 +210,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -231,7 +231,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address + "&hash=" + hash + "&id=" + id)
 				.get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
@@ -251,7 +251,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = XpxJavaSdkGlobals.CONNECTOR.getAsync(XpxJavaSdkGlobals.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
 				NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -268,7 +268,7 @@ public class TransactionApi {
 	 */
 	public static CompletableFuture<Deserializer> announceTransaction(final NodeEndpoint endpoint,
 			final RequestAnnounce request) {
-		final CompletableFuture<Deserializer> des = XpxJavaSdkGlobals.CONNECTOR.postAsync(endpoint,
+		final CompletableFuture<Deserializer> des = XpxSdkGlobalConstants.CONNECTOR.postAsync(endpoint,
 				NisApiId.NIS_REST_TRANSACTION_ANNOUNCE, new HttpJsonPostRequest(request));
 
 		return des;

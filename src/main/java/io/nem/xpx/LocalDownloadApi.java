@@ -27,8 +27,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.ResponseEntity;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -39,6 +39,6 @@ import java.util.Map;
 public class LocalDownloadApi implements DownloadApiInterface {
     @Override
     public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
-    	return XpxJavaSdkGlobals.getProximaxConnection().cat(Multihash.fromBase58(hash));
+    	return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
     }
 }

@@ -29,11 +29,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.IOException;
 
-import io.nem.xpx.builder.XpxJavaSdkGlobals;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.PublishResult;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 import java.security.MessageDigest;
@@ -80,8 +80,8 @@ public class LocalDataHashApi implements DataHashApiInterface {
 
 	@Override
 	public String cleanupPinnedContentUsingPOST(String multiHash) throws IOException, ApiException {
-		XpxJavaSdkGlobals.getProximaxConnection().pin.rm(Multihash.fromBase58(multiHash));
-		XpxJavaSdkGlobals.getProximaxConnection().repo.gc();
+		XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multiHash));
+		XpxSdkGlobalConstants.getProximaxConnection().repo.gc();
 
 		return "Clean up success";
 
@@ -90,8 +90,8 @@ public class LocalDataHashApi implements DataHashApiInterface {
 	private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().add(byteArrayWrapper);
-		List<Multihash> pinned = XpxJavaSdkGlobals.getProximaxConnection().pin.add(node.get(0).hash);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
+		List<Multihash> pinned = XpxSdkGlobalConstants.getProximaxConnection().pin.add(node.get(0).hash);
 		result.setMerkleNode(node);
 		result.setMultiHash(pinned);
 		return result;
@@ -100,7 +100,7 @@ public class LocalDataHashApi implements DataHashApiInterface {
 	private PublishResult exposeBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().add(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
 		result.setMerkleNode(node);
 		return result;
 	}
@@ -111,7 +111,7 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxJavaSdkGlobals.getProximaxConnection().getHashOnly(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().getHashOnly(byteArrayWrapper);
 		result.setMerkleNode(node);
 
 		return result;
