@@ -38,7 +38,6 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
-
 	</repositories>
 	<build>
 		<plugins>
@@ -153,12 +152,12 @@
 		<dependency>
 			<groupId>org.glassfish.tyrus.bundles</groupId>
 			<artifactId>tyrus-standalone-client</artifactId>
-			<version>1.9</version>
+			<version>${tyrus-standalone-client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.5.3</version>
+			<version>${jackson-databind.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- test dependencies -->
@@ -185,5 +184,7 @@
 		<jnr.fuse>0.5.1</jnr.fuse>
 		<spring.version>4.2.5.RELEASE</spring.version>
 		<javax.websocket.version>1.1</javax.websocket.version>
+		<tyrus-standalone-client.version>1.9</tyrus-standalone-client.version>
+		<jackson-databind.version>2.5.3</jackson-databind.version>
 	</properties>
 </project>

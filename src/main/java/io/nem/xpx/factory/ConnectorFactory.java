@@ -1,4 +1,4 @@
-package io.nem.xpx.builder;
+package io.nem.xpx.factory;
 
 import org.nem.core.connect.ErrorResponseDeserializerUnion;
 import org.nem.core.connect.HttpMethodClient;

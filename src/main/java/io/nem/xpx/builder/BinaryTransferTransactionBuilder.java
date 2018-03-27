@@ -31,6 +31,7 @@ import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeInstant;
 import io.nem.ApiException;
 import io.nem.xpx.NemAccountApi;
+import io.nem.xpx.factory.AttachmentFactory;
 import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;

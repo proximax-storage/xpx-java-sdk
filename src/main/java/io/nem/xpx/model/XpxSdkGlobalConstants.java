@@ -16,7 +16,7 @@ import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
 import io.nem.ApiException;
 import io.nem.xpx.NodeApi;
-import io.nem.xpx.builder.ConnectorFactory;
+import io.nem.xpx.factory.ConnectorFactory;
 import ru.serce.jnrfuse.FuseStubFS;
 
 /**
@@ -49,6 +49,13 @@ public class XpxSdkGlobalConstants {
 
 	
 	public static String getWebsocketUri() {
+		if(NODE_ENDPOINT == null) {
+			try {
+				NODE_ENDPOINT = getNodeEndpoint();
+			} catch (ApiException e) {
+				e.printStackTrace();
+			}
+		}
 		StringBuilder builder = new StringBuilder();
 		builder.append("ws://")
 			.append(NODE_ENDPOINT.getBaseUrl().getHost())

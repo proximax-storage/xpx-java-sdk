@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.model.MessageTypes;
+import org.nem.core.node.NodeEndpoint;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 
 import io.nem.ApiException;
@@ -17,6 +18,7 @@ import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.UploadLocalTest.TestMonitor;
+import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
@@ -58,6 +60,7 @@ public class UploadRemoteTest extends AbstractApiTest {
 					.data("This is a test data")
 					.metaData(null)
 					.keywords("alvinreyes")
+					.confirmedTransactionHandler(new TestMonitor())
 					.build();
 			
 			String nemhash = upload.uploadData(parameter).getNemHash();
@@ -178,4 +181,29 @@ public class UploadRemoteTest extends AbstractApiTest {
 		}
 	}
 
+	public static void main(String[] args) {
+		new UploadRemoteTest();
+	}
+
+	public UploadRemoteTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+			Upload upload = new Upload(remotePeerConnection);
+
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
+					.metaData(null).keywords("keywords")
+					.confirmedTransactionHandler(new TestMonitor())
+					.build();
+
+			String nemhash = upload.uploadData(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
 }
