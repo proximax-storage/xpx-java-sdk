@@ -111,7 +111,7 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().getHashOnly(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
 		result.setMerkleNode(node);
 
 		return result;

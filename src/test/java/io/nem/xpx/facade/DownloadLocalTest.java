@@ -14,7 +14,7 @@ import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
-import io.nem.xpx.facade.connection.LocalPeerConnection;
+import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 
@@ -28,7 +28,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPlainDataTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -53,7 +53,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	
 	@Test
 	public void downloadPlainDataFromMosaicTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -81,7 +81,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPlainFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -116,7 +116,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPlainLargeFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -151,7 +151,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPublicDataTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -179,7 +179,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPlainPublicFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -219,7 +219,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadPlainPublicLargeFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -253,7 +253,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadSecureDataTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -276,7 +276,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadSecureFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
@@ -310,7 +310,7 @@ public class DownloadLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void downloadSecureLargeFileTest() {
-		LocalPeerConnection localPeerConnection = new LocalPeerConnection(
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {

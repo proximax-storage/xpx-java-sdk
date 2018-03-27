@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nem.xpx</groupId>
@@ -27,6 +28,18 @@
 		</developer>
 	</developers>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -113,14 +126,40 @@
 			<version>${nem.core.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.ipfs</groupId>
-			<artifactId>api</artifactId>
+			<groupId>com.github.ipfs</groupId>
+			<artifactId>java-ipfs-api</artifactId>
 			<version>${ipfs.java.api.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.nem</groupId>
-			<artifactId>nem-transaction-monitor</artifactId>
-			<version>${nem.transaction.monitor.version}</version>
+			<groupId>com.github.serceman</groupId>
+			<artifactId>jnr-fuse</artifactId>
+			<version>${jnr.fuse}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-client-api</artifactId>
+			<version>${javax.websocket.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.tyrus.bundles</groupId>
+			<artifactId>tyrus-standalone-client</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.3</version>
+			<scope>runtime</scope>
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>
@@ -143,6 +182,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<nem.core.version>0.6.93-BETA</nem.core.version>
 		<ipfs.java.api.version>v1.2.0</ipfs.java.api.version>
-		<nem.transaction.monitor.version>0.0.1-SNAPSHOT</nem.transaction.monitor.version>
+		<jnr.fuse>0.5.1</jnr.fuse>
+		<spring.version>4.2.5.RELEASE</spring.version>
+		<javax.websocket.version>1.1</javax.websocket.version>
 	</properties>
 </project>

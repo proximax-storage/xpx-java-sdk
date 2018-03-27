@@ -103,7 +103,7 @@ public class DataHashApiTest extends AbstractApiTest {
 
 			Assert.assertNotNull(response);
 
-			PublishAndAnnounceApi publishAnnounceApi = new PublishAndAnnounceApi();
+			TransactionAndAnnounceApi publishAnnounceApi = new TransactionAndAnnounceApi();
 			String publishResponse = publishAnnounceApi.announceRequestPublishDataSignatureUsingPOST(response);
 
 			Assert.assertNotNull(publishResponse);

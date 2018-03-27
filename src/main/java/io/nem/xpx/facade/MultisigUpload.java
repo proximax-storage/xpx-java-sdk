@@ -27,8 +27,8 @@ import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
 import io.nem.xpx.DataHashApiInterface;
 import io.nem.xpx.LocalDataHashApi;
-import io.nem.xpx.PublishAndAnnounceApi;
 import io.nem.xpx.RemoteDataHashApi;
+import io.nem.xpx.TransactionAndAnnounceApi;
 import io.nem.xpx.builder.BinaryTransferTransaction;
 import io.nem.xpx.builder.BinaryTransferTransactionBuilder;
 import io.nem.xpx.builder.MultisigTransactionBuilder;
@@ -53,7 +53,7 @@ public class MultisigUpload {
 	private DataHashApiInterface dataHashApi;
 
 	/** The publish and announce api. */
-	private PublishAndAnnounceApi publishAndAnnounceApi;
+	private TransactionAndAnnounceApi transactionAndAnnounceApi;
 
 	private boolean isLocalPeerConnection = false;
 
@@ -77,7 +77,7 @@ public class MultisigUpload {
 		}
 
 		this.engine = CryptoEngines.ed25519Engine();
-		this.publishAndAnnounceApi = new PublishAndAnnounceApi();
+		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class MultisigUpload {
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
-				publishedData = publishAndAnnounceApi
+				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
 
@@ -331,7 +331,7 @@ public class MultisigUpload {
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
-				publishedData = publishAndAnnounceApi
+				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
 

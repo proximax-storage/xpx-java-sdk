@@ -95,39 +95,54 @@ new NodeEndpoint("http", "http://104.128.226.60", 7890)) // NEM Node.
 
 ## Upload a File or Free Form Data
 Attach a file as a plain message on a NEM Txn
+
 ```java
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	String nemhash = upload.uploadFile(MessageTypes.PLAIN, "<sender private key>", "<receiver public key>", new File("src//test//resources//small_file.txt"), null, null);
+	UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<receiver public key>).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//small_file.txt"))
+					.metaData(null).keywords(null).build();
+	String nemhash = upload.uploadFile(parameter).getNemHash();
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
 }
 ```
 Attach a free form data (string) as a plain message on a NEM Txn
+
 ```java
 
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	String nemhash = upload.uploadData(MessageTypes.PLAIN, "<sender private key>", "<receiver public key>", "This is a test data1", null, null, null).getNemHash();
+	UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(<sender private key>)
+						.recipientPublicKey(<recipient public key>).messageType(MessageTypes.PLAIN).data("This is a test data")
+						.metaData(null).keywords("keywords").build();
+	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
 }
 ```
 Attach a file as a secure message on a NEM Txn
+
 ```java
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	String nemhash = upload.uploadFile(MessageTypes.SECURE, "<sender private key>", "<receiver public key>", new File("src//test//resources//small_file_test.txt"), null, null).getNemHash();
+	UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<receiver public key>).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
+					.metaData(null).keywords(null).build();
+	String nemhash = upload.uploadFile(parameter).getNemHash();
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
 }
 ```
 Attach a free form data (string) as a secure message on a NEM Txn
+
 ```java
 
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	String nemhash = upload.uploadData(MessageTypes.SECURE, "<sender private key>", "<receiver public key>", "This is a test data1", null, null, null).getNemHash();
+	UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(<sender private key>)
+						.recipientPublicKey(<recipient public key>).messageType(MessageTypes.SECURE).data("This is a test data").metaData(null).keywords("keywords").build();
+	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
 }
@@ -150,6 +165,7 @@ FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName(),
 		HexEncoder.getBytes(new String(message.getData())));
 ```
 Download a file from a secure message
+
 ```java
 Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadDataOrFile(
@@ -158,6 +174,7 @@ DownloadData message = download.downloadDataOrFile(
 FileUtils.writeByteArrayToFile(new File(message.getDataMessage().getName()), message.getData());
 ```
 Download a free form data from a plain message
+
 ```java
 Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadPublicDataOrFile(
@@ -165,6 +182,7 @@ DownloadData message = download.downloadPublicDataOrFile(
 String message = new String(message.getData(), "UTF-8");
 ```
 Download a free form data from a secure message
+
 ```java
 Download download = new Download(remotePeerConnection); // or localPeerConnection
 DownloadData message = download.downloadDataOrFile(
@@ -172,31 +190,12 @@ DownloadData message = download.downloadDataOrFile(
 String message = new String(message.getData(), "UTF-8");
 ```
 
-## Listening to incoming Transactions (confirmed or unconfirmed).
-
-The SDK comes with a built in monitoring tool to allow developers to monitor a specific address (https://github.com/NEMPH/nem-transaction-monitor)
-
-Monitor a single address
-```java
-WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
-	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
-	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
-	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
-	.monitor(); // trigger the monitoring process
-```
-
-Monitor a single address
-```java
-WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
-	.addressesToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y","MDYSYWVWGC6JDD7BGE4JBZMUED7BGE4JBD") // address to monitor
-	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
-	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
-	.monitor(); // trigger the monitoring process
-```
+## Listening to incoming Transactions after uploading (confirmed or unconfirmed).
 
 Creating a custom transaction monitor handler
+
 ```java
-public class CustomTransactionMonitor implements TransactionMonitorHandler {
+public class TestMonitor implements UploadTransactionMonitor {
 	@Override
 	public Type getPayloadType(StompHeaders headers) {
 		return String.class;
@@ -208,13 +207,23 @@ public class CustomTransactionMonitor implements TransactionMonitorHandler {
 }
 ```
 
-```java
-WsNemTransactionMonitor.networkName("<network name>").host("<node url>").port("7895").wsPort("7778")
-	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y")
-	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitor())
-	.monitor();
-```
+Monitor confirmed transaction
 
+```java
+	UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(<sender private key>)
+						.recipientPublicKey(<recipient public key>)
+						.messageType(MessageTypes.SECURE).data("This is a test data")
+						.metaData(null).keywords("keywords")
+						.confirmedTransactionHandler(new TestMonitor())
+						.build();
+						
+	UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(<sender private key>)
+						.recipientPublicKey(<recipient public key>)
+						.messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
+						.metaData(null).keywords("keywords")
+						.confirmedTransactionHandler(new TestMonitor())
+						.build();
+```
 ## Author
 
 Alvin P. Reyes

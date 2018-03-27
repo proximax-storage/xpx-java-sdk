@@ -78,7 +78,6 @@ public class BinaryTransferTransactionBuilder {
 
 		IBuild recipient(Account recipient);
 
-		IBuild recipients(Account[] recipients);
 	}
 
 	/**
@@ -299,11 +298,6 @@ public class BinaryTransferTransactionBuilder {
 			this.sender = new Account(new KeyPair(PrivateKey.fromHexString(sender)));
 		}
 
-		@Override
-		public IBuild recipients(Account[] recipients) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 
 		@Override
 		public IBuild recipient(String recipient) {

@@ -36,14 +36,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PublishAndAnnounceApi {
+public class TransactionAndAnnounceApi {
     private ApiClient apiClient;
 
-    public PublishAndAnnounceApi() {
+    public TransactionAndAnnounceApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    public PublishAndAnnounceApi(ApiClient apiClient) {
+    public TransactionAndAnnounceApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -67,7 +67,7 @@ public class PublishAndAnnounceApi {
         Object localVarPostBody = requestAnnounceDataSignature;
         
         // create path and map variables
-        String localVarPath = "/publish/announce";
+        String localVarPath = "/transaction/announce";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -190,7 +190,7 @@ public class PublishAndAnnounceApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/publish/single/to/{address}"
+        String localVarPath = "/transaction/announce/single/to/{address}"
             .replaceAll("\\{" + "address" + "\\}", apiClient.escapeString(address.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -349,7 +349,7 @@ public class PublishAndAnnounceApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/publish/single/to/addresses";
+        String localVarPath = "/transaction/announce/single/to/addresses";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (addresses != null)

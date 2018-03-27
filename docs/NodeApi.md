@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:8881*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**checkNodeUsingGET**](NodeApi.md#checkNodeUsingGET) | **GET** /node/check | Check if the Storage Node is up and running.
+[**getNodeInfoPeersUsingGET**](NodeApi.md#getNodeInfoPeersUsingGET) | **GET** /node/info/peers | Get Storage Node Information
 [**getNodeInfoUsingGET**](NodeApi.md#getNodeInfoUsingGET) | **GET** /node/info | Get Storage Node Information
 [**setBlockchainNodeConnectionUsingPOST**](NodeApi.md#setBlockchainNodeConnectionUsingPOST) | **POST** /node/set/blockchain/connection | Get Storage Node Information
 
@@ -40,6 +41,47 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**GenericResponseMessage**](GenericResponseMessage.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a name="getNodeInfoPeersUsingGET"></a>
+# **getNodeInfoPeersUsingGET**
+> NodeInfo getNodeInfoPeersUsingGET()
+
+Get Storage Node Information
+
+This endpoint returns the information of the P2P Storage Node
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.NodeApi;
+
+
+NodeApi apiInstance = new NodeApi();
+try {
+    NodeInfo result = apiInstance.getNodeInfoPeersUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling NodeApi#getNodeInfoPeersUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**NodeInfo**](NodeInfo.md)
 
 ### Authorization
 

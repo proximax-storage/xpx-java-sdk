@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * GenericResponseMessage
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:24:38.535-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
 public class GenericResponseMessage {
   @SerializedName("cause")
   private Throwable cause = null;
