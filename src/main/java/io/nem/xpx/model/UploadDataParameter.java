@@ -15,8 +15,7 @@ public class UploadDataParameter implements Serializable {
 	private String keywords;
 	private String metaData;
 	private Mosaic[] mosaics;
-	private UploadTransactionMonitor confirmedTransactionHandler;
-	private UploadTransactionMonitor unconfirmedTransactionHandler;
+
 	public int getMessageType() {
 		return messageType;
 	}
@@ -64,18 +63,6 @@ public class UploadDataParameter implements Serializable {
 	}
 	public void setMosaics(Mosaic[] mosaics) {
 		this.mosaics = mosaics;
-	}
-	public UploadTransactionMonitor getConfirmedTransactionHandler() {
-		return confirmedTransactionHandler;
-	}
-	public void setConfirmedTransactionHandler(UploadTransactionMonitor confirmedTransactionHandler) {
-		this.confirmedTransactionHandler = confirmedTransactionHandler;
-	}
-	public UploadTransactionMonitor getUnconfirmedTransactionHandler() {
-		return unconfirmedTransactionHandler;
-	}
-	public void setUnconfirmedTransactionHandler(UploadTransactionMonitor unconfirmedTransactionHandler) {
-		this.unconfirmedTransactionHandler = unconfirmedTransactionHandler;
 	}
 	
 }

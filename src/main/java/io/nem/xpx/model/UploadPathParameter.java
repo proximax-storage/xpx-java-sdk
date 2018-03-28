@@ -1,22 +1,20 @@
 package io.nem.xpx.model;
 
-import java.io.File;
 import java.io.Serializable;
 import org.nem.core.model.mosaic.Mosaic;
 import io.nem.xpx.monitor.UploadTransactionMonitor;
 
-public class UploadFileParameter implements Serializable {
+public class UploadPathParameter implements Serializable {
 
 	
 	private int messageType;
 	private String senderPrivateKey;
 	private String recipientPublicKey;
-	private File data;
+	private String path;
 	private String name;
 	private String keywords;
 	private String metaData;
 	private Mosaic[] mosaics;
-
 	public int getMessageType() {
 		return messageType;
 	}
@@ -35,13 +33,7 @@ public class UploadFileParameter implements Serializable {
 	public void setRecipientPublicKey(String recipientPublicKey) {
 		this.recipientPublicKey = recipientPublicKey;
 	}
-	
-	public File getData() {
-		return data;
-	}
-	public void setData(File data) {
-		this.data = data;
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -66,6 +58,10 @@ public class UploadFileParameter implements Serializable {
 	public void setMosaics(Mosaic[] mosaics) {
 		this.mosaics = mosaics;
 	}
-
-	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
 }

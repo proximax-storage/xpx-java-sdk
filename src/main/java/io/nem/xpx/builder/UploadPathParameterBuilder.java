@@ -3,15 +3,16 @@ package io.nem.xpx.builder;
 import org.nem.core.model.mosaic.Mosaic;
 import io.nem.ApiException;
 import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.monitor.UploadTransactionMonitor;
 import io.nem.xpx.utils.KeyUtils;
 
-public class UploadDataParameterBuilder {
+public class UploadPathParameterBuilder {
 	/**
 	 * Instantiates a new transaction builder.
 	 */
-	private UploadDataParameterBuilder() {
+	private UploadPathParameterBuilder() {
 	}
 
 	/**
@@ -22,7 +23,7 @@ public class UploadDataParameterBuilder {
 	 * @return the i sender
 	 */
 	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new UploadDataParameterBuilder.Builder(senderPrivateKey);
+		return new UploadPathParameterBuilder.Builder(senderPrivateKey);
 	}
 
 	/**
@@ -41,7 +42,7 @@ public class UploadDataParameterBuilder {
 
 		IBuild messageType(int messageType);
 
-		IBuild data(String data);
+		IBuild path(String path);
 
 		IBuild name(String name);
 
@@ -51,7 +52,7 @@ public class UploadDataParameterBuilder {
 
 		IBuild mosaics(Mosaic... mosaics);
 
-		UploadDataParameter build() throws ApiException;
+		UploadPathParameter build() throws ApiException;
 
 	}
 
@@ -60,7 +61,7 @@ public class UploadDataParameterBuilder {
 	 */
 	private static class Builder implements ISender, IBuild {
 
-		UploadDataParameter instance = new UploadDataParameter();
+		UploadPathParameter instance = new UploadPathParameter();
 
 		public Builder(String senderPrivateKey) {
 			instance.setSenderPrivateKey(senderPrivateKey);
@@ -73,8 +74,8 @@ public class UploadDataParameterBuilder {
 		}
 
 		@Override
-		public IBuild data(String data) {
-			instance.setData(data);
+		public IBuild path(String path) {
+			instance.setPath(path);
 			return this;
 		}
 
@@ -104,7 +105,7 @@ public class UploadDataParameterBuilder {
 
 
 		@Override
-		public UploadDataParameter build() throws ApiException {
+		public UploadPathParameter build() throws ApiException {
 			return instance;
 		}
 

@@ -34,10 +34,10 @@ public class DownloadLocalTest extends AbstractApiTest {
 		try {
 			Download download = new Download(localPeerConnection);
 			DownloadData message = download.downloadFileOrData(
-					"9db71cffbd3250e853c75f08ee5077b30017acc17f4d8cc370d42ba6a83ee0a0", this.xPvkey, this.xPubkey);
+					"5558f2a71d89bc339f7512fd07e56757754939ed727ad8bdc9c11e29fbfc9981", this.xPvkey, this.xPubkey);
 
 			// validate the name.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1520920472278",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "1522137236802",
 					message.getDataMessage().getName());
 			LOGGER.info(message.getDataMessage().getName());
 			// validate the content.

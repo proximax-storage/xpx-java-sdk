@@ -3,7 +3,6 @@
  */
 package io.nem.xpx.facade;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.io.FileUtils;
@@ -34,6 +33,7 @@ import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.utils.JsonUtils;
 
 /**
@@ -55,8 +55,7 @@ public class Upload {
 
 	private boolean isLocalPeerConnection = false;
 
-	public Upload() {
-	}
+	public Upload() {}
 
 	/**
 	 * Instantiates a new upload.
@@ -110,7 +109,6 @@ public class Upload {
 	public UploadData uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		UploadData uploadData = handleFileUpload(uploadParameter);
-
 		return uploadData;
 
 	}
@@ -143,15 +141,19 @@ public class Upload {
 	 */
 	public UploadData uploadData(UploadDataParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-
 		UploadData uploadData = handleDataUpload(uploadParameter);
-
+		return uploadData;
+	}
+	
+	public UploadData uploadPath(UploadPathParameter uploadParameter)
+			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
+		UploadData uploadData = handlePathUpload(uploadParameter);
 		return uploadData;
 	}
 
 	private UploadData handleDataUpload(UploadDataParameter uploadParameter)
 			throws IOException, ApiException, UploadException {
-
+		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
@@ -171,12 +173,10 @@ public class Upload {
 				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData,
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-
 				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(uploadParameter.getData(),
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
 
-			String publishedData = "";
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
@@ -216,7 +216,7 @@ public class Upload {
 
 	private UploadData handleFileUpload(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-
+		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
@@ -243,7 +243,6 @@ public class Upload {
 						uploadParameter.getMetaData());
 			}
 
-			String publishedData = "";
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
@@ -279,5 +278,61 @@ public class Upload {
 		}
 		return uploadData;
 	}
+	
+	//	can only be called if the connection is local really.
+	private UploadData handlePathUpload(UploadPathParameter uploadParameter)
+			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
+		
+		
+		if(peerConnection instanceof RemotePeerConnection) {
+			throw new PeerConnectionNotFoundException("Can't use RemotePeerConnection for Path upload");
+		}
+		
+		String publishedData = "";
+		if (uploadParameter.getMosaics() == null) {
+			uploadParameter.setMosaics(new Mosaic[0]);
+		}
 
+		UploadData uploadData = new UploadData();
+		byte[] encrypted = null;
+		BinaryTransactionEncryptedMessage response = null;
+		try {
+			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+				encrypted = engine
+						.createBlockCipher(
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
+								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
+						.encrypt(uploadParameter.getPath().getBytes());
+
+				String encryptedData = HexEncoder.getString(encrypted);
+				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData,
+						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+			} else { // PLAIN
+				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(uploadParameter.getPath(),
+						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+			}
+
+			if (this.isLocalPeerConnection) {
+				// Announce The Signature
+				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
+						.sender(new Account(
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.recipient(new Account(Address
+								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.version(2).amount(Amount.fromNem(1l))
+						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).buildSignAndSendTransaction();
+				publishedData = announceResult.getTransactionHash().toString();
+
+			}
+
+			uploadData.setDataMessage(response);
+			uploadData.setNemHash(publishedData);
+		} catch (Exception e) {
+			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
+			throw new UploadException(e);
+		}
+		return uploadData;
+	}
+	
 }

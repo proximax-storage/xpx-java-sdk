@@ -23,12 +23,14 @@ import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
+import io.nem.xpx.builder.UploadPathParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.monitor.UploadTransactionMonitor;
 
@@ -63,7 +65,8 @@ public class UploadLocalTest extends AbstractApiTest {
 
 			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
-					.metaData(null).keywords("keywords").confirmedTransactionHandler(new TestMonitor()).build();
+					.metaData(null).keywords("keywords")
+					.build();
 
 			String nemhash = upload.uploadData(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -86,7 +89,7 @@ public class UploadLocalTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.metaData(null).keywords(null).build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -108,7 +111,7 @@ public class UploadLocalTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.metaData(null).keywords(null).build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -154,7 +157,7 @@ public class UploadLocalTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.metaData(null).keywords(null).build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -177,7 +180,7 @@ public class UploadLocalTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.metaData(null).keywords(null).build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
@@ -211,6 +214,32 @@ public class UploadLocalTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void uploadPath() {
+		try {
+			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+					new NodeEndpoint("http", "104.128.226.60", 7890));
+			XpxSdkGlobalConstants.setGlobalTransactionFee(
+					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+			Upload upload = new Upload(localPeerConnection);
+
+			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.path("D:\\Projects\\eworkspace\\proximaxsdks\\xpx-java-sdk\\src\\test\\resources")
+					.metaData(null).keywords(null)
+					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
+							Quantity.fromValue(0)))
+					.build();
+
+			String nemhash = upload.uploadPath(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 
 	private MosaicFeeInformationLookup mosaicInfoLookup() {
 		return id -> {
@@ -237,8 +266,9 @@ public class UploadLocalTest extends AbstractApiTest {
 			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
 					.metaData(null).keywords("keywords")
-					.confirmedTransactionHandler(new TestMonitor())
 					.build();
+			
+			
 
 			String nemhash = upload.uploadData(parameter).getNemHash();
 			LOGGER.info(nemhash);

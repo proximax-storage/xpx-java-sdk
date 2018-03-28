@@ -54,10 +54,6 @@ public class UploadFileParameterBuilder {
 
 		IBuild mosaics(Mosaic... mosaics);
 
-		IBuild confirmedTransactionHandler(UploadTransactionMonitor handler);
-
-		IBuild unconfirmedTransactionHandler(UploadTransactionMonitor handler);
-
 		UploadFileParameter build() throws ApiException;
 
 	}
@@ -110,25 +106,7 @@ public class UploadFileParameterBuilder {
 		}
 
 		@Override
-		public IBuild confirmedTransactionHandler(UploadTransactionMonitor handler) {
-			instance.setConfirmedTransactionHandler(handler);
-			return this;
-		}
-
-		@Override
-		public IBuild unconfirmedTransactionHandler(UploadTransactionMonitor handler) {
-			instance.setUnconfirmedTransactionHandler(handler);
-			return this;
-		}
-
-		@Override
 		public UploadFileParameter build() throws ApiException {
-			TransactionMonitorBuilder.init()
-					.addressesToMonitor(KeyUtils.getAddressFromPrivateKey(this.instance.getSenderPrivateKey())) // address to monitor
-					.subscribe(XpxSdkGlobalConstants.URL_WS_TRANSACTIONS,
-							this.instance.getConfirmedTransactionHandler()) // multiple subscription and a handler
-					.subscribe(XpxSdkGlobalConstants.URL_WS_TRANSACTIONS, new UploadTransactionMonitor())
-					.monitor(); // trigger the monitoring process
 			
 			return instance;
 		}

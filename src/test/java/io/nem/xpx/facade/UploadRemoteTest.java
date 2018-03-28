@@ -37,32 +37,27 @@ public class UploadRemoteTest extends AbstractApiTest {
 		public Type getPayloadType(StompHeaders headers) {
 			return String.class;
 		}
-		
+
 		@Override
 		public void handleFrame(StompHeaders headers, Object payload) {
 			System.out.println(payload);
 		}
 	}
+
 	/**
 	 * Upload plain data test.
 	 */
 	@Test
 	public void uploadPlainDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
-			
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
-					.messageType(MessageTypes.PLAIN)
-					.data("This is a test data")
-					.metaData(null)
-					.keywords("alvinreyes")
-					.confirmedTransactionHandler(new TestMonitor())
-					.build();
-			
+
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
+					.metaData(null).keywords("alvinreyes").build();
+
 			String nemhash = upload.uploadData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -78,16 +73,17 @@ public class UploadRemoteTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//small_file.txt")).metaData(null).keywords(null)
+					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -99,16 +95,17 @@ public class UploadRemoteTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainLargeFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//large_file.zip")).metaData(null).keywords(null)
+					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -120,17 +117,12 @@ public class UploadRemoteTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
-					.messageType(MessageTypes.SECURE)
-					.data("This is a Secure Test Data")
-					.metaData(null)
-					.keywords(null)
-					.build();
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+					.data("This is a Secure Test Data").metaData(null).keywords(null).build();
 			String nemhash = upload.uploadData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
@@ -145,16 +137,17 @@ public class UploadRemoteTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+					.data(new File("src//test//resources//small_file.txt")).metaData(null).keywords(null)
+					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -166,16 +159,17 @@ public class UploadRemoteTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureLargeFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).confirmedTransactionHandler(new TestMonitor()).build();
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+					.data(new File("src//test//resources//large_file.zip")).metaData(null).keywords(null)
+					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException  e) {
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -194,7 +188,6 @@ public class UploadRemoteTest extends AbstractApiTest {
 			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
 					.metaData(null).keywords("keywords")
-					.confirmedTransactionHandler(new TestMonitor())
 					.build();
 
 			String nemhash = upload.uploadData(parameter).getNemHash();
@@ -205,5 +198,5 @@ public class UploadRemoteTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-	
+
 }

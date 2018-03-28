@@ -299,7 +299,6 @@ public class BinaryTransferTransactionBuilder {
 			this.sender = new Account(new KeyPair(PrivateKey.fromHexString(sender)));
 		}
 
-
 		@Override
 		public IBuild recipient(String recipient) {
 			this.recipient = new Account(Address.fromPublicKey(PublicKey.fromHexString(recipient)));
@@ -309,8 +308,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(
+		 * @see io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(
 		 * org.nem.core.model.Account)
 		 */
 		@Override
@@ -322,8 +320,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see io.nem.builders.TransactionBuilder.IRecipient#amount(java.lang.
-		 * Long)
+		 * @see io.nem.builders.TransactionBuilder.IRecipient#amount(java.lang. Long)
 		 */
 		@Override
 		public IBuild amount(Amount amount) {
@@ -463,8 +460,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see io.nem.builders.TransactionBuilder.IBuild#
-		 * buildAndSendTransaction()
+		 * @see io.nem.builders.TransactionBuilder.IBuild# buildAndSendTransaction()
 		 */
 		@Override
 		public NemAnnounceResult buildAndSendTransaction()
@@ -519,8 +515,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.TransactionBuilder.IBuild#message(java.lang.
+		 * @see io.nem.spectro.builders.TransactionBuilder.IBuild#message(java.lang.
 		 * String, org.nem.core.model.MessageTypes)
 		 */
 		@Override
@@ -546,8 +541,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.TransactionBuilder.IBuild#message(byte[],
+		 * @see io.nem.spectro.builders.TransactionBuilder.IBuild#message(byte[],
 		 * org.nem.core.model.MessageTypes)
 		 */
 		@Override
@@ -584,8 +578,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
 		 */
 		@Override
 		public IBuild version(int version) {
@@ -596,8 +589,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.
 		 * nem.core.time.TimeInstant)
 		 */
 		@Override
@@ -609,8 +601,7 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem
 		 * .core.model.Account)
 		 */
 		@Override
@@ -660,10 +651,8 @@ public class BinaryTransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
-		 * nem.core.model.mosaic.MosaicId,
-		 * org.nem.core.model.primitive.Quantity)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * nem.core.model.mosaic.MosaicId, org.nem.core.model.primitive.Quantity)
 		 */
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
@@ -700,31 +689,17 @@ public class BinaryTransferTransactionBuilder {
 			}
 
 			Amount amountFee = null;
-			TransactionFeeCalculator transactionFeeCalculator = null;
-			if (!isForMultisig) {
-				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
-				amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+			if (this.fee != null) {
+				amountFee = this.fee;
+			} else if (this.feeCalculator != null) {
+				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
-				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
-				amountFee = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance);
+				TransactionFeeCalculator globalFeeCalculator = isForMultisig
+						? XpxSdkGlobalConstants.getGlobalMultisigTransactionFee()
+						: XpxSdkGlobalConstants.getGlobalTransactionFee();
+				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(amountFee);
-			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = transactionFeeCalculator;
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-
-			}
+			instance.setFee(amountFee);
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
@@ -760,31 +735,17 @@ public class BinaryTransferTransactionBuilder {
 			}
 
 			Amount amountFee = null;
-			TransactionFeeCalculator transactionFeeCalculator = null;
-			if (!isForMultisig) {
-				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
-				amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
+			if (this.fee != null) {
+				amountFee = this.fee;
+			} else if (this.feeCalculator != null) {
+				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
-				transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
-				amountFee = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance);
+				TransactionFeeCalculator globalFeeCalculator = isForMultisig
+						? XpxSdkGlobalConstants.getGlobalMultisigTransactionFee()
+						: XpxSdkGlobalConstants.getGlobalTransactionFee();
+				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(amountFee);
-			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = transactionFeeCalculator;
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-
-			}
+			instance.setFee(amountFee);
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
