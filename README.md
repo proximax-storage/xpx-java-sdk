@@ -87,9 +87,7 @@ Extract and run runp2p.bat(Windows) or runp2p.sh(Linux)
 
 ```java
 //	Connected to a local live node endpoint api
-LocalPeerConnection localPeerConnection = new LocalPeerConnection(
-new NodeEndpoint("http", "http://104.128.226.60", 7890)) // NEM Node.
-,"/ip4/127.0.0.1/tcp/5001");
+LocalPeerConnection localPeerConnection = new LocalPeerConnection(new NodeEndpoint("http", "http://104.128.226.60", 7890)),"/ip4/127.0.0.1/tcp/5001");
 ```
 
 
@@ -99,10 +97,16 @@ Attach a file as a plain message on a NEM Txn
 ```java
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(<sender private key>)
-					.recipientPublicKey(<receiver public key>).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).build();
+	UploadFileParameter parameter = UploadFileParameterBuilder
+					.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<receiver public key>)
+					.messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//small_file.txt"))
+					.metaData(null).keywords(null)
+					.build();
+					
 	String nemhash = upload.uploadFile(parameter).getNemHash();
+	
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
 }
@@ -113,9 +117,14 @@ Attach a free form data (string) as a plain message on a NEM Txn
 
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(<sender private key>)
-						.recipientPublicKey(<recipient public key>).messageType(MessageTypes.PLAIN).data("This is a test data")
-						.metaData(null).keywords("keywords").build();
+	UploadDataParameter parameter = UploadDataParameterBuilder
+										.senderPrivateKey(<sender private key>)
+										.recipientPublicKey(<recipient public key>)
+										.messageType(MessageTypes.PLAIN)
+										.data("This is a test data")
+										.metaData(null).keywords("keywords")
+										.build();
+										
 	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
@@ -126,9 +135,14 @@ Attach a file as a secure message on a NEM Txn
 ```java
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(<sender private key>)
-					.recipientPublicKey(<receiver public key>).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).build();
+	UploadFileParameter parameter = UploadFileParameterBuilder
+									.senderPrivateKey(<sender private key>)
+									.recipientPublicKey(<receiver public key>)
+									.messageType(MessageTypes.SECURE)
+									.data(new File("src//test//resources//small_file.txt"))
+									.metaData(null).keywords(null)
+									.build();
+
 	String nemhash = upload.uploadFile(parameter).getNemHash();
 } catch (ApiException | IOException e) {
 	e.printStackTrace();
@@ -140,8 +154,14 @@ Attach a free form data (string) as a secure message on a NEM Txn
 
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
-	UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(<sender private key>)
-						.recipientPublicKey(<recipient public key>).messageType(MessageTypes.SECURE).data("This is a test data").metaData(null).keywords("keywords").build();
+	UploadDataParameter parameter = UploadDataParameterBuilder
+									.senderPrivateKey(<sender private key>)
+									.recipientPublicKey(<recipient public key>)
+									.messageType(MessageTypes.SECURE)
+									.data("This is a test data")
+									.metaData(null).keywords("keywords")
+									.build();
+
 	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
 	e.printStackTrace();
