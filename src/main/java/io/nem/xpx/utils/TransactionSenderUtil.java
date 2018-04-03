@@ -18,6 +18,7 @@ import io.nem.xpx.TransactionApi;
 import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 
+
 /**
  * The Class TransactionSenderUtil.
  */
@@ -66,14 +67,12 @@ public class TransactionSenderUtil {
 	/**
 	 * Send transfer transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the nem announce result
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InsufficientAmountException 
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws InsufficientAmountException the insufficient amount exception
 	 */
 	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 		
@@ -123,14 +122,12 @@ public class TransactionSenderUtil {
 	/**
 	 * Send future transfer transaction.
 	 *
-	 * @param transaction
-	 *            the transaction
+	 * @param transaction            the transaction
 	 * @return the completable future
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InsufficientAmountException 
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws InsufficientAmountException the insufficient amount exception
 	 */
 	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction)
 			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
@@ -230,6 +227,16 @@ public class TransactionSenderUtil {
 
 	}
 
+	/**
+	 * Check address balance against amount.
+	 *
+	 * @param address the address
+	 * @param amount the amount
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
+	 * @throws InsufficientAmountException the insufficient amount exception
+	 */
 	public static void checkAddressBalanceAgainstAmount(String address, Amount amount) throws InterruptedException, ExecutionException, ApiException, InsufficientAmountException {
 		long balance = NemAccountApi.getAccountByAddress(address).getEntity().getBalance().getNumNem();
 		long transactionAmount = amount.getNumNem();

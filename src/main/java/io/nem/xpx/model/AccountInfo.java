@@ -14,194 +14,297 @@
 package io.nem.xpx.model;
 
 import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import io.nem.xpx.model.Address;
 import io.nem.xpx.model.Amount;
 import io.nem.xpx.model.BlockAmount;
 import io.nem.xpx.model.KeyPair;
 import io.nem.xpx.model.MultisigInfo;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+
 
 /**
- * AccountInfo
+ * AccountInfo.
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:24:38.535-04:00")
 public class AccountInfo {
+  
+  /** The address. */
   @SerializedName("address")
   private Address address = null;
 
+  /** The balance. */
   @SerializedName("balance")
   private Amount balance = null;
 
+  /** The importance. */
   @SerializedName("importance")
   private Double importance = null;
 
+  /** The key pair. */
   @SerializedName("keyPair")
   private KeyPair keyPair = null;
 
+  /** The label. */
   @SerializedName("label")
   private String label = null;
 
+  /** The multisig info. */
   @SerializedName("multisigInfo")
   private MultisigInfo multisigInfo = null;
 
+  /** The num harvested blocks. */
   @SerializedName("numHarvestedBlocks")
   private BlockAmount numHarvestedBlocks = null;
 
+  /** The vested balance. */
   @SerializedName("vestedBalance")
   private Amount vestedBalance = null;
 
+  /**
+   * Address.
+   *
+   * @param address the address
+   * @return the account info
+   */
   public AccountInfo address(Address address) {
     this.address = address;
     return this;
   }
 
    /**
-   * Get address
-   * @return address
-  **/
+    * Get address.
+    *
+    * @return address
+    */
   @ApiModelProperty(value = "")
   public Address getAddress() {
     return address;
   }
 
+  /**
+   * Sets the address.
+   *
+   * @param address the new address
+   */
   public void setAddress(Address address) {
     this.address = address;
   }
 
+  /**
+   * Balance.
+   *
+   * @param balance the balance
+   * @return the account info
+   */
   public AccountInfo balance(Amount balance) {
     this.balance = balance;
     return this;
   }
 
    /**
-   * Get balance
-   * @return balance
-  **/
+    * Get balance.
+    *
+    * @return balance
+    */
   @ApiModelProperty(value = "")
   public Amount getBalance() {
     return balance;
   }
 
+  /**
+   * Sets the balance.
+   *
+   * @param balance the new balance
+   */
   public void setBalance(Amount balance) {
     this.balance = balance;
   }
 
+  /**
+   * Importance.
+   *
+   * @param importance the importance
+   * @return the account info
+   */
   public AccountInfo importance(Double importance) {
     this.importance = importance;
     return this;
   }
 
    /**
-   * Get importance
-   * @return importance
-  **/
+    * Get importance.
+    *
+    * @return importance
+    */
   @ApiModelProperty(value = "")
   public Double getImportance() {
     return importance;
   }
 
+  /**
+   * Sets the importance.
+   *
+   * @param importance the new importance
+   */
   public void setImportance(Double importance) {
     this.importance = importance;
   }
 
+  /**
+   * Key pair.
+   *
+   * @param keyPair the key pair
+   * @return the account info
+   */
   public AccountInfo keyPair(KeyPair keyPair) {
     this.keyPair = keyPair;
     return this;
   }
 
    /**
-   * Get keyPair
-   * @return keyPair
-  **/
+    * Get keyPair.
+    *
+    * @return keyPair
+    */
   @ApiModelProperty(value = "")
   public KeyPair getKeyPair() {
     return keyPair;
   }
 
+  /**
+   * Sets the key pair.
+   *
+   * @param keyPair the new key pair
+   */
   public void setKeyPair(KeyPair keyPair) {
     this.keyPair = keyPair;
   }
 
+  /**
+   * Label.
+   *
+   * @param label the label
+   * @return the account info
+   */
   public AccountInfo label(String label) {
     this.label = label;
     return this;
   }
 
    /**
-   * Get label
-   * @return label
-  **/
+    * Get label.
+    *
+    * @return label
+    */
   @ApiModelProperty(value = "")
   public String getLabel() {
     return label;
   }
 
+  /**
+   * Sets the label.
+   *
+   * @param label the new label
+   */
   public void setLabel(String label) {
     this.label = label;
   }
 
+  /**
+   * Multisig info.
+   *
+   * @param multisigInfo the multisig info
+   * @return the account info
+   */
   public AccountInfo multisigInfo(MultisigInfo multisigInfo) {
     this.multisigInfo = multisigInfo;
     return this;
   }
 
    /**
-   * Get multisigInfo
-   * @return multisigInfo
-  **/
+    * Get multisigInfo.
+    *
+    * @return multisigInfo
+    */
   @ApiModelProperty(value = "")
   public MultisigInfo getMultisigInfo() {
     return multisigInfo;
   }
 
+  /**
+   * Sets the multisig info.
+   *
+   * @param multisigInfo the new multisig info
+   */
   public void setMultisigInfo(MultisigInfo multisigInfo) {
     this.multisigInfo = multisigInfo;
   }
 
+  /**
+   * Num harvested blocks.
+   *
+   * @param numHarvestedBlocks the num harvested blocks
+   * @return the account info
+   */
   public AccountInfo numHarvestedBlocks(BlockAmount numHarvestedBlocks) {
     this.numHarvestedBlocks = numHarvestedBlocks;
     return this;
   }
 
    /**
-   * Get numHarvestedBlocks
-   * @return numHarvestedBlocks
-  **/
+    * Get numHarvestedBlocks.
+    *
+    * @return numHarvestedBlocks
+    */
   @ApiModelProperty(value = "")
   public BlockAmount getNumHarvestedBlocks() {
     return numHarvestedBlocks;
   }
 
+  /**
+   * Sets the num harvested blocks.
+   *
+   * @param numHarvestedBlocks the new num harvested blocks
+   */
   public void setNumHarvestedBlocks(BlockAmount numHarvestedBlocks) {
     this.numHarvestedBlocks = numHarvestedBlocks;
   }
 
+  /**
+   * Vested balance.
+   *
+   * @param vestedBalance the vested balance
+   * @return the account info
+   */
   public AccountInfo vestedBalance(Amount vestedBalance) {
     this.vestedBalance = vestedBalance;
     return this;
   }
 
    /**
-   * Get vestedBalance
-   * @return vestedBalance
-  **/
+    * Get vestedBalance.
+    *
+    * @return vestedBalance
+    */
   @ApiModelProperty(value = "")
   public Amount getVestedBalance() {
     return vestedBalance;
   }
 
+  /**
+   * Sets the vested balance.
+   *
+   * @param vestedBalance the new vested balance
+   */
   public void setVestedBalance(Amount vestedBalance) {
     this.vestedBalance = vestedBalance;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -221,12 +324,18 @@ public class AccountInfo {
         Objects.equals(this.vestedBalance, accountInfo.vestedBalance);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(address, balance, importance, keyPair, label, multisigInfo, numHarvestedBlocks, vestedBalance);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -247,6 +356,9 @@ public class AccountInfo {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

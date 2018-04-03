@@ -25,6 +25,7 @@ import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class Search.
  */
@@ -47,6 +48,17 @@ public class Search {
 		this.engine = CryptoEngines.ed25519Engine();
 	}
 
+	/**
+	 * Search all transaction with regex keyword.
+	 *
+	 * @param privateKey the private key
+	 * @param regex the regex
+	 * @return the string
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException the api exception
+	 */
 	public String searchAllTransactionWithRegexKeyword(String privateKey, String regex)
 			throws InterruptedException, ExecutionException, UnsupportedEncodingException, ApiException {
 
@@ -128,6 +140,17 @@ public class Search {
 		return JsonUtils.toJson(encryptedMessage);
 	}
 
+	/**
+	 * Search all transaction with keyword.
+	 *
+	 * @param privateKey the private key
+	 * @param commaSeparatedkeywords the comma separatedkeywords
+	 * @return the string
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException the api exception
+	 */
 	public String searchAllTransactionWithKeyword(String privateKey, String commaSeparatedkeywords)
 			throws InterruptedException, ExecutionException, UnsupportedEncodingException, ApiException {
 
@@ -210,6 +233,17 @@ public class Search {
 		return JsonUtils.toJson(encryptedMessage);
 	}
 
+	/**
+	 * Search all public transaction with keyword.
+	 *
+	 * @param publicKey the public key
+	 * @param commaSeparatedkeywords the comma separatedkeywords
+	 * @return the string
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException the api exception
+	 */
 	public String searchAllPublicTransactionWithKeyword(String publicKey, String commaSeparatedkeywords)
 			throws InterruptedException, ExecutionException, UnsupportedEncodingException, ApiException {
 
@@ -260,6 +294,17 @@ public class Search {
 		return JsonUtils.toJson(encryptedMessage);
 	}
 
+	/**
+	 * Search all public transaction with regex keyword.
+	 *
+	 * @param publicKey the public key
+	 * @param regex the regex
+	 * @return the string
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws ApiException the api exception
+	 */
 	public String searchAllPublicTransactionWithRegexKeyword(String publicKey, String regex)
 			throws InterruptedException, ExecutionException, UnsupportedEncodingException, ApiException {
 

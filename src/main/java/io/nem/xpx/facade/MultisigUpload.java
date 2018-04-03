@@ -42,6 +42,10 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
 
+
+/**
+ * The Class MultisigUpload.
+ */
 public class MultisigUpload {
 	/** The peer connection. */
 	private PeerConnection peerConnection;
@@ -55,14 +59,14 @@ public class MultisigUpload {
 	/** The publish and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
 
+	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
 
 	/**
 	 * Instantiates a new upload.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
+	 * @param peerConnection            the peer connection
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
 	public MultisigUpload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 		if (peerConnection == null) {
@@ -83,39 +87,25 @@ public class MultisigUpload {
 	/**
 	 * Upload data on multisig transaction.
 	 *
-	 * @param messageType
-	 *            the message type
-	 * @param senderPrivateKey
-	 *            the sender private key
-	 * @param recipientPublicKey
-	 *            the recipient public key
-	 * @param data
-	 *            the data
-	 * @param name
-	 *            the name
-	 * @param keywords
-	 *            the keywords
-	 * @param metaData
-	 *            the meta data
+	 * @param messageType            the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey            the sender private key
+	 * @param recipientPublicKey            the recipient public key
+	 * @param data            the data
+	 * @param name            the name
+	 * @param keywords            the keywords
+	 * @param metaData            the meta data
 	 * @return the upload data
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws NoSuchAlgorithmException
-	 *             the no such algorithm exception
-	 * @throws InvalidKeyException
-	 *             the invalid key exception
-	 * @throws InvalidKeySpecException
-	 *             the invalid key spec exception
-	 * @throws NoSuchPaddingException
-	 *             the no such padding exception
-	 * @throws InvalidAlgorithmParameterException
-	 *             the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException
-	 *             the illegal block size exception
-	 * @throws BadPaddingException
-	 *             the bad padding exception
-	 * @throws IOException
-	 * @throws UploadException
+	 * @throws ApiException             the api exception
+	 * @throws NoSuchAlgorithmException             the no such algorithm exception
+	 * @throws InvalidKeyException             the invalid key exception
+	 * @throws InvalidKeySpecException             the invalid key spec exception
+	 * @throws NoSuchPaddingException             the no such padding exception
+	 * @throws InvalidAlgorithmParameterException             the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException             the illegal block size exception
+	 * @throws BadPaddingException             the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UploadException the upload exception
 	 */
 	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
@@ -128,6 +118,30 @@ public class MultisigUpload {
 		return multisigUploadData;
 	}
 
+	/**
+	 * Upload data on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaic the mosaic
+	 * @return the multisig upload data
+	 * @throws ApiException the api exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic mosaic) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
@@ -140,6 +154,30 @@ public class MultisigUpload {
 
 	}
 
+	/**
+	 * Upload data on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the multisig upload data
+	 * @throws ApiException the api exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic... mosaics) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
@@ -155,31 +193,24 @@ public class MultisigUpload {
 	/**
 	 * Upload file on multisig transaction.
 	 *
-	 * @param messageType
-	 *            the message type
-	 * @param senderPrivateKey
-	 *            the sender private key
-	 * @param recipientPublicKey
-	 *            the recipient public key
-	 * @param file
-	 *            the file
-	 * @param keywords
-	 *            the keywords
-	 * @param metaData
-	 *            the meta data
+	 * @param messageType            the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey            the sender private key
+	 * @param recipientPublicKey            the recipient public key
+	 * @param file            the file
+	 * @param keywords            the keywords
+	 * @param metaData            the meta data
 	 * @return the upload data
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws BadPaddingException
-	 * @throws IllegalBlockSizeException
-	 * @throws InvalidAlgorithmParameterException
-	 * @throws NoSuchPaddingException
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
-	 * @throws InvalidKeyException
-	 * @throws UploadException 
+	 * @throws IOException             Signals that an I/O exception has occurred.
+	 * @throws ApiException             the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
 	 */
 	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData)
@@ -192,6 +223,29 @@ public class MultisigUpload {
 
 	}
 
+	/**
+	 * Upload file on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaic the mosaic
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
 			Mosaic mosaic)
@@ -204,6 +258,29 @@ public class MultisigUpload {
 
 	}
 
+	/**
+	 * Upload file on multisig transaction.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
 			Mosaic... mosaics)
@@ -217,6 +294,23 @@ public class MultisigUpload {
 
 	}
 
+	/**
+	 * Handle multisig data upload.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param data the data
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData handleMultisigDataUpload(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
 			String metaData, Mosaic... mosaics) throws IOException, ApiException, UploadException {
@@ -280,6 +374,22 @@ public class MultisigUpload {
 		return multisigUploadData;
 	}
 
+	/**
+	 * Handle multisig file upload.
+	 *
+	 * @param messageType the message type
+	 * @param multisigPublicKey the multisig public key
+	 * @param senderPrivateKey the sender private key
+	 * @param recipientPublicKey the recipient public key
+	 * @param file the file
+	 * @param keywords the keywords
+	 * @param metaData the meta data
+	 * @param mosaics the mosaics
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData handleMultisigFileUpload(int messageType, String multisigPublicKey,
 			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
 			Mosaic... mosaics) throws IOException, ApiException, UploadException {

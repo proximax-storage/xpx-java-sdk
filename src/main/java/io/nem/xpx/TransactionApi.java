@@ -13,6 +13,7 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.ApiException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 
+
 /**
  * The Class TransactionApi.
  */

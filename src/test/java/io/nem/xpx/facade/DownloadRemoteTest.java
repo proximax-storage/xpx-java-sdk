@@ -18,6 +18,7 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 
+
 /**
  * The Class DownloadTest.
  */

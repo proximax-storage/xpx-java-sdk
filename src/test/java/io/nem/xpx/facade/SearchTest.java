@@ -11,8 +11,15 @@ import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Search;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 
+
+/**
+ * The Class SearchTest.
+ */
 public class SearchTest extends AbstractApiTest {
 
+	/**
+	 * Search P key search sample.
+	 */
 	@Test
 	public void searchPKeySearchSample() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(searchNodeBasePath);
@@ -31,6 +38,9 @@ public class SearchTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Search public key search sample.
+	 */
 	@Test
 	public void searchPublicKeySearchSample() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(searchNodeBasePath);
@@ -50,6 +60,9 @@ public class SearchTest extends AbstractApiTest {
 		
 	}
 	
+	/**
+	 * Search key search regex sample.
+	 */
 	@Test
 	public void searchKeySearchRegexSample() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(searchNodeBasePath);
@@ -69,6 +82,9 @@ public class SearchTest extends AbstractApiTest {
 		
 	}
 	
+	/**
+	 * Search public key search regex sample.
+	 */
 	@Test
 	public void searchPublicKeySearchRegexSample() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(searchNodeBasePath);

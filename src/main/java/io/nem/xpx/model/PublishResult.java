@@ -8,6 +8,7 @@ import org.nem.core.model.ncc.NemAnnounceResult;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.multihash.Multihash;
 
+
 /**
  * The Class PublishResult.
  */
@@ -21,6 +22,8 @@ public class PublishResult implements Serializable {
 
 	/** The merkle node. */
 	private List<MerkleNode> merkleNode;
+	
+	/** The multi hash. */
 	private List<Multihash> multiHash;
 
 	/** The nem announce result. */
@@ -44,10 +47,20 @@ public class PublishResult implements Serializable {
 	/** The db hash. */
 	private String dbHash;
 
+	/**
+	 * Gets the multi hash.
+	 *
+	 * @return the multi hash
+	 */
 	public List<Multihash> getMultiHash() {
 		return multiHash;
 	}
 
+	/**
+	 * Sets the multi hash.
+	 *
+	 * @param multiHash the new multi hash
+	 */
 	public void setMultiHash(List<Multihash> multiHash) {
 		this.multiHash = multiHash;
 	}

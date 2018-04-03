@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DownloadData.
  */

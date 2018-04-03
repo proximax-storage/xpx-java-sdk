@@ -36,27 +36,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class TransactionAndAnnounceApi.
+ */
 public class TransactionAndAnnounceApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new transaction and announce api.
+     */
     public TransactionAndAnnounceApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new transaction and announce api.
+     *
+     * @param apiClient the api client
+     */
     public TransactionAndAnnounceApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for announceRequestPublishDataSignatureUsingPOST
+     * Build call for announceRequestPublishDataSignatureUsingPOST.
+     *
      * @param requestAnnounceDataSignature The Request Announce Data Signature Json Format (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -103,6 +128,15 @@ public class TransactionAndAnnounceApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Announce request publish data signature using POST validate before call.
+     *
+     * @param requestAnnounceDataSignature the request announce data signature
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call announceRequestPublishDataSignatureUsingPOSTValidateBeforeCall(RequestAnnounceDataSignature requestAnnounceDataSignature, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -175,8 +209,10 @@ public class TransactionAndAnnounceApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for publishAndSendSingleFileToAddressUsingPOST
+     * Build call for publishAndSendSingleFileToAddressUsingPOST.
+     *
      * @param xPvkey The Sender&#39;s Private Key (required)
      * @param address The Receiver&#39;s Address without dash (&#39;-&#39;) (required)
      * @param messageType Message Type ( PLAIN or SECURE ) (required)
@@ -233,6 +269,18 @@ public class TransactionAndAnnounceApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Publish and send single file to address using POST validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param address the address
+     * @param messageType the message type
+     * @param file the file
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call publishAndSendSingleFileToAddressUsingPOSTValidateBeforeCall(String xPvkey, String address, String messageType, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -334,8 +382,10 @@ public class TransactionAndAnnounceApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for publishAndSendSingleFileToAddressesUsingPOST
+     * Build call for publishAndSendSingleFileToAddressesUsingPOST.
+     *
      * @param xPvkey The Sender&#39;s Private Key (optional)
      * @param addresses The List of receiving Addresses without dash (&#39;-&#39;) (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -393,6 +443,18 @@ public class TransactionAndAnnounceApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Publish and send single file to addresses using POST validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param addresses the addresses
+     * @param messageType the message type
+     * @param file the file
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call publishAndSendSingleFileToAddressesUsingPOSTValidateBeforeCall(String xPvkey, List<String> addresses, String messageType, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

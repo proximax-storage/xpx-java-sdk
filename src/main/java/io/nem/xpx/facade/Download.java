@@ -38,6 +38,7 @@ import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class Download.
  */
@@ -52,14 +53,16 @@ public class Download {
 	/** The engine. */
 	private CryptoEngine engine;
 
+	/**
+	 * Instantiates a new download.
+	 */
 	public Download() {}
 
 	/**
 	 * Instantiates a new download.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
+	 * @param peerConnection            the peer connection
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
 	public Download(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 
@@ -81,16 +84,12 @@ public class Download {
 	/**
 	 * Download public data.
 	 *
-	 * @param nemHash
-	 *            the nem hash
+	 * @param nemHash            the nem hash
 	 * @return the download data
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws IOException
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DownloadData downloadPublicFileOrData(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
@@ -116,20 +115,14 @@ public class Download {
 	/**
 	 * Download data.
 	 *
-	 * @param nemHash
-	 *            the nem hash
-	 * @param senderOrReceiverPrivateKey
-	 *            the sender or receiver private key
-	 * @param senderOrReceiverPublicKey
-	 *            the sender or receiver public key
+	 * @param nemHash            the nem hash
+	 * @param senderOrReceiverPrivateKey            the sender or receiver private key
+	 * @param senderOrReceiverPublicKey            the sender or receiver public key
 	 * @return the download data
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
-	 * @throws IOException
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DownloadData downloadFileOrData(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
@@ -210,6 +203,25 @@ public class Download {
 		return downloadData;
 	}
 
+	/**
+	 * Download multisig file or data.
+	 *
+	 * @param messageType the message type
+	 * @param nemHash the nem hash
+	 * @param keySecret the key secret
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 */
 	public DownloadData downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)
 			throws ApiException, InterruptedException, ExecutionException, IOException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
 		DownloadData downloadData = new DownloadData();

@@ -35,27 +35,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class SearchApi.
+ */
 public class SearchApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new search api.
+     */
     public SearchApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new search api.
+     *
+     * @param apiClient the api client
+     */
     public SearchApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for searchContentUsingAllNemHashUsingGET
+     * Build call for searchContentUsingAllNemHashUsingGET.
+     *
      * @param xPvkey The Sender or Receiver&#39;s Public Key (required)
      * @param nemHash NEM Hash that will be matched to the files available (required)
      * @param progressListener Progress listener
@@ -106,6 +131,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search content using all nem hash using GET validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param nemHash the nem hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchContentUsingAllNemHashUsingGETValidateBeforeCall(String xPvkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -191,8 +226,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchContentUsingPublicNemHashUsingGET
+     * Build call for searchContentUsingPublicNemHashUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param nemHash NEM Hash that will be matched to the files available (required)
      * @param progressListener Progress listener
@@ -243,6 +280,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search content using public nem hash using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param nemHash the nem hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchContentUsingPublicNemHashUsingGETValidateBeforeCall(String xPubkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -328,8 +375,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchContentUsingTextUsingGET
+     * Build call for searchContentUsingTextUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param text Text or Keyword that will be match to the files available (required)
      * @param progressListener Progress listener
@@ -380,6 +429,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search content using text using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param text the text
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchContentUsingTextUsingGETValidateBeforeCall(String xPubkey, String text, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -465,8 +524,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchDataHashUsingPublicNemHashUsingGET
+     * Build call for searchDataHashUsingPublicNemHashUsingGET.
+     *
      * @param nemHash NEM Hash that will be matched to the files available (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -514,6 +575,15 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search data hash using public nem hash using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchDataHashUsingPublicNemHashUsingGETValidateBeforeCall(String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -591,8 +661,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchTransactionPvKeyWithKeywordUsingGET
+     * Build call for searchTransactionPvKeyWithKeywordUsingGET.
+     *
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
      * @param progressListener Progress listener
@@ -643,6 +715,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search transaction pv key with keyword using GET validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param keywords the keywords
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionPvKeyWithKeywordUsingGETValidateBeforeCall(String xPvkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -728,8 +810,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchTransactionWithKeywordUsingGET
+     * Build call for searchTransactionWithKeywordUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
      * @param progressListener Progress listener
@@ -780,6 +864,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search transaction with keyword using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param keywords the keywords
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithKeywordUsingGETValidateBeforeCall(String xPubkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -865,8 +959,10 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchTransactionWithMetadataUsingGET
+     * Build call for searchTransactionWithMetadataUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param text Index-based searching on metadata (required)
      * @param progressListener Progress listener
@@ -917,6 +1013,16 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search transaction with metadata using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param text the text
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithMetadataUsingGETValidateBeforeCall(String xPubkey, String text, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

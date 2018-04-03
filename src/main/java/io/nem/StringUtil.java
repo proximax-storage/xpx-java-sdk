@@ -13,6 +13,10 @@
 
 package io.nem;
 
+
+/**
+ * The Class StringUtil.
+ */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
 public class StringUtil {
   /**

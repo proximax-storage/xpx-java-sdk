@@ -1,0 +1,237 @@
+div.jumbotron{
+  margin-bottom:0;
+}
+
+body{
+  background-color:black;
+}
+
+pull-left{
+  width:50%;
+}
+
+pull-right{
+  width:50%;
+}
+
+title{
+  margin:auto;
+}
+
+jumbotron-row{
+  margin-left:5%;
+  margin-right:5%;
+}
+
+xar-game-credit-text{
+  color:white;
+  font-size:1em;
+}
+
+.white-text{
+  color:white;
+}
+
+.vertical-align{
+  display:flex;
+  flex-direction:row;
+}
+
+.vertical-align > [class^="col-"], .vertical-align > [class*=" col-"]{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.vertical-align > [class^="col-"] > div, .vertical-align > [class*=" col-"] > div{
+  flex-grow:1;
+}
+
+div#section1-content-bg{
+  background:url(../../assets/img/process-flow-bg-3.png) no-repeat;
+  background-size:cover;
+}
+
+div#video-content-div{
+  margin-top:40px;
+  margin-bottom:0px;
+}
+
+div#about-xarcade{
+  margin-top:30px;
+  margin-bottom:10px;
+}
+
+p{
+  color:white;
+}
+
+div{
+  font-family:'Raleway';
+  font-size:large;
+}
+
+.phone-image{
+  max-height:500px;
+}
+
+img#coin-image.img-responsive{
+  max-width:70px;
+  margin:auto;
+}
+
+div#coin-container{
+  float:right;
+  margin-right:50px;
+}
+
+p#xar-title{
+  text-align:center;
+  margin-top:15px;
+}
+
+div#section1-content-bg-shadow{
+  padding-top:50px;
+  padding-bottom:50px;
+}
+
+.shadow-bg{
+background: rgba(0,0,0,1);
+background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(40%, rgba(0,0,0,0)), color-stop(62%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,1)));
+background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%);
+background: -o-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%);
+background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
+}
+
+div.page-padding{
+  padding-left:15%;
+  padding-right:15%;
+}
+
+p.heading-title{
+  text-align:center;
+  font-size:xx-large;
+  margin-bottom:50px;
+  margin-top:50px;
+}
+
+.video-frame{
+  margin-top:30px;
+  margin-bottom:0px;
+}
+
+li{
+  color:white;
+}
+
+.list-paragraph{
+  margin-bottom:30px;
+  text-align:center;
+}
+
+p#mission-title.heading-title{
+  margin-top:0;
+}
+
+img.how-it-works-image{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  max-width:200px;
+  padding:20px;
+
+}
+
+.clipped {
+  clip-path: circle();
+}
+
+img.partner-image{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  padding:20px;
+}
+
+p.how-it-works-paragraph{
+  text-align:center;
+}
+
+p.question-paragraph{
+  text-align:center;
+}
+
+p.answer-paragraph{
+  text-align:center;
+  color:rgb(150,255,150);
+  margin-bottom:30px;
+}
+
+.row{
+  padding-right:0px;
+  margin-right:0px;
+}
+
+div#section-3-content.page-padding{
+  margin-bottom:100px;
+  margin-top:100px;
+}
+
+div#jumbotron-header.jumbotron{
+    background-color:black;
+  background-size:cover;
+  padding-top:70px;
+  padding-bottom:70px;
+}
+
+div#how-it-works-section{
+  background:url(../../assets/img/process-flow-bg-2.png) no-repeat;
+  background-size:cover;
+}
+/***************/
+ .panel-title > a {
+     color: white;
+}
+
+.panel-group .panel {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #000000;
+}
+
+.panel-default > .panel-heading {
+    padding: 0;        
+    border-radius: 0;        
+    color: #000000; 
+    background: #167004;  
+}
+
+.panel-title {
+    font-size: 14px;
+}
+
+.panel-title > a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+}
+
+#telegram-chat-link{
+    margin-top:100px;
+    margin-bottom:150px;
+    text-align:center;
+}
+
+.more-less {
+color: #fff;
+float: right;
+font-size: 24px;
+font-weight: bold;
+line-height: 12px;
+}
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #EEEEEE;
+}

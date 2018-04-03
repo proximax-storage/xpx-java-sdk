@@ -35,7 +35,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class LocalFuseDownloadApi.
+ */
 public class LocalFuseDownloadApi implements DownloadApiInterface {
+	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.DownloadApiInterface#downloadStreamUsingHashUsingPOST(java.lang.String)
+	 */
 	@Override
 	public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
 		// XpxSdkGlobalConstants.getFuseIpfsStub().

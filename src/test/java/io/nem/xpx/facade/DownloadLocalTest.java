@@ -18,6 +18,7 @@ import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 
+
 /**
  * The Class DownloadTest.
  */
@@ -51,6 +52,9 @@ public class DownloadLocalTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Download plain data from mosaic test.
+	 */
 	@Test
 	public void downloadPlainDataFromMosaicTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

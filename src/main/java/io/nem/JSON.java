@@ -37,8 +37,16 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+
+/**
+ * The Class JSON.
+ */
 public class JSON {
+    
+    /** The api client. */
     private ApiClient apiClient;
+    
+    /** The gson. */
     private Gson gson;
 
     /**

@@ -18,6 +18,7 @@ import io.nem.ApiException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -176,9 +177,16 @@ public class MultisigSignatureTransactionBuilder {
 		 * Co sign.
 		 *
 		 * @return the multisig signature transaction
+		 * @throws ApiException the api exception
 		 */
 		MultisigSignatureTransaction coSign() throws ApiException;
 
+		/**
+		 * Co sign future.
+		 *
+		 * @return the completable future
+		 * @throws ApiException the api exception
+		 */
 		CompletableFuture<Deserializer> coSignFuture() throws ApiException;
 
 	}
@@ -258,6 +266,11 @@ public class MultisigSignatureTransactionBuilder {
 
 		}
 
+		/**
+		 * Builds the multisig signature transaction.
+		 *
+		 * @return the multisig signature transaction
+		 */
 		private MultisigSignatureTransaction buildMultisigSignatureTransaction() {
 			if (this.timeStamp == null) {
 				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
@@ -460,6 +473,9 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigSignatureTransactionBuilder.IBuild#coSignFuture()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> coSignFuture() throws ApiException {
 			return TransactionSenderUtil

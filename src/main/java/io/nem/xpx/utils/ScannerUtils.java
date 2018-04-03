@@ -3,10 +3,14 @@ package io.nem.xpx.utils;
 import java.util.Scanner;
 
 
+
+/**
+ * The Class ScannerUtils.
+ */
 public class ScannerUtils {
 
 	/**
-	 * exit when enter string "exit"
+	 * exit when enter string "exit".
 	 */
 	public static void monitorExit() {
 		Scanner scanner = new Scanner(System.in);

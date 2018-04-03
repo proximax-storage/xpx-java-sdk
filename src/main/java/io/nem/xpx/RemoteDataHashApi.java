@@ -37,27 +37,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class RemoteDataHashApi.
+ */
 public class RemoteDataHashApi implements DataHashApiInterface {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new remote data hash api.
+     */
     public RemoteDataHashApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new remote data hash api.
+     *
+     * @param apiClient the api client
+     */
     public RemoteDataHashApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for cleanupPinnedContentUsingPOST
+     * Build call for cleanupPinnedContentUsingPOST.
+     *
      * @param multihash The pinned multihash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -106,6 +131,15 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Cleanup pinned content using POST validate before call.
+     *
+     * @param multihash the multihash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call cleanupPinnedContentUsingPOSTValidateBeforeCall(String multihash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -183,8 +217,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashAndExposeDataToNetworkUsingPOST
+     * Build call for generateHashAndExposeDataToNetworkUsingPOST.
+     *
      * @param data Free form string data that will be stored on the P2P Network (required)
      * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
      * @param keywords Comma delimited Keyword/Tags (optional)
@@ -242,6 +278,18 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash and expose data to network using POST validate before call.
+     *
+     * @param data the data
+     * @param name the name
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashAndExposeDataToNetworkUsingPOSTValidateBeforeCall(String data, String name, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -328,8 +376,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashAndExposeFileToNetworkUsingPOST
+     * Build call for generateHashAndExposeFileToNetworkUsingPOST.
+     *
      * @param file The Multipart File that will be stored on the P2P Storage Network (required)
      * @param keywords Comma delimited Keyword/Tags (optional)
      * @param metadata JSON Format MetaData stored on the NEM Txn Message (optional)
@@ -384,6 +434,17 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash and expose file to network using POST validate before call.
+     *
+     * @param file the file
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashAndExposeFileToNetworkUsingPOSTValidateBeforeCall(File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -467,8 +528,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST
+     * Build call for generateHashExposeByteArrayToNetworkBuildAndSignUsingPOST.
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -532,6 +595,20 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash expose byte array to network build and sign using POST validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param xPubkey the x pubkey
+     * @param messageType the message type
+     * @param data the data
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashExposeByteArrayToNetworkBuildAndSignUsingPOSTValidateBeforeCall(String xPvkey, String xPubkey, String messageType, String data, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -619,8 +696,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashExposeFileToNetworkBuildAndSignUsingPOST
+     * Build call for generateHashExposeFileToNetworkBuildAndSignUsingPOST.
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -684,6 +763,20 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash expose file to network build and sign using POST validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param xPubkey the x pubkey
+     * @param messageType the message type
+     * @param file the file
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashExposeFileToNetworkBuildAndSignUsingPOSTValidateBeforeCall(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -771,8 +864,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashForDataOnlyUsingPOST
+     * Build call for generateHashForDataOnlyUsingPOST.
+     *
      * @param data Free form string data that will be stored on the P2P Network (optional)
      * @param keywords Comma delimited Keyword/Tags (optional)
      * @param metadata JSON Format MetaData stored on the NEM Txn Message (optional)
@@ -827,6 +922,17 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash for data only using POST validate before call.
+     *
+     * @param data the data
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashForDataOnlyUsingPOSTValidateBeforeCall(String data, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -905,8 +1011,10 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for generateHashForFileOnlyUsingPOST
+     * Build call for generateHashForFileOnlyUsingPOST.
+     *
      * @param file The Multipart File that will be stored on the P2P Storage Network (required)
      * @param keywords Comma delimited Keyword/Tags (optional)
      * @param metadata JSON Format MetaData stored on the NEM Txn Message (optional)
@@ -961,6 +1069,17 @@ public class RemoteDataHashApi implements DataHashApiInterface {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash for file only using POST validate before call.
+     *
+     * @param file the file
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashForFileOnlyUsingPOSTValidateBeforeCall(File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

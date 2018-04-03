@@ -24,6 +24,7 @@ import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -140,11 +141,24 @@ public class MultisigTransactionBuilder {
 		 * Builds the and send multisig transaction.
 		 *
 		 * @return the nem announce result
+		 * @throws ApiException the api exception
 		 */
 		NemAnnounceResult buildAndSendMultisigTransaction() throws ApiException;
 
+		/**
+		 * Builds the and sign multisig transaction.
+		 *
+		 * @return the request announce data signature
+		 * @throws ApiException the api exception
+		 */
 		RequestAnnounceDataSignature buildAndSignMultisigTransaction() throws ApiException;
 		
+		/**
+		 * Builds the and send future multisig transaction.
+		 *
+		 * @return the completable future
+		 * @throws ApiException the api exception
+		 */
 		CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException;
 	}
 
@@ -370,11 +384,17 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigTransactionBuilder.IBuild#buildAndSendFutureMultisigTransaction()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException {
 			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigTransactionBuilder.IBuild#buildAndSignMultisigTransaction()
+		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignMultisigTransaction() throws ApiException {
 			this.buildMultisigTransaction().sign();

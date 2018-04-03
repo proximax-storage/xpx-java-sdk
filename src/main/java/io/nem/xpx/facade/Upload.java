@@ -3,8 +3,14 @@
  */
 package io.nem.xpx.facade;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
@@ -36,6 +42,7 @@ import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class Upload.
  */
@@ -53,16 +60,20 @@ public class Upload {
 	/** The publish and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
 
+	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
 
-	public Upload() {}
+	/**
+	 * Instantiates a new upload.
+	 */
+	public Upload() {
+	}
 
 	/**
 	 * Instantiates a new upload.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
+	 * @param peerConnection            the peer connection
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
 	public Upload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 		if (peerConnection == null) {
@@ -84,27 +95,11 @@ public class Upload {
 	/**
 	 * Upload file.
 	 *
-	 * @param messageType
-	 *            the message type
-	 * @param senderPrivateKey
-	 *            the sender private key
-	 * @param recipientPublicKey
-	 *            the recipient public key
-	 * @param file
-	 *            the file
-	 * @param keywords
-	 *            the keywords
-	 * @param metaData
-	 *            the meta data
-	 * @param mosaics
-	 *            the mosaics
+	 * @param uploadParameter the upload parameter
 	 * @return the upload data
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws NoSuchAlgorithmException
-	 * @throws UploadException
+	 * @throws UploadException the upload exception
+	 * @throws IOException             Signals that an I/O exception has occurred.
+	 * @throws ApiException             the api exception
 	 */
 	public UploadData uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
@@ -116,41 +111,43 @@ public class Upload {
 	/**
 	 * Upload data.
 	 *
-	 * @param messageType
-	 *            the message type
-	 * @param senderPrivateKey
-	 *            the sender private key
-	 * @param recipientPublicKey
-	 *            the recipient public key
-	 * @param data
-	 *            the data
-	 * @param name
-	 *            the name
-	 * @param keywords
-	 *            the keywords
-	 * @param metaData
-	 *            the meta data
-	 * @param mosaics
-	 *            the mosaics
+	 * @param uploadParameter the upload parameter
 	 * @return the upload data
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws IOException
-	 * @throws NoSuchAlgorithmException
-	 * @throws UploadException
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException             the api exception
 	 */
 	public UploadData uploadData(UploadDataParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		UploadData uploadData = handleDataUpload(uploadParameter);
 		return uploadData;
 	}
-	
+
+	/**
+	 * Upload path.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
+	 */
 	public UploadData uploadPath(UploadPathParameter uploadParameter)
 			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
 		UploadData uploadData = handlePathUpload(uploadParameter);
 		return uploadData;
 	}
 
+	/**
+	 * Handle data upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	private UploadData handleDataUpload(UploadDataParameter uploadParameter)
 			throws IOException, ApiException, UploadException {
 		String publishedData = "";
@@ -214,6 +211,15 @@ public class Upload {
 		return uploadData;
 	}
 
+	/**
+	 * Handle file upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	private UploadData handleFileUpload(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
@@ -278,16 +284,25 @@ public class Upload {
 		}
 		return uploadData;
 	}
-	
-	//	can only be called if the connection is local really.
+
+	/**
+	 * Handle path upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
+	 */
+	// can only be called if the connection is local really.
 	private UploadData handlePathUpload(UploadPathParameter uploadParameter)
 			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
-		
-		
-		if(peerConnection instanceof RemotePeerConnection) {
+
+		if (peerConnection instanceof RemotePeerConnection) {
 			throw new PeerConnectionNotFoundException("Can't use RemotePeerConnection for Path upload");
 		}
-		
+
 		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
@@ -305,10 +320,10 @@ public class Upload {
 						.encrypt(uploadParameter.getPath().getBytes());
 
 				String encryptedData = HexEncoder.getString(encrypted);
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData,
+				response = ((LocalDataHashApi) dataHashApi).generateHashAndExposePath(encryptedData,
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(uploadParameter.getPath(),
+				response = ((LocalDataHashApi) dataHashApi).generateHashAndExposePath(uploadParameter.getPath(),
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
 
@@ -329,10 +344,34 @@ public class Upload {
 			uploadData.setDataMessage(response);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
+			e.printStackTrace();
 			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
 			throw new UploadException(e);
 		}
 		return uploadData;
 	}
-	
+
+	/**
+	 * Creates the zip.
+	 *
+	 * @param files the files
+	 * @return the byte[]
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private byte[] createZip(Map<String, byte[]> files) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ZipOutputStream zipfile = new ZipOutputStream(bos);
+		Iterator<String> i = files.keySet().iterator();
+		String fileName = null;
+		ZipEntry zipentry = null;
+		while (i.hasNext()) {
+			fileName = (String) i.next();
+			zipentry = new ZipEntry(fileName);
+			zipfile.putNextEntry(zipentry);
+			zipfile.write((byte[]) files.get(fileName));
+		}
+		zipfile.close();
+		return bos.toByteArray();
+	}
+
 }

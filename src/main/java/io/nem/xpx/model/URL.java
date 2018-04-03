@@ -23,243 +23,391 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+
 /**
- * URL
+ * URL.
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
 public class URL {
+  
+  /** The authority. */
   @SerializedName("authority")
   private String authority = null;
 
+  /** The content. */
   @SerializedName("content")
   private Object content = null;
 
+  /** The default port. */
   @SerializedName("defaultPort")
   private Integer defaultPort = null;
 
+  /** The file. */
   @SerializedName("file")
   private String file = null;
 
+  /** The host. */
   @SerializedName("host")
   private String host = null;
 
+  /** The path. */
   @SerializedName("path")
   private String path = null;
 
+  /** The port. */
   @SerializedName("port")
   private Integer port = null;
 
+  /** The protocol. */
   @SerializedName("protocol")
   private String protocol = null;
 
+  /** The query. */
   @SerializedName("query")
   private String query = null;
 
+  /** The ref. */
   @SerializedName("ref")
   private String ref = null;
 
+  /** The user info. */
   @SerializedName("userInfo")
   private String userInfo = null;
 
+  /**
+   * Authority.
+   *
+   * @param authority the authority
+   * @return the url
+   */
   public URL authority(String authority) {
     this.authority = authority;
     return this;
   }
 
    /**
-   * Get authority
-   * @return authority
-  **/
+    * Get authority.
+    *
+    * @return authority
+    */
   @ApiModelProperty(value = "")
   public String getAuthority() {
     return authority;
   }
 
+  /**
+   * Sets the authority.
+   *
+   * @param authority the new authority
+   */
   public void setAuthority(String authority) {
     this.authority = authority;
   }
 
+  /**
+   * Content.
+   *
+   * @param content the content
+   * @return the url
+   */
   public URL content(Object content) {
     this.content = content;
     return this;
   }
 
    /**
-   * Get content
-   * @return content
-  **/
+    * Get content.
+    *
+    * @return content
+    */
   @ApiModelProperty(value = "")
   public Object getContent() {
     return content;
   }
 
+  /**
+   * Sets the content.
+   *
+   * @param content the new content
+   */
   public void setContent(Object content) {
     this.content = content;
   }
 
+  /**
+   * Default port.
+   *
+   * @param defaultPort the default port
+   * @return the url
+   */
   public URL defaultPort(Integer defaultPort) {
     this.defaultPort = defaultPort;
     return this;
   }
 
    /**
-   * Get defaultPort
-   * @return defaultPort
-  **/
+    * Get defaultPort.
+    *
+    * @return defaultPort
+    */
   @ApiModelProperty(value = "")
   public Integer getDefaultPort() {
     return defaultPort;
   }
 
+  /**
+   * Sets the default port.
+   *
+   * @param defaultPort the new default port
+   */
   public void setDefaultPort(Integer defaultPort) {
     this.defaultPort = defaultPort;
   }
 
+  /**
+   * File.
+   *
+   * @param file the file
+   * @return the url
+   */
   public URL file(String file) {
     this.file = file;
     return this;
   }
 
    /**
-   * Get file
-   * @return file
-  **/
+    * Get file.
+    *
+    * @return file
+    */
   @ApiModelProperty(value = "")
   public String getFile() {
     return file;
   }
 
+  /**
+   * Sets the file.
+   *
+   * @param file the new file
+   */
   public void setFile(String file) {
     this.file = file;
   }
 
+  /**
+   * Host.
+   *
+   * @param host the host
+   * @return the url
+   */
   public URL host(String host) {
     this.host = host;
     return this;
   }
 
    /**
-   * Get host
-   * @return host
-  **/
+    * Get host.
+    *
+    * @return host
+    */
   @ApiModelProperty(value = "")
   public String getHost() {
     return host;
   }
 
+  /**
+   * Sets the host.
+   *
+   * @param host the new host
+   */
   public void setHost(String host) {
     this.host = host;
   }
 
+  /**
+   * Path.
+   *
+   * @param path the path
+   * @return the url
+   */
   public URL path(String path) {
     this.path = path;
     return this;
   }
 
    /**
-   * Get path
-   * @return path
-  **/
+    * Get path.
+    *
+    * @return path
+    */
   @ApiModelProperty(value = "")
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets the path.
+   *
+   * @param path the new path
+   */
   public void setPath(String path) {
     this.path = path;
   }
 
+  /**
+   * Port.
+   *
+   * @param port the port
+   * @return the url
+   */
   public URL port(Integer port) {
     this.port = port;
     return this;
   }
 
    /**
-   * Get port
-   * @return port
-  **/
+    * Get port.
+    *
+    * @return port
+    */
   @ApiModelProperty(value = "")
   public Integer getPort() {
     return port;
   }
 
+  /**
+   * Sets the port.
+   *
+   * @param port the new port
+   */
   public void setPort(Integer port) {
     this.port = port;
   }
 
+  /**
+   * Protocol.
+   *
+   * @param protocol the protocol
+   * @return the url
+   */
   public URL protocol(String protocol) {
     this.protocol = protocol;
     return this;
   }
 
    /**
-   * Get protocol
-   * @return protocol
-  **/
+    * Get protocol.
+    *
+    * @return protocol
+    */
   @ApiModelProperty(value = "")
   public String getProtocol() {
     return protocol;
   }
 
+  /**
+   * Sets the protocol.
+   *
+   * @param protocol the new protocol
+   */
   public void setProtocol(String protocol) {
     this.protocol = protocol;
   }
 
+  /**
+   * Query.
+   *
+   * @param query the query
+   * @return the url
+   */
   public URL query(String query) {
     this.query = query;
     return this;
   }
 
    /**
-   * Get query
-   * @return query
-  **/
+    * Get query.
+    *
+    * @return query
+    */
   @ApiModelProperty(value = "")
   public String getQuery() {
     return query;
   }
 
+  /**
+   * Sets the query.
+   *
+   * @param query the new query
+   */
   public void setQuery(String query) {
     this.query = query;
   }
 
+  /**
+   * Ref.
+   *
+   * @param ref the ref
+   * @return the url
+   */
   public URL ref(String ref) {
     this.ref = ref;
     return this;
   }
 
    /**
-   * Get ref
-   * @return ref
-  **/
+    * Get ref.
+    *
+    * @return ref
+    */
   @ApiModelProperty(value = "")
   public String getRef() {
     return ref;
   }
 
+  /**
+   * Sets the ref.
+   *
+   * @param ref the new ref
+   */
   public void setRef(String ref) {
     this.ref = ref;
   }
 
+  /**
+   * User info.
+   *
+   * @param userInfo the user info
+   * @return the url
+   */
   public URL userInfo(String userInfo) {
     this.userInfo = userInfo;
     return this;
   }
 
    /**
-   * Get userInfo
-   * @return userInfo
-  **/
+    * Get userInfo.
+    *
+    * @return userInfo
+    */
   @ApiModelProperty(value = "")
   public String getUserInfo() {
     return userInfo;
   }
 
+  /**
+   * Sets the user info.
+   *
+   * @param userInfo the new user info
+   */
   public void setUserInfo(String userInfo) {
     this.userInfo = userInfo;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -282,12 +430,18 @@ public class URL {
         Objects.equals(this.userInfo, URL.userInfo);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(authority, content, defaultPort, file, host, path, port, protocol, query, ref, userInfo);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -311,6 +465,9 @@ public class URL {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

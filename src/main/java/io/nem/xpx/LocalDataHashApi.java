@@ -14,6 +14,7 @@ package io.nem.xpx;
 
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
+import io.ipfs.api.NamedStreamable.DirWrapper;
 import io.ipfs.multihash.Multihash;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
@@ -38,12 +39,21 @@ import io.nem.xpx.utils.JsonUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 
+
+/**
+ * The Class LocalDataHashApi.
+ */
 public class LocalDataHashApi implements DataHashApiInterface {
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.DataHashApiInterface#generateHashAndExposeDataToNetworkUsingPOST(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public BinaryTransactionEncryptedMessage generateHashAndExposeDataToNetworkUsingPOST(String data, String name,
@@ -79,6 +89,16 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		return binaryEncryptedMessage;
 	}
 
+	/**
+	 * Generate hash and expose path.
+	 *
+	 * @param path the path
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @return the binary transaction encrypted message
+	 * @throws Exception the exception
+	 */
 	public BinaryTransactionEncryptedMessage generateHashAndExposePath(String path, String name,
 			String keywords, String metadata) throws Exception {
 
@@ -95,13 +115,14 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		BinaryTransactionEncryptedMessage binaryEncryptedMessage = new BinaryTransactionEncryptedMessage();
 
 		PublishResult spfsBlockResult = exposeAndPinPath(dataHashPathEntity.getPath());
-
-		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
+		int rootHashIndex = spfsBlockResult.getMerkleNode().size() - 1;
+		
+		String multiHashString = spfsBlockResult.getMerkleNode().get(rootHashIndex).hash.toBase58();
 
 		binaryEncryptedMessage.setTimestamp(System.currentTimeMillis());
-		binaryEncryptedMessage.setHash(multiHashString);	
-		binaryEncryptedMessage.setName(spfsBlockResult.getMerkleNode().get(0).name.get());
-		binaryEncryptedMessage.setType(spfsBlockResult.getMerkleNode().get(0).type.toString());
+		binaryEncryptedMessage.setHash(multiHashString);
+		binaryEncryptedMessage.setName(spfsBlockResult.getMerkleNode().get(rootHashIndex).name.get());
+		binaryEncryptedMessage.setType(spfsBlockResult.getMerkleNode().get(rootHashIndex).type.toString());
 		binaryEncryptedMessage.setKeywords(dataHashPathEntity.getKeywords());
 		binaryEncryptedMessage.setMetaData(JsonUtils.toJson(dataHashPathEntity.getMetadata()));
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -111,6 +132,9 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		return binaryEncryptedMessage;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.DataHashApiInterface#cleanupPinnedContentUsingPOST(java.lang.String)
+	 */
 	@Override
 	public String cleanupPinnedContentUsingPOST(String multiHash) throws IOException, ApiException {
 		XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multiHash));
@@ -120,6 +144,15 @@ public class LocalDataHashApi implements DataHashApiInterface {
 
 	}
 
+	/**
+	 * Expose and pin binary.
+	 *
+	 * @param name the name
+	 * @param binary the binary
+	 * @return the publish result
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
@@ -130,18 +163,48 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		return result;
 	}
 	
+	/**
+	 * Expose and pin path.
+	 *
+	 * @param path the path
+	 * @return the publish result
+	 * @throws Exception the exception
+	 */
 	public PublishResult exposeAndPinPath(String path) throws Exception {
 
-		PublishResult result = new PublishResult();
+		PublishResult result = new PublishResult();		
+		System.out.println(Paths.get(path).getFileName().toString());
 		NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(Paths.get(path).toFile());
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(fileWrapper);
-		List<Multihash> pinned = XpxSdkGlobalConstants.getProximaxConnection().pin.add(node.get(0).hash);
-		result.setMerkleNode(node);
-		result.setMultiHash(pinned);
+		NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(Paths.get(path).getFileName().toString(),fileWrapper.getChildren());
+		List<MerkleNode> node1 = XpxSdkGlobalConstants.getProximaxConnection().add(fileWrapper,true,false,true);
+		List<MerkleNode> node2 = XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper,false,false,true);
+		
+		node1.forEach(p -> {
+			//System.out.println(p.toJSON());
+		});
+		
+		node2.forEach(p -> {
+			
+			System.out.println(p.toJSONString());
+		});
+		
+		//grabDirs(path,node);
+		result.setMerkleNode(node1);
+
+		
 		return result;
 
 	}
 	
+	/**
+	 * Expose binary.
+	 *
+	 * @param name the name
+	 * @param binary the binary
+	 * @return the publish result
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	private PublishResult exposeBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
@@ -150,6 +213,15 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		return result;
 	}
 
+	/**
+	 * Gets the binary hash only.
+	 *
+	 * @param name the name
+	 * @param binary the binary
+	 * @return the binary hash only
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	private PublishResult getBinaryHashOnly(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = null;
 
@@ -160,5 +232,23 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		result.setMerkleNode(node);
 
 		return result;
+	}
+	
+	/**
+	 * Grab dirs.
+	 *
+	 * @param path the path
+	 * @param node the node
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
+	private void grabDirs(String path, List<MerkleNode> node) throws IOException, ApiException {
+		File[] directories = new File(path).listFiles(File::isDirectory);
+		for(File f : directories) {
+			NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(f);
+			NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(f.getName().toString(),fileWrapper.getChildren());
+			node.addAll(XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper,true,false));
+			grabDirs(f.getAbsolutePath(),node);
+		}
 	}
 }

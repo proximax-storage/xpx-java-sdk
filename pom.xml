@@ -34,10 +34,12 @@
 			<name>bintray</name>
 			<url>http://jcenter.bintray.com</url>
 		</repository>
+
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
+
 	</repositories>
 	<build>
 		<plugins>
@@ -125,40 +127,44 @@
 			<version>${nem.core.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.ipfs</groupId>
-			<artifactId>java-ipfs-api</artifactId>
+			<groupId>io.ipfs</groupId>
+			<artifactId>api</artifactId>
 			<version>${ipfs.java.api.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/api-v1.2.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.multiformats</groupId>
+			<artifactId>java-multiaddr</artifactId>
+			<version>v1.1.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/multiaddr.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.multiformats</groupId>
+			<artifactId>java-multihash</artifactId>
+			<version>v1.1.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/multihash.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.multiformats</groupId>
+			<artifactId>java-multibase</artifactId>
+			<version>v1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/multibase.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ipld</groupId>
+			<artifactId>java-cid</artifactId>
+			<version>v1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/cid.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.github.serceman</groupId>
 			<artifactId>jnr-fuse</artifactId>
 			<version>${jnr.fuse}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-messaging</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-client-api</artifactId>
-			<version>${javax.websocket.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.tyrus.bundles</groupId>
-			<artifactId>tyrus-standalone-client</artifactId>
-			<version>${tyrus-standalone-client.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson-databind.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>

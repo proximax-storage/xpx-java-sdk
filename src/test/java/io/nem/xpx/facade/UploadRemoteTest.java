@@ -10,39 +10,47 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.node.NodeEndpoint;
-import org.springframework.messaging.simp.stomp.StompHeaders;
 
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
-import io.nem.xpx.facade.UploadLocalTest.TestMonitor;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.monitor.UploadTransactionMonitor;
+//import io.nem.xpx.monitor.UploadTransactionMonitor;
+
 
 /**
  * The Class UploadTest.
  */
 public class UploadRemoteTest extends AbstractApiTest {
 
-	public class TestMonitor extends UploadTransactionMonitor {
-
-		@Override
-		public Type getPayloadType(StompHeaders headers) {
-			return String.class;
-		}
-
-		@Override
-		public void handleFrame(StompHeaders headers, Object payload) {
-			System.out.println(payload);
-		}
-	}
+	/**
+	 * The Class TestMonitor.
+	 */
+//	public class TestMonitor extends UploadTransactionMonitor {
+//
+//		/* (non-Javadoc)
+//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#getPayloadType(org.springframework.messaging.simp.stomp.StompHeaders)
+//		 */
+//		@Override
+//		public Type getPayloadType(StompHeaders headers) {
+//			return String.class;
+//		}
+//
+//		/* (non-Javadoc)
+//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#handleFrame(org.springframework.messaging.simp.stomp.StompHeaders, java.lang.Object)
+//		 */
+//		@Override
+//		public void handleFrame(StompHeaders headers, Object payload) {
+//			System.out.println(payload);
+//		}
+//	}
 
 	/**
 	 * Upload plain data test.
@@ -175,10 +183,18 @@ public class UploadRemoteTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new UploadRemoteTest();
 	}
 
+	/**
+	 * Instantiates a new upload remote test.
+	 */
 	public UploadRemoteTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 

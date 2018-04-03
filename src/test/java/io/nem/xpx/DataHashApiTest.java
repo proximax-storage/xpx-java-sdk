@@ -37,6 +37,7 @@ import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.utils.HexEncoder;
 
+
 /**
  * API tests for DataHashApi.
  */
@@ -74,11 +75,6 @@ public class DataHashApiTest extends AbstractApiTest {
 	/**
 	 * This endpoint can be used to generate the transaction along with the data
 	 * hash with the private key signature.
-	 *
-	 * 
-	 *
-	 * @throws ApiException
-	 *             if the Api call fails
 	 */
 	@Test
 	@Ignore("This test can only be ran if you're running the node locally. e.i: set the api client base url to localhost")

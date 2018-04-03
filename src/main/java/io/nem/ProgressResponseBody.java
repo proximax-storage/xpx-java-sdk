@@ -24,31 +24,74 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
+
+/**
+ * The Class ProgressResponseBody.
+ */
 public class ProgressResponseBody extends ResponseBody {
 
+    /**
+     * The listener interface for receiving progress events.
+     * The class that is interested in processing a progress
+     * event implements this interface, and the object created
+     * with that class is registered with a component using the
+     * component's <code>addProgressListener<code> method. When
+     * the progress event occurs, that object's appropriate
+     * method is invoked.
+     *
+     * @see ProgressEvent
+     */
     public interface ProgressListener {
+        
+        /**
+         * Update.
+         *
+         * @param bytesRead the bytes read
+         * @param contentLength the content length
+         * @param done the done
+         */
         void update(long bytesRead, long contentLength, boolean done);
     }
 
+    /** The response body. */
     private final ResponseBody responseBody;
+    
+    /** The progress listener. */
     private final ProgressListener progressListener;
+    
+    /** The buffered source. */
     private BufferedSource bufferedSource;
 
+    /**
+     * Instantiates a new progress response body.
+     *
+     * @param responseBody the response body
+     * @param progressListener the progress listener
+     */
     public ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
         this.responseBody = responseBody;
         this.progressListener = progressListener;
     }
 
+    /* (non-Javadoc)
+     * @see com.squareup.okhttp.ResponseBody#contentType()
+     */
     @Override
     public MediaType contentType() {
         return responseBody.contentType();
     }
 
+    /* (non-Javadoc)
+     * @see com.squareup.okhttp.ResponseBody#contentLength()
+     */
     @Override
     public long contentLength() throws IOException {
         return responseBody.contentLength();
     }
 
+    /* (non-Javadoc)
+     * @see com.squareup.okhttp.ResponseBody#source()
+     */
     @Override
     public BufferedSource source() throws IOException {
         if (bufferedSource == null) {
@@ -57,6 +100,12 @@ public class ProgressResponseBody extends ResponseBody {
         return bufferedSource;
     }
 
+    /**
+     * Source.
+     *
+     * @param source the source
+     * @return the source
+     */
     private Source source(Source source) {
         return new ForwardingSource(source) {
             long totalBytesRead = 0L;

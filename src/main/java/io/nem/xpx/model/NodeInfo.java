@@ -23,138 +23,221 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+
 /**
- * NodeInfo
+ * NodeInfo.
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
 public class NodeInfo {
+  
+  /** The context uri. */
   @SerializedName("contextUri")
   private String contextUri = null;
 
+  /** The nem address. */
   @SerializedName("nemAddress")
   private String nemAddress = null;
 
+  /** The network. */
   @SerializedName("network")
   private String network = null;
 
+  /** The network address. */
   @SerializedName("networkAddress")
   private String networkAddress = null;
 
+  /** The network port. */
   @SerializedName("networkPort")
   private String networkPort = null;
 
+  /** The peer id. */
   @SerializedName("peerId")
   private String peerId = null;
 
+  /**
+   * Context uri.
+   *
+   * @param contextUri the context uri
+   * @return the node info
+   */
   public NodeInfo contextUri(String contextUri) {
     this.contextUri = contextUri;
     return this;
   }
 
    /**
-   * Get contextUri
-   * @return contextUri
-  **/
+    * Get contextUri.
+    *
+    * @return contextUri
+    */
   @ApiModelProperty(value = "")
   public String getContextUri() {
     return contextUri;
   }
 
+  /**
+   * Sets the context uri.
+   *
+   * @param contextUri the new context uri
+   */
   public void setContextUri(String contextUri) {
     this.contextUri = contextUri;
   }
 
+  /**
+   * Nem address.
+   *
+   * @param nemAddress the nem address
+   * @return the node info
+   */
   public NodeInfo nemAddress(String nemAddress) {
     this.nemAddress = nemAddress;
     return this;
   }
 
    /**
-   * Get nemAddress
-   * @return nemAddress
-  **/
+    * Get nemAddress.
+    *
+    * @return nemAddress
+    */
   @ApiModelProperty(value = "")
   public String getNemAddress() {
     return nemAddress;
   }
 
+  /**
+   * Sets the nem address.
+   *
+   * @param nemAddress the new nem address
+   */
   public void setNemAddress(String nemAddress) {
     this.nemAddress = nemAddress;
   }
 
+  /**
+   * Network.
+   *
+   * @param network the network
+   * @return the node info
+   */
   public NodeInfo network(String network) {
     this.network = network;
     return this;
   }
 
    /**
-   * Get network
-   * @return network
-  **/
+    * Get network.
+    *
+    * @return network
+    */
   @ApiModelProperty(value = "")
   public String getNetwork() {
     return network;
   }
 
+  /**
+   * Sets the network.
+   *
+   * @param network the new network
+   */
   public void setNetwork(String network) {
     this.network = network;
   }
 
+  /**
+   * Network address.
+   *
+   * @param networkAddress the network address
+   * @return the node info
+   */
   public NodeInfo networkAddress(String networkAddress) {
     this.networkAddress = networkAddress;
     return this;
   }
 
    /**
-   * Get networkAddress
-   * @return networkAddress
-  **/
+    * Get networkAddress.
+    *
+    * @return networkAddress
+    */
   @ApiModelProperty(value = "")
   public String getNetworkAddress() {
     return networkAddress;
   }
 
+  /**
+   * Sets the network address.
+   *
+   * @param networkAddress the new network address
+   */
   public void setNetworkAddress(String networkAddress) {
     this.networkAddress = networkAddress;
   }
 
+  /**
+   * Network port.
+   *
+   * @param networkPort the network port
+   * @return the node info
+   */
   public NodeInfo networkPort(String networkPort) {
     this.networkPort = networkPort;
     return this;
   }
 
    /**
-   * Get networkPort
-   * @return networkPort
-  **/
+    * Get networkPort.
+    *
+    * @return networkPort
+    */
   @ApiModelProperty(value = "")
   public String getNetworkPort() {
     return networkPort;
   }
 
+  /**
+   * Sets the network port.
+   *
+   * @param networkPort the new network port
+   */
   public void setNetworkPort(String networkPort) {
     this.networkPort = networkPort;
   }
 
+  /**
+   * Peer id.
+   *
+   * @param peerId the peer id
+   * @return the node info
+   */
   public NodeInfo peerId(String peerId) {
     this.peerId = peerId;
     return this;
   }
 
    /**
-   * Get peerId
-   * @return peerId
-  **/
+    * Get peerId.
+    *
+    * @return peerId
+    */
   @ApiModelProperty(value = "")
   public String getPeerId() {
     return peerId;
   }
 
+  /**
+   * Sets the peer id.
+   *
+   * @param peerId the new peer id
+   */
   public void setPeerId(String peerId) {
     this.peerId = peerId;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -172,12 +255,18 @@ public class NodeInfo {
         Objects.equals(this.peerId, nodeInfo.peerId);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(contextUri, nemAddress, network, networkAddress, networkPort, peerId);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -196,6 +285,9 @@ public class NodeInfo {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

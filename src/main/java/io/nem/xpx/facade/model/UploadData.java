@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
 
+
 /**
  * The Class UploadData.
  */

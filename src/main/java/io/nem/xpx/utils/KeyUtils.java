@@ -5,12 +5,17 @@ import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Address;
 
+
+/**
+ * The Class KeyUtils.
+ */
 public class KeyUtils {
 
 	/**
-	 * get address from private key
-	 * @param privateKeyString
-	 * @return
+	 * get address from private key.
+	 *
+	 * @param privateKeyString the private key string
+	 * @return the address from private key
 	 */
 	public static String getAddressFromPrivateKey(String privateKeyString) {
 		PrivateKey privateKey = PrivateKey.fromHexString(privateKeyString);
@@ -19,9 +24,10 @@ public class KeyUtils {
 	}
 	
 	/**
-	 * get public key from private key
-	 * @param privateKeyString
-	 * @return
+	 * get public key from private key.
+	 *
+	 * @param privateKeyString the private key string
+	 * @return the public from private key
 	 */
 	public static String getPublicFromPrivateKey(String privateKeyString) {
 		PrivateKey privateKey = PrivateKey.fromHexString(privateKeyString);
@@ -29,9 +35,11 @@ public class KeyUtils {
 		return keyPair.getPublicKey().toString();
 	}
 	
-	/**get address from public key
-	 * @param publicKeyString
-	 * @return
+	/**
+	 * get address from public key.
+	 *
+	 * @param publicKeyString the public key string
+	 * @return the address from public key
 	 */
 	public static String getAddressFromPublicKey(String publicKeyString) {
 		PublicKey publicKey = PublicKey.fromHexString(publicKeyString);

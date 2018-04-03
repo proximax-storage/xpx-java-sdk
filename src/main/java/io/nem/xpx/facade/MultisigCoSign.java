@@ -17,6 +17,7 @@ import io.nem.ApiException;
 import io.nem.xpx.builder.MultisigSignatureTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 
+
 /**
  * The Class MultisigCoSign.
  */

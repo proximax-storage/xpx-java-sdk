@@ -18,7 +18,6 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import org.springframework.messaging.simp.stomp.StompHeaders;
 import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
@@ -32,25 +31,34 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.monitor.UploadTransactionMonitor;
+
 
 /**
  * The Class UploadTest.
  */
 public class UploadLocalTest extends AbstractApiTest {
 
-	public class TestMonitor extends UploadTransactionMonitor {
-
-		@Override
-		public Type getPayloadType(StompHeaders headers) {
-			return String.class;
-		}
-		
-		@Override
-		public void handleFrame(StompHeaders headers, Object payload) {
-			System.out.println(payload);
-		}
-	}
+	/**
+	 * The Class TestMonitor.
+	 */
+//	public class TestMonitor extends UploadTransactionMonitor {
+//
+//		/* (non-Javadoc)
+//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#getPayloadType(org.springframework.messaging.simp.stomp.StompHeaders)
+//		 */
+//		@Override
+//		public Type getPayloadType(StompHeaders headers) {
+//			return String.class;
+//		}
+//		
+//		/* (non-Javadoc)
+//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#handleFrame(org.springframework.messaging.simp.stomp.StompHeaders, java.lang.Object)
+//		 */
+//		@Override
+//		public void handleFrame(StompHeaders headers, Object payload) {
+//			System.out.println(payload);
+//		}
+//	}
 
 	/**
 	 * Upload plain data test.
@@ -63,8 +71,11 @@ public class UploadLocalTest extends AbstractApiTest {
 		try {
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
+			UploadDataParameter parameter = UploadDataParameterBuilder
+					.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey)
+					.messageType(MessageTypes.PLAIN)
+					.data("This is a test data")
 					.metaData(null).keywords("keywords")
 					.build();
 
@@ -190,6 +201,9 @@ public class UploadLocalTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * Upload plain data with mosaic test.
+	 */
 	@Test
 	public void uploadPlainDataWithMosaicTest() {
 		try {
@@ -215,6 +229,9 @@ public class UploadLocalTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Upload path.
+	 */
 	@Test
 	public void uploadPath() {
 		try {
@@ -226,7 +243,7 @@ public class UploadLocalTest extends AbstractApiTest {
 
 			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.path("D:\\Projects\\eworkspace\\proximaxsdks\\xpx-java-sdk\\src\\test\\resources")
+					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
 					.metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
@@ -241,6 +258,11 @@ public class UploadLocalTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * Mosaic info lookup.
+	 *
+	 * @return the mosaic fee information lookup
+	 */
 	private MosaicFeeInformationLookup mosaicInfoLookup() {
 		return id -> {
 			if (id.getName().equals("registry")) {
@@ -252,31 +274,5 @@ public class UploadLocalTest extends AbstractApiTest {
 		};
 	}
 
-	public static void main(String[] args) {
-		new UploadLocalTest();
-	}
-
-	public UploadLocalTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("This is a test data")
-					.metaData(null).keywords("keywords")
-					.build();
-			
-			
-
-			String nemhash = upload.uploadData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
 
 }

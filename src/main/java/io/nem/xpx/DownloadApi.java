@@ -35,27 +35,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class DownloadApi.
+ */
 public class DownloadApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new download api.
+     */
     public DownloadApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new download api.
+     *
+     * @param apiClient the api client
+     */
     public DownloadApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for downloadPlainMessageFileUsingNemHashUsingGET
+     * Build call for downloadPlainMessageFileUsingNemHashUsingGET.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -103,6 +128,15 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download plain message file using nem hash using GET validate before call.
+     *
+     * @param nemhash the nemhash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -180,8 +214,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadRawBytesPlainMessageFileUsingNemHashUsingGET
+     * Build call for downloadRawBytesPlainMessageFileUsingNemHashUsingGET.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -229,6 +265,15 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download raw bytes plain message file using nem hash using GET validate before call.
+     *
+     * @param nemhash the nemhash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadRawBytesPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -249,7 +294,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -261,7 +307,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -274,7 +321,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -306,8 +354,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadRawBytesSecureMessageFileUsingNemHashUsingGET
+     * Build call for downloadRawBytesSecureMessageFileUsingNemHashUsingGET.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @param progressListener Progress listener
@@ -358,6 +408,16 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download raw bytes secure message file using nem hash using GET validate before call.
+     *
+     * @param nemhash the nemhash
+     * @param xPvkey the x pvkey
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadRawBytesSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -378,7 +438,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @return byte[]
@@ -391,7 +452,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @return ApiResponse&lt;byte[]&gt;
@@ -405,7 +467,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @param callback The callback to be executed when the API call finishes
@@ -438,8 +501,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadRawBytesUsingHashUsingPOST
+     * Build call for downloadRawBytesUsingHashUsingPOST.
+     *
      * @param hash The Data Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -488,6 +553,15 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download raw bytes using hash using POST validate before call.
+     *
+     * @param hash the hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -508,7 +582,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -520,7 +595,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -533,7 +609,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -565,8 +642,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadSecureMessageFileUsingNemHashUsingGET
+     * Build call for downloadSecureMessageFileUsingNemHashUsingGET.
+     *
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
      * @param nemhash The NEM Transaction Hash (required)
      * @param progressListener Progress listener
@@ -617,6 +696,16 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download secure message file using nem hash using GET validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param nemhash the nemhash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String xPvkey, String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -702,8 +791,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadStreamPlainMessageFileUsingNemHashUsingGET
+     * Build call for downloadStreamPlainMessageFileUsingNemHashUsingGET.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -751,6 +842,15 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download stream plain message file using nem hash using GET validate before call.
+     *
+     * @param nemhash the nemhash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadStreamPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -771,7 +871,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -783,7 +884,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -796,7 +898,8 @@ public class DownloadApi {
 
     /**
      * Download plain resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -828,8 +931,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadStreamSecureMessageFileUsingNemHashUsingGET
+     * Build call for downloadStreamSecureMessageFileUsingNemHashUsingGET.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @param progressListener Progress listener
@@ -880,6 +985,16 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download stream secure message file using nem hash using GET validate before call.
+     *
+     * @param nemhash the nemhash
+     * @param xPvkey the x pvkey
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadStreamSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -900,7 +1015,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @return byte[]
@@ -913,7 +1029,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @return ApiResponse&lt;byte[]&gt;
@@ -927,7 +1044,8 @@ public class DownloadApi {
 
     /**
      * Download secured resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file
+     * This endpoint returns a byte array format of the actual file.
+     *
      * @param nemhash The NEM Transaction Hash (required)
      * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
      * @param callback The callback to be executed when the API call finishes
@@ -960,8 +1078,10 @@ public class DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadStreamUsingHashUsingPOST
+     * Build call for downloadStreamUsingHashUsingPOST.
+     *
      * @param hash The Data Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -1010,6 +1130,15 @@ public class DownloadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download stream using hash using POST validate before call.
+     *
+     * @param hash the hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -1030,7 +1159,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1042,7 +1172,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1055,7 +1186,8 @@ public class DownloadApi {
 
     /**
      * Download secured encrypted resource/file using Data Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual encrypted file
+     * This endpoint returns a byte array format of the actual encrypted file.
+     *
      * @param hash The Data Hash (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call

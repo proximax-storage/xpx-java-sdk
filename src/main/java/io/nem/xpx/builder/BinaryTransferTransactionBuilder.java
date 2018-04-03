@@ -37,6 +37,7 @@ import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
+
 /**
  * The Class TransactionBuilder.
  */
@@ -59,6 +60,12 @@ public class BinaryTransferTransactionBuilder {
 		return new BinaryTransferTransactionBuilder.Builder(sender);
 	}
 
+	/**
+	 * Sender.
+	 *
+	 * @param sender the sender
+	 * @return the i sender
+	 */
 	public static ISender sender(String sender) {
 		return new BinaryTransferTransactionBuilder.Builder(sender);
 	}
@@ -77,6 +84,12 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		IBuild recipient(String recipient);
 
+		/**
+		 * Recipient.
+		 *
+		 * @param recipient the recipient
+		 * @return the i build
+		 */
 		IBuild recipient(Account recipient);
 
 	}
@@ -182,8 +195,20 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		IBuild addMosaic(MosaicId mosaic, Quantity quantity);
 
+		/**
+		 * Adds the mosaics.
+		 *
+		 * @param mosaic the mosaic
+		 * @return the i build
+		 */
 		IBuild addMosaics(Mosaic... mosaic);
 
+		/**
+		 * Encrypted message.
+		 *
+		 * @param encryptedMessage the encrypted message
+		 * @return the i build
+		 */
 		IBuild encryptedMessage(String encryptedMessage);
 
 		/**
@@ -220,20 +245,54 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		BinaryTransferTransaction buildTransaction();
 
+		/**
+		 * Builds the transaction.
+		 *
+		 * @param isForMultisig the is for multisig
+		 * @return the binary transfer transaction
+		 */
 		BinaryTransferTransaction buildTransaction(boolean isForMultisig);
 
-		BinaryTransferTransaction buildUnsignedTransaction();
-
-		BinaryTransferTransaction buildUnsignedTransaction(boolean isForMultisig);
-
+		/**
+		 * Builds the and sign transaction.
+		 *
+		 * @return the request announce data signature
+		 */
 		RequestAnnounceDataSignature buildAndSignTransaction();
 
+		/**
+		 * Builds the and send transaction.
+		 *
+		 * @return the nem announce result
+		 * @throws ApiException the api exception
+		 * @throws InterruptedException the interrupted exception
+		 * @throws ExecutionException the execution exception
+		 * @throws InsufficientAmountException the insufficient amount exception
+		 */
 		NemAnnounceResult buildAndSendTransaction()
 				throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 
+		/**
+		 * Builds the sign and send transaction.
+		 *
+		 * @return the nem announce result
+		 * @throws ApiException the api exception
+		 * @throws InterruptedException the interrupted exception
+		 * @throws ExecutionException the execution exception
+		 * @throws InsufficientAmountException the insufficient amount exception
+		 */
 		NemAnnounceResult buildSignAndSendTransaction()
 				throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 
+		/**
+		 * Builds the and send future transaction.
+		 *
+		 * @return the completable future
+		 * @throws ApiException the api exception
+		 * @throws InterruptedException the interrupted exception
+		 * @throws ExecutionException the execution exception
+		 * @throws InsufficientAmountException the insufficient amount exception
+		 */
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction()
 				throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 	}
@@ -281,8 +340,10 @@ public class BinaryTransferTransactionBuilder {
 		/** The sign by. */
 		private Account signBy;
 
+		/** The encrypted message. */
 		private String encryptedMessage;
 
+		/** The message. */
 		private String message;
 
 		/**
@@ -295,10 +356,18 @@ public class BinaryTransferTransactionBuilder {
 			this.sender = sender;
 		}
 
+		/**
+		 * Instantiates a new builder.
+		 *
+		 * @param sender the sender
+		 */
 		public Builder(String sender) {
 			this.sender = new Account(new KeyPair(PrivateKey.fromHexString(sender)));
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.ISender#recipient(java.lang.String)
+		 */
 		@Override
 		public IBuild recipient(String recipient) {
 			this.recipient = new Account(Address.fromPublicKey(PublicKey.fromHexString(recipient)));
@@ -403,60 +472,6 @@ public class BinaryTransferTransactionBuilder {
 			return instance;
 		}
 
-		@Override
-		public BinaryTransferTransaction buildUnsignedTransaction() {
-			if (this.timeStamp == null) {
-				this.timeStamp = new SystemTimeProvider().getCurrentTime();
-			}
-
-			if (this.amount == null) {
-				this.amount(Amount.fromNem(0));
-			}
-
-			if (this.version == 0) {
-				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
-						this.attachment);
-			} else {
-				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
-						this.amount, this.attachment);
-			}
-
-			Amount amountFee = null;
-			TransactionFeeCalculator transactionFeeCalculator = null;
-			transactionFeeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
-			amountFee = XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance);
-
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(amountFee);
-			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = transactionFeeCalculator;
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-			}
-
-			if (this.deadline != null) {
-				instance.setDeadline(this.deadline);
-			} else {
-				instance.setDeadline(this.timeStamp.addHours(23));
-			}
-			if (this.signature != null) {
-				instance.setSignature(this.signature);
-			}
-			if (this.encryptedMessage != null) {
-				instance.setEncryptedMessage(this.encryptedMessage);
-			}
-			return instance;
-		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -469,6 +484,9 @@ public class BinaryTransferTransactionBuilder {
 			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#buildSignAndSendTransaction()
+		 */
 		@Override
 		public NemAnnounceResult buildSignAndSendTransaction()
 				throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
@@ -610,6 +628,9 @@ public class BinaryTransferTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#buildAndSendFutureTransaction()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction()
 				throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
@@ -617,16 +638,22 @@ public class BinaryTransferTransactionBuilder {
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#encryptedMessage(java.lang.String)
+		 */
 		@Override
 		public IBuild encryptedMessage(String message) {
 			this.encryptedMessage = message;
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#buildAndSignTransaction()
+		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
 
-			this.buildUnsignedTransaction().sign();
+			this.buildTransaction().sign();
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
 			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
 			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
@@ -638,6 +665,9 @@ public class BinaryTransferTransactionBuilder {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#addMosaic(org.nem.core.model.mosaic.Mosaic)
+		 */
 		@Override
 		public IBuild addMosaic(Mosaic mosaic) {
 			if (this.attachment == null) {
@@ -660,6 +690,9 @@ public class BinaryTransferTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#addMosaics(org.nem.core.model.mosaic.Mosaic[])
+		 */
 		@Override
 		public IBuild addMosaics(Mosaic... mosaics) {
 			if (mosaics != null) {
@@ -670,6 +703,9 @@ public class BinaryTransferTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.BinaryTransferTransactionBuilder.IBuild#buildTransaction(boolean)
+		 */
 		@Override
 		public BinaryTransferTransaction buildTransaction(boolean isForMultisig) {
 			if (this.timeStamp == null) {
@@ -716,51 +752,6 @@ public class BinaryTransferTransactionBuilder {
 			return instance;
 		}
 
-		@Override
-		public BinaryTransferTransaction buildUnsignedTransaction(boolean isForMultisig) {
-			if (this.timeStamp == null) {
-				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
-			}
-
-			if (this.amount == null) {
-				this.amount(Amount.fromNem(0));
-			}
-
-			if (this.version == 0) {
-				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
-						this.attachment);
-			} else {
-				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
-						this.amount, this.attachment);
-			}
-
-			Amount amountFee = null;
-			if (this.fee != null) {
-				amountFee = this.fee;
-			} else if (this.feeCalculator != null) {
-				amountFee = this.feeCalculator.calculateMinimumFee(instance);
-			} else {
-				TransactionFeeCalculator globalFeeCalculator = isForMultisig
-						? XpxSdkGlobalConstants.getGlobalMultisigTransactionFee()
-						: XpxSdkGlobalConstants.getGlobalTransactionFee();
-				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
-			}
-			instance.setFee(amountFee);
-
-			if (this.deadline != null) {
-				instance.setDeadline(this.deadline);
-			} else {
-				instance.setDeadline(this.timeStamp.addHours(23));
-			}
-			if (this.signature != null) {
-				instance.setSignature(this.signature);
-			}
-			if (this.signBy != null) {
-				instance.signBy(this.signBy);
-			}
-
-			return instance;
-		}
 	}
 
 }

@@ -16,22 +16,54 @@ package io.nem;
 import java.util.Map;
 import java.util.List;
 
+
+/**
+ * The Class ApiException.
+ */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
 public class ApiException extends Exception {
+    
+    /** The code. */
     private int code = 0;
+    
+    /** The response headers. */
     private Map<String, List<String>> responseHeaders = null;
+    
+    /** The response body. */
     private String responseBody = null;
 
+    /**
+     * Instantiates a new api exception.
+     */
     public ApiException() {}
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param throwable the throwable
+     */
     public ApiException(Throwable throwable) {
         super(throwable);
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param message the message
+     */
     public ApiException(String message) {
         super(message);
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     * @param code the code
+     * @param responseHeaders the response headers
+     * @param responseBody the response body
+     */
     public ApiException(String message, Throwable throwable, int code, Map<String, List<String>> responseHeaders, String responseBody) {
         super(message, throwable);
         this.code = code;
@@ -39,23 +71,60 @@ public class ApiException extends Exception {
         this.responseBody = responseBody;
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param message the message
+     * @param code the code
+     * @param responseHeaders the response headers
+     * @param responseBody the response body
+     */
     public ApiException(String message, int code, Map<String, List<String>> responseHeaders, String responseBody) {
         this(message, (Throwable) null, code, responseHeaders, responseBody);
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     * @param code the code
+     * @param responseHeaders the response headers
+     */
     public ApiException(String message, Throwable throwable, int code, Map<String, List<String>> responseHeaders) {
         this(message, throwable, code, responseHeaders, null);
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param code the code
+     * @param responseHeaders the response headers
+     * @param responseBody the response body
+     */
     public ApiException(int code, Map<String, List<String>> responseHeaders, String responseBody) {
         this((String) null, (Throwable) null, code, responseHeaders, responseBody);
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param code the code
+     * @param message the message
+     */
     public ApiException(int code, String message) {
         super(message);
         this.code = code;
     }
 
+    /**
+     * Instantiates a new api exception.
+     *
+     * @param code the code
+     * @param message the message
+     * @param responseHeaders the response headers
+     * @param responseBody the response body
+     */
     public ApiException(int code, String message, Map<String, List<String>> responseHeaders, String responseBody) {
         this(code, message);
         this.responseHeaders = responseHeaders;

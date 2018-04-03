@@ -36,7 +36,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class LocalDownloadApi.
+ */
 public class LocalDownloadApi implements DownloadApiInterface {
+    
+    /* (non-Javadoc)
+     * @see io.nem.xpx.DownloadApiInterface#downloadStreamUsingHashUsingPOST(java.lang.String)
+     */
     @Override
     public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
     	return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));

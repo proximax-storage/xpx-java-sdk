@@ -11,11 +11,13 @@ import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 import io.nem.ApiClient;
 import io.nem.Configuration;
 
+
 /**
  * The Class AbstractApiTest.
  */
 public abstract class AbstractApiTest {
 	
+	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
 	/** The configuration. */
 	protected Configuration configuration;
@@ -37,9 +39,16 @@ public abstract class AbstractApiTest {
 	/** The engine. */
 	protected Ed25519CryptoEngine engine = (Ed25519CryptoEngine) CryptoEngines.ed25519Engine();
 	
+	/** The local node base path. */
 	protected String localNodeBasePath = "http://localhost:8881";
+	
+	/** The upload node base path. */
 	protected String uploadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://128.199.196.118:8881";
+	
+	/** The download node base path. */
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8882";//"http://178.62.225.175:8881";
+	
+	/** The search node base path. */
 	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
 	
 	/**
@@ -49,14 +58,32 @@ public abstract class AbstractApiTest {
 		Configuration.setDefaultApiClient(new ApiClient().setBasePath(uploadNodeBasePath));
 	}
 	
+	/**
+	 * Extract expected small txt file content.
+	 *
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String extractExpectedSmallTxtFileContent() throws IOException {
 		return FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
 	}
 	
+	/**
+	 * Extract large file size.
+	 *
+	 * @return the long
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public long extractLargeFileSize() throws IOException {
 		return FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
 	}
 
+	/**
+	 * Extract small file size.
+	 *
+	 * @return the long
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public long extractSmallFileSize() throws IOException {
 		return FileUtils.sizeOf(new File("src//test//resources//small_file.txt"));
 	}

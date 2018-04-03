@@ -18,6 +18,7 @@ import io.nem.xpx.model.AccountMetaDataPair;
 import org.junit.Assert;
 import org.junit.Test;
 
+
 /**
  * API tests for AccountApi.
  */
@@ -65,7 +66,7 @@ public class AccountApiTest extends AbstractApiTest {
 		String publicKey = this.xPubkey;
 		String pageSize = "100";
 		String response = api.getAllNemAddressTransactionsWithPageSizeUsingGET(publicKey, pageSize);
-
+		
 		Assert.assertNotNull(response);
 	}
 

@@ -16,15 +16,20 @@ import io.nem.ApiException;
 import io.nem.xpx.model.GeneratedAccount;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 
+
+/**
+ * The Class NemAccountApi.
+ */
 public class NemAccountApi {
 
 	/**
 	 * Gets the account by address.
 	 *
-	 * @param address
-	 *            the address
+	 * @param address            the address
 	 * @return the account by address
-	 * @throws ApiException 
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
 	 */
 	public static AccountMetaDataPair getAccountByAddress(String address)
 			throws InterruptedException, ExecutionException, ApiException {
@@ -41,10 +46,11 @@ public class NemAccountApi {
 	/**
 	 * Gets the account owned mosaic.
 	 *
-	 * @param address
-	 *            the address
+	 * @param address            the address
 	 * @return the account owned mosaic
-	 * @throws ApiException 
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
 	 */
 	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
@@ -57,12 +63,12 @@ public class NemAccountApi {
 
 	/**
 	 * Get the list of Harvest Info for the account.
-	 * 
-	 * @param address
-	 * @return
-	 * @throws InterruptedException
-	 * @throws ExecutionException
-	 * @throws ApiException 
+	 *
+	 * @param address the address
+	 * @return the account harvest info
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
 	 */
 	public static List<HarvestInfo> getAccountHarvestInfo(String address)
 			throws InterruptedException, ExecutionException, ApiException {
