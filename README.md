@@ -118,12 +118,12 @@ Attach a free form data (string) as a plain message on a NEM Txn
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	UploadDataParameter parameter = UploadDataParameterBuilder
-										.senderPrivateKey(<sender private key>)
-										.recipientPublicKey(<recipient public key>)
-										.messageType(MessageTypes.PLAIN)
-										.data("This is a test data")
-										.metaData(null).keywords("keywords")
-										.build();
+					.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<recipient public key>)
+					.messageType(MessageTypes.PLAIN)
+					.data("This is a test data")
+					.metaData(null).keywords("keywords")
+					.build();
 										
 	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
@@ -136,12 +136,12 @@ Attach a file as a secure message on a NEM Txn
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	UploadFileParameter parameter = UploadFileParameterBuilder
-									.senderPrivateKey(<sender private key>)
-									.recipientPublicKey(<receiver public key>)
-									.messageType(MessageTypes.SECURE)
-									.data(new File("src//test//resources//small_file.txt"))
-									.metaData(null).keywords(null)
-									.build();
+					.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<receiver public key>)
+					.messageType(MessageTypes.SECURE)
+					.data(new File("src//test//resources//small_file.txt"))
+					.metaData(null).keywords(null)
+					.build();
 
 	String nemhash = upload.uploadFile(parameter).getNemHash();
 } catch (ApiException | IOException e) {
@@ -155,12 +155,12 @@ Attach a free form data (string) as a secure message on a NEM Txn
 Upload upload = new Upload(remotePeerConnection); // or localPeerConnection
 try {
 	UploadDataParameter parameter = UploadDataParameterBuilder
-									.senderPrivateKey(<sender private key>)
-									.recipientPublicKey(<recipient public key>)
-									.messageType(MessageTypes.SECURE)
-									.data("This is a test data")
-									.metaData(null).keywords("keywords")
-									.build();
+					.senderPrivateKey(<sender private key>)
+					.recipientPublicKey(<recipient public key>)
+					.messageType(MessageTypes.SECURE)
+					.data("This is a test data")
+					.metaData(null).keywords("keywords")
+					.build();
 
 	String nemhash = upload.uploadData(parameter).getNemHash();
 } catch (ApiException e) {
