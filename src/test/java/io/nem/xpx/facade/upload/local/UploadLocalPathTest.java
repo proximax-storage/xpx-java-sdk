@@ -1,4 +1,4 @@
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.upload.local;
 
 import static org.junit.Assert.assertTrue;
 
@@ -25,40 +25,24 @@ import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.builder.UploadPathParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.utils.JsonUtils;
 
 
 /**
  * The Class UploadTest.
  */
-public class UploadLocalTest extends AbstractApiTest {
+public class UploadLocalPathTest extends AbstractApiTest {
 
 	/**
 	 * The Class TestMonitor.
 	 */
-//	public class TestMonitor extends UploadTransactionMonitor {
-//
-//		/* (non-Javadoc)
-//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#getPayloadType(org.springframework.messaging.simp.stomp.StompHeaders)
-//		 */
-//		@Override
-//		public Type getPayloadType(StompHeaders headers) {
-//			return String.class;
-//		}
-//		
-//		/* (non-Javadoc)
-//		 * @see io.nem.xpx.monitor.UploadTransactionMonitor#handleFrame(org.springframework.messaging.simp.stomp.StompHeaders, java.lang.Object)
-//		 */
-//		@Override
-//		public void handleFrame(StompHeaders headers, Object payload) {
-//			System.out.println(payload);
-//		}
-//	}
 
 	/**
 	 * Upload plain data test.
@@ -75,11 +59,12 @@ public class UploadLocalTest extends AbstractApiTest {
 					.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data("This is a test data")
-					.metaData(null).keywords("keywords")
+					.data("hello")
+					.metaData(null)
+					.keywords("proximax-addresses-eth")
 					.build();
 
-			String nemhash = upload.uploadData(parameter).getNemHash();
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
@@ -95,12 +80,16 @@ public class UploadLocalTest extends AbstractApiTest {
 	public void uploadPlainFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
-
 		try {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).build();
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf"))
+					.metaData(null)
+					.keywords("proximax-pdf")
+					.contentType("application/pdf") // make sure to put this in for files.
+					.build();
+			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -121,7 +110,8 @@ public class UploadLocalTest extends AbstractApiTest {
 		try {
 			Upload upload = new Upload(localPeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data(new File("src//test//resources//large_file.zip"))
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//large_file.zip"))
 					.metaData(null).keywords(null).build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
@@ -148,7 +138,7 @@ public class UploadLocalTest extends AbstractApiTest {
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data("This is a Secure Test Data").metaData(null).keywords(null).build();
 
-			String nemhash = upload.uploadData(parameter).getNemHash();
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
 			e.printStackTrace();
@@ -220,7 +210,7 @@ public class UploadLocalTest extends AbstractApiTest {
 							Quantity.fromValue(0)))
 					.build();
 
-			String nemhash = upload.uploadData(parameter).getNemHash();
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
@@ -232,31 +222,31 @@ public class UploadLocalTest extends AbstractApiTest {
 	/**
 	 * Upload path.
 	 */
-	@Test
-	public void uploadPath() {
-		try {
-			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
-			Upload upload = new Upload(localPeerConnection);
-
-			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
-					.metaData(null).keywords(null)
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-							Quantity.fromValue(0)))
-					.build();
-
-			String nemhash = upload.uploadPath(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
+//	@Test
+//	public void uploadPath() {
+//		try {
+//			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+//					new NodeEndpoint("http", "104.128.226.60", 7890));
+//			XpxSdkGlobalConstants.setGlobalTransactionFee(
+//					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+//			Upload upload = new Upload(localPeerConnection);
+//
+//			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
+//					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+//					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
+//					.metaData(null).keywords(null)
+//					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
+//							Quantity.fromValue(0)))
+//					.build();
+//
+//			String nemhash = upload.uploadPath(parameter).getNemHash();
+//			LOGGER.info(nemhash);
+//			Assert.assertNotNull(nemhash);
+//		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+//			e.printStackTrace();
+//			assertTrue(false);
+//		}
+//	}
 
 	/**
 	 * Mosaic info lookup.

@@ -66,6 +66,7 @@ public class UploadFileParameterBuilder {
 		 */
 		IBuild data(File data);
 
+		IBuild contentType(String contentType);
 		/**
 		 * Name.
 		 *
@@ -194,6 +195,12 @@ public class UploadFileParameterBuilder {
 		@Override
 		public IBuild recipientPublicKey(String recipientPublicKey) {
 			instance.setRecipientPublicKey(recipientPublicKey);
+			return this;
+		}
+
+		@Override
+		public IBuild contentType(String contentType) {
+			instance.setContentType(contentType);
 			return this;
 		}
 

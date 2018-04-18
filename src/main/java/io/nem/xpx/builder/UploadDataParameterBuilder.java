@@ -62,6 +62,10 @@ public class UploadDataParameterBuilder {
 		 * @return the i build
 		 */
 		IBuild data(String data);
+		
+		IBuild contentType(String contentType);
+		
+		IBuild encoding(String encoding);
 
 		/**
 		 * Name.
@@ -191,6 +195,18 @@ public class UploadDataParameterBuilder {
 		@Override
 		public IBuild recipientPublicKey(String recipientPublicKey) {
 			instance.setRecipientPublicKey(recipientPublicKey);
+			return this;
+		}
+
+		@Override
+		public IBuild contentType(String contentType) {
+			instance.setContentType(contentType);
+			return this;
+		}
+
+		@Override
+		public IBuild encoding(String encoding) {
+			instance.setEncoding(encoding);
 			return this;
 		}
 

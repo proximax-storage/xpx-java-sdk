@@ -14,39 +14,83 @@
 package io.nem.xpx;
 
 import io.ipfs.multihash.Multihash;
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
 import io.nem.ApiException;
-import io.nem.ApiResponse;
-import io.nem.Configuration;
-import io.nem.Pair;
-import io.nem.ProgressRequestBody;
-import io.nem.ProgressResponseBody;
-
-import com.google.gson.reflect.TypeToken;
-
+import io.nem.model.exception.MessageDigestNotMatchException;
 import java.io.IOException;
-
-import io.nem.xpx.model.ResponseEntity;
+import io.nem.xpx.intf.DownloadApi;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import io.nem.xpx.model.buffers.ResourceHashMessage;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
+import org.apache.commons.codec.binary.Base64;
+import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.ncc.TransactionMetaDataPair;
 
 
 /**
  * The Class LocalDownloadApi.
  */
-public class LocalDownloadApi implements DownloadApiInterface {
+public class LocalDownloadApi implements DownloadApi {
+
+	@Override
+	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
+		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
+	}
+	
+	@Override
+	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
+		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
+		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
+		
+		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+	}
+
+	@Override
+	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
+		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
+		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
+		
+		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+	}
+
+	@Override
+	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
+		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
+		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
+		
+		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+	}
+	
+	public byte[] loadResource(ResourceHashMessage resourceMessage) throws IOException, ApiException {
+		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+	}
+	
+	
+	
+	private void validateDigest(byte[] binaryData, String digest)
+			throws NoSuchAlgorithmException, MessageDigestNotMatchException {
+
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		String binaryDigest = new String(org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(binaryData)));
+	
+		if (!binaryDigest.equals(digest)) {
+			throw new MessageDigestNotMatchException(
+					"Message Digest Validation Failed. Resource requested seems to be corrupted.");
+		}
+	}
+
+
     
     /* (non-Javadoc)
      * @see io.nem.xpx.DownloadApiInterface#downloadStreamUsingHashUsingPOST(java.lang.String)
      */
-    @Override
-    public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
-    	return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
-    }
+//    @Override
+//    public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
+//    	return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
+//    }
 }

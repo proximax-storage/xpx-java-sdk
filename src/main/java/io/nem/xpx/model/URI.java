@@ -23,595 +23,369 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
-
 /**
- * URI.
+ * URI
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-07T03:37:57.794-04:00")
 public class URI {
-  
-  /** The absolute. */
   @SerializedName("absolute")
   private Boolean absolute = null;
 
-  /** The authority. */
   @SerializedName("authority")
   private String authority = null;
 
-  /** The fragment. */
   @SerializedName("fragment")
   private String fragment = null;
 
-  /** The host. */
   @SerializedName("host")
   private String host = null;
 
-  /** The opaque. */
   @SerializedName("opaque")
   private Boolean opaque = null;
 
-  /** The path. */
   @SerializedName("path")
   private String path = null;
 
-  /** The port. */
   @SerializedName("port")
   private Integer port = null;
 
-  /** The query. */
   @SerializedName("query")
   private String query = null;
 
-  /** The raw authority. */
   @SerializedName("rawAuthority")
   private String rawAuthority = null;
 
-  /** The raw fragment. */
   @SerializedName("rawFragment")
   private String rawFragment = null;
 
-  /** The raw path. */
   @SerializedName("rawPath")
   private String rawPath = null;
 
-  /** The raw query. */
   @SerializedName("rawQuery")
   private String rawQuery = null;
 
-  /** The raw scheme specific part. */
   @SerializedName("rawSchemeSpecificPart")
   private String rawSchemeSpecificPart = null;
 
-  /** The raw user info. */
   @SerializedName("rawUserInfo")
   private String rawUserInfo = null;
 
-  /** The scheme. */
   @SerializedName("scheme")
   private String scheme = null;
 
-  /** The scheme specific part. */
   @SerializedName("schemeSpecificPart")
   private String schemeSpecificPart = null;
 
-  /** The user info. */
   @SerializedName("userInfo")
   private String userInfo = null;
 
-  /**
-   * Absolute.
-   *
-   * @param absolute the absolute
-   * @return the uri
-   */
   public URI absolute(Boolean absolute) {
     this.absolute = absolute;
     return this;
   }
 
    /**
-    * Get absolute.
-    *
-    * @return absolute
-    */
+   * Get absolute
+   * @return absolute
+  **/
   @ApiModelProperty(value = "")
   public Boolean getAbsolute() {
     return absolute;
   }
 
-  /**
-   * Sets the absolute.
-   *
-   * @param absolute the new absolute
-   */
   public void setAbsolute(Boolean absolute) {
     this.absolute = absolute;
   }
 
-  /**
-   * Authority.
-   *
-   * @param authority the authority
-   * @return the uri
-   */
   public URI authority(String authority) {
     this.authority = authority;
     return this;
   }
 
    /**
-    * Get authority.
-    *
-    * @return authority
-    */
+   * Get authority
+   * @return authority
+  **/
   @ApiModelProperty(value = "")
   public String getAuthority() {
     return authority;
   }
 
-  /**
-   * Sets the authority.
-   *
-   * @param authority the new authority
-   */
   public void setAuthority(String authority) {
     this.authority = authority;
   }
 
-  /**
-   * Fragment.
-   *
-   * @param fragment the fragment
-   * @return the uri
-   */
   public URI fragment(String fragment) {
     this.fragment = fragment;
     return this;
   }
 
    /**
-    * Get fragment.
-    *
-    * @return fragment
-    */
+   * Get fragment
+   * @return fragment
+  **/
   @ApiModelProperty(value = "")
   public String getFragment() {
     return fragment;
   }
 
-  /**
-   * Sets the fragment.
-   *
-   * @param fragment the new fragment
-   */
   public void setFragment(String fragment) {
     this.fragment = fragment;
   }
 
-  /**
-   * Host.
-   *
-   * @param host the host
-   * @return the uri
-   */
   public URI host(String host) {
     this.host = host;
     return this;
   }
 
    /**
-    * Get host.
-    *
-    * @return host
-    */
+   * Get host
+   * @return host
+  **/
   @ApiModelProperty(value = "")
   public String getHost() {
     return host;
   }
 
-  /**
-   * Sets the host.
-   *
-   * @param host the new host
-   */
   public void setHost(String host) {
     this.host = host;
   }
 
-  /**
-   * Opaque.
-   *
-   * @param opaque the opaque
-   * @return the uri
-   */
   public URI opaque(Boolean opaque) {
     this.opaque = opaque;
     return this;
   }
 
    /**
-    * Get opaque.
-    *
-    * @return opaque
-    */
+   * Get opaque
+   * @return opaque
+  **/
   @ApiModelProperty(value = "")
   public Boolean getOpaque() {
     return opaque;
   }
 
-  /**
-   * Sets the opaque.
-   *
-   * @param opaque the new opaque
-   */
   public void setOpaque(Boolean opaque) {
     this.opaque = opaque;
   }
 
-  /**
-   * Path.
-   *
-   * @param path the path
-   * @return the uri
-   */
   public URI path(String path) {
     this.path = path;
     return this;
   }
 
    /**
-    * Get path.
-    *
-    * @return path
-    */
+   * Get path
+   * @return path
+  **/
   @ApiModelProperty(value = "")
   public String getPath() {
     return path;
   }
 
-  /**
-   * Sets the path.
-   *
-   * @param path the new path
-   */
   public void setPath(String path) {
     this.path = path;
   }
 
-  /**
-   * Port.
-   *
-   * @param port the port
-   * @return the uri
-   */
   public URI port(Integer port) {
     this.port = port;
     return this;
   }
 
    /**
-    * Get port.
-    *
-    * @return port
-    */
+   * Get port
+   * @return port
+  **/
   @ApiModelProperty(value = "")
   public Integer getPort() {
     return port;
   }
 
-  /**
-   * Sets the port.
-   *
-   * @param port the new port
-   */
   public void setPort(Integer port) {
     this.port = port;
   }
 
-  /**
-   * Query.
-   *
-   * @param query the query
-   * @return the uri
-   */
   public URI query(String query) {
     this.query = query;
     return this;
   }
 
    /**
-    * Get query.
-    *
-    * @return query
-    */
+   * Get query
+   * @return query
+  **/
   @ApiModelProperty(value = "")
   public String getQuery() {
     return query;
   }
 
-  /**
-   * Sets the query.
-   *
-   * @param query the new query
-   */
   public void setQuery(String query) {
     this.query = query;
   }
 
-  /**
-   * Raw authority.
-   *
-   * @param rawAuthority the raw authority
-   * @return the uri
-   */
   public URI rawAuthority(String rawAuthority) {
     this.rawAuthority = rawAuthority;
     return this;
   }
 
    /**
-    * Get rawAuthority.
-    *
-    * @return rawAuthority
-    */
+   * Get rawAuthority
+   * @return rawAuthority
+  **/
   @ApiModelProperty(value = "")
   public String getRawAuthority() {
     return rawAuthority;
   }
 
-  /**
-   * Sets the raw authority.
-   *
-   * @param rawAuthority the new raw authority
-   */
   public void setRawAuthority(String rawAuthority) {
     this.rawAuthority = rawAuthority;
   }
 
-  /**
-   * Raw fragment.
-   *
-   * @param rawFragment the raw fragment
-   * @return the uri
-   */
   public URI rawFragment(String rawFragment) {
     this.rawFragment = rawFragment;
     return this;
   }
 
    /**
-    * Get rawFragment.
-    *
-    * @return rawFragment
-    */
+   * Get rawFragment
+   * @return rawFragment
+  **/
   @ApiModelProperty(value = "")
   public String getRawFragment() {
     return rawFragment;
   }
 
-  /**
-   * Sets the raw fragment.
-   *
-   * @param rawFragment the new raw fragment
-   */
   public void setRawFragment(String rawFragment) {
     this.rawFragment = rawFragment;
   }
 
-  /**
-   * Raw path.
-   *
-   * @param rawPath the raw path
-   * @return the uri
-   */
   public URI rawPath(String rawPath) {
     this.rawPath = rawPath;
     return this;
   }
 
    /**
-    * Get rawPath.
-    *
-    * @return rawPath
-    */
+   * Get rawPath
+   * @return rawPath
+  **/
   @ApiModelProperty(value = "")
   public String getRawPath() {
     return rawPath;
   }
 
-  /**
-   * Sets the raw path.
-   *
-   * @param rawPath the new raw path
-   */
   public void setRawPath(String rawPath) {
     this.rawPath = rawPath;
   }
 
-  /**
-   * Raw query.
-   *
-   * @param rawQuery the raw query
-   * @return the uri
-   */
   public URI rawQuery(String rawQuery) {
     this.rawQuery = rawQuery;
     return this;
   }
 
    /**
-    * Get rawQuery.
-    *
-    * @return rawQuery
-    */
+   * Get rawQuery
+   * @return rawQuery
+  **/
   @ApiModelProperty(value = "")
   public String getRawQuery() {
     return rawQuery;
   }
 
-  /**
-   * Sets the raw query.
-   *
-   * @param rawQuery the new raw query
-   */
   public void setRawQuery(String rawQuery) {
     this.rawQuery = rawQuery;
   }
 
-  /**
-   * Raw scheme specific part.
-   *
-   * @param rawSchemeSpecificPart the raw scheme specific part
-   * @return the uri
-   */
   public URI rawSchemeSpecificPart(String rawSchemeSpecificPart) {
     this.rawSchemeSpecificPart = rawSchemeSpecificPart;
     return this;
   }
 
    /**
-    * Get rawSchemeSpecificPart.
-    *
-    * @return rawSchemeSpecificPart
-    */
+   * Get rawSchemeSpecificPart
+   * @return rawSchemeSpecificPart
+  **/
   @ApiModelProperty(value = "")
   public String getRawSchemeSpecificPart() {
     return rawSchemeSpecificPart;
   }
 
-  /**
-   * Sets the raw scheme specific part.
-   *
-   * @param rawSchemeSpecificPart the new raw scheme specific part
-   */
   public void setRawSchemeSpecificPart(String rawSchemeSpecificPart) {
     this.rawSchemeSpecificPart = rawSchemeSpecificPart;
   }
 
-  /**
-   * Raw user info.
-   *
-   * @param rawUserInfo the raw user info
-   * @return the uri
-   */
   public URI rawUserInfo(String rawUserInfo) {
     this.rawUserInfo = rawUserInfo;
     return this;
   }
 
    /**
-    * Get rawUserInfo.
-    *
-    * @return rawUserInfo
-    */
+   * Get rawUserInfo
+   * @return rawUserInfo
+  **/
   @ApiModelProperty(value = "")
   public String getRawUserInfo() {
     return rawUserInfo;
   }
 
-  /**
-   * Sets the raw user info.
-   *
-   * @param rawUserInfo the new raw user info
-   */
   public void setRawUserInfo(String rawUserInfo) {
     this.rawUserInfo = rawUserInfo;
   }
 
-  /**
-   * Scheme.
-   *
-   * @param scheme the scheme
-   * @return the uri
-   */
   public URI scheme(String scheme) {
     this.scheme = scheme;
     return this;
   }
 
    /**
-    * Get scheme.
-    *
-    * @return scheme
-    */
+   * Get scheme
+   * @return scheme
+  **/
   @ApiModelProperty(value = "")
   public String getScheme() {
     return scheme;
   }
 
-  /**
-   * Sets the scheme.
-   *
-   * @param scheme the new scheme
-   */
   public void setScheme(String scheme) {
     this.scheme = scheme;
   }
 
-  /**
-   * Scheme specific part.
-   *
-   * @param schemeSpecificPart the scheme specific part
-   * @return the uri
-   */
   public URI schemeSpecificPart(String schemeSpecificPart) {
     this.schemeSpecificPart = schemeSpecificPart;
     return this;
   }
 
    /**
-    * Get schemeSpecificPart.
-    *
-    * @return schemeSpecificPart
-    */
+   * Get schemeSpecificPart
+   * @return schemeSpecificPart
+  **/
   @ApiModelProperty(value = "")
   public String getSchemeSpecificPart() {
     return schemeSpecificPart;
   }
 
-  /**
-   * Sets the scheme specific part.
-   *
-   * @param schemeSpecificPart the new scheme specific part
-   */
   public void setSchemeSpecificPart(String schemeSpecificPart) {
     this.schemeSpecificPart = schemeSpecificPart;
   }
 
-  /**
-   * User info.
-   *
-   * @param userInfo the user info
-   * @return the uri
-   */
   public URI userInfo(String userInfo) {
     this.userInfo = userInfo;
     return this;
   }
 
    /**
-    * Get userInfo.
-    *
-    * @return userInfo
-    */
+   * Get userInfo
+   * @return userInfo
+  **/
   @ApiModelProperty(value = "")
   public String getUserInfo() {
     return userInfo;
   }
 
-  /**
-   * Sets the user info.
-   *
-   * @param userInfo the new user info
-   */
   public void setUserInfo(String userInfo) {
     this.userInfo = userInfo;
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -640,18 +414,12 @@ public class URI {
         Objects.equals(this.userInfo, URI.userInfo);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Objects.hash(absolute, authority, fragment, host, opaque, path, port, query, rawAuthority, rawFragment, rawPath, rawQuery, rawSchemeSpecificPart, rawUserInfo, scheme, schemeSpecificPart, userInfo);
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -681,9 +449,6 @@ public class URI {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
-   *
-   * @param o the o
-   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

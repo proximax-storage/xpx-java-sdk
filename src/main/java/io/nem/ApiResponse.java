@@ -16,26 +16,17 @@ package io.nem;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * API response returned by API call.
  *
  * @param <T> The type of data that is deserialized from response body
  */
 public class ApiResponse<T> {
-    
-    /** The status code. */
     final private int statusCode;
-    
-    /** The headers. */
     final private Map<String, List<String>> headers;
-    
-    /** The data. */
     final private T data;
 
     /**
-     * Instantiates a new api response.
-     *
      * @param statusCode The status code of HTTP response
      * @param headers The headers of HTTP response
      */
@@ -44,8 +35,6 @@ public class ApiResponse<T> {
     }
 
     /**
-     * Instantiates a new api response.
-     *
      * @param statusCode The status code of HTTP response
      * @param headers The headers of HTTP response
      * @param data The object deserialized from response bod
@@ -56,29 +45,14 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    /**
-     * Gets the status code.
-     *
-     * @return the status code
-     */
     public int getStatusCode() {
         return statusCode;
     }
 
-    /**
-     * Gets the headers.
-     *
-     * @return the headers
-     */
     public Map<String, List<String>> getHeaders() {
         return headers;
     }
 
-    /**
-     * Gets the data.
-     *
-     * @return the data
-     */
     public T getData() {
         return data;
     }

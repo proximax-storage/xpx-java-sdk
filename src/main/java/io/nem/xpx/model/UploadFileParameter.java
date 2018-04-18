@@ -23,6 +23,9 @@ public class UploadFileParameter implements Serializable {
 	/** The data. */
 	private File data;
 	
+	private String contentType;
+	
+	
 	/** The name. */
 	private String name;
 	
@@ -107,6 +110,14 @@ public class UploadFileParameter implements Serializable {
 		this.data = data;
 	}
 	
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
 	/**
 	 * Gets the name.
 	 *

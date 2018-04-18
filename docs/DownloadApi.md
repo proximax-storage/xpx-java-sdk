@@ -4,23 +4,21 @@ All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**downloadPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/{nemhash} | Download resource/file using NEM Transaction Hash
-[**downloadRawBytesPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadRawBytesPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/rawbytes/{nemhash} | Download plain resource/file using NEM Transaction Hash
-[**downloadRawBytesSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadRawBytesSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/rawbytes/{nemhash} | Download secured resource/file using NEM Transaction Hash
-[**downloadRawBytesUsingHashUsingPOST**](DownloadApi.md#downloadRawBytesUsingHashUsingPOST) | **POST** /download/data/rawbytes | Download secured encrypted resource/file using Data Hash
-[**downloadSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/{nemhash} | Download resource/file using NEM Transaction Hash
-[**downloadStreamPlainMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadStreamPlainMessageFileUsingNemHashUsingGET) | **GET** /download/data/plain/stream/{nemhash} | Download plain resource/file using NEM Transaction Hash
-[**downloadStreamSecureMessageFileUsingNemHashUsingGET**](DownloadApi.md#downloadStreamSecureMessageFileUsingNemHashUsingGET) | **GET** /download/data/secure/stream/{nemhash} | Download secured resource/file using NEM Transaction Hash
-[**downloadStreamUsingHashUsingPOST**](DownloadApi.md#downloadStreamUsingHashUsingPOST) | **POST** /download/data/stream | Download secured encrypted resource/file using Data Hash
+[**downloadBinaryUsingGET**](DownloadApi.md#downloadBinaryUsingGET) | **GET** /download/binary | Download a blob using NEM Transaction Hash
+[**downloadFileUsingGET**](DownloadApi.md#downloadFileUsingGET) | **GET** /download/file | Download a file associated to a NEM Hash.
+[**downloadSecureBinaryUsingGET**](DownloadApi.md#downloadSecureBinaryUsingGET) | **GET** /download/secure/binary | Download a secure resource/blob using NEM Private Key and Transaction Hash
+[**downloadSecureFileUsingGET**](DownloadApi.md#downloadSecureFileUsingGET) | **GET** /download/secure/file | Download a secure resource/file using NEM Private Key and Transaction Hash
+[**downloadTextUsingGET**](DownloadApi.md#downloadTextUsingGET) | **GET** /download/text | Download a plain text data using NEM Transaction Hash
+[**downloadUsingDataHashUsingGET**](DownloadApi.md#downloadUsingDataHashUsingGET) | **GET** /download/direct/datahash | Download IPFS file associated to the datahash
 
 
-<a name="downloadPlainMessageFileUsingNemHashUsingGET"></a>
-# **downloadPlainMessageFileUsingNemHashUsingGET**
-> ResponseEntity downloadPlainMessageFileUsingNemHashUsingGET(nemhash)
+<a name="downloadBinaryUsingGET"></a>
+# **downloadBinaryUsingGET**
+> byte[] downloadBinaryUsingGET(nemHash, transferMode)
 
-Download resource/file using NEM Transaction Hash
+Download a blob using NEM Transaction Hash
 
-This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
+Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
 ### Example
 ```java
@@ -30,12 +28,13 @@ This endpoint returns either a byte array format of the actual file OR a JSON fo
 
 
 DownloadApi apiInstance = new DownloadApi();
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
+String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
+String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
 try {
-    ResponseEntity result = apiInstance.downloadPlainMessageFileUsingNemHashUsingGET(nemhash);
+    byte[] result = apiInstance.downloadBinaryUsingGET(nemHash, transferMode);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadPlainMessageFileUsingNemHashUsingGET");
+    System.err.println("Exception when calling DownloadApi#downloadBinaryUsingGET");
     e.printStackTrace();
 }
 ```
@@ -44,52 +43,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **nemhash** | **String**| The NEM Transaction Hash |
-
-### Return type
-
-[**ResponseEntity**](ResponseEntity.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="downloadRawBytesPlainMessageFileUsingNemHashUsingGET"></a>
-# **downloadRawBytesPlainMessageFileUsingNemHashUsingGET**
-> byte[] downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash)
-
-Download plain resource/file using NEM Transaction Hash
-
-This endpoint returns a byte array format of the actual file
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.DownloadApi;
-
-
-DownloadApi apiInstance = new DownloadApi();
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
-try {
-    byte[] result = apiInstance.downloadRawBytesPlainMessageFileUsingNemHashUsingGET(nemhash);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadRawBytesPlainMessageFileUsingNemHashUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **nemhash** | **String**| The NEM Transaction Hash |
+ **nemHash** | **String**| The NEM Transaction Hash |
+ **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
 
 ### Return type
 
@@ -104,13 +59,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
-<a name="downloadRawBytesSecureMessageFileUsingNemHashUsingGET"></a>
-# **downloadRawBytesSecureMessageFileUsingNemHashUsingGET**
-> byte[] downloadRawBytesSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey)
+<a name="downloadFileUsingGET"></a>
+# **downloadFileUsingGET**
+> byte[] downloadFileUsingGET(nemHash, transferMode)
 
-Download secured resource/file using NEM Transaction Hash
+Download a file associated to a NEM Hash.
 
-This endpoint returns a byte array format of the actual file
+Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
 ### Example
 ```java
@@ -120,13 +75,13 @@ This endpoint returns a byte array format of the actual file
 
 
 DownloadApi apiInstance = new DownloadApi();
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
-String xPvkey = "xPvkey_example"; // String | The Sender or Receiver's Private Key
+String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
+String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
 try {
-    byte[] result = apiInstance.downloadRawBytesSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
+    byte[] result = apiInstance.downloadFileUsingGET(nemHash, transferMode);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadRawBytesSecureMessageFileUsingNemHashUsingGET");
+    System.err.println("Exception when calling DownloadApi#downloadFileUsingGET");
     e.printStackTrace();
 }
 ```
@@ -135,8 +90,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **nemhash** | **String**| The NEM Transaction Hash |
- **xPvkey** | **String**| The Sender or Receiver&#39;s Private Key | [optional]
+ **nemHash** | **String**| The NEM Transaction Hash |
+ **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
 
 ### Return type
 
@@ -151,58 +106,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
-<a name="downloadRawBytesUsingHashUsingPOST"></a>
-# **downloadRawBytesUsingHashUsingPOST**
-> byte[] downloadRawBytesUsingHashUsingPOST(hash)
+<a name="downloadSecureBinaryUsingGET"></a>
+# **downloadSecureBinaryUsingGET**
+> byte[] downloadSecureBinaryUsingGET(xPvkey, nemHash, transferType)
 
-Download secured encrypted resource/file using Data Hash
+Download a secure resource/blob using NEM Private Key and Transaction Hash
 
-This endpoint returns a byte array format of the actual encrypted file
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.DownloadApi;
-
-
-DownloadApi apiInstance = new DownloadApi();
-String hash = "hash_example"; // String | The Data Hash
-try {
-    byte[] result = apiInstance.downloadRawBytesUsingHashUsingPOST(hash);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadRawBytesUsingHashUsingPOST");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **hash** | **String**| The Data Hash |
-
-### Return type
-
-**byte[]**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="downloadSecureMessageFileUsingNemHashUsingGET"></a>
-# **downloadSecureMessageFileUsingNemHashUsingGET**
-> ResponseEntity downloadSecureMessageFileUsingNemHashUsingGET(xPvkey, nemhash)
-
-Download resource/file using NEM Transaction Hash
-
-This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
+Download a blob associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
 ### Example
 ```java
@@ -213,12 +123,13 @@ This endpoint returns either a byte array format of the actual file OR a JSON fo
 
 DownloadApi apiInstance = new DownloadApi();
 String xPvkey = "xPvkey_example"; // String | The Sender or Receiver's Private Key
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
+String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
+String transferType = "transferType_example"; // String | Transfer Type default: bytes (bytes,stream,base64)
 try {
-    ResponseEntity result = apiInstance.downloadSecureMessageFileUsingNemHashUsingGET(xPvkey, nemhash);
+    byte[] result = apiInstance.downloadSecureBinaryUsingGET(xPvkey, nemHash, transferType);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadSecureMessageFileUsingNemHashUsingGET");
+    System.err.println("Exception when calling DownloadApi#downloadSecureBinaryUsingGET");
     e.printStackTrace();
 }
 ```
@@ -228,52 +139,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xPvkey** | **String**| The Sender or Receiver&#39;s Private Key |
- **nemhash** | **String**| The NEM Transaction Hash |
-
-### Return type
-
-[**ResponseEntity**](ResponseEntity.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="downloadStreamPlainMessageFileUsingNemHashUsingGET"></a>
-# **downloadStreamPlainMessageFileUsingNemHashUsingGET**
-> byte[] downloadStreamPlainMessageFileUsingNemHashUsingGET(nemhash)
-
-Download plain resource/file using NEM Transaction Hash
-
-This endpoint returns a byte array format of the actual file
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.DownloadApi;
-
-
-DownloadApi apiInstance = new DownloadApi();
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
-try {
-    byte[] result = apiInstance.downloadStreamPlainMessageFileUsingNemHashUsingGET(nemhash);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadStreamPlainMessageFileUsingNemHashUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **nemhash** | **String**| The NEM Transaction Hash |
+ **nemHash** | **String**| The NEM Transaction Hash |
+ **transferType** | **String**| Transfer Type default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
 
 ### Return type
 
@@ -288,13 +155,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
-<a name="downloadStreamSecureMessageFileUsingNemHashUsingGET"></a>
-# **downloadStreamSecureMessageFileUsingNemHashUsingGET**
-> byte[] downloadStreamSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey)
+<a name="downloadSecureFileUsingGET"></a>
+# **downloadSecureFileUsingGET**
+> byte[] downloadSecureFileUsingGET(xPvkey, nemHash, transferType)
 
-Download secured resource/file using NEM Transaction Hash
+Download a secure resource/file using NEM Private Key and Transaction Hash
 
-This endpoint returns a byte array format of the actual file
+Download a file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
 ### Example
 ```java
@@ -304,13 +171,14 @@ This endpoint returns a byte array format of the actual file
 
 
 DownloadApi apiInstance = new DownloadApi();
-String nemhash = "nemhash_example"; // String | The NEM Transaction Hash
 String xPvkey = "xPvkey_example"; // String | The Sender or Receiver's Private Key
+String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
+String transferType = "transferType_example"; // String | Transfer Type default: bytes (bytes,stream,base64)
 try {
-    byte[] result = apiInstance.downloadStreamSecureMessageFileUsingNemHashUsingGET(nemhash, xPvkey);
+    byte[] result = apiInstance.downloadSecureFileUsingGET(xPvkey, nemHash, transferType);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadStreamSecureMessageFileUsingNemHashUsingGET");
+    System.err.println("Exception when calling DownloadApi#downloadSecureFileUsingGET");
     e.printStackTrace();
 }
 ```
@@ -319,8 +187,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **nemhash** | **String**| The NEM Transaction Hash |
- **xPvkey** | **String**| The Sender or Receiver&#39;s Private Key | [optional]
+ **xPvkey** | **String**| The Sender or Receiver&#39;s Private Key |
+ **nemHash** | **String**| The NEM Transaction Hash |
+ **transferType** | **String**| Transfer Type default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
 
 ### Return type
 
@@ -335,13 +204,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
-<a name="downloadStreamUsingHashUsingPOST"></a>
-# **downloadStreamUsingHashUsingPOST**
-> byte[] downloadStreamUsingHashUsingPOST(hash)
+<a name="downloadTextUsingGET"></a>
+# **downloadTextUsingGET**
+> byte[] downloadTextUsingGET(nemHash, transferMode)
 
-Download secured encrypted resource/file using Data Hash
+Download a plain text data using NEM Transaction Hash
 
-This endpoint returns a byte array format of the actual encrypted file
+Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
 ### Example
 ```java
@@ -351,12 +220,13 @@ This endpoint returns a byte array format of the actual encrypted file
 
 
 DownloadApi apiInstance = new DownloadApi();
-String hash = "hash_example"; // String | The Data Hash
+String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
+String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
 try {
-    byte[] result = apiInstance.downloadStreamUsingHashUsingPOST(hash);
+    byte[] result = apiInstance.downloadTextUsingGET(nemHash, transferMode);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadStreamUsingHashUsingPOST");
+    System.err.println("Exception when calling DownloadApi#downloadTextUsingGET");
     e.printStackTrace();
 }
 ```
@@ -365,7 +235,53 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **hash** | **String**| The Data Hash |
+ **nemHash** | **String**| The NEM Transaction Hash |
+ **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
+
+### Return type
+
+**byte[]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="downloadUsingDataHashUsingGET"></a>
+# **downloadUsingDataHashUsingGET**
+> byte[] downloadUsingDataHashUsingGET(dataHash)
+
+Download IPFS file associated to the datahash
+
+Download IPFS file associated to the datahash
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.DownloadApi;
+
+
+DownloadApi apiInstance = new DownloadApi();
+String dataHash = "dataHash_example"; // String | The NEM Transaction Hash
+try {
+    byte[] result = apiInstance.downloadUsingDataHashUsingGET(dataHash);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DownloadApi#downloadUsingDataHashUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dataHash** | **String**| The NEM Transaction Hash |
 
 ### Return type
 

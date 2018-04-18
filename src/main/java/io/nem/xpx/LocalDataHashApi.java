@@ -14,154 +14,70 @@ package io.nem.xpx;
 
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
-import io.ipfs.api.NamedStreamable.DirWrapper;
-import io.ipfs.multihash.Multihash;
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
 import io.nem.ApiException;
-import io.nem.ApiResponse;
-import io.nem.Configuration;
-import io.nem.Pair;
-import io.nem.ProgressRequestBody;
-import io.nem.ProgressResponseBody;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-
-import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.intf.DataHashApi;
 import io.nem.xpx.model.DataHashByteArrayEntity;
-import io.nem.xpx.model.DataHashPathEntity;
 import io.nem.xpx.model.PublishResult;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.JsonUtils;
-
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 
 /**
  * The Class LocalDataHashApi.
  */
-public class LocalDataHashApi implements DataHashApiInterface {
+public class LocalDataHashApi implements DataHashApi {
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.DataHashApiInterface#generateHashAndExposeDataToNetworkUsingPOST(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public BinaryTransactionEncryptedMessage generateHashAndExposeDataToNetworkUsingPOST(String data, String name,
-			String keywords, String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
+	public String generateHashForDataOnlyUsingPOST(byte[] data) throws ApiException, IOException, NoSuchAlgorithmException {
 
+		
+		
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
-		dataHashByteArrayEntity.setFile(data.getBytes());
-		if (name == null || (name != null && name.equals(""))) {
-			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
-		} else {
-			dataHashByteArrayEntity.setName(name);
-		}
-		dataHashByteArrayEntity.setKeywords(keywords);
-		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
+		dataHashByteArrayEntity.setFile(data);
+		dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
 
-		BinaryTransactionEncryptedMessage binaryEncryptedMessage = new BinaryTransactionEncryptedMessage();
-
-		PublishResult spfsBlockResult = exposeAndPinBinary(dataHashByteArrayEntity.getName(),
+		
+		PublishResult spfsBlockResult = getBinaryHashOnly(dataHashByteArrayEntity.getName(),
 				dataHashByteArrayEntity.getFile());
 
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
-
-		binaryEncryptedMessage.setTimestamp(System.currentTimeMillis());
-		binaryEncryptedMessage.setHash(multiHashString);	
-		binaryEncryptedMessage.setName(spfsBlockResult.getMerkleNode().get(0).name.get());
-		binaryEncryptedMessage.setType(spfsBlockResult.getMerkleNode().get(0).type.toString());
-		binaryEncryptedMessage.setKeywords(dataHashByteArrayEntity.getKeywords());
-		binaryEncryptedMessage.setMetaData(JsonUtils.toJson(dataHashByteArrayEntity.getMetadata()));
-		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		binaryEncryptedMessage.setDigest(new String(
-				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(multiHashString.getBytes()))));
-
-		return binaryEncryptedMessage;
-	}
-
-	/**
-	 * Generate hash and expose path.
-	 *
-	 * @param path the path
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metadata the metadata
-	 * @return the binary transaction encrypted message
-	 * @throws Exception the exception
-	 */
-	public BinaryTransactionEncryptedMessage generateHashAndExposePath(String path, String name,
-			String keywords, String metadata) throws Exception {
-
-		DataHashPathEntity dataHashPathEntity = new DataHashPathEntity();
-		dataHashPathEntity.setPath(path);
-		if (name == null || (name != null && name.equals(""))) {
-			dataHashPathEntity.setName(Math.abs(System.currentTimeMillis()) + "");
-		} else {
-			dataHashPathEntity.setName(name);
-		}
-		dataHashPathEntity.setKeywords(keywords);
-		dataHashPathEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
-
-		BinaryTransactionEncryptedMessage binaryEncryptedMessage = new BinaryTransactionEncryptedMessage();
-
-		PublishResult spfsBlockResult = exposeAndPinPath(dataHashPathEntity.getPath());
-		int rootHashIndex = spfsBlockResult.getMerkleNode().size() - 1;
+		return multiHashString;
+//		
+//		//	flat bufferize the binaryEncryptedMessage.
+//		FlatBufferBuilder builder  = new FlatBufferBuilder(1024);
+//		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+//		int digest =  builder.createString(new String(
+//				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
+//		
+//		int hash = builder.createString(multiHashString);
+//		int keywords = builder.createString((dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+//		int metadata = builder.createString(JsonUtils.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+//		int name =  builder.createString(dataHashByteArrayEntity.getName());
+//		int type = builder.createString(dataHashByteArrayEntity.getContentType());
+//		
+//		ResourceHashMessage.startResourceHashMessage(builder);
+//		ResourceHashMessage.addDigest(builder,digest);
+//		ResourceHashMessage.addHash(builder, hash);
+//		ResourceHashMessage.addKeywords(builder, keywords);
+//		ResourceHashMessage.addMetaData(builder,  metadata);
+//		ResourceHashMessage.addName(builder, name);
+//		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
+//		ResourceHashMessage.addType(builder, type);
+//		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
+//		return ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(builder.sizedByteArray())));
 		
-		String multiHashString = spfsBlockResult.getMerkleNode().get(rootHashIndex).hash.toBase58();
-
-		binaryEncryptedMessage.setTimestamp(System.currentTimeMillis());
-		binaryEncryptedMessage.setHash(multiHashString);
-		binaryEncryptedMessage.setName(spfsBlockResult.getMerkleNode().get(rootHashIndex).name.get());
-		binaryEncryptedMessage.setType(spfsBlockResult.getMerkleNode().get(rootHashIndex).type.toString());
-		binaryEncryptedMessage.setKeywords(dataHashPathEntity.getKeywords());
-		binaryEncryptedMessage.setMetaData(JsonUtils.toJson(dataHashPathEntity.getMetadata()));
-		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		binaryEncryptedMessage.setDigest(new String(
-				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(multiHashString.getBytes()))));
-
-		return binaryEncryptedMessage;
-	}
-
-	/* (non-Javadoc)
-	 * @see io.nem.xpx.DataHashApiInterface#cleanupPinnedContentUsingPOST(java.lang.String)
-	 */
-	@Override
-	public String cleanupPinnedContentUsingPOST(String multiHash) throws IOException, ApiException {
-		XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multiHash));
-		XpxSdkGlobalConstants.getProximaxConnection().repo.gc();
-
-		return "Clean up success";
 
 	}
 
-	/**
-	 * Expose and pin binary.
-	 *
-	 * @param name the name
-	 * @param binary the binary
-	 * @return the publish result
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
-	private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
-		PublishResult result = new PublishResult();
-		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
-		List<Multihash> pinned = XpxSdkGlobalConstants.getProximaxConnection().pin.add(node.get(0).hash);
-		result.setMerkleNode(node);
-		result.setMultiHash(pinned);
-		return result;
-	}
+	
 	
 	/**
 	 * Expose and pin path.
@@ -196,22 +112,6 @@ public class LocalDataHashApi implements DataHashApiInterface {
 
 	}
 	
-	/**
-	 * Expose binary.
-	 *
-	 * @param name the name
-	 * @param binary the binary
-	 * @return the publish result
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
-	private PublishResult exposeBinary(String name, byte[] binary) throws IOException, ApiException {
-		PublishResult result = new PublishResult();
-		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
-		result.setMerkleNode(node);
-		return result;
-	}
 
 	/**
 	 * Gets the binary hash only.
@@ -228,27 +128,11 @@ public class LocalDataHashApi implements DataHashApiInterface {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().getHashOnly(byteArrayWrapper);
 		result.setMerkleNode(node);
 
 		return result;
 	}
 	
-	/**
-	 * Grab dirs.
-	 *
-	 * @param path the path
-	 * @param node the node
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
-	private void grabDirs(String path, List<MerkleNode> node) throws IOException, ApiException {
-		File[] directories = new File(path).listFiles(File::isDirectory);
-		for(File f : directories) {
-			NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(f);
-			NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(f.getName().toString(),fileWrapper.getChildren());
-			node.addAll(XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper,true,false));
-			grabDirs(f.getAbsolutePath(),node);
-		}
-	}
+	
 }

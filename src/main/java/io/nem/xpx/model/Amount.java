@@ -23,85 +23,54 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
-
 /**
- * Amount.
+ * Amount
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:24:38.535-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-18T01:47:44.849-04:00")
 public class Amount {
-  
-  /** The num micro nem. */
   @SerializedName("numMicroNem")
   private Long numMicroNem = null;
 
-  /** The num nem. */
   @SerializedName("numNem")
   private Long numNem = null;
 
-  /**
-   * Num micro nem.
-   *
-   * @param numMicroNem the num micro nem
-   * @return the amount
-   */
   public Amount numMicroNem(Long numMicroNem) {
     this.numMicroNem = numMicroNem;
     return this;
   }
 
    /**
-    * Get numMicroNem.
-    *
-    * @return numMicroNem
-    */
+   * Get numMicroNem
+   * @return numMicroNem
+  **/
   @ApiModelProperty(value = "")
   public Long getNumMicroNem() {
     return numMicroNem;
   }
 
-  /**
-   * Sets the num micro nem.
-   *
-   * @param numMicroNem the new num micro nem
-   */
   public void setNumMicroNem(Long numMicroNem) {
     this.numMicroNem = numMicroNem;
   }
 
-  /**
-   * Num nem.
-   *
-   * @param numNem the num nem
-   * @return the amount
-   */
   public Amount numNem(Long numNem) {
     this.numNem = numNem;
     return this;
   }
 
    /**
-    * Get numNem.
-    *
-    * @return numNem
-    */
+   * Get numNem
+   * @return numNem
+  **/
   @ApiModelProperty(value = "")
   public Long getNumNem() {
     return numNem;
   }
 
-  /**
-   * Sets the num nem.
-   *
-   * @param numNem the new num nem
-   */
   public void setNumNem(Long numNem) {
     this.numNem = numNem;
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -115,18 +84,12 @@ public class Amount {
         Objects.equals(this.numNem, amount.numNem);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Objects.hash(numMicroNem, numNem);
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -141,9 +104,6 @@ public class Amount {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
-   *
-   * @param o the o
-   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

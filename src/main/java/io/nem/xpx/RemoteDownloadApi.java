@@ -26,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-
+import io.nem.xpx.intf.DownloadApi;
 import io.nem.xpx.model.ResponseEntity;
 
 import java.lang.reflect.Type;
@@ -39,62 +39,46 @@ import java.util.Map;
 /**
  * The Class RemoteDownloadApi.
  */
-public class RemoteDownloadApi implements DownloadApiInterface{
-    
-    /** The api client. */
-    private ApiClient apiClient;
+public class RemoteDownloadApi implements DownloadApi {
+	
+	private ApiClient apiClient;
 
-    /**
-     * Instantiates a new remote download api.
-     */
     public RemoteDownloadApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    /**
-     * Instantiates a new remote download api.
-     *
-     * @param apiClient the api client
-     */
     public RemoteDownloadApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
-    /**
-     * Gets the api client.
-     *
-     * @return the api client
-     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for downloadPlainMessageFileUsingNemHashUsingGET.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Build call for downloadBinaryUsingGET
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call downloadPlainMessageFileUsingNemHashUsingGETCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call downloadBinaryUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/download/data/plain/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
+        String localVarPath = "/download/binary";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (nemHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+        if (transferMode != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -128,25 +112,21 @@ public class RemoteDownloadApi implements DownloadApiInterface{
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Download plain message file using nem hash using GET validate before call.
-     *
-     * @param nemhash the nemhash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call downloadBinaryUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadPlainMessageFileUsingNemHashUsingGET(Async)");
+        // verify the required parameter 'nemHash' is set
+        if (nemHash == null) {
+            throw new ApiException("Missing the required parameter 'nemHash' when calling downloadBinaryUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'transferMode' is set
+        if (transferMode == null) {
+            throw new ApiException("Missing the required parameter 'transferMode' when calling downloadBinaryUsingGET(Async)");
         }
         
         
-        com.squareup.okhttp.Call call = downloadPlainMessageFileUsingNemHashUsingGETCall(nemhash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadBinaryUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
         
@@ -156,39 +136,42 @@ public class RemoteDownloadApi implements DownloadApiInterface{
     }
 
     /**
-     * Download resource/file using NEM Transaction Hash
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     * @param nemhash The NEM Transaction Hash (required)
-     * @return ResponseEntity
+     * Download a blob using NEM Transaction Hash
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
+     * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ResponseEntity downloadPlainMessageFileUsingNemHashUsingGET(String nemhash) throws ApiException {
-        ApiResponse<ResponseEntity> resp = downloadPlainMessageFileUsingNemHashUsingGETWithHttpInfo(nemhash);
+    public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException {
+        ApiResponse<byte[]> resp = downloadBinaryUsingGETWithHttpInfo(nemHash, transferMode);
         return resp.getData();
     }
 
     /**
-     * Download resource/file using NEM Transaction Hash
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     * @param nemhash The NEM Transaction Hash (required)
-     * @return ApiResponse&lt;ResponseEntity&gt;
+     * Download a blob using NEM Transaction Hash
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
+     * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ResponseEntity> downloadPlainMessageFileUsingNemHashUsingGETWithHttpInfo(String nemhash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, null, null);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
+    public ApiResponse<byte[]> downloadBinaryUsingGETWithHttpInfo(String nemHash, String transferMode) throws ApiException {
+        com.squareup.okhttp.Call call = downloadBinaryUsingGETValidateBeforeCall(nemHash, transferMode, null, null);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Download resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a blob using NEM Transaction Hash (asynchronously)
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call downloadPlainMessageFileUsingNemHashUsingGETAsync(String nemhash, final ApiCallback<ResponseEntity> callback) throws ApiException {
+    public com.squareup.okhttp.Call downloadBinaryUsingGETAsync(String nemHash, String transferMode, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -209,29 +192,31 @@ public class RemoteDownloadApi implements DownloadApiInterface{
             };
         }
 
-        com.squareup.okhttp.Call call = downloadPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
+        com.squareup.okhttp.Call call = downloadBinaryUsingGETValidateBeforeCall(nemHash, transferMode, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for downloadRawBytesPlainMessageFileUsingNemHashUsingGET.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Build call for downloadFileUsingGET
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call downloadRawBytesPlainMessageFileUsingNemHashUsingGETCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call downloadFileUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/download/data/plain/rawbytes/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
+        String localVarPath = "/download/file";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (nemHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+        if (transferMode != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -265,25 +250,21 @@ public class RemoteDownloadApi implements DownloadApiInterface{
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Download raw bytes plain message file using nem hash using GET validate before call.
-     *
-     * @param nemhash the nemhash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadRawBytesPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call downloadFileUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadRawBytesPlainMessageFileUsingNemHashUsingGET(Async)");
+        // verify the required parameter 'nemHash' is set
+        if (nemHash == null) {
+            throw new ApiException("Missing the required parameter 'nemHash' when calling downloadFileUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'transferMode' is set
+        if (transferMode == null) {
+            throw new ApiException("Missing the required parameter 'transferMode' when calling downloadFileUsingGET(Async)");
         }
         
         
-        com.squareup.okhttp.Call call = downloadRawBytesPlainMessageFileUsingNemHashUsingGETCall(nemhash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadFileUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
         
@@ -293,42 +274,42 @@ public class RemoteDownloadApi implements DownloadApiInterface{
     }
 
     /**
-     * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a file associated to a NEM Hash.
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public byte[] downloadRawBytesPlainMessageFileUsingNemHashUsingGET(String nemhash) throws ApiException {
-        ApiResponse<byte[]> resp = downloadRawBytesPlainMessageFileUsingNemHashUsingGETWithHttpInfo(nemhash);
+    public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException {
+        ApiResponse<byte[]> resp = downloadFileUsingGETWithHttpInfo(nemHash, transferMode);
         return resp.getData();
     }
 
     /**
-     * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a file associated to a NEM Hash.
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<byte[]> downloadRawBytesPlainMessageFileUsingNemHashUsingGETWithHttpInfo(String nemhash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadRawBytesPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, null, null);
+    public ApiResponse<byte[]> downloadFileUsingGETWithHttpInfo(String nemHash, String transferMode) throws ApiException {
+        com.squareup.okhttp.Call call = downloadFileUsingGETValidateBeforeCall(nemHash, transferMode, null, null);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Download plain resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a file associated to a NEM Hash. (asynchronously)
+     * Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call downloadRawBytesPlainMessageFileUsingNemHashUsingGETAsync(String nemhash, final ApiCallback<byte[]> callback) throws ApiException {
+    public com.squareup.okhttp.Call downloadFileUsingGETAsync(String nemHash, String transferMode, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -349,318 +330,32 @@ public class RemoteDownloadApi implements DownloadApiInterface{
             };
         }
 
-        com.squareup.okhttp.Call call = downloadRawBytesPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadFileUsingGETValidateBeforeCall(nemHash, transferMode, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for downloadRawBytesSecureMessageFileUsingNemHashUsingGET.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call downloadRawBytesSecureMessageFileUsingNemHashUsingGETCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/download/data/secure/rawbytes/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Download raw bytes secure message file using nem hash using GET validate before call.
-     *
-     * @param nemhash the nemhash
-     * @param xPvkey the x pvkey
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadRawBytesSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadRawBytesSecureMessageFileUsingNemHashUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = downloadRawBytesSecureMessageFileUsingNemHashUsingGETCall(nemhash, xPvkey, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
-     * @return byte[]
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public byte[] downloadRawBytesSecureMessageFileUsingNemHashUsingGET(String nemhash, String xPvkey) throws ApiException {
-        ApiResponse<byte[]> resp = downloadRawBytesSecureMessageFileUsingNemHashUsingGETWithHttpInfo(nemhash, xPvkey);
-        return resp.getData();
-    }
-
-    /**
-     * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
-     * @return ApiResponse&lt;byte[]&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<byte[]> downloadRawBytesSecureMessageFileUsingNemHashUsingGETWithHttpInfo(String nemhash, String xPvkey) throws ApiException {
-        com.squareup.okhttp.Call call = downloadRawBytesSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, xPvkey, null, null);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Download secured resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call downloadRawBytesSecureMessageFileUsingNemHashUsingGETAsync(String nemhash, String xPvkey, final ApiCallback<byte[]> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = downloadRawBytesSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, xPvkey, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for downloadRawBytesUsingHashUsingPOST.
-     *
-     * @param hash The Data Hash (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/download/data/rawbytes";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (hash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "hash", hash));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Download raw bytes using hash using POST validate before call.
-     *
-     * @param hash the hash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'hash' is set
-        if (hash == null) {
-            throw new ApiException("Missing the required parameter 'hash' when calling downloadRawBytesUsingHashUsingPOST(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTCall(hash, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
-     * @return byte[]
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public byte[] downloadRawBytesUsingHashUsingPOST(String hash) throws ApiException {
-        ApiResponse<byte[]> resp = downloadRawBytesUsingHashUsingPOSTWithHttpInfo(hash);
-        return resp.getData();
-    }
-
-    /**
-     * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
-     * @return ApiResponse&lt;byte[]&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<byte[]> downloadRawBytesUsingHashUsingPOSTWithHttpInfo(String hash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(hash, null, null);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Download secured encrypted resource/file using Data Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call downloadRawBytesUsingHashUsingPOSTAsync(String hash, final ApiCallback<byte[]> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = downloadRawBytesUsingHashUsingPOSTValidateBeforeCall(hash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for downloadSecureMessageFileUsingNemHashUsingGET.
-     *
+     * Build call for downloadSecureBinaryUsingGET
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param nemhash The NEM Transaction Hash (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call downloadSecureMessageFileUsingNemHashUsingGETCall(String xPvkey, String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call downloadSecureBinaryUsingGETCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/download/data/secure/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
+        String localVarPath = "/download/secure/binary";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (nemHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+        if (transferType != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xPvkey != null)
@@ -696,31 +391,26 @@ public class RemoteDownloadApi implements DownloadApiInterface{
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Download secure message file using nem hash using GET validate before call.
-     *
-     * @param xPvkey the x pvkey
-     * @param nemhash the nemhash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String xPvkey, String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call downloadSecureBinaryUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'xPvkey' is set
         if (xPvkey == null) {
-            throw new ApiException("Missing the required parameter 'xPvkey' when calling downloadSecureMessageFileUsingNemHashUsingGET(Async)");
+            throw new ApiException("Missing the required parameter 'xPvkey' when calling downloadSecureBinaryUsingGET(Async)");
         }
         
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadSecureMessageFileUsingNemHashUsingGET(Async)");
+        // verify the required parameter 'nemHash' is set
+        if (nemHash == null) {
+            throw new ApiException("Missing the required parameter 'nemHash' when calling downloadSecureBinaryUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'transferType' is set
+        if (transferType == null) {
+            throw new ApiException("Missing the required parameter 'transferType' when calling downloadSecureBinaryUsingGET(Async)");
         }
         
         
-        com.squareup.okhttp.Call call = downloadSecureMessageFileUsingNemHashUsingGETCall(xPvkey, nemhash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadSecureBinaryUsingGETCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         return call;
 
         
@@ -730,182 +420,45 @@ public class RemoteDownloadApi implements DownloadApiInterface{
     }
 
     /**
-     * Download resource/file using NEM Transaction Hash
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
+     * Download a secure resource/blob using NEM Private Key and Transaction Hash
+     * Download a blob associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param nemhash The NEM Transaction Hash (required)
-     * @return ResponseEntity
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ResponseEntity downloadSecureMessageFileUsingNemHashUsingGET(String xPvkey, String nemhash) throws ApiException {
-        ApiResponse<ResponseEntity> resp = downloadSecureMessageFileUsingNemHashUsingGETWithHttpInfo(xPvkey, nemhash);
-        return resp.getData();
-    }
-
-    /**
-     * Download resource/file using NEM Transaction Hash
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param nemhash The NEM Transaction Hash (required)
-     * @return ApiResponse&lt;ResponseEntity&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<ResponseEntity> downloadSecureMessageFileUsingNemHashUsingGETWithHttpInfo(String xPvkey, String nemhash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(xPvkey, nemhash, null, null);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Download resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns either a byte array format of the actual file OR a JSON format GenericMessageResponse.
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call downloadSecureMessageFileUsingNemHashUsingGETAsync(String xPvkey, String nemhash, final ApiCallback<ResponseEntity> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = downloadSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(xPvkey, nemhash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for downloadStreamPlainMessageFileUsingNemHashUsingGET.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call downloadStreamPlainMessageFileUsingNemHashUsingGETCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/download/data/plain/stream/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Download stream plain message file using nem hash using GET validate before call.
-     *
-     * @param nemhash the nemhash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadStreamPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadStreamPlainMessageFileUsingNemHashUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = downloadStreamPlainMessageFileUsingNemHashUsingGETCall(nemhash, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public byte[] downloadStreamPlainMessageFileUsingNemHashUsingGET(String nemhash) throws ApiException {
-        ApiResponse<byte[]> resp = downloadStreamPlainMessageFileUsingNemHashUsingGETWithHttpInfo(nemhash);
+    public byte[] downloadSecureBinaryUsingGET(String xPvkey, String nemHash, String transferType) throws ApiException {
+        ApiResponse<byte[]> resp = downloadSecureBinaryUsingGETWithHttpInfo(xPvkey, nemHash, transferType);
         return resp.getData();
     }
 
     /**
-     * Download plain resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a secure resource/blob using NEM Private Key and Transaction Hash
+     * Download a blob associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<byte[]> downloadStreamPlainMessageFileUsingNemHashUsingGETWithHttpInfo(String nemhash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadStreamPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, null, null);
+    public ApiResponse<byte[]> downloadSecureBinaryUsingGETWithHttpInfo(String xPvkey, String nemHash, String transferType) throws ApiException {
+        com.squareup.okhttp.Call call = downloadSecureBinaryUsingGETValidateBeforeCall(xPvkey, nemHash, transferType, null, null);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Download plain resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
+     * Download a secure resource/blob using NEM Private Key and Transaction Hash (asynchronously)
+     * Download a blob associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call downloadStreamPlainMessageFileUsingNemHashUsingGETAsync(String nemhash, final ApiCallback<byte[]> callback) throws ApiException {
+    public com.squareup.okhttp.Call downloadSecureBinaryUsingGETAsync(String xPvkey, String nemHash, String transferType, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -926,30 +479,32 @@ public class RemoteDownloadApi implements DownloadApiInterface{
             };
         }
 
-        com.squareup.okhttp.Call call = downloadStreamPlainMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadSecureBinaryUsingGETValidateBeforeCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for downloadStreamSecureMessageFileUsingNemHashUsingGET.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
+     * Build call for downloadSecureFileUsingGET
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call downloadStreamSecureMessageFileUsingNemHashUsingGETCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call downloadSecureFileUsingGETCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/download/data/secure/stream/{nemhash}"
-            .replaceAll("\\{" + "nemhash" + "\\}", apiClient.escapeString(nemhash.toString()));
+        String localVarPath = "/download/secure/file";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (nemHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+        if (transferType != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xPvkey != null)
@@ -985,26 +540,26 @@ public class RemoteDownloadApi implements DownloadApiInterface{
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Download stream secure message file using nem hash using GET validate before call.
-     *
-     * @param nemhash the nemhash
-     * @param xPvkey the x pvkey
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadStreamSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(String nemhash, String xPvkey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call downloadSecureFileUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'nemhash' is set
-        if (nemhash == null) {
-            throw new ApiException("Missing the required parameter 'nemhash' when calling downloadStreamSecureMessageFileUsingNemHashUsingGET(Async)");
+        // verify the required parameter 'xPvkey' is set
+        if (xPvkey == null) {
+            throw new ApiException("Missing the required parameter 'xPvkey' when calling downloadSecureFileUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'nemHash' is set
+        if (nemHash == null) {
+            throw new ApiException("Missing the required parameter 'nemHash' when calling downloadSecureFileUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'transferType' is set
+        if (transferType == null) {
+            throw new ApiException("Missing the required parameter 'transferType' when calling downloadSecureFileUsingGET(Async)");
         }
         
         
-        com.squareup.okhttp.Call call = downloadStreamSecureMessageFileUsingNemHashUsingGETCall(nemhash, xPvkey, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadSecureFileUsingGETCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         return call;
 
         
@@ -1014,45 +569,45 @@ public class RemoteDownloadApi implements DownloadApiInterface{
     }
 
     /**
-     * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
+     * Download a secure resource/file using NEM Private Key and Transaction Hash
+     * Download a file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public byte[] downloadStreamSecureMessageFileUsingNemHashUsingGET(String nemhash, String xPvkey) throws ApiException {
-        ApiResponse<byte[]> resp = downloadStreamSecureMessageFileUsingNemHashUsingGETWithHttpInfo(nemhash, xPvkey);
+    public byte[] downloadSecureFileUsingGET(String xPvkey, String nemHash, String transferType) throws ApiException {
+        ApiResponse<byte[]> resp = downloadSecureFileUsingGETWithHttpInfo(xPvkey, nemHash, transferType);
         return resp.getData();
     }
 
     /**
-     * Download secured resource/file using NEM Transaction Hash
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
+     * Download a secure resource/file using NEM Private Key and Transaction Hash
+     * Download a file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<byte[]> downloadStreamSecureMessageFileUsingNemHashUsingGETWithHttpInfo(String nemhash, String xPvkey) throws ApiException {
-        com.squareup.okhttp.Call call = downloadStreamSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, xPvkey, null, null);
+    public ApiResponse<byte[]> downloadSecureFileUsingGETWithHttpInfo(String xPvkey, String nemHash, String transferType) throws ApiException {
+        com.squareup.okhttp.Call call = downloadSecureFileUsingGETValidateBeforeCall(xPvkey, nemHash, transferType, null, null);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Download secured resource/file using NEM Transaction Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual file.
-     *
-     * @param nemhash The NEM Transaction Hash (required)
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (optional)
+     * Download a secure resource/file using NEM Private Key and Transaction Hash (asynchronously)
+     * Download a file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call downloadStreamSecureMessageFileUsingNemHashUsingGETAsync(String nemhash, String xPvkey, final ApiCallback<byte[]> callback) throws ApiException {
+    public com.squareup.okhttp.Call downloadSecureFileUsingGETAsync(String xPvkey, String nemHash, String transferType, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1073,30 +628,31 @@ public class RemoteDownloadApi implements DownloadApiInterface{
             };
         }
 
-        com.squareup.okhttp.Call call = downloadStreamSecureMessageFileUsingNemHashUsingGETValidateBeforeCall(nemhash, xPvkey, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadSecureFileUsingGETValidateBeforeCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for downloadStreamUsingHashUsingPOST.
-     *
-     * @param hash The Data Hash (required)
+     * Build call for downloadTextUsingGET
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call downloadTextUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/download/data/stream";
+        String localVarPath = "/download/text";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (hash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "hash", hash));
+        if (nemHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+        if (transferMode != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -1127,28 +683,24 @@ public class RemoteDownloadApi implements DownloadApiInterface{
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Download stream using hash using POST validate before call.
-     *
-     * @param hash the hash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTValidateBeforeCall(String hash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call downloadTextUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'hash' is set
-        if (hash == null) {
-            throw new ApiException("Missing the required parameter 'hash' when calling downloadStreamUsingHashUsingPOST(Async)");
+        // verify the required parameter 'nemHash' is set
+        if (nemHash == null) {
+            throw new ApiException("Missing the required parameter 'nemHash' when calling downloadTextUsingGET(Async)");
+        }
+        
+        // verify the required parameter 'transferMode' is set
+        if (transferMode == null) {
+            throw new ApiException("Missing the required parameter 'transferMode' when calling downloadTextUsingGET(Async)");
         }
         
         
-        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTCall(hash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadTextUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
         
@@ -1158,42 +710,42 @@ public class RemoteDownloadApi implements DownloadApiInterface{
     }
 
     /**
-     * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
+     * Download a plain text data using NEM Transaction Hash
+     * Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException {
-        ApiResponse<byte[]> resp = downloadStreamUsingHashUsingPOSTWithHttpInfo(hash);
+    public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException {
+        ApiResponse<byte[]> resp = downloadTextUsingGETWithHttpInfo(nemHash, transferMode);
         return resp.getData();
     }
 
     /**
-     * Download secured encrypted resource/file using Data Hash
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
+     * Download a plain text data using NEM Transaction Hash
+     * Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<byte[]> downloadStreamUsingHashUsingPOSTWithHttpInfo(String hash) throws ApiException {
-        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTValidateBeforeCall(hash, null, null);
+    public ApiResponse<byte[]> downloadTextUsingGETWithHttpInfo(String nemHash, String transferMode) throws ApiException {
+        com.squareup.okhttp.Call call = downloadTextUsingGETValidateBeforeCall(nemHash, transferMode, null, null);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Download secured encrypted resource/file using Data Hash (asynchronously)
-     * This endpoint returns a byte array format of the actual encrypted file.
-     *
-     * @param hash The Data Hash (required)
+     * Download a plain text data using NEM Transaction Hash (asynchronously)
+     * Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
+     * @param nemHash The NEM Transaction Hash (required)
+     * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call downloadStreamUsingHashUsingPOSTAsync(String hash, final ApiCallback<byte[]> callback) throws ApiException {
+    public com.squareup.okhttp.Call downloadTextUsingGETAsync(String nemHash, String transferMode, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1214,7 +766,134 @@ public class RemoteDownloadApi implements DownloadApiInterface{
             };
         }
 
-        com.squareup.okhttp.Call call = downloadStreamUsingHashUsingPOSTValidateBeforeCall(hash, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = downloadTextUsingGETValidateBeforeCall(nemHash, transferMode, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for downloadUsingDataHashUsingGET
+     * @param dataHash The NEM Transaction Hash (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call downloadUsingDataHashUsingGETCall(String dataHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/download/direct/datahash";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        if (dataHash != null)
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "dataHash", dataHash));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call downloadUsingDataHashUsingGETValidateBeforeCall(String dataHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'dataHash' is set
+        if (dataHash == null) {
+            throw new ApiException("Missing the required parameter 'dataHash' when calling downloadUsingDataHashUsingGET(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = downloadUsingDataHashUsingGETCall(dataHash, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Download IPFS file associated to the datahash
+     * Download IPFS file associated to the datahash
+     * @param dataHash The NEM Transaction Hash (required)
+     * @return byte[]
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public byte[] downloadUsingDataHashUsingGET(String dataHash) throws ApiException {
+        ApiResponse<byte[]> resp = downloadUsingDataHashUsingGETWithHttpInfo(dataHash);
+        return resp.getData();
+    }
+
+    /**
+     * Download IPFS file associated to the datahash
+     * Download IPFS file associated to the datahash
+     * @param dataHash The NEM Transaction Hash (required)
+     * @return ApiResponse&lt;byte[]&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<byte[]> downloadUsingDataHashUsingGETWithHttpInfo(String dataHash) throws ApiException {
+        com.squareup.okhttp.Call call = downloadUsingDataHashUsingGETValidateBeforeCall(dataHash, null, null);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Download IPFS file associated to the datahash (asynchronously)
+     * Download IPFS file associated to the datahash
+     * @param dataHash The NEM Transaction Hash (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call downloadUsingDataHashUsingGETAsync(String dataHash, final ApiCallback<byte[]> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = downloadUsingDataHashUsingGETValidateBeforeCall(dataHash, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

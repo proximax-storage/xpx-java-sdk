@@ -22,6 +22,10 @@ public class UploadDataParameter implements Serializable {
 	/** The data. */
 	private String data;
 	
+	private String contentType;
+	
+	private String encoding;
+	
 	/** The name. */
 	private String name;
 	
@@ -70,6 +74,14 @@ public class UploadDataParameter implements Serializable {
 		this.senderPrivateKey = senderPrivateKey;
 	}
 	
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
 	/**
 	 * Gets the recipient public key.
 	 *
@@ -79,6 +91,14 @@ public class UploadDataParameter implements Serializable {
 		return recipientPublicKey;
 	}
 	
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
 	/**
 	 * Sets the recipient public key.
 	 *

@@ -11,20 +11,8 @@
  */
 
 
-package io.nem.xpx.auth;
+package io.nem.auth;
 
-
-/**
- * The Enum OAuthFlow.
- */
 public enum OAuthFlow {
-    
-    /** The access code. */
-    accessCode, 
- /** The implicit. */
- implicit, 
- /** The password. */
- password, 
- /** The application. */
- application
+    accessCode, implicit, password, application
 }

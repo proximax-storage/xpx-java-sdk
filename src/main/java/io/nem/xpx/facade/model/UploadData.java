@@ -4,8 +4,8 @@
 package io.nem.xpx.facade.model;
 
 import java.io.Serializable;
-
-import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.model.Resource;
+import io.nem.xpx.model.buffers.ResourceHashMessage;
 
 
 /**
@@ -17,7 +17,7 @@ public class UploadData implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/** The data message. */
-	private BinaryTransactionEncryptedMessage dataMessage;
+	private ResourceHashMessage dataMessage;
 	
 	/** The nem hash. */
 	private String nemHash;
@@ -27,7 +27,7 @@ public class UploadData implements Serializable{
 	 *
 	 * @return the data message
 	 */
-	public BinaryTransactionEncryptedMessage getDataMessage() {
+	public ResourceHashMessage getDataMessage() {
 		return dataMessage;
 	}
 	
@@ -36,7 +36,7 @@ public class UploadData implements Serializable{
 	 *
 	 * @param dataMessage the new data message
 	 */
-	public void setDataMessage(BinaryTransactionEncryptedMessage dataMessage) {
+	public void setDataMessage(ResourceHashMessage dataMessage) {
 		this.dataMessage = dataMessage;
 	}
 	

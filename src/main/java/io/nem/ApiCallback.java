@@ -13,9 +13,10 @@
 
 package io.nem;
 
+import java.io.IOException;
+
 import java.util.Map;
 import java.util.List;
-
 
 /**
  * Callback for asynchronous API call.

@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -35,499 +35,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * The Class SearchApi.
- */
 public class SearchApi {
-    
-    /** The api client. */
     private ApiClient apiClient;
 
-    /**
-     * Instantiates a new search api.
-     */
     public SearchApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    /**
-     * Instantiates a new search api.
-     *
-     * @param apiClient the api client
-     */
     public SearchApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
-    /**
-     * Gets the api client.
-     *
-     * @return the api client
-     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for searchContentUsingAllNemHashUsingGET.
-     *
-     * @param xPvkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingAllNemHashUsingGETCall(String xPvkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/search/all/content/hash/{nemHash}"
-            .replaceAll("\\{" + "nemHash" + "\\}", apiClient.escapeString(nemHash.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Search content using all nem hash using GET validate before call.
-     *
-     * @param xPvkey the x pvkey
-     * @param nemHash the nem hash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call searchContentUsingAllNemHashUsingGETValidateBeforeCall(String xPvkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'xPvkey' is set
-        if (xPvkey == null) {
-            throw new ApiException("Missing the required parameter 'xPvkey' when calling searchContentUsingAllNemHashUsingGET(Async)");
-        }
-        
-        // verify the required parameter 'nemHash' is set
-        if (nemHash == null) {
-            throw new ApiException("Missing the required parameter 'nemHash' when calling searchContentUsingAllNemHashUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = searchContentUsingAllNemHashUsingGETCall(xPvkey, nemHash, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String searchContentUsingAllNemHashUsingGET(String xPvkey, String nemHash) throws ApiException {
-        ApiResponse<String> resp = searchContentUsingAllNemHashUsingGETWithHttpInfo(xPvkey, nemHash);
-        return resp.getData();
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> searchContentUsingAllNemHashUsingGETWithHttpInfo(String xPvkey, String nemHash) throws ApiException {
-        com.squareup.okhttp.Call call = searchContentUsingAllNemHashUsingGETValidateBeforeCall(xPvkey, nemHash, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified. (asynchronously)
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingAllNemHashUsingGETAsync(String xPvkey, String nemHash, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = searchContentUsingAllNemHashUsingGETValidateBeforeCall(xPvkey, nemHash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for searchContentUsingPublicNemHashUsingGET.
-     *
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingPublicNemHashUsingGETCall(String xPubkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/search/public/content/hash/{nemHash}"
-            .replaceAll("\\{" + "nemHash" + "\\}", apiClient.escapeString(nemHash.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPubkey != null)
-        localVarHeaderParams.put("x-pubkey", apiClient.parameterToString(xPubkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Search content using public nem hash using GET validate before call.
-     *
-     * @param xPubkey the x pubkey
-     * @param nemHash the nem hash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call searchContentUsingPublicNemHashUsingGETValidateBeforeCall(String xPubkey, String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'xPubkey' is set
-        if (xPubkey == null) {
-            throw new ApiException("Missing the required parameter 'xPubkey' when calling searchContentUsingPublicNemHashUsingGET(Async)");
-        }
-        
-        // verify the required parameter 'nemHash' is set
-        if (nemHash == null) {
-            throw new ApiException("Missing the required parameter 'nemHash' when calling searchContentUsingPublicNemHashUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = searchContentUsingPublicNemHashUsingGETCall(xPubkey, nemHash, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String searchContentUsingPublicNemHashUsingGET(String xPubkey, String nemHash) throws ApiException {
-        ApiResponse<String> resp = searchContentUsingPublicNemHashUsingGETWithHttpInfo(xPubkey, nemHash);
-        return resp.getData();
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> searchContentUsingPublicNemHashUsingGETWithHttpInfo(String xPubkey, String nemHash) throws ApiException {
-        com.squareup.okhttp.Call call = searchContentUsingPublicNemHashUsingGETValidateBeforeCall(xPubkey, nemHash, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified. (asynchronously)
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param nemHash NEM Hash that will be matched to the files available (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingPublicNemHashUsingGETAsync(String xPubkey, String nemHash, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = searchContentUsingPublicNemHashUsingGETValidateBeforeCall(xPubkey, nemHash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for searchContentUsingTextUsingGET.
-     *
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param text Text or Keyword that will be match to the files available (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingTextUsingGETCall(String xPubkey, String text, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/search/public/content/{text}"
-            .replaceAll("\\{" + "text" + "\\}", apiClient.escapeString(text.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPubkey != null)
-        localVarHeaderParams.put("x-pubkey", apiClient.parameterToString(xPubkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Search content using text using GET validate before call.
-     *
-     * @param xPubkey the x pubkey
-     * @param text the text
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call searchContentUsingTextUsingGETValidateBeforeCall(String xPubkey, String text, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'xPubkey' is set
-        if (xPubkey == null) {
-            throw new ApiException("Missing the required parameter 'xPubkey' when calling searchContentUsingTextUsingGET(Async)");
-        }
-        
-        // verify the required parameter 'text' is set
-        if (text == null) {
-            throw new ApiException("Missing the required parameter 'text' when calling searchContentUsingTextUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = searchContentUsingTextUsingGETCall(xPubkey, text, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param text Text or Keyword that will be match to the files available (required)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String searchContentUsingTextUsingGET(String xPubkey, String text) throws ApiException {
-        ApiResponse<String> resp = searchContentUsingTextUsingGETWithHttpInfo(xPubkey, text);
-        return resp.getData();
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param text Text or Keyword that will be match to the files available (required)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> searchContentUsingTextUsingGETWithHttpInfo(String xPubkey, String text) throws ApiException {
-        com.squareup.okhttp.Call call = searchContentUsingTextUsingGETValidateBeforeCall(xPubkey, text, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Search through all the owner&#39;s documents to find a content that matches the text specified. (asynchronously)
-     * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-     * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
-     * @param text Text or Keyword that will be match to the files available (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call searchContentUsingTextUsingGETAsync(String xPubkey, String text, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = searchContentUsingTextUsingGETValidateBeforeCall(xPubkey, text, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for searchDataHashUsingPublicNemHashUsingGET.
-     *
+     * Build call for searchDataHashUsingPublicNemHashUsingGET
      * @param nemHash NEM Hash that will be matched to the files available (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -538,7 +66,7 @@ public class SearchApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/search/public/content/hashonly/{nemHash}"
+        String localVarPath = "/search/by/nemTxn/{nemHash}"
             .replaceAll("\\{" + "nemHash" + "\\}", apiClient.escapeString(nemHash.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -575,15 +103,6 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Search data hash using public nem hash using GET validate before call.
-     *
-     * @param nemHash the nem hash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchDataHashUsingPublicNemHashUsingGETValidateBeforeCall(String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -661,159 +180,8 @@ public class SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for searchTransactionPvKeyWithKeywordUsingGET.
-     *
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call searchTransactionPvKeyWithKeywordUsingGETCall(String xPvkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/search/all/content/keyword/{keywords}"
-            .replaceAll("\\{" + "keywords" + "\\}", apiClient.escapeString(keywords.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Search transaction pv key with keyword using GET validate before call.
-     *
-     * @param xPvkey the x pvkey
-     * @param keywords the keywords
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call searchTransactionPvKeyWithKeywordUsingGETValidateBeforeCall(String xPvkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'xPvkey' is set
-        if (xPvkey == null) {
-            throw new ApiException("Missing the required parameter 'xPvkey' when calling searchTransactionPvKeyWithKeywordUsingGET(Async)");
-        }
-        
-        // verify the required parameter 'keywords' is set
-        if (keywords == null) {
-            throw new ApiException("Missing the required parameter 'keywords' when calling searchTransactionPvKeyWithKeywordUsingGET(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = searchTransactionPvKeyWithKeywordUsingGETCall(xPvkey, keywords, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Search through all the owners documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @return List&lt;BinaryTransactionEncryptedMessage&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public List<BinaryTransactionEncryptedMessage> searchTransactionPvKeyWithKeywordUsingGET(String xPvkey, String keywords) throws ApiException {
-        ApiResponse<List<BinaryTransactionEncryptedMessage>> resp = searchTransactionPvKeyWithKeywordUsingGETWithHttpInfo(xPvkey, keywords);
-        return resp.getData();
-    }
-
-    /**
-     * Search through all the owners documents to find a content that matches the text specified.
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @return ApiResponse&lt;List&lt;BinaryTransactionEncryptedMessage&gt;&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<List<BinaryTransactionEncryptedMessage>> searchTransactionPvKeyWithKeywordUsingGETWithHttpInfo(String xPvkey, String keywords) throws ApiException {
-        com.squareup.okhttp.Call call = searchTransactionPvKeyWithKeywordUsingGETValidateBeforeCall(xPvkey, keywords, null, null);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Search through all the owners documents to find a content that matches the text specified. (asynchronously)
-     * This endpoint can only be used to look up publicly available resources (PLAIN and SECURE Message Types).
-     * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
-     * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call searchTransactionPvKeyWithKeywordUsingGETAsync(String xPvkey, String keywords, final ApiCallback<List<BinaryTransactionEncryptedMessage>> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = searchTransactionPvKeyWithKeywordUsingGETValidateBeforeCall(xPvkey, keywords, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for searchTransactionWithKeywordUsingGET.
-     *
+     * Build call for searchTransactionWithKeywordUsingGET
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
      * @param progressListener Progress listener
@@ -825,7 +193,7 @@ public class SearchApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/search/public/content/keyword/{keywords}"
+        String localVarPath = "/search/by/keywords/{keywords}"
             .replaceAll("\\{" + "keywords" + "\\}", apiClient.escapeString(keywords.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -864,16 +232,6 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Search transaction with keyword using GET validate before call.
-     *
-     * @param xPubkey the x pubkey
-     * @param keywords the keywords
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithKeywordUsingGETValidateBeforeCall(String xPubkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -902,11 +260,11 @@ public class SearchApi {
      * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @return List&lt;BinaryTransactionEncryptedMessage&gt;
+     * @return List&lt;ResourceHashMessageJsonEntity&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<BinaryTransactionEncryptedMessage> searchTransactionWithKeywordUsingGET(String xPubkey, String keywords) throws ApiException {
-        ApiResponse<List<BinaryTransactionEncryptedMessage>> resp = searchTransactionWithKeywordUsingGETWithHttpInfo(xPubkey, keywords);
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPubkey, String keywords) throws ApiException {
+        ApiResponse<List<ResourceHashMessageJsonEntity>> resp = searchTransactionWithKeywordUsingGETWithHttpInfo(xPubkey, keywords);
         return resp.getData();
     }
 
@@ -915,12 +273,12 @@ public class SearchApi {
      * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
-     * @return ApiResponse&lt;List&lt;BinaryTransactionEncryptedMessage&gt;&gt;
+     * @return ApiResponse&lt;List&lt;ResourceHashMessageJsonEntity&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<BinaryTransactionEncryptedMessage>> searchTransactionWithKeywordUsingGETWithHttpInfo(String xPubkey, String keywords) throws ApiException {
+    public ApiResponse<List<ResourceHashMessageJsonEntity>> searchTransactionWithKeywordUsingGETWithHttpInfo(String xPubkey, String keywords) throws ApiException {
         com.squareup.okhttp.Call call = searchTransactionWithKeywordUsingGETValidateBeforeCall(xPubkey, keywords, null, null);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<ResourceHashMessageJsonEntity>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
@@ -933,7 +291,7 @@ public class SearchApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call searchTransactionWithKeywordUsingGETAsync(String xPubkey, String keywords, final ApiCallback<List<BinaryTransactionEncryptedMessage>> callback) throws ApiException {
+    public com.squareup.okhttp.Call searchTransactionWithKeywordUsingGETAsync(String xPubkey, String keywords, final ApiCallback<List<ResourceHashMessageJsonEntity>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -955,14 +313,12 @@ public class SearchApi {
         }
 
         com.squareup.okhttp.Call call = searchTransactionWithKeywordUsingGETValidateBeforeCall(xPubkey, keywords, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<ResourceHashMessageJsonEntity>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for searchTransactionWithMetadataUsingGET.
-     *
+     * Build call for searchTransactionWithMetadataUsingGET
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param text Index-based searching on metadata (required)
      * @param progressListener Progress listener
@@ -974,7 +330,7 @@ public class SearchApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/search/public/content/metadata/{text}"
+        String localVarPath = "/search/by/metadata/{text}"
             .replaceAll("\\{" + "text" + "\\}", apiClient.escapeString(text.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1013,16 +369,6 @@ public class SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Search transaction with metadata using GET validate before call.
-     *
-     * @param xPubkey the x pubkey
-     * @param text the text
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithMetadataUsingGETValidateBeforeCall(String xPubkey, String text, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -1051,11 +397,11 @@ public class SearchApi {
      * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param text Index-based searching on metadata (required)
-     * @return List&lt;BinaryTransactionEncryptedMessage&gt;
+     * @return List&lt;ResourceHashMessageJsonEntity&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<BinaryTransactionEncryptedMessage> searchTransactionWithMetadataUsingGET(String xPubkey, String text) throws ApiException {
-        ApiResponse<List<BinaryTransactionEncryptedMessage>> resp = searchTransactionWithMetadataUsingGETWithHttpInfo(xPubkey, text);
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataUsingGET(String xPubkey, String text) throws ApiException {
+        ApiResponse<List<ResourceHashMessageJsonEntity>> resp = searchTransactionWithMetadataUsingGETWithHttpInfo(xPubkey, text);
         return resp.getData();
     }
 
@@ -1064,12 +410,12 @@ public class SearchApi {
      * This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param text Index-based searching on metadata (required)
-     * @return ApiResponse&lt;List&lt;BinaryTransactionEncryptedMessage&gt;&gt;
+     * @return ApiResponse&lt;List&lt;ResourceHashMessageJsonEntity&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<BinaryTransactionEncryptedMessage>> searchTransactionWithMetadataUsingGETWithHttpInfo(String xPubkey, String text) throws ApiException {
+    public ApiResponse<List<ResourceHashMessageJsonEntity>> searchTransactionWithMetadataUsingGETWithHttpInfo(String xPubkey, String text) throws ApiException {
         com.squareup.okhttp.Call call = searchTransactionWithMetadataUsingGETValidateBeforeCall(xPubkey, text, null, null);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<ResourceHashMessageJsonEntity>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
@@ -1082,7 +428,7 @@ public class SearchApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call searchTransactionWithMetadataUsingGETAsync(String xPubkey, String text, final ApiCallback<List<BinaryTransactionEncryptedMessage>> callback) throws ApiException {
+    public com.squareup.okhttp.Call searchTransactionWithMetadataUsingGETAsync(String xPubkey, String text, final ApiCallback<List<ResourceHashMessageJsonEntity>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1104,7 +450,7 @@ public class SearchApi {
         }
 
         com.squareup.okhttp.Call call = searchTransactionWithMetadataUsingGETValidateBeforeCall(xPubkey, text, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<BinaryTransactionEncryptedMessage>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<ResourceHashMessageJsonEntity>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }

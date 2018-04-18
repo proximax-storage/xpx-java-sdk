@@ -11,44 +11,25 @@
  */
 
 
-package io.nem.xpx.auth;
+package io.nem.auth;
 
 import io.nem.Pair;
 
 import java.util.Map;
 import java.util.List;
 
-
-/**
- * The Class OAuth.
- */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-26T23:27:01.504-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-18T01:47:44.849-04:00")
 public class OAuth implements Authentication {
-  
-  /** The access token. */
   private String accessToken;
 
-  /**
-   * Gets the access token.
-   *
-   * @return the access token
-   */
   public String getAccessToken() {
     return accessToken;
   }
 
-  /**
-   * Sets the access token.
-   *
-   * @param accessToken the new access token
-   */
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
   }
 
-  /* (non-Javadoc)
-   * @see io.nem.xpx.auth.Authentication#applyToParams(java.util.List, java.util.Map)
-   */
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
     if (accessToken != null) {

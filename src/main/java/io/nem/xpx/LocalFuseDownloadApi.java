@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.intf.DownloadApi;
 import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 
@@ -39,14 +40,29 @@ import java.util.Map;
 /**
  * The Class LocalFuseDownloadApi.
  */
-public class LocalFuseDownloadApi implements DownloadApiInterface {
-	
-	/* (non-Javadoc)
-	 * @see io.nem.xpx.DownloadApiInterface#downloadStreamUsingHashUsingPOST(java.lang.String)
-	 */
+public class LocalFuseDownloadApi implements DownloadApi {
+
 	@Override
-	public byte[] downloadStreamUsingHashUsingPOST(String hash) throws ApiException, IOException {
-		// XpxSdkGlobalConstants.getFuseIpfsStub().
+	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
 	}
+
+	@Override
+	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

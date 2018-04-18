@@ -1,0 +1,14 @@
+namespace io.nem.xpx.core.model;
+table ResourceHashMessage {
+	
+	digest:string;
+	hash:string;
+	keywords:string;
+	metaData:string;
+	name:string;
+	size:int;
+	timestamp:long;
+	type:string;
+}
+
+root_type ResourceHashMessage;

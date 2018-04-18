@@ -2,8 +2,6 @@ package io.nem.xpx.facade.model;
 
 import java.io.Serializable;
 
-import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
-
 
 /**
  * The Class MultisigUploadData.

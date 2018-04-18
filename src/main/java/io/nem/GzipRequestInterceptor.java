@@ -21,17 +21,12 @@ import okio.Okio;
 
 import java.io.IOException;
 
-
 /**
  * Encodes request bodies using gzip.
  *
  * Taken from https://github.com/square/okhttp/issues/350
  */
 class GzipRequestInterceptor implements Interceptor {
-    
-    /* (non-Javadoc)
-     * @see com.squareup.okhttp.Interceptor#intercept(com.squareup.okhttp.Interceptor.Chain)
-     */
     @Override public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
         if (originalRequest.body() == null || originalRequest.header("Content-Encoding") != null) {
@@ -45,13 +40,6 @@ class GzipRequestInterceptor implements Interceptor {
         return chain.proceed(compressedRequest);
     }
 
-    /**
-     * Force content length.
-     *
-     * @param requestBody the request body
-     * @return the request body
-     * @throws IOException Signals that an I/O exception has occurred.
-     */
     private RequestBody forceContentLength(final RequestBody requestBody) throws IOException {
         final Buffer buffer = new Buffer();
         requestBody.writeTo(buffer);
@@ -73,12 +61,6 @@ class GzipRequestInterceptor implements Interceptor {
         };
     }
 
-    /**
-     * Gzip.
-     *
-     * @param body the body
-     * @return the request body
-     */
     private RequestBody gzip(final RequestBody body) {
         return new RequestBody() {
             @Override public MediaType contentType() {

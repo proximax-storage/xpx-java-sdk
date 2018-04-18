@@ -24,153 +24,96 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
-
 /**
- * Address.
+ * Address
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:24:38.535-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-18T01:47:44.849-04:00")
 public class Address {
-  
-  /** The encoded. */
   @SerializedName("encoded")
   private String encoded = null;
 
-  /** The public key. */
   @SerializedName("publicKey")
   private PublicKey publicKey = null;
 
-  /** The valid. */
   @SerializedName("valid")
   private Boolean valid = null;
 
-  /** The version. */
   @SerializedName("version")
   private byte[] version = null;
 
-  /**
-   * Encoded.
-   *
-   * @param encoded the encoded
-   * @return the address
-   */
   public Address encoded(String encoded) {
     this.encoded = encoded;
     return this;
   }
 
    /**
-    * Get encoded.
-    *
-    * @return encoded
-    */
+   * Get encoded
+   * @return encoded
+  **/
   @ApiModelProperty(value = "")
   public String getEncoded() {
     return encoded;
   }
 
-  /**
-   * Sets the encoded.
-   *
-   * @param encoded the new encoded
-   */
   public void setEncoded(String encoded) {
     this.encoded = encoded;
   }
 
-  /**
-   * Public key.
-   *
-   * @param publicKey the public key
-   * @return the address
-   */
   public Address publicKey(PublicKey publicKey) {
     this.publicKey = publicKey;
     return this;
   }
 
    /**
-    * Get publicKey.
-    *
-    * @return publicKey
-    */
+   * Get publicKey
+   * @return publicKey
+  **/
   @ApiModelProperty(value = "")
   public PublicKey getPublicKey() {
     return publicKey;
   }
 
-  /**
-   * Sets the public key.
-   *
-   * @param publicKey the new public key
-   */
   public void setPublicKey(PublicKey publicKey) {
     this.publicKey = publicKey;
   }
 
-  /**
-   * Valid.
-   *
-   * @param valid the valid
-   * @return the address
-   */
   public Address valid(Boolean valid) {
     this.valid = valid;
     return this;
   }
 
    /**
-    * Get valid.
-    *
-    * @return valid
-    */
+   * Get valid
+   * @return valid
+  **/
   @ApiModelProperty(value = "")
   public Boolean getValid() {
     return valid;
   }
 
-  /**
-   * Sets the valid.
-   *
-   * @param valid the new valid
-   */
   public void setValid(Boolean valid) {
     this.valid = valid;
   }
 
-  /**
-   * Version.
-   *
-   * @param version the version
-   * @return the address
-   */
   public Address version(byte[] version) {
     this.version = version;
     return this;
   }
 
    /**
-    * Get version.
-    *
-    * @return version
-    */
+   * Get version
+   * @return version
+  **/
   @ApiModelProperty(value = "")
   public byte[] getVersion() {
     return version;
   }
 
-  /**
-   * Sets the version.
-   *
-   * @param version the new version
-   */
   public void setVersion(byte[] version) {
     this.version = version;
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -186,18 +129,12 @@ public class Address {
         Objects.equals(this.version, address.version);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Objects.hash(encoded, publicKey, valid, version);
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -214,9 +151,6 @@ public class Address {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
-   *
-   * @param o the o
-   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

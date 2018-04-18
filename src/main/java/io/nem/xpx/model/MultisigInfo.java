@@ -23,85 +23,54 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
-
 /**
- * MultisigInfo.
+ * MultisigInfo
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-03-13T00:24:38.535-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-18T01:47:44.849-04:00")
 public class MultisigInfo {
-  
-  /** The cosignatories count. */
   @SerializedName("cosignatoriesCount")
   private Integer cosignatoriesCount = null;
 
-  /** The min cosignatories. */
   @SerializedName("minCosignatories")
   private Integer minCosignatories = null;
 
-  /**
-   * Cosignatories count.
-   *
-   * @param cosignatoriesCount the cosignatories count
-   * @return the multisig info
-   */
   public MultisigInfo cosignatoriesCount(Integer cosignatoriesCount) {
     this.cosignatoriesCount = cosignatoriesCount;
     return this;
   }
 
    /**
-    * Get cosignatoriesCount.
-    *
-    * @return cosignatoriesCount
-    */
+   * Get cosignatoriesCount
+   * @return cosignatoriesCount
+  **/
   @ApiModelProperty(value = "")
   public Integer getCosignatoriesCount() {
     return cosignatoriesCount;
   }
 
-  /**
-   * Sets the cosignatories count.
-   *
-   * @param cosignatoriesCount the new cosignatories count
-   */
   public void setCosignatoriesCount(Integer cosignatoriesCount) {
     this.cosignatoriesCount = cosignatoriesCount;
   }
 
-  /**
-   * Min cosignatories.
-   *
-   * @param minCosignatories the min cosignatories
-   * @return the multisig info
-   */
   public MultisigInfo minCosignatories(Integer minCosignatories) {
     this.minCosignatories = minCosignatories;
     return this;
   }
 
    /**
-    * Get minCosignatories.
-    *
-    * @return minCosignatories
-    */
+   * Get minCosignatories
+   * @return minCosignatories
+  **/
   @ApiModelProperty(value = "")
   public Integer getMinCosignatories() {
     return minCosignatories;
   }
 
-  /**
-   * Sets the min cosignatories.
-   *
-   * @param minCosignatories the new min cosignatories
-   */
   public void setMinCosignatories(Integer minCosignatories) {
     this.minCosignatories = minCosignatories;
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -115,18 +84,12 @@ public class MultisigInfo {
         Objects.equals(this.minCosignatories, multisigInfo.minCosignatories);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Objects.hash(cosignatoriesCount, minCosignatories);
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -141,9 +104,6 @@ public class MultisigInfo {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
-   *
-   * @param o the o
-   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

@@ -5,15 +5,18 @@ package io.nem.xpx.facade;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
+import org.nem.core.crypto.Hashes;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
@@ -23,23 +26,23 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
-import org.nem.core.utils.HexEncoder;
 import io.nem.ApiException;
-import io.nem.xpx.DataHashApiInterface;
-import io.nem.xpx.LocalDataHashApi;
-import io.nem.xpx.RemoteDataHashApi;
+import io.nem.xpx.LocalUploadApi;
+import io.nem.xpx.RemoteUploadApi;
 import io.nem.xpx.TransactionAndAnnounceApi;
-import io.nem.xpx.builder.BinaryTransferTransactionBuilder;
+import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.UploadData;
-import io.nem.xpx.model.BinaryTransactionEncryptedMessage;
+import io.nem.xpx.intf.UploadApi;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -55,7 +58,7 @@ public class Upload {
 	private CryptoEngine engine;
 
 	/** The data hash api. */
-	private DataHashApiInterface dataHashApi;
+	private UploadApi uploadApi;
 
 	/** The publish and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
@@ -81,10 +84,10 @@ public class Upload {
 		}
 
 		if (peerConnection instanceof RemotePeerConnection) {
-			this.dataHashApi = new RemoteDataHashApi();
+			this.uploadApi = new RemoteUploadApi();
 		} else {
 			this.isLocalPeerConnection = true;
-			this.dataHashApi = new LocalDataHashApi();
+			this.uploadApi = new LocalUploadApi();
 		}
 
 		this.peerConnection = peerConnection;
@@ -103,6 +106,7 @@ public class Upload {
 	 */
 	public UploadData uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
+		
 		UploadData uploadData = handleFileUpload(uploadParameter);
 		return uploadData;
 
@@ -117,11 +121,26 @@ public class Upload {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ApiException             the api exception
 	 */
-	public UploadData uploadData(UploadDataParameter uploadParameter)
+	public UploadData uploadTextData(UploadDataParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleDataUpload(uploadParameter);
+		UploadData uploadData = handleTextDataUpload(uploadParameter);
 		return uploadData;
 	}
+	
+	/**
+	 * Upload a binary file.
+	 * @param uploadParameter
+	 * @return
+	 * @throws UploadException
+	 * @throws IOException
+	 * @throws ApiException
+	 */
+	public UploadData uploadBinary(UploadBinaryParameter uploadParameter)
+			throws UploadException, IOException, ApiException {
+		UploadData uploadData = handleBinaryUpload(uploadParameter);
+		return uploadData;
+	}
+
 
 	/**
 	 * Upload path.
@@ -148,7 +167,7 @@ public class Upload {
 	 * @throws ApiException the api exception
 	 * @throws UploadException the upload exception
 	 */
-	private UploadData handleDataUpload(UploadDataParameter uploadParameter)
+	private UploadData handleTextDataUpload(UploadDataParameter uploadParameter)
 			throws IOException, ApiException, UploadException {
 		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
@@ -157,55 +176,60 @@ public class Upload {
 
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
-		BinaryTransactionEncryptedMessage response = null;
+		Object response = null; // flat buffer object.
+		ResourceHashMessage resourceMessageHash = null;
 		try {
+			byte[] serializedData = uploadParameter.getData().getBytes();
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				encrypted = engine
 						.createBlockCipher(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
-						.encrypt(uploadParameter.getData().getBytes());
+						.encrypt(serializedData);
 
-				String encryptedData = HexEncoder.getString(encrypted);
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(encryptedData,
-						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+				String encryptedData = Base64.encodeBase64String(encrypted);
+				response = uploadApi.uploadPlainTextUsingPOST(encryptedData,
+						uploadParameter.getName(), uploadParameter.getEncoding(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(uploadParameter.getData(),
-						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+				String data = Base64.encodeBase64String(uploadParameter.getData().getBytes());
+				response = uploadApi.uploadPlainTextUsingPOST(data,
+						uploadParameter.getName(),uploadParameter.getEncoding(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
-
+			resourceMessageHash = byteToSerialObject((byte[])response);
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
-				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
+				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
-						.addMosaics(uploadParameter.getMosaics()).buildSignAndSendTransaction();
+						.message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics())
+						.buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
 			} else {
 				// Announce The Signature
-				RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
+				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
+						.message((byte[])response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
 				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
-
-			uploadData.setDataMessage(response);
+			
+			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
-			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
+			e.printStackTrace();
+			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
 		return uploadData;
@@ -229,7 +253,8 @@ public class Upload {
 
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
-		BinaryTransactionEncryptedMessage response = null;
+		Object response = null;
+		ResourceHashMessage resourceMessageHash = null;
 		try {
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				encrypted = engine
@@ -237,49 +262,119 @@ public class Upload {
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
 						.encrypt(FileUtils.readFileToByteArray(uploadParameter.getData()));
-
-				String data = HexEncoder.getString(encrypted);
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data,
+				
+				byte[] data = Base64.encodeBase64(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(data,uploadParameter.getContentType(),
 						uploadParameter.getData().getName(), uploadParameter.getKeywords(),
 						uploadParameter.getMetaData());
 			} else { // PLAIN
-				String data = HexEncoder.getString(FileUtils.readFileToByteArray(uploadParameter.getData()));
-				response = dataHashApi.generateHashAndExposeDataToNetworkUsingPOST(data,
+				byte[] data = Base64.encodeBase64(FileUtils.readFileToByteArray(uploadParameter.getData()));
+				response = uploadApi.uploadBytesBinaryUsingPOST(data,uploadParameter.getContentType(),
 						uploadParameter.getData().getName(), uploadParameter.getKeywords(),
 						uploadParameter.getMetaData());
 			}
 
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
-				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
+				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
-						.addMosaics(uploadParameter.getMosaics()).buildSignAndSendTransaction();
+						.message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
 			} else {
 				// Announce The Signature
-				RequestAnnounceDataSignature requestAnnounceDataSignature = BinaryTransferTransactionBuilder
+				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
+						.message((byte[])response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
 				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
-			uploadData.setDataMessage(response);
+			resourceMessageHash = byteToSerialObject((byte[])response);
+			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
-			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
+			e.printStackTrace();
+			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
+			throw new UploadException(e);
+		}
+		return uploadData;
+	}
+	
+	private UploadData handleBinaryUpload(UploadBinaryParameter uploadParameter)
+			throws UploadException, IOException, ApiException {
+		String publishedData = "";
+		if (uploadParameter.getMosaics() == null) {
+			uploadParameter.setMosaics(new Mosaic[0]);
+		}
+
+		UploadData uploadData = new UploadData();
+		byte[] encrypted = null;
+		Object response = null;
+		ResourceHashMessage resourceMessageHash = null;
+		try {
+			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+				encrypted = engine
+						.createBlockCipher(
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
+								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
+						.encrypt(uploadParameter.getData());
+				
+				byte[] data = Base64.encodeBase64(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(data,uploadParameter.getContentType(),
+						uploadParameter.getName(), uploadParameter.getKeywords(),
+						uploadParameter.getMetaData());
+			} else { // PLAIN
+				byte[] data = Base64.encodeBase64(uploadParameter.getData());
+				response = uploadApi.uploadBytesBinaryUsingPOST(data,uploadParameter.getContentType(),
+						uploadParameter.getName(), uploadParameter.getKeywords(),
+						uploadParameter.getMetaData());
+			}
+
+			if (this.isLocalPeerConnection) {
+				// Announce The Signature
+				NemAnnounceResult announceResult = TransferTransactionBuilder
+						.sender(new Account(
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.recipient(new Account(Address
+								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.version(2).amount(Amount.fromNem(1l))
+						.message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
+				publishedData = announceResult.getTransactionHash().toString();
+
+			} else {
+				// Announce The Signature
+				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
+						.sender(new Account(
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.recipient(new Account(Address
+								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.version(2).amount(Amount.fromNem(1l))
+						.message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
+
+				// Return the NEM Txn Hash
+				publishedData = transactionAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+			}
+			resourceMessageHash = byteToSerialObject((byte[])response);
+			uploadData.setDataMessage(resourceMessageHash);
+			uploadData.setNemHash(publishedData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
 		return uploadData;
@@ -310,7 +405,8 @@ public class Upload {
 
 		UploadData uploadData = new UploadData();
 		byte[] encrypted = null;
-		BinaryTransactionEncryptedMessage response = null;
+		Object response = null;
+		ResourceHashMessage resourceMessageHash = null;
 		try {
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				encrypted = engine
@@ -319,59 +415,48 @@ public class Upload {
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
 						.encrypt(uploadParameter.getPath().getBytes());
 
-				String encryptedData = HexEncoder.getString(encrypted);
-				response = ((LocalDataHashApi) dataHashApi).generateHashAndExposePath(encryptedData,
+				//byte[] data = Base64.encodeBase64(encrypted);
+				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(),
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-				response = ((LocalDataHashApi) dataHashApi).generateHashAndExposePath(uploadParameter.getPath(),
+				//byte[] data = Base64.encodeBase64(uploadParameter.getPath());
+				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(),
 						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
 
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
-				NemAnnounceResult announceResult = BinaryTransferTransactionBuilder
+				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
-						.addMosaics(uploadParameter.getMosaics()).buildSignAndSendTransaction();
+						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
 			}
-
-			uploadData.setDataMessage(response);
+			resourceMessageHash = byteToSerialObject((byte[])response);
+			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
-			dataHashApi.cleanupPinnedContentUsingPOST(response.getHash());
+			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
 		return uploadData;
 	}
 
-	/**
-	 * Creates the zip.
-	 *
-	 * @param files the files
-	 * @return the byte[]
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	private byte[] createZip(Map<String, byte[]> files) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ZipOutputStream zipfile = new ZipOutputStream(bos);
-		Iterator<String> i = files.keySet().iterator();
-		String fileName = null;
-		ZipEntry zipentry = null;
-		while (i.hasNext()) {
-			fileName = (String) i.next();
-			zipentry = new ZipEntry(fileName);
-			zipfile.putNextEntry(zipentry);
-			zipfile.write((byte[]) files.get(fileName));
-		}
-		zipfile.close();
-		return bos.toByteArray();
+	private ResourceHashMessage byteToSerialObject(byte[] object) {
+		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
+		return resourceMessage;
+		
+	}
+	
+	private void safeAsyncToGateways(ResourceHashMessage resource) {
+		
+		
 	}
 
 }

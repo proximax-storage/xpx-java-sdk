@@ -35,52 +35,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * The Class AccountApi.
- */
 public class AccountApi {
-    
-    /** The api client. */
     private ApiClient apiClient;
 
-    /**
-     * Instantiates a new account api.
-     */
     public AccountApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    /**
-     * Instantiates a new account api.
-     *
-     * @param apiClient the api client
-     */
     public AccountApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
-    /**
-     * Gets the api client.
-     *
-     * @return the api client
-     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for getAllIncomingNemAddressTransactionsUsingGET.
-     *
+     * Build call for getAllIncomingNemAddressTransactionsUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -128,15 +103,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the all incoming nem address transactions using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the all incoming nem address transactions using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getAllIncomingNemAddressTransactionsUsingGETValidateBeforeCall(String publicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -156,8 +122,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllIncomingNemAddressTransactions.
-     *
+     * getAllIncomingNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -168,8 +134,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllIncomingNemAddressTransactions.
-     *
+     * getAllIncomingNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -181,8 +147,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllIncomingNemAddressTransactions (asynchronously).
-     *
+     * getAllIncomingNemAddressTransactions (asynchronously)
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -214,10 +180,8 @@ public class AccountApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for getAllNemAddressTransactionsUsingGET.
-     *
+     * Build call for getAllNemAddressTransactionsUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -265,15 +229,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the all nem address transactions using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the all nem address transactions using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getAllNemAddressTransactionsUsingGETValidateBeforeCall(String publicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -293,8 +248,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactions.
-     *
+     * getAllNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -305,8 +260,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactions.
-     *
+     * getAllNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -318,8 +273,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactions (asynchronously).
-     *
+     * getAllNemAddressTransactions (asynchronously)
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -351,10 +306,8 @@ public class AccountApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for getAllNemAddressTransactionsWithPageSizeUsingGET.
-     *
+     * Build call for getAllNemAddressTransactionsWithPageSizeUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param pageSize Page Size (required)
      * @param progressListener Progress listener
@@ -404,16 +357,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the all nem address transactions with page size using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param pageSize the page size
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the all nem address transactions with page size using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getAllNemAddressTransactionsWithPageSizeUsingGETValidateBeforeCall(String publicKey, String pageSize, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -438,8 +381,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactionsWithPageSize.
-     *
+     * getAllNemAddressTransactionsWithPageSize
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param pageSize Page Size (required)
      * @return String
@@ -451,8 +394,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactionsWithPageSize.
-     *
+     * getAllNemAddressTransactionsWithPageSize
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param pageSize Page Size (required)
      * @return ApiResponse&lt;String&gt;
@@ -465,8 +408,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllNemAddressTransactionsWithPageSize (asynchronously).
-     *
+     * getAllNemAddressTransactionsWithPageSize (asynchronously)
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param pageSize Page Size (required)
      * @param callback The callback to be executed when the API call finishes
@@ -499,10 +442,8 @@ public class AccountApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for getAllOutgoingNemAddressTransactionsUsingGET.
-     *
+     * Build call for getAllOutgoingNemAddressTransactionsUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -550,15 +491,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the all outgoing nem address transactions using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the all outgoing nem address transactions using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getAllOutgoingNemAddressTransactionsUsingGETValidateBeforeCall(String publicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -578,8 +510,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllOutgoingNemAddressTransactions.
-     *
+     * getAllOutgoingNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -590,8 +522,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllOutgoingNemAddressTransactions.
-     *
+     * getAllOutgoingNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -603,8 +535,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllOutgoingNemAddressTransactions (asynchronously).
-     *
+     * getAllOutgoingNemAddressTransactions (asynchronously)
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -636,10 +568,8 @@ public class AccountApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for getAllUnconfirmedNemAddressTransactionsUsingGET.
-     *
+     * Build call for getAllUnconfirmedNemAddressTransactionsUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -687,15 +617,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the all unconfirmed nem address transactions using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the all unconfirmed nem address transactions using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getAllUnconfirmedNemAddressTransactionsUsingGETValidateBeforeCall(String publicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -715,8 +636,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllUnconfirmedNemAddressTransactions.
-     *
+     * getAllUnconfirmedNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -727,8 +648,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllUnconfirmedNemAddressTransactions.
-     *
+     * getAllUnconfirmedNemAddressTransactions
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -740,8 +661,8 @@ public class AccountApi {
     }
 
     /**
-     * getAllUnconfirmedNemAddressTransactions (asynchronously).
-     *
+     * getAllUnconfirmedNemAddressTransactions (asynchronously)
+     * 
      * @param publicKey The NEM Account Public Key (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
@@ -773,10 +694,8 @@ public class AccountApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
     /**
-     * Build call for getNemAddressDetailsUsingGET.
-     *
+     * Build call for getNemAddressDetailsUsingGET
      * @param publicKey The NEM Account Public Key (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -824,15 +743,6 @@ public class AccountApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
-    /**
-     * Gets the nem address details using GET validate before call.
-     *
-     * @param publicKey the public key
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the nem address details using GET validate before call
-     * @throws ApiException the api exception
-     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getNemAddressDetailsUsingGETValidateBeforeCall(String publicKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -853,8 +763,7 @@ public class AccountApi {
 
     /**
      * Get the NEM Address Details
-     * This endpoint returns the NEM Address/Account Information of a given address.
-     *
+     * This endpoint returns the NEM Address/Account Information of a given address
      * @param publicKey The NEM Account Public Key (required)
      * @return AccountMetaDataPair
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -866,8 +775,7 @@ public class AccountApi {
 
     /**
      * Get the NEM Address Details
-     * This endpoint returns the NEM Address/Account Information of a given address.
-     *
+     * This endpoint returns the NEM Address/Account Information of a given address
      * @param publicKey The NEM Account Public Key (required)
      * @return ApiResponse&lt;AccountMetaDataPair&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -880,8 +788,7 @@ public class AccountApi {
 
     /**
      * Get the NEM Address Details (asynchronously)
-     * This endpoint returns the NEM Address/Account Information of a given address.
-     *
+     * This endpoint returns the NEM Address/Account Information of a given address
      * @param publicKey The NEM Account Public Key (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
