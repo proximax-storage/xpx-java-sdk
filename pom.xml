@@ -130,36 +130,33 @@
 			<groupId>io.ipfs</groupId>
 			<artifactId>api</artifactId>
 			<version>${ipfs.java.api.version}</version>
-			<scope>system</scope>
+<!-- <scope>system</scope>
 			<systemPath>${basedir}/lib/api-v1.2.0.jar</systemPath>
+			 -->			
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multiaddr</artifactId>
 			<version>v1.1.1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/multiaddr.jar</systemPath>
+
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multihash</artifactId>
 			<version>v1.1.1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/multihash.jar</systemPath>
+
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multibase</artifactId>
 			<version>v1.1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/multibase.jar</systemPath>
+	
 		</dependency>
 		<dependency>
 			<groupId>com.github.ipld</groupId>
 			<artifactId>java-cid</artifactId>
 			<version>v1.1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/cid.jar</systemPath>
+
 		</dependency>
 		<dependency>
 			<groupId>com.github.serceman</groupId>

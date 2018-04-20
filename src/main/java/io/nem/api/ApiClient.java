@@ -11,7 +11,7 @@
  */
 
 
-package io.nem;
+package io.nem.api;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -76,6 +76,11 @@ import okio.Okio;
 
 import io.nem.auth.Authentication;
 import io.nem.auth.HttpBasicAuth;
+import io.nem.JSON;
+import io.nem.Pair;
+import io.nem.ProgressRequestBody;
+import io.nem.StringUtil;
+import io.nem.ProgressRequestBody.ProgressRequestListener;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
 

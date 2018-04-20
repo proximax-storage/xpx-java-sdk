@@ -13,8 +13,9 @@
 
 package io.nem.xpx;
 
-import io.nem.ApiException;
 import java.io.File;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -50,43 +51,6 @@ public class TransactionAndAnnounceApiTest {
 
         // TODO: test validations
     }
-    
-    /**
-     * Store a single file that can only be access by the given address
-     *
-     * This endpoint can be used to share a file to a specific address only.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publishAndSendSingleFileToAddressUsingPOSTTest() throws ApiException {
-        String xPvkey = null;
-        String address = null;
-        String messageType = null;
-        File file = null;
-        String response = api.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Store a single file that can only be access by the given addresses
-     *
-     * This endpoint can be used to exclusively share files across a set of given addresses. This means that the file that&#39;s published here can only be viewed or downloaded by the given addresses including the uploader.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publishAndSendSingleFileToAddressesUsingPOSTTest() throws ApiException {
-        String xPvkey = null;
-        List<String> addresses = null;
-        String messageType = null;
-        File file = null;
-        String response = api.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
-
-        // TODO: test validations
-    }
+   
     
 }

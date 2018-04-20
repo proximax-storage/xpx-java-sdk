@@ -18,7 +18,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
@@ -41,161 +42,10 @@ import io.nem.xpx.utils.JsonUtils;
 public class UploadLocalPathTest extends AbstractApiTest {
 
 	/**
-	 * The Class TestMonitor.
-	 */
-
-	/**
-	 * Upload plain data test.
+	 * Upload path.
 	 */
 	@Test
-	public void uploadPlainDataTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
-					.messageType(MessageTypes.PLAIN)
-					.data("hello")
-					.metaData(null)
-					.keywords("proximax-addresses-eth")
-					.build();
-
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload plain file test.
-	 */
-	@Test
-	public void uploadPlainFileTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-		try {
-			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf"))
-					.metaData(null)
-					.keywords("proximax-pdf")
-					.contentType("application/pdf") // make sure to put this in for files.
-					.build();
-			
-			String nemhash = upload.uploadFile(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload plain large file test.
-	 */
-	@Test
-	public void uploadPlainLargeFileTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).build();
-			
-			String nemhash = upload.uploadFile(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload secure data test.
-	 */
-	@Test
-	public void uploadSecureDataTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
-					.data("This is a Secure Test Data").metaData(null).keywords(null).build();
-
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload secure file test.
-	 */
-	@Test
-	public void uploadSecureFileTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(null).keywords(null).build();
-			
-			String nemhash = upload.uploadFile(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload secure large file test.
-	 */
-	@Test
-	public void uploadSecureLargeFileTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
-					.metaData(null).keywords(null).build();
-			String nemhash = upload.uploadFile(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Upload plain data with mosaic test.
-	 */
-	@Test
-	public void uploadPlainDataWithMosaicTest() {
+	public void uploadPath() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 					new NodeEndpoint("http", "104.128.226.60", 7890));
@@ -203,14 +53,15 @@ public class UploadLocalPathTest extends AbstractApiTest {
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
+			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data("This is a test data from mosaic").metaData(null).keywords(null)
+					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
+					.metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
 					.build();
 
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
+			String nemhash = upload.uploadPath(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
@@ -218,35 +69,6 @@ public class UploadLocalPathTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-	
-	/**
-	 * Upload path.
-	 */
-//	@Test
-//	public void uploadPath() {
-//		try {
-//			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-//					new NodeEndpoint("http", "104.128.226.60", 7890));
-//			XpxSdkGlobalConstants.setGlobalTransactionFee(
-//					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
-//			Upload upload = new Upload(localPeerConnection);
-//
-//			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
-//					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-//					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
-//					.metaData(null).keywords(null)
-//					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-//							Quantity.fromValue(0)))
-//					.build();
-//
-//			String nemhash = upload.uploadPath(parameter).getNemHash();
-//			LOGGER.info(nemhash);
-//			Assert.assertNotNull(nemhash);
-//		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-//			e.printStackTrace();
-//			assertTrue(false);
-//		}
-//	}
 
 	/**
 	 * Mosaic info lookup.

@@ -5,6 +5,8 @@ package io.nem.xpx.facade;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -26,7 +28,8 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.LocalUploadApi;
 import io.nem.xpx.RemoteUploadApi;
 import io.nem.xpx.TransactionAndAnnounceApi;
@@ -42,6 +45,7 @@ import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -106,7 +110,6 @@ public class Upload {
 	 */
 	public UploadData uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-		
 		UploadData uploadData = handleFileUpload(uploadParameter);
 		return uploadData;
 
@@ -231,6 +234,8 @@ public class Upload {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
+		}finally {
+			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
@@ -308,6 +313,8 @@ public class Upload {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
+		}finally {
+			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
@@ -376,6 +383,8 @@ public class Upload {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
+		}finally {
+			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
@@ -432,7 +441,7 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message(JsonUtils.toJson(response), uploadParameter.getMessageType())
+						.message((byte[])response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
@@ -444,6 +453,8 @@ public class Upload {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
+		}finally {
+			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
@@ -451,12 +462,23 @@ public class Upload {
 	private ResourceHashMessage byteToSerialObject(byte[] object) {
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
 		return resourceMessage;
-		
 	}
 	
 	private void safeAsyncToGateways(ResourceHashMessage resource) {
-		
-		
+		Runnable task = () -> {
+		    for(String s: XpxSdkGlobalConstants.GLOBAL_GATEWAYS) {
+		    	URLConnection conn = null;
+		    	try {
+		    		conn = new URL(s + "/ipfs/" + resource.hash()).openConnection();
+		    		conn.connect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}finally {
+					
+				}
+		    }
+		};
+		task.run();
 	}
 
 }

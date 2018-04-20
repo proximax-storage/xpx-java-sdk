@@ -1,64 +1,93 @@
-///*
-// * 
-// */
-//package io.nem.xpx.facade;
-//
-//import java.io.UnsupportedEncodingException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.concurrent.ExecutionException;
-//import java.util.regex.Pattern;
-//
-//import org.nem.core.crypto.CryptoEngine;
-//import org.nem.core.crypto.CryptoEngines;
-//import org.nem.core.crypto.KeyPair;
-//import org.nem.core.crypto.PrivateKey;
-//import org.nem.core.crypto.PublicKey;
-//import org.nem.core.messages.SecureMessage;
-//import org.nem.core.model.Account;
-//import org.nem.core.model.Address;
-//import org.nem.core.model.TransferTransaction;
-//import org.nem.core.model.ncc.TransactionMetaDataPair;
-//import io.nem.ApiException;
-//import io.nem.xpx.TransactionApi;
-//import io.nem.xpx.facade.connection.PeerConnection;
-//import io.nem.xpx.utils.JsonUtils;
-//
-//
-///**
-// * The Class Search.
-// */
-//public class Search {
-//
-//	/** The peer connection. */
-//	private PeerConnection peerConnection;
-//
-//	/** The engine. */
-//	private CryptoEngine engine;
-//
-//	/**
-//	 * Instantiates a new search.
-//	 *
-//	 * @param peerConnection
-//	 *            the peer connection
-//	 */
-//	public Search(PeerConnection peerConnection) {
-//		this.peerConnection = peerConnection;
-//		this.engine = CryptoEngines.ed25519Engine();
-//	}
-//
-//	/**
-//	 * Search all transaction with regex keyword.
-//	 *
-//	 * @param privateKey the private key
-//	 * @param regex the regex
-//	 * @return the string
-//	 * @throws InterruptedException the interrupted exception
-//	 * @throws ExecutionException the execution exception
-//	 * @throws UnsupportedEncodingException the unsupported encoding exception
-//	 * @throws ApiException the api exception
-//	 */
-//	public String searchAllTransactionWithRegexKeyword(String privateKey, String regex)
+/*
+ * 
+ */
+package io.nem.xpx.facade;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
+
+import org.nem.core.crypto.CryptoEngine;
+import org.nem.core.crypto.CryptoEngines;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
+import org.nem.core.messages.SecureMessage;
+import org.nem.core.model.Account;
+import org.nem.core.model.Address;
+import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.ncc.TransactionMetaDataPair;
+
+import io.nem.api.ApiException;
+import io.nem.xpx.LocalSearchApi;
+import io.nem.xpx.LocalUploadApi;
+import io.nem.xpx.RemoteSearchApi;
+import io.nem.xpx.RemoteUploadApi;
+import io.nem.xpx.SearchApi;
+import io.nem.xpx.TransactionAndAnnounceApi;
+import io.nem.xpx.TransactionApi;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.utils.JsonUtils;
+
+
+/**
+ * The Class Search.
+ */
+public class Search {
+
+	/** The peer connection. */
+	private PeerConnection peerConnection;
+
+	/** The engine. */
+	private CryptoEngine engine;
+	
+	private SearchApi searchApi;
+	private boolean isLocalPeerConnection = false;
+	/**
+	 * Instantiates a new search.
+	 *
+	 * @param peerConnection
+	 *            the peer connection
+	 * @throws PeerConnectionNotFoundException 
+	 */
+	public Search(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+
+		if (peerConnection == null) {
+			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
+		}
+
+		if (peerConnection instanceof RemotePeerConnection) {
+			this.searchApi = new RemoteSearchApi();
+		} else {
+			this.isLocalPeerConnection = true;
+			this.searchApi = new LocalSearchApi();
+		}
+
+		this.peerConnection = peerConnection;
+		this.engine = CryptoEngines.ed25519Engine();
+	}
+
+
+	public String searchByKeyword(String xPvkey, String xPubkey,String keywords) throws ApiException, InterruptedException, ExecutionException {
+		return JsonUtils.toJson(searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, keywords));
+	}
+
+	public String searchByKeyword(String xPubkey, String keywords) throws io.nem.api.ApiException, InterruptedException, ExecutionException {
+		return JsonUtils.toJson(searchApi.searchTransactionWithKeywordUsingGET(xPubkey, keywords));
+	}
+
+	
+	public String searchByMetadata(String xPubkey, String text){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+//	public String searchByKeywordRegex(String privateKey, String regex)
 //			throws InterruptedException, ExecutionException, UnsupportedEncodingException, ApiException {
 //
 //		PrivateKey pvKey = PrivateKey.fromHexString(privateKey);
@@ -345,5 +374,5 @@
 //		}
 //		return JsonUtils.toJson(encryptedMessage);
 //	}
-//
-//}
+
+}

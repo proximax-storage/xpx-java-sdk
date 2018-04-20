@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 
 /**
  * The Interface UploadApi.

@@ -21,7 +21,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;

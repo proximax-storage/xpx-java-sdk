@@ -12,7 +12,7 @@
 
 package io.nem.xpx;
 
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
 
 import org.junit.Assert;

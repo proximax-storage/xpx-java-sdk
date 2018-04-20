@@ -13,14 +13,15 @@
 
 package io.nem.xpx;
 
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
-import io.nem.ApiException;
-import io.nem.ApiResponse;
 import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
+import io.nem.api.ApiCallback;
+import io.nem.api.ApiClient;
+import io.nem.api.ApiException;
+import io.nem.api.ApiResponse;
+
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import io.nem.xpx.intf.UploadApi;

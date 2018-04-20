@@ -12,7 +12,8 @@ import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.NemAccountApi;
 import io.nem.xpx.TransactionApi;
 import io.nem.xpx.model.InsufficientAmountException;

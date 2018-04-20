@@ -18,7 +18,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
@@ -222,31 +223,31 @@ public class UploadRemotePathTest extends AbstractApiTest {
 	/**
 	 * Upload path.
 	 */
-//	@Test
-//	public void uploadPath() {
-//		try {
-//			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-//					new NodeEndpoint("http", "104.128.226.60", 7890));
-//			XpxSdkGlobalConstants.setGlobalTransactionFee(
-//					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
-//			Upload upload = new Upload(localPeerConnection);
-//
-//			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
-//					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-//					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
-//					.metaData(null).keywords(null)
-//					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-//							Quantity.fromValue(0)))
-//					.build();
-//
-//			String nemhash = upload.uploadPath(parameter).getNemHash();
-//			LOGGER.info(nemhash);
-//			Assert.assertNotNull(nemhash);
-//		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
-//			e.printStackTrace();
-//			assertTrue(false);
-//		}
-//	}
+	@Test
+	public void uploadPath() {
+		try {
+			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+					new NodeEndpoint("http", "104.128.226.60", 7890));
+			XpxSdkGlobalConstants.setGlobalTransactionFee(
+					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+			Upload upload = new Upload(localPeerConnection);
+
+			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.path("C:\\Sample")
+					.metaData(null).keywords(null)
+					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
+							Quantity.fromValue(0)))
+					.build();
+
+			String nemhash = upload.uploadPath(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 
 	/**
 	 * Mosaic info lookup.

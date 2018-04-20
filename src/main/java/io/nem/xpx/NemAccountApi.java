@@ -12,7 +12,7 @@ import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 import io.nem.xpx.model.GeneratedAccount;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 

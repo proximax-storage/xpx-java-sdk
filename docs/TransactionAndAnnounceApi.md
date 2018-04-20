@@ -5,8 +5,7 @@ All URIs are relative to *http://localhost:8881*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**announceRequestPublishDataSignatureUsingPOST**](TransactionAndAnnounceApi.md#announceRequestPublishDataSignatureUsingPOST) | **POST** /transaction/announce | Announce the DataHash to NEM/P2P Storage and P2P Database
-[**publishAndSendSingleFileToAddressUsingPOST**](TransactionAndAnnounceApi.md#publishAndSendSingleFileToAddressUsingPOST) | **POST** /transaction/announce/single/to/{address} | Store a single file that can only be access by the given address
-[**publishAndSendSingleFileToAddressesUsingPOST**](TransactionAndAnnounceApi.md#publishAndSendSingleFileToAddressesUsingPOST) | **POST** /transaction/announce/single/to/addresses | Store a single file that can only be access by the given addresses
+[**getXPXTransactionUsingGET**](TransactionAndAnnounceApi.md#getXPXTransactionUsingGET) | **GET** /transaction/get/{nemHash} | Get the XPX Transaction Hash
 
 
 <a name="announceRequestPublishDataSignatureUsingPOST"></a>
@@ -54,13 +53,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="publishAndSendSingleFileToAddressUsingPOST"></a>
-# **publishAndSendSingleFileToAddressUsingPOST**
-> String publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file)
+<a name="getXPXTransactionUsingGET"></a>
+# **getXPXTransactionUsingGET**
+> String getXPXTransactionUsingGET(nemHash)
 
-Store a single file that can only be access by the given address
+Get the XPX Transaction Hash
 
-This endpoint can be used to share a file to a specific address only.
+Endpoint can be used to get XPX Transaction.
 
 ### Example
 ```java
@@ -70,15 +69,12 @@ This endpoint can be used to share a file to a specific address only.
 
 
 TransactionAndAnnounceApi apiInstance = new TransactionAndAnnounceApi();
-String xPvkey = "xPvkey_example"; // String | The Sender's Private Key
-String address = "address_example"; // String | The Receiver's Address without dash ('-')
-String messageType = "messageType_example"; // String | Message Type ( PLAIN or SECURE )
-File file = new File("/path/to/file.txt"); // File | The Multipart File
+String nemHash = "nemHash_example"; // String | XPX Transaction Hash
 try {
-    String result = apiInstance.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
+    String result = apiInstance.getXPXTransactionUsingGET(nemHash);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling TransactionAndAnnounceApi#publishAndSendSingleFileToAddressUsingPOST");
+    System.err.println("Exception when calling TransactionAndAnnounceApi#getXPXTransactionUsingGET");
     e.printStackTrace();
 }
 ```
@@ -87,10 +83,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xPvkey** | **String**| The Sender&#39;s Private Key |
- **address** | **String**| The Receiver&#39;s Address without dash (&#39;-&#39;) |
- **messageType** | **String**| Message Type ( PLAIN or SECURE ) |
- **file** | **File**| The Multipart File |
+ **nemHash** | **String**| XPX Transaction Hash |
 
 ### Return type
 
@@ -102,57 +95,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-<a name="publishAndSendSingleFileToAddressesUsingPOST"></a>
-# **publishAndSendSingleFileToAddressesUsingPOST**
-> String publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file)
-
-Store a single file that can only be access by the given addresses
-
-This endpoint can be used to exclusively share files across a set of given addresses. This means that the file that&#39;s published here can only be viewed or downloaded by the given addresses including the uploader.
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.TransactionAndAnnounceApi;
-
-
-TransactionAndAnnounceApi apiInstance = new TransactionAndAnnounceApi();
-String xPvkey = "xPvkey_example"; // String | The Sender's Private Key
-List<String> addresses = Arrays.asList("addresses_example"); // List<String> | The List of receiving Addresses without dash ('-')
-String messageType = "messageType_example"; // String | Message Type ( PLAIN or SECURE )
-File file = new File("/path/to/file.txt"); // File | The Multipart File
-try {
-    String result = apiInstance.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling TransactionAndAnnounceApi#publishAndSendSingleFileToAddressesUsingPOST");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xPvkey** | **String**| The Sender&#39;s Private Key | [optional]
- **addresses** | [**List&lt;String&gt;**](String.md)| The List of receiving Addresses without dash (&#39;-&#39;) | [optional]
- **messageType** | **String**| Message Type ( PLAIN or SECURE ) | [optional]
- **file** | **File**| The Multipart File | [optional]
-
-### Return type
-
-**String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
+ - **Content-Type**: application/json
  - **Accept**: application/json
 

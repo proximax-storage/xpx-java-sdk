@@ -14,7 +14,7 @@
 package io.nem.xpx;
 
 import io.ipfs.multihash.Multihash;
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 import io.nem.model.exception.MessageDigestNotMatchException;
 import java.io.IOException;
 import io.nem.xpx.intf.DownloadApi;
@@ -44,7 +44,6 @@ public class LocalDownloadApi implements DownloadApi {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
-		
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 

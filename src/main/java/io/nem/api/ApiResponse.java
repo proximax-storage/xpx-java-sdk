@@ -11,7 +11,7 @@
  */
 
 
-package io.nem;
+package io.nem.api;
 
 import java.util.List;
 import java.util.Map;

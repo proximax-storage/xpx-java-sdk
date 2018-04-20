@@ -24,7 +24,8 @@
 //import org.nem.core.model.ncc.NemAnnounceResult;
 //import org.nem.core.model.primitive.Amount;
 //import org.nem.core.utils.HexEncoder;
-//import io.nem.ApiException;
+//
+//import io.nem.api.ApiException;
 //import io.nem.xpx.DataHashApiInterface;
 //import io.nem.xpx.LocalDataHashApi;
 //import io.nem.xpx.RemoteDataHashApi;

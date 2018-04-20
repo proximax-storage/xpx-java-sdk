@@ -8,8 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
-import io.nem.ApiClient;
 import io.nem.Configuration;
+import io.nem.api.ApiClient;
 
 
 /**

@@ -1,5 +1,7 @@
 # Official Proximax P2P Storage Java SDK
 
+![banner](https://proximax.io/wp-content/uploads/2018/03/ProximaX-logotype.png)
+
 ## Requirements
 
 Building the API client library requires [Maven](https://maven.apache.org/) to be installed.
@@ -13,7 +15,7 @@ mvn install:install-file -DgroupId=io.ipfs -DartifactId=api -Dversion=1.2.0 -Dpa
 To install NEM Core API
 
 ```shell
-mvn install:install-file -DgroupId=org.nem.core -DartifactId=nem-core -Dversion=0.6.93-BETA -Dpackaging=jar -Dfile=lib/nem-core-0.6.93-BETA.jar
+mvn install:install-file -DgroupId=org.nem.core -DartifactId=nem-core -Dversion=0.6.95-BETA -Dpackaging=jar -Dfile=lib/nem-core-0.6.95-BETA.jar
 ```
 To install the API client library to your local Maven repository, simply execute:
 

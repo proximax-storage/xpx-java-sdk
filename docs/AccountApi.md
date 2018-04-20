@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getAllIncomingNemAddressTransactionsUsingGET**](AccountApi.md#getAllIncomingNemAddressTransactionsUsingGET) | **GET** /account/get/all-incoming-transactions/{publicKey} | getAllIncomingNemAddressTransactions
-[**getAllNemAddressTransactionsUsingGET**](AccountApi.md#getAllNemAddressTransactionsUsingGET) | **GET** /account/get/all-transactions/{publicKey} | getAllNemAddressTransactions
-[**getAllNemAddressTransactionsWithPageSizeUsingGET**](AccountApi.md#getAllNemAddressTransactionsWithPageSizeUsingGET) | **GET** /account/get/all-transactions/{publicKey}/{pageSize} | getAllNemAddressTransactionsWithPageSize
-[**getAllOutgoingNemAddressTransactionsUsingGET**](AccountApi.md#getAllOutgoingNemAddressTransactionsUsingGET) | **GET** /account/get/all-outgoing-transactions/{publicKey} | getAllOutgoingNemAddressTransactions
-[**getAllUnconfirmedNemAddressTransactionsUsingGET**](AccountApi.md#getAllUnconfirmedNemAddressTransactionsUsingGET) | **GET** /account/get/all-unconfirmed-transactions/{publicKey} | getAllUnconfirmedNemAddressTransactions
+[**getAllIncomingNemAddressTransactionsUsingGET**](AccountApi.md#getAllIncomingNemAddressTransactionsUsingGET) | **GET** /account/get/incoming/transactions/{publicKey} | getAllIncomingNemAddressTransactions
+[**getAllNemAddressTransactionsUsingGET**](AccountApi.md#getAllNemAddressTransactionsUsingGET) | **GET** /account/get/transactions/{publicKey} | getAllNemAddressTransactions
+[**getAllNemAddressTransactionsWithPageSizeUsingGET**](AccountApi.md#getAllNemAddressTransactionsWithPageSizeUsingGET) | **GET** /account/get/transactions/{publicKey}/{pageSize} | getAllNemAddressTransactionsWithPageSize
+[**getAllOutgoingNemAddressTransactionsUsingGET**](AccountApi.md#getAllOutgoingNemAddressTransactionsUsingGET) | **GET** /account/get/outgoing/transactions/{publicKey} | getAllOutgoingNemAddressTransactions
+[**getAllUnconfirmedNemAddressTransactionsUsingGET**](AccountApi.md#getAllUnconfirmedNemAddressTransactionsUsingGET) | **GET** /account/get/unconfirmed/transactions/{publicKey} | getAllUnconfirmedNemAddressTransactions
 [**getNemAddressDetailsUsingGET**](AccountApi.md#getNemAddressDetailsUsingGET) | **GET** /account/get/info/{publicKey} | Get the NEM Address Details
 
 

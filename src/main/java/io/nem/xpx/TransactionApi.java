@@ -10,7 +10,8 @@ import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 

@@ -24,7 +24,7 @@ import org.nem.core.serialization.JsonDeserializer;
 import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 import io.nem.xpx.factory.AttachmentFactory;
 import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;

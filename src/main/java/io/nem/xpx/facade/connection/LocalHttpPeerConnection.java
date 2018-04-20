@@ -16,6 +16,7 @@ public class LocalHttpPeerConnection implements PeerConnection {
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint) {
+		XpxSdkGlobalConstants.isLocal = true;
 		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
 		XpxSdkGlobalConstants.setProximaxConnection("/ip4/127.0.0.1/tcp/5001");	// yes, constant.
 	}
@@ -27,6 +28,7 @@ public class LocalHttpPeerConnection implements PeerConnection {
 	 * @param multiAddress the multi address
 	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
+		XpxSdkGlobalConstants.isLocal = true;
 		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
 		XpxSdkGlobalConstants.setProximaxConnection(multiAddress);
 	}

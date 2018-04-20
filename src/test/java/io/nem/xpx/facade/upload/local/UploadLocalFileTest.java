@@ -19,7 +19,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
@@ -50,7 +51,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf"))
+					.data(new File("src//test//resources//pdf_file.pdf"))
 					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
 					.contentType("application/pdf") // make sure to put this in for files.
 					.build();

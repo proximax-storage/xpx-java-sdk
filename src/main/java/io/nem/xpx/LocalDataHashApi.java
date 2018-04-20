@@ -14,9 +14,11 @@ package io.nem.xpx;
 
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
-import io.nem.ApiException;
+
 import java.io.IOException;
 import java.nio.file.Paths;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.intf.DataHashApi;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.PublishResult;
@@ -92,8 +94,8 @@ public class LocalDataHashApi implements DataHashApi {
 		System.out.println(Paths.get(path).getFileName().toString());
 		NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(Paths.get(path).toFile());
 		NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(Paths.get(path).getFileName().toString(),fileWrapper.getChildren());
-		List<MerkleNode> node1 = XpxSdkGlobalConstants.getProximaxConnection().add(fileWrapper,true,false,true);
-		List<MerkleNode> node2 = XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper,false,false,true);
+		List<MerkleNode> node1 = XpxSdkGlobalConstants.getProximaxConnection().add(fileWrapper,true,false);
+		List<MerkleNode> node2 = XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper,false,false);
 		
 		node1.forEach(p -> {
 			//System.out.println(p.toJSON());
@@ -128,7 +130,7 @@ public class LocalDataHashApi implements DataHashApi {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().getHashOnly(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper,false,true);
 		result.setMerkleNode(node);
 
 		return result;

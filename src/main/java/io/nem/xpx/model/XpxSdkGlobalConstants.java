@@ -6,7 +6,11 @@ import java.nio.file.Paths;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.TransactionFeeCalculator;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicFeeInformation;
+import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
@@ -14,11 +18,10 @@ import org.nem.core.time.TimeProvider;
 
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 import io.nem.xpx.NodeApi;
 import io.nem.xpx.factory.ConnectorFactory;
 import ru.serce.jnrfuse.FuseStubFS;
-
 
 /**
  * The Class Globals.
@@ -26,57 +29,71 @@ import ru.serce.jnrfuse.FuseStubFS;
 public class XpxSdkGlobalConstants {
 	/** The Constant TIME_PROVIDER. */
 	public static final TimeProvider TIME_PROVIDER = new SystemTimeProvider();
-	
+
 	/** The Constant NODE_ENDPOINT. */
 	private static NodeEndpoint NODE_ENDPOINT;
-	
+
 	/** The proximax connection. */
 	private static IPFS PROXIMAX_CONNECTION;
-	
+
 	/** The fuse ipfs stub. */
 	private static FuseStubFS FUSE_IPFS_STUB = null;
-	
+
 	/** The fuse ipns stub. */
 	private static FuseStubFS FUSE_IPNS_STUB = null;
-	
+
 	/** The ipfs mount point. */
 	private static String ipfsMountPoint = "/ipfs";
-	
+
 	/** The ipns mount point. */
 	private static String ipnsMountPoint = "/ipns";
-	
+
 	/** The Constant URL_WS_W_MESSAGES. */
-	//	Websockets
+	// Websockets
 	public static final String URL_WS_W_MESSAGES = "/w/messages";
-	
+
 	/** The Constant URL_WS_W_API_ACCOUNT_SUBSCRIBE. */
 	public static final String URL_WS_W_API_ACCOUNT_SUBSCRIBE = "/w/api/account/subscribe";
-	
+
 	/** The Constant URL_WS_TRANSACTIONS. */
 	public static final String URL_WS_TRANSACTIONS = "/transactions";
-	
+
 	/** The Constant URL_WS_UNCONFIRMED. */
 	public static final String URL_WS_UNCONFIRMED = "/unconfirmed";
-	
+
 	/** The Constant WS_PORT. */
 	public static final String WS_PORT = "7778";
+
+	public static final String[] GLOBAL_GATEWAYS = { "https://ipfs.io", "https://gateway.ipfs.io" };
+
+	public static boolean isLocal = false;
 
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
 			Amount.fromMicroNem(50_000L), null);
-	
+
 	/** The fee calculator multi sig. */
 	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(
 			Amount.fromMicroNem(50_000L), null);
 
-	
+	private static MosaicFeeInformationLookup mosaicInfoLookup() {
+		return id -> {
+			if (id.getName().equals("registry")) {
+				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
+			}
+			final int multiplier = Integer.parseInt(id.getName().substring(4));
+			final int divisibilityChange = multiplier - 1;
+			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
+		};
+	}
+
 	/**
 	 * Gets the websocket uri.
 	 *
 	 * @return the websocket uri
 	 */
 	public static String getWebsocketUri() {
-		if(NODE_ENDPOINT == null) {
+		if (NODE_ENDPOINT == null) {
 			try {
 				NODE_ENDPOINT = getNodeEndpoint();
 			} catch (ApiException e) {
@@ -84,13 +101,11 @@ public class XpxSdkGlobalConstants {
 			}
 		}
 		StringBuilder builder = new StringBuilder();
-		builder.append("ws://")
-			.append(NODE_ENDPOINT.getBaseUrl().getHost())
-			.append(":")
-			.append(WS_PORT)
-			.append(URL_WS_W_MESSAGES);
+		builder.append("ws://").append(NODE_ENDPOINT.getBaseUrl().getHost()).append(":").append(WS_PORT)
+				.append(URL_WS_W_MESSAGES);
 		return builder.toString();
 	}
+
 	/**
 	 * Gets the node endpoint.
 	 *
@@ -99,10 +114,11 @@ public class XpxSdkGlobalConstants {
 	 *             the api exception
 	 */
 	public static NodeEndpoint getNodeEndpoint() throws ApiException {
-		NodeInfo nodeInfo = new NodeApi().getNodeInfoUsingGET();
-		NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
-				Integer.valueOf(nodeInfo.getNetworkPort()));
-
+		if (!isLocal) {
+			NodeInfo nodeInfo = new NodeApi().getNodeInfoUsingGET();
+			NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
+					Integer.valueOf(nodeInfo.getNetworkPort()));
+		}
 		return NODE_ENDPOINT;
 	}
 
@@ -110,7 +126,8 @@ public class XpxSdkGlobalConstants {
 	 * Gets the proximax connection.
 	 *
 	 * @return the proximax connection
-	 * @throws ApiException the api exception
+	 * @throws ApiException
+	 *             the api exception
 	 */
 	public static IPFS getProximaxConnection() throws ApiException {
 		return PROXIMAX_CONNECTION;
@@ -129,7 +146,8 @@ public class XpxSdkGlobalConstants {
 	/**
 	 * Sets the global multisig transaction fee.
 	 *
-	 * @param feeCalculator the new global multisig transaction fee
+	 * @param feeCalculator
+	 *            the new global multisig transaction fee
 	 */
 	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
 		XpxSdkGlobalConstants.feeCalculatorMultiSig = feeCalculator;
@@ -166,7 +184,8 @@ public class XpxSdkGlobalConstants {
 	/**
 	 * Sets the proximax connection.
 	 *
-	 * @param multiAddress the new proximax connection
+	 * @param multiAddress
+	 *            the new proximax connection
 	 */
 	public static void setProximaxConnection(String multiAddress) {
 		XpxSdkGlobalConstants.PROXIMAX_CONNECTION = new IPFS(new MultiAddress(multiAddress));
@@ -178,14 +197,15 @@ public class XpxSdkGlobalConstants {
 	 * @return the ipfs mount point
 	 */
 	public static String getIpfsMountPoint() {
-		
+
 		return ipfsMountPoint;
 	}
 
 	/**
 	 * Sets the ipfs mount point.
 	 *
-	 * @param ipfsMountPoint the new ipfs mount point
+	 * @param ipfsMountPoint
+	 *            the new ipfs mount point
 	 */
 	public static void setIpfsMountPoint(String ipfsMountPoint) {
 		XpxSdkGlobalConstants.ipfsMountPoint = ipfsMountPoint;
@@ -203,7 +223,8 @@ public class XpxSdkGlobalConstants {
 	/**
 	 * Sets the ipns mount point.
 	 *
-	 * @param ipnsMountPoint the new ipns mount point
+	 * @param ipnsMountPoint
+	 *            the new ipns mount point
 	 */
 	public static void setIpnsMountPoint(String ipnsMountPoint) {
 		XpxSdkGlobalConstants.ipnsMountPoint = ipnsMountPoint;
@@ -220,7 +241,6 @@ public class XpxSdkGlobalConstants {
 		return FUSE_IPFS_STUB;
 	}
 
-
 	/**
 	 * Gets the fuse ipns stub.
 	 *
@@ -231,7 +251,6 @@ public class XpxSdkGlobalConstants {
 		FUSE_IPNS_STUB.mount(Paths.get(ipnsMountPoint));
 		return FUSE_IPNS_STUB;
 	}
-
 
 	/** The Constant CONNECTOR. */
 	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();

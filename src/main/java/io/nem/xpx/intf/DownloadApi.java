@@ -16,7 +16,7 @@ package io.nem.xpx.intf;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import io.nem.ApiException;
+import io.nem.api.ApiException;
 
 public interface DownloadApi {
 	/**

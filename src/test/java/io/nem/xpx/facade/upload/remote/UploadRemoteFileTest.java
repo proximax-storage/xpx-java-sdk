@@ -19,7 +19,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
@@ -44,18 +45,18 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
-		
+
 		try {
-			Upload upload = new Upload(remotePeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
-					.contentType("application/pdf") // make sure to put this in for files.
+					.data(new File("src//test//resources//pdf_file.pdf"))
+					.contentType("application/pdf")
+					.metaData(JsonUtils.toJson(metaData)) // one level map to json
+					.keywords("plain,test")
 					.build();
-			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -64,6 +65,31 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void uploadPlainPdfFileTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+
+		try {
+			Map<String,String> metaData = new HashMap<String,String>();
+			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.data(new File("src//test//resources//pdf_file.pdf"))
+					.metaData(JsonUtils.toJson(metaData)) // one level map to json
+					.keywords("plain,pdf,test")
+					.build();
+			String nemhash = upload.uploadFile(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	
 
 	/**
 	 * Upload plain large file test.
@@ -71,17 +97,17 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainLargeFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
-		
+
 		try {
-			Upload upload = new Upload(remotePeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//large_file.zip"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
+					.metaData(JsonUtils.toJson(metaData)) // one level map to json
+					.keywords("plain,large,test")
 					.build();
-			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
@@ -90,24 +116,25 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-
-
+	
 	/**
 	 * Upload secure file test.
 	 */
 	@Test
 	public void uploadSecureFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
-		
+
 		try {
-			Upload upload = new Upload(remotePeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,file")
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+					.data(new File("src//test//resources//small_file.txt"))
+					.contentType("text/plain")
+					.metaData(JsonUtils.toJson(metaData)) // one level map to json
+					.keywords("secure,test")
 					.build();
-			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
@@ -117,29 +144,6 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 		}
 	}
 
-	/**
-	 * Upload secure large file test.
-	 */
-	@Test
-	public void uploadSecureLargeFileTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
-		
-		try {
-			Upload upload = new Upload(remotePeerConnection);
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,file")
-					.build();
-			String nemhash = upload.uploadFile(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
 	
 	@Test
 	public void uploadPlainFileWithMosaicTest() {

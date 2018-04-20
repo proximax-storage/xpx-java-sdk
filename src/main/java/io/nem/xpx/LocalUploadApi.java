@@ -15,18 +15,24 @@ package io.nem.xpx;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
-import io.nem.ApiException;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.tika.Tika;
 import com.google.flatbuffers.FlatBufferBuilder;
 
+import io.nem.api.ApiException;
 import io.nem.xpx.intf.UploadApi;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.PublishResult;
@@ -42,11 +48,11 @@ public class LocalUploadApi implements UploadApi {
 	public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException, IOException {
 		return XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multihash)).toString();
 	}
-	
+
 	@Override
-	public Object uploadBase64StringBinaryUsingPOST(String data, String contentType, String name, String keywords, String metadata)
-			throws ApiException, IOException, NoSuchAlgorithmException {
-		
+	public Object uploadBase64StringBinaryUsingPOST(String data, String contentType, String name, String keywords,
+			String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
+
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 
 		dataHashByteArrayEntity.setFile(data.getBytes());
@@ -63,42 +69,43 @@ public class LocalUploadApi implements UploadApi {
 		dataHashByteArrayEntity.setContentType(contentType);
 		dataHashByteArrayEntity.setKeywords(keywords);
 		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
-		
-		
+
 		PublishResult spfsBlockResult = exposeAndPinBinary(dataHashByteArrayEntity.getName(),
 				dataHashByteArrayEntity.getFile());
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
 
-		FlatBufferBuilder builder  = new FlatBufferBuilder(1024);
-		
+		FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		
-		int digest =  builder.createString(new String(
+
+		int digest = builder.createString(new String(
 				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
-		
+
 		int hash = builder.createString(multiHashString);
-		int keywordsRes = builder.createString((dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
-		int metadataRes = builder.createString(JsonUtils.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
-		int nameint =  builder.createString(dataHashByteArrayEntity.getName());
+		int keywordsRes = builder.createString(
+				(dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+		int metadataRes = builder.createString(JsonUtils
+				.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+		int nameint = builder.createString(dataHashByteArrayEntity.getName());
 		int type = builder.createString(dataHashByteArrayEntity.getContentType());
-		
+
 		ResourceHashMessage.startResourceHashMessage(builder);
-		ResourceHashMessage.addDigest(builder,digest);
+		ResourceHashMessage.addDigest(builder, digest);
 		ResourceHashMessage.addHash(builder, hash);
 		ResourceHashMessage.addKeywords(builder, keywordsRes);
-		ResourceHashMessage.addMetaData(builder,  metadataRes);
+		ResourceHashMessage.addMetaData(builder, metadataRes);
 		ResourceHashMessage.addName(builder, nameint);
 		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
 		ResourceHashMessage.addType(builder, type);
 		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
-		
+
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
 	@Override
-	public Object uploadBytesBinaryUsingPOST(byte[] data, String contentType, String name, String keywords, String metadata)
-			throws ApiException, IOException, NoSuchAlgorithmException {
-		
+	public Object uploadBytesBinaryUsingPOST(byte[] data, String contentType, String name, String keywords,
+			String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
+
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 
 		dataHashByteArrayEntity.setFile(data);
@@ -115,40 +122,42 @@ public class LocalUploadApi implements UploadApi {
 		dataHashByteArrayEntity.setContentType(contentType);
 		dataHashByteArrayEntity.setKeywords(keywords);
 		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
-		
-		
+
 		PublishResult spfsBlockResult = exposeAndPinBinary(dataHashByteArrayEntity.getName(),
 				dataHashByteArrayEntity.getFile());
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
 
-		FlatBufferBuilder builder  = new FlatBufferBuilder(1024);
-		
+		FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		
-		int digest =  builder.createString(new String(
+
+		int digest = builder.createString(new String(
 				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
-		
+
 		int hash = builder.createString(multiHashString);
-		int keywordsRes = builder.createString((dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
-		int metadataRes = builder.createString(JsonUtils.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
-		int nameint =  builder.createString(dataHashByteArrayEntity.getName());
+		int keywordsRes = builder.createString(
+				(dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+		int metadataRes = builder.createString(JsonUtils
+				.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+		int nameint = builder.createString(dataHashByteArrayEntity.getName());
 		int type = builder.createString(dataHashByteArrayEntity.getContentType());
-		
+
 		ResourceHashMessage.startResourceHashMessage(builder);
-		ResourceHashMessage.addDigest(builder,digest);
+		ResourceHashMessage.addDigest(builder, digest);
 		ResourceHashMessage.addHash(builder, hash);
 		ResourceHashMessage.addKeywords(builder, keywordsRes);
-		ResourceHashMessage.addMetaData(builder,  metadataRes);
+		ResourceHashMessage.addMetaData(builder, metadataRes);
 		ResourceHashMessage.addName(builder, nameint);
 		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
 		ResourceHashMessage.addType(builder, type);
 		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
-		
+
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
 	@Override
-	public Object uploadFileUsingPOST(File file, String name, String keywords, String metadata) throws ApiException, IOException, NoSuchAlgorithmException {
+	public Object uploadFileUsingPOST(File file, String name, String keywords, String metadata)
+			throws ApiException, IOException, NoSuchAlgorithmException {
 		// initialize the datahash byte array entity object.
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 
@@ -159,51 +168,50 @@ public class LocalUploadApi implements UploadApi {
 			dataHashByteArrayEntity.setName(name);
 		}
 
-		
 		String contentType = "text/plain";
 		dataHashByteArrayEntity.setContentType(contentType);
 		dataHashByteArrayEntity.setKeywords(keywords);
 		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
-		
-		
-		//	Expose/load the file.
+
+		// Expose/load the file.
 		PublishResult spfsBlockResult = exposeAndPinBinary(dataHashByteArrayEntity.getName(),
 				dataHashByteArrayEntity.getFile());
-		
+
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
-		
-		//	Serialize
-		FlatBufferBuilder builder  = new FlatBufferBuilder(1024);
+
+		// Serialize
+		FlatBufferBuilder builder = new FlatBufferBuilder(1024);
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		
-		int digest =  builder.createString(new String(
+
+		int digest = builder.createString(new String(
 				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
-		
+
 		int hash = builder.createString(multiHashString);
-		int keywordsRes = builder.createString((dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
-		int metadataRes = builder.createString(JsonUtils.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
-		int nameint =  builder.createString(dataHashByteArrayEntity.getName());
+		int keywordsRes = builder.createString(
+				(dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+		int metadataRes = builder.createString(JsonUtils
+				.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+		int nameint = builder.createString(dataHashByteArrayEntity.getName());
 		int type = builder.createString(dataHashByteArrayEntity.getContentType());
-		
+
 		ResourceHashMessage.startResourceHashMessage(builder);
-		ResourceHashMessage.addDigest(builder,digest);
+		ResourceHashMessage.addDigest(builder, digest);
 		ResourceHashMessage.addHash(builder, hash);
 		ResourceHashMessage.addKeywords(builder, keywordsRes);
-		ResourceHashMessage.addMetaData(builder,  metadataRes);
+		ResourceHashMessage.addMetaData(builder, metadataRes);
 		ResourceHashMessage.addName(builder, nameint);
 		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
 		ResourceHashMessage.addType(builder, type);
 		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
-		
-		//	return base64 encoded bytearray.
+
+		// return base64 encoded bytearray.
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
 	@Override
 	public Object uploadPlainTextUsingPOST(String text, String name, String encoding, String keywords, String metadata)
 			throws ApiException, IOException, NoSuchAlgorithmException {
-		
-	
+
 		// initialize the datahash byte array entity object.
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 
@@ -214,48 +222,117 @@ public class LocalUploadApi implements UploadApi {
 			dataHashByteArrayEntity.setName(name);
 		}
 
-		
 		String contentType = "text/plain";
 		dataHashByteArrayEntity.setContentType(contentType);
 		dataHashByteArrayEntity.setKeywords(keywords);
 		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
-		
-		
-		//	Expose/load the file.
+
+		// Expose/load the file.
 		PublishResult spfsBlockResult = exposeAndPinBinary(dataHashByteArrayEntity.getName(),
 				dataHashByteArrayEntity.getFile());
-		
+
 		String multiHashString = spfsBlockResult.getMerkleNode().get(0).hash.toBase58();
-		
-		//	Serialize
-		FlatBufferBuilder builder  = new FlatBufferBuilder(1024);
+
+		// Serialize
+		FlatBufferBuilder builder = new FlatBufferBuilder(1024);
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		
-		int digest =  builder.createString(new String(
+
+		int digest = builder.createString(new String(
 				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
-		
+
 		int hash = builder.createString(multiHashString);
-		int keywordsRes = builder.createString((dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
-		int metadataRes = builder.createString(JsonUtils.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
-		int nameint =  builder.createString(dataHashByteArrayEntity.getName());
+		int keywordsRes = builder.createString(
+				(dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+		int metadataRes = builder.createString(JsonUtils
+				.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+		int nameint = builder.createString(dataHashByteArrayEntity.getName());
 		int type = builder.createString(dataHashByteArrayEntity.getContentType());
-		
+
 		ResourceHashMessage.startResourceHashMessage(builder);
-		ResourceHashMessage.addDigest(builder,digest);
+		ResourceHashMessage.addDigest(builder, digest);
 		ResourceHashMessage.addHash(builder, hash);
 		ResourceHashMessage.addKeywords(builder, keywordsRes);
-		ResourceHashMessage.addMetaData(builder,  metadataRes);
+		ResourceHashMessage.addMetaData(builder, metadataRes);
 		ResourceHashMessage.addName(builder, nameint);
 		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
 		ResourceHashMessage.addType(builder, type);
 		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
-		
-		//	return base64 encoded bytearray.
+
+		// return base64 encoded bytearray.
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
-	
-	public Object uploadPath(String path, String a, String b, String c) {
-		return null;
+
+	public Object uploadPath(String path, String name, String keywords, String metadata) throws Exception {
+		// initialize the datahash byte array entity object.
+		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
+
+		dataHashByteArrayEntity.setFile(path.getBytes());
+		if (name == null || (name != null && name.equals(""))) {
+			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
+		} else {
+			dataHashByteArrayEntity.setName(name);
+		}
+
+		String contentType = "Directory";
+		dataHashByteArrayEntity.setContentType(contentType);
+		dataHashByteArrayEntity.setKeywords(keywords);
+		dataHashByteArrayEntity.setMetadata((metadata == null) ? null : JsonUtils.fromJson(metadata, Map.class));
+
+		// Expose/load the file.
+		PublishResult spfsBlockResult = exposeAndPinPath(path);
+
+		String multiHashString = "";
+
+		Iterator<MerkleNode> merkleNodeIter = spfsBlockResult.getMerkleNode().iterator();
+
+		// log it.
+		spfsBlockResult.getMerkleNode().stream().forEach(n -> {
+			System.out.println(n.hash + " " + n.name + " " + n.data);
+		});
+
+		while (merkleNodeIter.hasNext()) {
+			MerkleNode merkleNode = (MerkleNode) merkleNodeIter.next();
+			String namePath = "/" + merkleNode.name.get();
+			if (namePath.equals(path)) {
+				System.out.println("Assigned a sub merklenode");
+				multiHashString = merkleNode.hash.toBase58();
+				break;
+			}
+		}
+
+		if (multiHashString == null || multiHashString.equals("")) {
+			System.out.println("Assigned last merklenode");
+			multiHashString = spfsBlockResult.getMerkleNode().get(spfsBlockResult.getMerkleNode().size() - 1).hash
+					.toBase58();
+		}
+
+		// Serialize
+		FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
+		int digest = builder.createString(new String(
+				org.bouncycastle.util.encoders.Hex.encode(messageDigest.digest(dataHashByteArrayEntity.getFile()))));
+
+		int hash = builder.createString(multiHashString);
+		int keywordsRes = builder.createString(
+				(dataHashByteArrayEntity.getKeywords() == null) ? "" : dataHashByteArrayEntity.getKeywords());
+		int metadataRes = builder.createString(JsonUtils
+				.toJson((dataHashByteArrayEntity.getMetadata() == null) ? "" : dataHashByteArrayEntity.getMetadata()));
+		int nameint = builder.createString(dataHashByteArrayEntity.getName());
+		int type = builder.createString(dataHashByteArrayEntity.getContentType());
+
+		ResourceHashMessage.startResourceHashMessage(builder);
+		ResourceHashMessage.addDigest(builder, digest);
+		ResourceHashMessage.addHash(builder, hash);
+		ResourceHashMessage.addKeywords(builder, keywordsRes);
+		ResourceHashMessage.addMetaData(builder, metadataRes);
+		ResourceHashMessage.addName(builder, nameint);
+		ResourceHashMessage.addTimestamp(builder, System.currentTimeMillis());
+		ResourceHashMessage.addType(builder, type);
+		builder.finish(ResourceHashMessage.endResourceHashMessage(builder));
+
+		// return base64 encoded bytearray.
+		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
 	/**
@@ -291,29 +368,34 @@ public class LocalUploadApi implements UploadApi {
 	 *             the exception
 	 */
 	public PublishResult exposeAndPinPath(String path) throws Exception {
-
 		PublishResult result = new PublishResult();
-		System.out.println(Paths.get(path).getFileName().toString());
-		NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(Paths.get(path).toFile());
-		NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(Paths.get(path).getFileName().toString(),
-				fileWrapper.getChildren());
-		List<MerkleNode> node1 = XpxSdkGlobalConstants.getProximaxConnection().add(fileWrapper, true, false, true);
-		List<MerkleNode> node2 = XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper, false, false, true);
-
-		node1.forEach(p -> {
-			// System.out.println(p.toJSON());
-		});
-
-		node2.forEach(p -> {
-
-			System.out.println(p.toJSONString());
-		});
-
-		// grabDirs(path,node);
-		result.setMerkleNode(node1);
-
+		try {
+			List<NamedStreamable> streamables = new ArrayList<NamedStreamable>();
+			NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(new File(path));
+			streamables
+					.add(new NamedStreamable.DirWrapper(new File(path).getAbsolutePath(), fileWrapper.getChildren()));
+			// recursePathToBeAdded(streamables, path);
+			List<MerkleNode> merkleNode = XpxSdkGlobalConstants.getProximaxConnection().add(streamables, true, false);
+			result.setMerkleNode(merkleNode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 
+	}
+
+	private void recursePathToBeAdded(List<NamedStreamable> streamables, String path) {
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		for (File file : listOfFiles) {
+			if (file.isDirectory()) {
+				NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(file);
+				streamables.add(new NamedStreamable.DirWrapper(file.getAbsolutePath(), fileWrapper.getChildren()));
+				recursePathToBeAdded(streamables, file.getAbsolutePath());
+			} else {
+				streamables.add(new NamedStreamable.FileWrapper(file));
+			}
+		}
 	}
 
 	/**
@@ -356,7 +438,7 @@ public class LocalUploadApi implements UploadApi {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().getHashOnly(byteArrayWrapper);
+		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper, false, true);
 		result.setMerkleNode(node);
 
 		return result;

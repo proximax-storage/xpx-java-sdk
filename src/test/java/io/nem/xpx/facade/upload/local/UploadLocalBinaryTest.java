@@ -20,7 +20,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
+import io.nem.api.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.Upload;
@@ -49,8 +50,9 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(null)
+					.name("pdf_file.pdf")
 					.keywords("proximax-pdf")
 					.contentType("application/pdf") // make sure to put this in for files.
 					.build();
@@ -64,30 +66,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 		}
 	}
 
-	/**
-	 * Upload plain large file test.
-	 */
-	@Test
-	public void uploadPlainLargeBinaryTest() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
-
-		try {
-			Upload upload = new Upload(localPeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
-					.metaData(null).keywords(null).build();
-			
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
+	
 
 	/**
 	 * Upload secure file test.
@@ -101,7 +80,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(null).keywords(null).build();
 			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
@@ -125,7 +104,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(null).keywords(null).build();
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -149,7 +128,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

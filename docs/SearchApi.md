@@ -4,55 +4,9 @@ All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**searchDataHashUsingPublicNemHashUsingGET**](SearchApi.md#searchDataHashUsingPublicNemHashUsingGET) | **GET** /search/by/nemTxn/{nemHash} | Search through all the owner&#39;s documents to find the data hash that matches the nemhash specified.
 [**searchTransactionWithKeywordUsingGET**](SearchApi.md#searchTransactionWithKeywordUsingGET) | **GET** /search/by/keywords/{keywords} | Search through all the owners documents to find a content that matches the text specified.
 [**searchTransactionWithMetadataUsingGET**](SearchApi.md#searchTransactionWithMetadataUsingGET) | **GET** /search/by/metadata/{text} | Search through all the owners documents to find a key that matches the specified parameter key
 
-
-<a name="searchDataHashUsingPublicNemHashUsingGET"></a>
-# **searchDataHashUsingPublicNemHashUsingGET**
-> String searchDataHashUsingPublicNemHashUsingGET(nemHash)
-
-Search through all the owner&#39;s documents to find the data hash that matches the nemhash specified.
-
-This endpoint can only be used to look up publicly available resources (PLAIN Message Types).
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.SearchApi;
-
-
-SearchApi apiInstance = new SearchApi();
-String nemHash = "nemHash_example"; // String | NEM Hash that will be matched to the files available
-try {
-    String result = apiInstance.searchDataHashUsingPublicNemHashUsingGET(nemHash);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling SearchApi#searchDataHashUsingPublicNemHashUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **nemHash** | **String**| NEM Hash that will be matched to the files available |
-
-### Return type
-
-**String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
 
 <a name="searchTransactionWithKeywordUsingGET"></a>
 # **searchTransactionWithKeywordUsingGET**
