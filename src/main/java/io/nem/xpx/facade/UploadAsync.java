@@ -13,6 +13,9 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -43,19 +46,19 @@ import io.nem.xpx.intf.UploadApi;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.model.UploadCallback;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.model.buffers.ResourceHashMessage;
-import io.nem.xpx.utils.JsonUtils;
 
 
 /**
  * The Class Upload.
  */
-public class Upload {
+public class UploadAsync {
 
 	/** The peer connection. */
 	private PeerConnection peerConnection;
@@ -75,16 +78,18 @@ public class Upload {
 	/**
 	 * Instantiates a new upload.
 	 */
-	public Upload() {
+	public UploadAsync() {
 	}
 
 	/**
 	 * Instantiates a new upload.
 	 *
-	 * @param peerConnection            the peer connection
-	 * @throws PeerConnectionNotFoundException the peer connection not found exception
+	 * @param peerConnection
+	 *            the peer connection
+	 * @throws PeerConnectionNotFoundException
+	 *             the peer connection not found exception
 	 */
-	public Upload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public UploadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}
@@ -101,77 +106,80 @@ public class Upload {
 		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();
 	}
 
-	/**
-	 * Upload file.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException             Signals that an I/O exception has occurred.
-	 * @throws ApiException             the api exception
-	 */
-	public UploadData uploadFile(UploadFileParameter uploadParameter)
-			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleFileUpload(uploadParameter);
-		return uploadData;
-
+	public Future<UploadData> uploadFile(UploadFileParameter uploadParameter, UploadCallback callback)
+	{
+		CompletableFuture<UploadData> uploadFileAsync = CompletableFuture.supplyAsync(() -> {
+			UploadData uploadData = null;
+			try {
+				uploadData = handleFileUpload(uploadParameter);
+			} catch (UploadException | IOException | ApiException e) {
+				throw new CompletionException(e);
+			}
+			return uploadData;
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+		return uploadFileAsync;
 	}
 
-	/**
-	 * Upload data.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException             the api exception
-	 */
-	public UploadData uploadTextData(UploadDataParameter uploadParameter)
-			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleTextDataUpload(uploadParameter);
-		return uploadData;
-	}
-	
-	/**
-	 * Upload a binary file.
-	 * @param uploadParameter
-	 * @return
-	 * @throws UploadException
-	 * @throws IOException
-	 * @throws ApiException
-	 */
-	public UploadData uploadBinary(UploadBinaryParameter uploadParameter)
-			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleBinaryUpload(uploadParameter);
-		return uploadData;
+	public Future<UploadData> uploadTextData(UploadDataParameter uploadParameter, UploadCallback callback) {
+		CompletableFuture<UploadData> uploadDataAsync = CompletableFuture.supplyAsync(() -> {
+			UploadData uploadData = null;
+			try {
+				uploadData = handleTextDataUpload(uploadParameter);
+			} catch (UploadException | IOException | ApiException e) {
+				throw new CompletionException(e);
+			}
+			return uploadData;
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+		return uploadDataAsync;
 	}
 
+	public Future<UploadData> uploadBinary(UploadBinaryParameter uploadParameter, UploadCallback callback) {
 
-	/**
-	 * Upload path.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws PeerConnectionNotFoundException the peer connection not found exception
-	 */
-	public UploadData uploadPath(UploadPathParameter uploadParameter)
-			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
-		UploadData uploadData = handlePathUpload(uploadParameter);
-		return uploadData;
+		CompletableFuture<UploadData> uploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
+			UploadData uploadData = null;
+			try {
+				uploadData = handleBinaryUpload(uploadParameter);
+			} catch (UploadException | IOException | ApiException e) {
+				throw new CompletionException(e);
+			}
+			return uploadData;
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return uploadBinaryAsync;
 	}
 
-	/**
-	 * Handle data upload.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws UploadException the upload exception
-	 */
+	public Future<UploadData> uploadPath(UploadPathParameter uploadParameter, UploadCallback callback) {
+		
+		CompletableFuture<UploadData> uploadPathAsync = CompletableFuture.supplyAsync(() -> {
+			UploadData uploadData = null;
+			try {
+				uploadData = handlePathUpload(uploadParameter);
+			} catch (UploadException | IOException | ApiException | PeerConnectionNotFoundException e) {
+				throw new CompletionException(e);
+			}
+			return uploadData;
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return uploadPathAsync;
+		
+	}
+
 	private UploadData handleTextDataUpload(UploadDataParameter uploadParameter)
 			throws IOException, ApiException, UploadException {
 		String publishedData = "";
@@ -193,17 +201,14 @@ public class Upload {
 						.encrypt(serializedData);
 
 				String encryptedData = Base64.encodeBase64String(encrypted);
-				response = uploadApi.uploadPlainTextUsingPOST(encryptedData,
-						uploadParameter.getName(), 
-						uploadParameter.getEncoding(), 
-						uploadParameter.getKeywords(), 
-						uploadParameter.getMetaData());
+				response = uploadApi.uploadPlainTextUsingPOST(encryptedData, uploadParameter.getName(),
+						uploadParameter.getEncoding(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
 				String data = Base64.encodeBase64String(uploadParameter.getData().getBytes());
-				response = uploadApi.uploadPlainTextUsingPOST(data,
-						uploadParameter.getName(),uploadParameter.getEncoding(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+				response = uploadApi.uploadPlainTextUsingPOST(data, uploadParameter.getName(),
+						uploadParameter.getEncoding(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
-			resourceMessageHash = byteToSerialObject((byte[])response);
+			resourceMessageHash = byteToSerialObject((byte[]) response);
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
@@ -212,9 +217,8 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
-						.addMosaics(uploadParameter.getMosaics())
-						.buildAndSendTransaction();
+						.message((byte[]) response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
 			} else {
@@ -225,35 +229,26 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
 				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
-			
+
 			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		}finally {
+		} finally {
 			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
 
-	/**
-	 * Handle file upload.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
 	private UploadData handleFileUpload(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
@@ -272,14 +267,16 @@ public class Upload {
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
 						.encrypt(FileUtils.readFileToByteArray(uploadParameter.getData()));
-				
-				//byte[] data = Base64.encodeBase64(encrypted);
-				response = uploadApi.uploadBytesBinaryUsingPOST(encrypted,uploadParameter.getContentType(),
+
+				// byte[] data = Base64.encodeBase64(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(encrypted, uploadParameter.getContentType(),
 						uploadParameter.getData().getName(), uploadParameter.getKeywords(),
 						uploadParameter.getMetaData());
 			} else { // PLAIN
-				//byte[] data = Base64.encodeBase64(FileUtils.readFileToByteArray(uploadParameter.getData()));
-				response = uploadApi.uploadBytesBinaryUsingPOST(FileUtils.readFileToByteArray(uploadParameter.getData()),uploadParameter.getContentType(),
+				// byte[] data =
+				// Base64.encodeBase64(FileUtils.readFileToByteArray(uploadParameter.getData()));
+				response = uploadApi.uploadBytesBinaryUsingPOST(
+						FileUtils.readFileToByteArray(uploadParameter.getData()), uploadParameter.getContentType(),
 						uploadParameter.getData().getName(), uploadParameter.getKeywords(),
 						uploadParameter.getMetaData());
 			}
@@ -292,7 +289,7 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
@@ -304,26 +301,26 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
 				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
-			resourceMessageHash = byteToSerialObject((byte[])response);
+			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		}finally {
+		} finally {
 			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
-	
+
 	private UploadData handleBinaryUpload(UploadBinaryParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
@@ -342,15 +339,14 @@ public class Upload {
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
 						.encrypt(uploadParameter.getData());
-				
-				//byte[] data = Base64.encodeBase64(encrypted);
-				response = uploadApi.uploadBytesBinaryUsingPOST(encrypted,uploadParameter.getContentType(),
-						uploadParameter.getName(), uploadParameter.getKeywords(),
-						uploadParameter.getMetaData());
+
+				// byte[] data = Base64.encodeBase64(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(encrypted, uploadParameter.getContentType(),
+						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-				//byte[] data = Base64.encodeBase64(uploadParameter.getData());
-				response = uploadApi.uploadBytesBinaryUsingPOST(uploadParameter.getData(),uploadParameter.getContentType(),
-						uploadParameter.getName(), uploadParameter.getKeywords(),
+				// byte[] data = Base64.encodeBase64(uploadParameter.getData());
+				response = uploadApi.uploadBytesBinaryUsingPOST(uploadParameter.getData(),
+						uploadParameter.getContentType(), uploadParameter.getName(), uploadParameter.getKeywords(),
 						uploadParameter.getMetaData());
 			}
 
@@ -362,7 +358,7 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
@@ -374,37 +370,26 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
 				publishedData = transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
 			}
-			resourceMessageHash = byteToSerialObject((byte[])response);
+			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		}finally {
+		} finally {
 			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
 
-	/**
-	 * Handle path upload.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws PeerConnectionNotFoundException the peer connection not found exception
-	 */
-	// can only be called if the connection is local really.
 	private UploadData handlePathUpload(UploadPathParameter uploadParameter)
 			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
 
@@ -429,13 +414,13 @@ public class Upload {
 								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
 						.encrypt(uploadParameter.getPath().getBytes());
 
-				//byte[] data = Base64.encodeBase64(encrypted);
-				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(),
-						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+				// byte[] data = Base64.encodeBase64(encrypted);
+				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
+						uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			} else { // PLAIN
-				//byte[] data = Base64.encodeBase64(uploadParameter.getPath());
-				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(),
-						uploadParameter.getName(), uploadParameter.getKeywords(), uploadParameter.getMetaData());
+				// byte[] data = Base64.encodeBase64(uploadParameter.getPath());
+				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
+						uploadParameter.getKeywords(), uploadParameter.getMetaData());
 			}
 
 			if (this.isLocalPeerConnection) {
@@ -446,50 +431,49 @@ public class Upload {
 						.recipient(new Account(Address
 								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
-						.message((byte[])response, uploadParameter.getMessageType())
+						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
 
 			}
-			resourceMessageHash = byteToSerialObject((byte[])response);
+			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		}finally {
+		} finally {
 			safeAsyncToGateways(resourceMessageHash);
 		}
 		return uploadData;
 	}
 
 	private ResourceHashMessage byteToSerialObject(byte[] object) {
-		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
+		ResourceHashMessage resourceMessage = ResourceHashMessage
+				.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
 		return resourceMessage;
 	}
-	
+
 	private void safeAsyncToGateways(ResourceHashMessage resource) {
 		Runnable task = () -> {
-		    for(String s: XpxSdkGlobalConstants.GLOBAL_GATEWAYS) {
-		    	HttpURLConnection conn = null;
-		    	try {
-		    		conn = (HttpURLConnection)new URL(s + "/ipfs/" + resource.hash()).openConnection();
-		    		//System.out.println(s + "/ipfs/" + resource.hash());
-		    		conn.setRequestProperty("Content-Type", 
-		    			        "application/x-www-form-urlencoded");
-		    		conn.setRequestMethod("GET");
-		    		conn.setDoOutput(true);
-		    		conn.setUseCaches(false);
-		    		DataOutputStream wr = new DataOutputStream (
-		    				conn.getOutputStream());
-		    		wr.close();
+			for (String s : XpxSdkGlobalConstants.GLOBAL_GATEWAYS) {
+				HttpURLConnection conn = null;
+				try {
+					conn = (HttpURLConnection) new URL(s + "/ipfs/" + resource.hash()).openConnection();
+					// System.out.println(s + "/ipfs/" + resource.hash());
+					conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+					conn.setRequestMethod("GET");
+					conn.setDoOutput(true);
+					conn.setUseCaches(false);
+					DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+					wr.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}finally {
+				} finally {
 					conn.disconnect();
 				}
-		    }
+			}
 		};
 		task.run();
 	}

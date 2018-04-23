@@ -54,7 +54,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class MultisigUpload.
  */
-public class MultisigUpload {
+public class MultisigUploadAsync {
 	/** The peer connection. */
 	private PeerConnection peerConnection;
 
@@ -76,7 +76,7 @@ public class MultisigUpload {
 	 * @param peerConnection            the peer connection
 	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
-	public MultisigUpload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public MultisigUploadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}

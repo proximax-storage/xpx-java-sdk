@@ -43,9 +43,10 @@ public abstract class AbstractApiTest {
 	protected String localNodeBasePath = "http://localhost:8881";
 	
 	/** The upload node base path. */
-	
+	 
 	protected String localRemote = "http://localhost:8881";
-	protected String uploadNodeBasePath = "http://gateway.proximax.io:8881";//"http://128.199.196.118:8881";
+	protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
+	//protected String uploadNodeBasePath = "http://dev-gateway-alb-1898768056.eu-west-1.elb.amazonaws.com";//"http://128.199.196.118:8881";
 	
 	/** The download node base path. */
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
@@ -70,7 +71,7 @@ public abstract class AbstractApiTest {
 		return FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
 	}
 	
-	/**
+	/**sput
 	 * Extract large file size.
 	 *
 	 * @return the long

@@ -214,8 +214,10 @@ public class LocalUploadApi implements UploadApi {
 
 		// initialize the datahash byte array entity object.
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
-
-		dataHashByteArrayEntity.setFile(text.getBytes());
+		if (encoding == null || encoding.equals("")) {
+			encoding = "UTF-8";
+		}
+		dataHashByteArrayEntity.setFile(text.getBytes(encoding));
 		if (name == null || (name != null && name.equals(""))) {
 			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
 		} else {

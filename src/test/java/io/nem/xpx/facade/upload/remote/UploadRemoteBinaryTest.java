@@ -54,7 +54,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("proximax-pdf")
 					.contentType("application/pdf") // make sure to put this in for files.
@@ -82,7 +82,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,remote,binary,test").build();
 			
@@ -109,7 +109,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("secure,binary,test,remote")
 					.build();
@@ -136,7 +136,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("secure,binary,test,remote")
 					.build();

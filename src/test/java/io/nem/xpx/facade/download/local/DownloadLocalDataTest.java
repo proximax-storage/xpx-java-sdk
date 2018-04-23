@@ -39,9 +39,10 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 		try {
 			Download download = new Download(localPeerConnection);
 			DownloadData message = download.downloadPlain(
-					"9a625840797fbac0e1c4db7f1d68de6e04cbcf325630ebf595ba0e7ee6fb0404");
+					"4281e020f60318729a689100c509e22d226b14822329885d9b694477bbd1b9de");
 			
 			//	Validate data.
+			LOGGER.info(new String(message.getData(), "UTF-8"));
 			Assert.assertNotNull(message.getData());
 			
 			// validate the content.
@@ -65,9 +66,9 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 
 		try {
 			Download download = new Download(localPeerConnection);
-			DownloadData message = download.downloadSecure(
-					"d48a3b84feaa75d8e06bfe53058e60c87d751f4c33297b80afb68cb154ec1669", "bytes",this.xPvkey,this.xPubkey);
-
+			DownloadData message = download.downloadSecureTextData(
+					"13eb1935e2bf6459ab197757f69b834410fb6cd43efbf533eb65cc8632691d32",this.xPvkey,this.xPubkey);
+			//QmYgvneTkpG76X4Aa77KJnbbRP2sNsj7YGcuguG7LWQeeU
 			LOGGER.info(new String(message.getData(), "UTF-8"));
 			Assert.assertTrue(true);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException | IOException e) {

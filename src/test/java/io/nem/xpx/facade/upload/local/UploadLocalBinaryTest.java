@@ -32,12 +32,10 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
-
 /**
  * The Class UploadTest.
  */
 public class UploadLocalBinaryTest extends AbstractApiTest {
-
 
 	/**
 	 * Upload plain file test.
@@ -47,16 +45,21 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "value1");
 			Upload upload = new Upload(localPeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-					.metaData(null)
-					.name("pdf_file.pdf")
-					.keywords("proximax-pdf")
+			
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
+					.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey)
+					.messageType(MessageTypes.PLAIN)
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file2.pdf")))
+					.name("pdf_file2.pdf")
+					.keywords("pdf_file2")
+					.metaData(JsonUtils.toJson(metaData))
 					.contentType("application/pdf") // make sure to put this in for files.
 					.build();
-			
+
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -65,7 +68,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-
+	
 	
 
 	/**
@@ -77,12 +80,14 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "value1");
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-					.metaData(null).keywords(null).build();
-			
+					.metaData(JsonUtils.toJson(metaData)).keywords("pdf_file").build();
+
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			System.out.print(nemhash);
@@ -101,36 +106,40 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "value1");
 			Upload upload = new Upload(localPeerConnection);
+			
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-					.metaData(null).keywords(null).build();
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//babyshark.mp4")))
+					.metaData(JsonUtils.toJson(metaData))
+					.keywords("pdf_file")
+					.build();
+			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			System.out.print(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void uploadPlainBinaryWithMosaicTest() {
 		try {
+			
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 					new NodeEndpoint("http", "104.128.226.60", 7890));
 			XpxSdkGlobalConstants.setGlobalTransactionFee(
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
-			
+
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data,wmosaics")
+					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
 					.build();
@@ -143,7 +152,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-	
+
 	/**
 	 * Mosaic info lookup.
 	 *
@@ -159,6 +168,5 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
 		};
 	}
-
 
 }

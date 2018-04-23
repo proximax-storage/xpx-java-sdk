@@ -100,7 +100,7 @@ public class Download {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
 		TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
-
+		System.out.println(resourceMessage.hash());
 		securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
 		downloadData.setData(Base64.decodeBase64(securedResponse));
 		downloadData.setDataMessage(resourceMessage);
@@ -149,7 +149,19 @@ public class Download {
 	}
 	
 	
-	public DownloadData downloadSecure(String nemHash, String transferType, String senderOrReceiverPrivateKey,
+	public DownloadData downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
+			String senderOrReceiverPublicKey)
+			throws ApiException, InterruptedException, ExecutionException, IOException {
+		return downloadSecureBinaryOrFile(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
+	}
+	
+	public DownloadData downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
+			String senderOrReceiverPublicKey)
+			throws ApiException, InterruptedException, ExecutionException, IOException {
+		return downloadSecureTextData(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
+	}
+	
+	public DownloadData downloadSecureBinaryOrFile(String nemHash, String transferType, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		DownloadData downloadData = new DownloadData();
@@ -163,7 +175,7 @@ public class Download {
 		KeyPair keyPair = new KeyPair(privateKey);
 		String senderOrReceiverPrivateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		// Evauate the transaction.
+		// Evaluate the transaction.
 		TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
 
 		if (transaction.getMessage().getType() == 2) {
@@ -181,7 +193,7 @@ public class Download {
 						.createBlockCipher(
 								new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine),
 								new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
-						.decrypt(Base64.decodeBase64(securedResponse));
+						.decrypt(securedResponse);
 				
 				downloadData.setData(decrypted);
 				downloadData.setDataMessage(resourceMessage);
@@ -201,7 +213,7 @@ public class Download {
 				byte[] decrypted = engine
 						.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine),
 								new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
-						.decrypt(Base64.decodeBase64(securedResponse));
+						.decrypt(securedResponse);
 				//byte[] decoded = Base64.decodeBase64(decrypted);
 				downloadData.setData(decrypted);
 				downloadData.setDataMessage(resourceMessage);
@@ -224,6 +236,82 @@ public class Download {
 
 		return downloadData;
 	}
+	
+	public DownloadData downloadSecureTextData(String nemHash, String transferType, String senderOrReceiverPrivateKey,
+			String senderOrReceiverPublicKey)
+			throws ApiException, InterruptedException, ExecutionException, IOException {
+		DownloadData downloadData = new DownloadData();
+		byte[] securedResponse = null;
+		SecureMessage message;
+		//BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
+
+		// get the addresses
+		// private key address
+		PrivateKey privateKey = PrivateKey.fromHexString(senderOrReceiverPrivateKey);
+		KeyPair keyPair = new KeyPair(privateKey);
+		String senderOrReceiverPrivateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
+
+		// Evaluate the transaction.
+		TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+
+		if (transaction.getMessage().getType() == 2) {
+			if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
+
+				message = SecureMessage.fromEncodedPayload(
+						new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
+						new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
+						transaction.getMessage().getEncodedPayload());
+				
+				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(message.getDecodedPayload())));
+				securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
+				
+				byte[] decrypted = engine
+						.createBlockCipher(
+								new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine),
+								new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
+						.decrypt(Base64.decodeBase64(securedResponse));
+	
+				downloadData.setData(decrypted);
+				downloadData.setDataMessage(resourceMessage);
+				downloadData.setMessageType(MessageTypes.SECURE);
+				return downloadData;
+			} else if (transaction.getRecipient().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
+
+				message = SecureMessage.fromEncodedPayload(
+						new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine)),
+						new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
+						transaction.getMessage().getEncodedPayload());
+
+				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(message.getDecodedPayload())));
+
+				securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
+
+				byte[] decrypted = engine
+						.createBlockCipher(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine),
+								new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
+						.decrypt(Base64.decodeBase64(securedResponse));
+				downloadData.setData(decrypted);
+				downloadData.setDataMessage(resourceMessage);
+				downloadData.setMessageType(MessageTypes.SECURE);
+				return downloadData;
+
+			}
+
+		} else if (transaction.getMessage().getType() == 1) {
+
+			ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getDecodedPayload())));
+
+			securedResponse = downloadApi.downloadTextUsingGET(nemHash,transferType);
+
+			downloadData.setData(securedResponse);
+			downloadData.setDataMessage(resourceMessage);
+			downloadData.setMessageType(MessageTypes.PLAIN);
+			return downloadData;
+		}
+
+		return downloadData;
+	}
+
 
 
 	public DownloadData downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)

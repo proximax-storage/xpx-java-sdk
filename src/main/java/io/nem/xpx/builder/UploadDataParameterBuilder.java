@@ -187,6 +187,9 @@ public class UploadDataParameterBuilder {
 		 */
 		@Override
 		public UploadDataParameter build() throws ApiException {
+			if(instance.getEncoding() == null) {
+				instance.setEncoding("UTF-8");
+			}
 			return instance;
 		}
 

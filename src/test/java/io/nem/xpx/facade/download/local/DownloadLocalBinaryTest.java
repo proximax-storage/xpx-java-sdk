@@ -38,7 +38,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 
-			DownloadData message = download.downloadPlain("511ad868fe67f315f30b5962aa285deabd71e59aa8801dbe3846e9b1ff633f3f");
+			DownloadData message = download.downloadPlain("dcdbe4ee6caa2136a6162ecbe771a4729c3b0601994d8b7246e18a853f2c72e7");
 			System.out.println(message.getDataMessage().name());
 			
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
@@ -50,7 +50,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"));
 			
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file2.pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 
@@ -77,6 +77,36 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
 			DownloadData message = download.downloadPlain("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
+
+			FileUtils
+					.writeByteArrayToFile(
+							new File("src//test//resources//downloadPlainLargeFileTest_"
+									+ message.getDataMessage().name() + timeStamp + ".zip"),
+							message.getData());
+
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+
+			Assert.assertEquals(expectedFileSize, actualFileSize);
+
+			// Remove file after.
+			FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
+					+ message.getDataMessage().name() + timeStamp + ".zip"));
+		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void downloadPlainLargeBinaryMediaTest() {
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+				new NodeEndpoint("http", "104.128.226.60", 7890));
+
+		try {
+			Download download = new Download(localPeerConnection);
+			String timeStamp = System.currentTimeMillis() + "";
+			long expectedFileSize = this.extractLargeFileSize();
+			DownloadData message = download.downloadPlain("f4eab8bb8eb80628b1ba79ee9f9e7d71f3a121051c0c58d9e7b0329a37035bbd");
 
 			FileUtils
 					.writeByteArrayToFile(
@@ -197,6 +227,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 
 	}
 
+	
 	/**
 	 * Download secure large file test.
 	 */
@@ -208,18 +239,21 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 		try {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
-			long expectedFileSize = this.extractLargeFileSize();
-			DownloadData message = download.downloadSecure(
-					"d48a3b84feaa75d8e06bfe53058e60c87d751f4c33297b80afb68cb154ec1669", "bytes",this.xPvkey,this.xPubkey);
+
+			DownloadData message = download.downloadSecureBinaryOrFile(
+					"1fce4dda18a865484f9f9c2b6a15e8c64756a89c5e903adbf76ec62eab1d41c7",this.xPvkey,this.xPubkey);
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureLargeFileTest_"
-					+ message.getDataMessage().name() + timeStamp + ".zip"), message.getData());
+					+ message.getDataMessage().name() + timeStamp + ".pdf"), message.getData());
 
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadSecureLargeFileTest_"
+					+ message.getDataMessage().name() + timeStamp + ".pdf"));
+			
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file.pdf"));
 
 			Assert.assertEquals(expectedFileSize, actualFileSize);
 			FileUtils.forceDelete(new File("src//test//resources//downloadSecureLargeFileTest_"
-					+ message.getDataMessage().name() + timeStamp + ".zip"));
+					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 
 			e.printStackTrace();
