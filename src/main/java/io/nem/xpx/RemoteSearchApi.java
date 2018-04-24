@@ -26,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-
+import io.nem.xpx.intf.SearchApi;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.lang.reflect.Type;
@@ -336,5 +336,18 @@ public class RemoteSearchApi implements SearchApi {
 			String keywords) throws ApiException, InterruptedException, ExecutionException {
 		throw new ApiException("Method can't be accessed thru remote connection");
 	
+	}
+
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key,
+			String value) throws ApiException, InterruptedException, ExecutionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
+			String key, String value) throws ApiException, InterruptedException, ExecutionException {
+		throw new ApiException("Method can't be accessed thru remote connection");
 	}
 }

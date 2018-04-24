@@ -25,7 +25,8 @@ public class RemotePeerConnection implements PeerConnection {
 	 *            the base url
 	 */
 	public RemotePeerConnection(String baseUrl) {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath(baseUrl));
+		Configuration.setDefaultApiClient(new ApiClient()
+				.setBasePath(baseUrl));
 		NodeInfo nodeInfo;
 		try {
 			nodeInfo = new NodeApi().getNodeInfoUsingGET();

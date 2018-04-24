@@ -69,6 +69,7 @@ public class UploadAsync {
 	/** The data hash api. */
 	private UploadApi uploadApi;
 
+
 	/** The publish and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
 
@@ -100,7 +101,7 @@ public class UploadAsync {
 			this.isLocalPeerConnection = true;
 			this.uploadApi = new LocalUploadApi();
 		}
-
+		
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
 		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();

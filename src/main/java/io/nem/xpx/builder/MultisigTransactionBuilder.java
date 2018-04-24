@@ -10,9 +10,13 @@ import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.serialization.JsonDeserializer;
@@ -218,6 +222,13 @@ public class MultisigTransactionBuilder {
 		 */
 		@Override
 		public MultisigTransaction buildMultisigTransaction() {
+			
+			
+//			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
+//					Quantity.fromValue(10000));
+//			
+//			this.instance.getOtherTransaction().addMosaic(xpxMosaic);
+//			
 			if (this.timeStamp == null) {
 				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
 			}

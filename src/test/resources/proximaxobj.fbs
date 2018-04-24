@@ -11,4 +11,20 @@ table ResourceHashMessage {
 	type:string;
 }
 
+table NodeInfo {
+	
+	contextUri:string;
+	nemAddress:string;
+	network:string;
+	networkAddress:string;
+	networkPort:string;
+
+}
+
+table NodePeer {
+	address:string;
+	id:string;
+	latency:string;
+	muxer:string;
+}
 root_type ResourceHashMessage;

@@ -1,6 +1,9 @@
 package io.nem.xpx.model;
 
 import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 public class DataParameter {
 
@@ -29,6 +32,7 @@ public class DataParameter {
 	
 	/** The mosaics. */
 	private Mosaic[] mosaics;
+
 
 	/**
 	 * Gets the message type.
@@ -171,5 +175,9 @@ public class DataParameter {
 	 */
 	public void setMosaics(Mosaic[] mosaics) {
 		this.mosaics = mosaics;
+	}
+	
+	public void addMosaic(Mosaic mosaic) {
+		this.mosaics[this.mosaics.length - 1] = mosaic;
 	}
 }

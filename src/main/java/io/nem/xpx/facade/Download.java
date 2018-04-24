@@ -100,7 +100,7 @@ public class Download {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
 		TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
-		System.out.println(resourceMessage.hash());
+		
 		securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
 		downloadData.setData(Base64.decodeBase64(securedResponse));
 		downloadData.setDataMessage(resourceMessage);

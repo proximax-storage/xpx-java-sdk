@@ -14,6 +14,7 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
@@ -536,6 +537,7 @@ public class TransferTransactionBuilder {
 			for (Mosaic mosaic : mosaics) {
 				this.attachment.addMosaic(mosaic);
 			}
+
 			return this;
 		}
 
@@ -547,6 +549,14 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public TransferTransaction buildTransaction(boolean isForMultisig) {
+			
+			//	attach the xpx mosaic
+			
+			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
+					Quantity.fromValue(10000));
+			
+			this.attachment.addMosaic(xpxMosaic);
+			
 			if (this.timeStamp == null) {
 				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
 			}

@@ -11,7 +11,7 @@
  */
 
 
-package io.nem.xpx;
+package io.nem.xpx.intf;
 import io.nem.api.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import java.util.List;
@@ -24,7 +24,8 @@ public interface SearchApi {
     public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey,String xPubkey,String keywords)
 			throws ApiException, InterruptedException, ExecutionException;
     
-    public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataUsingGET(String xPubkey, String text) throws ApiException;
-
+    public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
     
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey,String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
+
 }

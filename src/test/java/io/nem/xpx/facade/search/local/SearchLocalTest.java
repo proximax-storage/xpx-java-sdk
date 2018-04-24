@@ -41,6 +41,23 @@ public class SearchLocalTest extends AbstractApiTest {
 	}
 
 	@Test
+	public void testSearchByMetaDataWithSecure() {
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+				new NodeEndpoint("http", "104.128.226.60", 7890));
+
+		try {
+			Search search = new Search(localPeerConnection);
+			String s = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
+			System.out.println(s);
+		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Assert.assertTrue(false);
+
+	}
+	
+	@Test
 	public void testSearchByKeywordWithSecure() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 				new NodeEndpoint("http", "104.128.226.60", 7890));

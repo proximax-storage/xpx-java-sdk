@@ -151,8 +151,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 					new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
@@ -161,8 +160,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 					.data("data-with-mosaics")
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-							Quantity.fromValue(0)))
+					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
+							Quantity.fromValue(10000)))
 					.build();
 
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
@@ -181,8 +180,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 	 */
 	private MosaicFeeInformationLookup mosaicInfoLookup() {
 		return id -> {
-			if (id.getName().equals("registry")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
+			if (id.getName().equals("xpx")) {
+				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 4);
 			}
 			final int multiplier = Integer.parseInt(id.getName().substring(4));
 			final int divisibilityChange = multiplier - 1;

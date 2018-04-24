@@ -45,7 +45,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadPlainDataTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -56,7 +56,36 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 					.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data(new String("test plain".getBytes(),"UTF-8"))
+					.data(new String("test plain - new 1".getBytes(),"UTF-8"))
+					.contentType("text/plain")
+					.metaData(JsonUtils.toJson(metaData)) // one level map to json
+					.keywords("plain,test")
+					.build();
+
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+			
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			LOGGER.info(e.getCause().getMessage());
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void uploadPlainDataAsciiTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+			Map<String,String> metaData = new HashMap<String,String>();
+			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
+
+			UploadDataParameter parameter = UploadDataParameterBuilder
+					.senderPrivateKey(this.xPvkey)
+					.recipientPublicKey(this.xPubkey)
+					.messageType(MessageTypes.PLAIN)
+					.data(new String("test plain - new 2".getBytes(),"ASCII"))
 					.contentType("text/plain")
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,test")

@@ -76,7 +76,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
-			DownloadData message = download.downloadPlain("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
+			DownloadData message = download.downloadPlain("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
 
 			FileUtils
 					.writeByteArrayToFile(

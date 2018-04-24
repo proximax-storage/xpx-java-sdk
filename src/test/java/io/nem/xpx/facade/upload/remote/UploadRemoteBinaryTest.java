@@ -45,7 +45,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadPlainBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -74,7 +74,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadPlainLargeBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -101,7 +101,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadSecureBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -128,7 +128,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadSecureLargeBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -151,7 +151,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	
 	@Test
 	public void uploadPlainBinaryWithMosaicTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();

@@ -475,7 +475,6 @@ public class Upload {
 		    	HttpURLConnection conn = null;
 		    	try {
 		    		conn = (HttpURLConnection)new URL(s + "/ipfs/" + resource.hash()).openConnection();
-		    		//System.out.println(s + "/ipfs/" + resource.hash());
 		    		conn.setRequestProperty("Content-Type", 
 		    			        "application/x-www-form-urlencoded");
 		    		conn.setRequestMethod("GET");

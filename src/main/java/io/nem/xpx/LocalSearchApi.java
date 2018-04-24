@@ -23,6 +23,8 @@ import io.nem.ProgressResponseBody;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import io.nem.xpx.intf.SearchApi;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
@@ -30,7 +32,9 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -41,7 +45,9 @@ import org.nem.core.crypto.PublicKey;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
+import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
 public class LocalSearchApi implements SearchApi {
@@ -61,34 +67,87 @@ public class LocalSearchApi implements SearchApi {
 		// loop thru and search for any keyword.
 
 		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
+
 			// we only process plain. We don't have access to the secure
 			// messages at this point.
 			if (tmp.getEntity() instanceof TransferTransaction) {
 
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
-				try {
-					if (transferTransaction.getMessage().getType() == 1) {
+				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
+					try {
+						if (transferTransaction.getMessage().getType() == 1) {
 
-						boolean found = false;
-						ResourceHashMessage resourceMessage = ResourceHashMessage
-								.getRootAsResourceHashMessage(ByteBuffer.wrap(
-										Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+							boolean found = false;
+							ResourceHashMessage resourceMessage = ResourceHashMessage
+									.getRootAsResourceHashMessage(ByteBuffer.wrap(
+											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 
-						String[] commaSeparatedkeywordsSplit = keywords.split(",");
-						for (String keyword : commaSeparatedkeywordsSplit) {
-							if (resourceMessage.keywords().contains(keyword)) {
-								found = true;
-								break;
+							String[] commaSeparatedkeywordsSplit = keywords.split(",");
+							for (String keyword : commaSeparatedkeywordsSplit) {
+								if (resourceMessage.keywords().contains(keyword)) {
+									found = true;
+									break;
+								}
 							}
-						}
 
-						if (found) {
-							encryptedMessage.add(toEntity(resourceMessage));
-						}
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
 
+						}
+					} catch (Exception e) {
+						continue;
 					}
-				} catch (Exception e) {
-					continue;
+				}
+			}
+		}
+		return encryptedMessage;
+	}
+	
+	@Override
+	public List<ResourceHashMessageJsonEntity>  searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value)
+			throws InterruptedException, ExecutionException, ApiException {
+		PublicKey pbKey = PublicKey.fromHexString(xPubkey);
+		Address address = Address.fromPublicKey(pbKey);
+		String publicKeyAddress = address.toString();
+		
+		
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+				.getAllTransactionsWithPageSize(publicKeyAddress, "100");
+
+		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
+		// loop thru and search for any keyword.
+
+		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
+			// we only process plain. We don't have access to the secure
+			// messages at this point.
+			if (tmp.getEntity() instanceof TransferTransaction) {
+				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
+					try {
+						System.out.println(transferTransaction.getMessage().getType());
+						if (transferTransaction.getMessage().getType() == 1) {
+
+							boolean found = false;
+							ResourceHashMessage resourceMessage = ResourceHashMessage
+									.getRootAsResourceHashMessage(ByteBuffer.wrap(
+											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+							if (resourceMessage.metaData() != null) {
+								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
+								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
+									found = true;
+								}
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
 				}
 			}
 		}
@@ -96,9 +155,8 @@ public class LocalSearchApi implements SearchApi {
 	}
 
 	@Override
-	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey, String xPubkey,
-			String keywords) throws ApiException, InterruptedException, ExecutionException {
-		
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
+			String key, String value) throws ApiException, InterruptedException, ExecutionException {
 		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
@@ -114,79 +172,157 @@ public class LocalSearchApi implements SearchApi {
 			// messages at this point.
 			if (tmp.getEntity() instanceof TransferTransaction) {
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 
-				boolean found = false;
-				try {
-		
-					if (transferTransaction.getMessage().getType() == 1) {
+					boolean found = false;
+					try {
 
-						ResourceHashMessage resourceMessage = ResourceHashMessage
-								.getRootAsResourceHashMessage(ByteBuffer.wrap(
-										Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+						if (transferTransaction.getMessage().getType() == 1) {
 
-						String[] commaSeparatedkeywordsSplit = keywords.split(",");
-						for (String keyword : commaSeparatedkeywordsSplit) {
-							if (resourceMessage.keywords().contains(keyword)) {
-								found = true;
-								break;
+							ResourceHashMessage resourceMessage = ResourceHashMessage
+									.getRootAsResourceHashMessage(ByteBuffer.wrap(
+											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+
+							if (resourceMessage.metaData() != null) {
+								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
+								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
+									found = true;
+								}
 							}
-						}
 
-						if (found) {
-							encryptedMessage.add(toEntity(resourceMessage));
-						}
-
-					} else if (transferTransaction.getMessage().getType() == 2) {
-
-						SecureMessage secureMessage = null;
-						if (transferTransaction.getSigner().getAddress().getEncoded()
-								.equals(privateKeyAddress)) {
-							secureMessage = SecureMessage.fromEncodedPayload(
-									new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-									new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-									transferTransaction.getMessage().getEncodedPayload());
-							
-						} else if (transferTransaction.getRecipient().getAddress().getEncoded()
-								.equals(privateKeyAddress)) {
-							secureMessage = SecureMessage.fromEncodedPayload(
-									new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-									new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-									transferTransaction.getMessage().getEncodedPayload());
-						}
-
-						ResourceHashMessage resourceMessage = ResourceHashMessage
-								.getRootAsResourceHashMessage(ByteBuffer.wrap(
-										Base64.decodeBase64(secureMessage.getDecodedPayload())));
-
-						String[] commaSeparatedkeywordsSplit = keywords.split(",");
-						for (String keyword : commaSeparatedkeywordsSplit) {
-							if (resourceMessage.keywords().contains(keyword)) {
-								found = true;
-								break;
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
 							}
+
+						} else if (transferTransaction.getMessage().getType() == 2) {
+
+							SecureMessage secureMessage = null;
+							if (transferTransaction.getSigner().getAddress().getEncoded().equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										transferTransaction.getMessage().getEncodedPayload());
+
+							} else if (transferTransaction.getRecipient().getAddress().getEncoded()
+									.equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										transferTransaction.getMessage().getEncodedPayload());
+							}
+
+							ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
+									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
+
+							if (resourceMessage.metaData() != null) {
+								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
+								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
+									found = true;
+								}
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
 						}
 
-						if (found) {
-							encryptedMessage.add(toEntity(resourceMessage));
-						}
-
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
 					}
+				}
+			}
+		}
+		return encryptedMessage;
+	}
+	
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey, String xPubkey,
+			String keywords) throws ApiException, InterruptedException, ExecutionException {
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					continue;
+		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
+		KeyPair keyPair = new KeyPair(pvKey);
+		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
+
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
+
+		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
+		// loop thru and search for any keyword.
+
+		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
+			// we only process plain. We don't have access to the secure
+			// messages at this point.
+			if (tmp.getEntity() instanceof TransferTransaction) {
+				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
+
+					boolean found = false;
+					try {
+
+						if (transferTransaction.getMessage().getType() == 1) {
+
+							ResourceHashMessage resourceMessage = ResourceHashMessage
+									.getRootAsResourceHashMessage(ByteBuffer.wrap(
+											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+
+							String[] commaSeparatedkeywordsSplit = keywords.split(",");
+							for (String keyword : commaSeparatedkeywordsSplit) {
+								if (resourceMessage.keywords().contains(keyword)) {
+									found = true;
+									break;
+								}
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
+						} else if (transferTransaction.getMessage().getType() == 2) {
+
+							SecureMessage secureMessage = null;
+							if (transferTransaction.getSigner().getAddress().getEncoded().equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										transferTransaction.getMessage().getEncodedPayload());
+
+							} else if (transferTransaction.getRecipient().getAddress().getEncoded()
+									.equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										transferTransaction.getMessage().getEncodedPayload());
+							}
+
+							ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
+									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
+
+							String[] commaSeparatedkeywordsSplit = keywords.split(",");
+							for (String keyword : commaSeparatedkeywordsSplit) {
+								if (resourceMessage.keywords().contains(keyword)) {
+									found = true;
+									break;
+								}
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
 				}
 			}
 		}
 		return encryptedMessage;
 	}
 
-	@Override
-	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataUsingGET(String xPubkey, String text)
-			throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	private ResourceHashMessageJsonEntity toEntity(ResourceHashMessage resourceMessage) {
 
@@ -200,5 +336,23 @@ public class LocalSearchApi implements SearchApi {
 		resourceHashMessageJsonEntity.setType(resourceMessage.type());
 		return resourceHashMessageJsonEntity;
 	}
+
+	protected boolean checkIfTxnHaveXPXMosaic(Transaction transaction) {
+
+		if (transaction instanceof TransferTransaction) {
+			Iterator<Mosaic> mosaicIter = ((TransferTransaction) transaction).getMosaics().iterator();
+			while (mosaicIter.hasNext()) {
+				Mosaic mosaic = mosaicIter.next();
+				if (mosaic.getMosaicId().getNamespaceId().getRoot().toString().equals("prx")
+						&& mosaic.getMosaicId().getName().equals("xpx")) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+
 
 }

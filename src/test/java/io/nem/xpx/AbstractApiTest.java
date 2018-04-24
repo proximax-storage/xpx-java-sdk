@@ -45,8 +45,8 @@ public abstract class AbstractApiTest {
 	/** The upload node base path. */
 	 
 	protected String localRemote = "http://localhost:8881";
-	protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
-	//protected String uploadNodeBasePath = "http://dev-gateway-alb-1898768056.eu-west-1.elb.amazonaws.com";//"http://128.199.196.118:8881";
+	//protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
+	protected String uploadNodeBasePath = "http://dev-gateway-alb-1898768056.eu-west-1.elb.amazonaws.com";//"http://128.199.196.118:8881";
 	
 	/** The download node base path. */
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";

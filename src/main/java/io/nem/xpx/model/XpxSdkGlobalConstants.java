@@ -70,16 +70,16 @@ public class XpxSdkGlobalConstants {
 
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
-			Amount.fromMicroNem(50_000L), null);
+			Amount.fromMicroNem(50_000L), mosaicInfoLookup());
 
 	/** The fee calculator multi sig. */
 	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(
-			Amount.fromMicroNem(50_000L), null);
+			Amount.fromMicroNem(50_000L), mosaicInfoLookup());
 
 	private static MosaicFeeInformationLookup mosaicInfoLookup() {
 		return id -> {
-			if (id.getName().equals("registry")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
+			if (id.getName().equals("xpx")) {
+				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 4);
 			}
 			final int multiplier = Integer.parseInt(id.getName().substring(4));
 			final int divisibilityChange = multiplier - 1;
@@ -251,6 +251,8 @@ public class XpxSdkGlobalConstants {
 		FUSE_IPNS_STUB.mount(Paths.get(ipnsMountPoint));
 		return FUSE_IPNS_STUB;
 	}
+	
+	
 
 	/** The Constant CONNECTOR. */
 	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();

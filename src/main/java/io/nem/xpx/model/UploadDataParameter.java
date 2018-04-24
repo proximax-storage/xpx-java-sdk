@@ -9,7 +9,6 @@ import org.nem.core.model.mosaic.Mosaic;
  */
 public class UploadDataParameter extends DataParameter implements Serializable {
 
-	
 	/**
 	 * 
 	 */

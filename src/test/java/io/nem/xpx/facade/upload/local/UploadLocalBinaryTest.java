@@ -86,6 +86,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
+					.contentType("application/pdf")
 					.metaData(JsonUtils.toJson(metaData)).keywords("pdf_file").build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
