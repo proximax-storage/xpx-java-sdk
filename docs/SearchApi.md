@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost:8881*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**searchTransactionWithKeywordUsingGET**](SearchApi.md#searchTransactionWithKeywordUsingGET) | **GET** /search/by/keywords/{keywords} | Search through all the owners documents to find a content that matches the text specified.
-[**searchTransactionWithMetadataUsingGET**](SearchApi.md#searchTransactionWithMetadataUsingGET) | **GET** /search/by/metadata/{text} | Search through all the owners documents to find a key that matches the specified parameter key
+[**searchTransactionWithMetadataUsingGET**](SearchApi.md#searchTransactionWithMetadataUsingGET) | **GET** /search/by/metadata | Search through all the owners documents to find a key that matches the specified parameter key
 
 
 <a name="searchTransactionWithKeywordUsingGET"></a>
@@ -57,7 +57,7 @@ No authorization required
 
 <a name="searchTransactionWithMetadataUsingGET"></a>
 # **searchTransactionWithMetadataUsingGET**
-> List&lt;ResourceHashMessageJsonEntity&gt; searchTransactionWithMetadataUsingGET(xPubkey, text)
+> List&lt;ResourceHashMessageJsonEntity&gt; searchTransactionWithMetadataUsingGET(xPubkey, key, value)
 
 Search through all the owners documents to find a key that matches the specified parameter key
 
@@ -72,9 +72,10 @@ This endpoint can only be used to look up publicly available resources (PLAIN Me
 
 SearchApi apiInstance = new SearchApi();
 String xPubkey = "xPubkey_example"; // String | The Sender or Receiver's Public Key
-String text = "text_example"; // String | Index-based searching on metadata
+String key = "key_example"; // String | Meta key
+String value = "value_example"; // String | Meta value
 try {
-    List<ResourceHashMessageJsonEntity> result = apiInstance.searchTransactionWithMetadataUsingGET(xPubkey, text);
+    List<ResourceHashMessageJsonEntity> result = apiInstance.searchTransactionWithMetadataUsingGET(xPubkey, key, value);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling SearchApi#searchTransactionWithMetadataUsingGET");
@@ -87,7 +88,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xPubkey** | **String**| The Sender or Receiver&#39;s Public Key |
- **text** | **String**| Index-based searching on metadata |
+ **key** | **String**| Meta key | [optional]
+ **value** | **String**| Meta value | [optional]
 
 ### Return type
 

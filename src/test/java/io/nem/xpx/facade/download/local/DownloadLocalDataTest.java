@@ -7,12 +7,12 @@ import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 
 
 /**
@@ -31,7 +31,7 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 		try {
 			
 			Download download = new Download(localPeerConnection);
-			DownloadData message = download.downloadPlain(
+			DownloadData message = download.downloadTextData(
 					"beb617ab3eca8e5c152818a0f2d3a870ba8da9dddc5f150575945eded54f62cb");
 			
 			//	Validate data.

@@ -4,11 +4,10 @@ All URIs are relative to *http://localhost:8881*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**downloadBinaryUsingGET**](DownloadApi.md#downloadBinaryUsingGET) | **GET** /download/binary | Download a blob using NEM Transaction Hash
-[**downloadFileUsingGET**](DownloadApi.md#downloadFileUsingGET) | **GET** /download/file | Download a file associated to a NEM Hash.
+[**downloadBinaryUsingGET**](DownloadApi.md#downloadBinaryUsingGET) | **GET** /download/binary | Download a binary using NEM Transaction Hash
 [**downloadSecureBinaryUsingGET**](DownloadApi.md#downloadSecureBinaryUsingGET) | **GET** /download/secure/binary | Download a secure resource/blob using NEM Private Key and Transaction Hash
 [**downloadSecureFileUsingGET**](DownloadApi.md#downloadSecureFileUsingGET) | **GET** /download/secure/file | Download a secure resource/file using NEM Private Key and Transaction Hash
-[**downloadTextUsingGET**](DownloadApi.md#downloadTextUsingGET) | **GET** /download/text | Download a plain text data using NEM Transaction Hash
+[**downloadTextUsingGET**](DownloadApi.md#downloadTextUsingGET) | **GET** /download/text | Download a base64 encoded plain text data using NEM Transaction Hash
 [**downloadUsingDataHashUsingGET**](DownloadApi.md#downloadUsingDataHashUsingGET) | **GET** /download/direct/datahash | Download IPFS file associated to the datahash
 
 
@@ -16,7 +15,7 @@ Method | HTTP request | Description
 # **downloadBinaryUsingGET**
 > byte[] downloadBinaryUsingGET(nemHash, transferMode)
 
-Download a blob using NEM Transaction Hash
+Download a binary using NEM Transaction Hash
 
 Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
@@ -35,53 +34,6 @@ try {
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadBinaryUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **nemHash** | **String**| The NEM Transaction Hash |
- **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
-
-### Return type
-
-**byte[]**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="downloadFileUsingGET"></a>
-# **downloadFileUsingGET**
-> byte[] downloadFileUsingGET(nemHash, transferMode)
-
-Download a file associated to a NEM Hash.
-
-Download the binary file associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.DownloadApi;
-
-
-DownloadApi apiInstance = new DownloadApi();
-String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
-String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
-try {
-    byte[] result = apiInstance.downloadFileUsingGET(nemHash, transferMode);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DownloadApi#downloadFileUsingGET");
     e.printStackTrace();
 }
 ```
@@ -208,7 +160,7 @@ No authorization required
 # **downloadTextUsingGET**
 > byte[] downloadTextUsingGET(nemHash, transferMode)
 
-Download a plain text data using NEM Transaction Hash
+Download a base64 encoded plain text data using NEM Transaction Hash
 
 Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Message, it returns the NEM TXN Payload Instead
 
@@ -221,7 +173,7 @@ Download a plain text data associated to a NEM Hash. If NEM Hash uses SECURE Mes
 
 DownloadApi apiInstance = new DownloadApi();
 String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
-String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
+String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream)
 try {
     byte[] result = apiInstance.downloadTextUsingGET(nemHash, transferMode);
     System.out.println(result);
@@ -236,7 +188,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **nemHash** | **String**| The NEM Transaction Hash |
- **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream,base64) | [enum: bytes, stream, base64]
+ **transferMode** | **String**| Transfer Mode default: bytes (bytes,stream) | [enum: bytes, stream]
 
 ### Return type
 

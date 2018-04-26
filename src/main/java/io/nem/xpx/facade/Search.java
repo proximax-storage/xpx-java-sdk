@@ -7,28 +7,28 @@ package io.nem.xpx.facade;
 import java.util.concurrent.ExecutionException;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
-import io.nem.api.ApiException;
-import io.nem.xpx.LocalSearchApi;
-import io.nem.xpx.RemoteSearchApi;
+import io.nem.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.intf.SearchApi;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.intf.SearchApi;
+import io.nem.xpx.service.local.LocalSearchApi;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.remote.RemoteSearchApi;
 import io.nem.xpx.utils.JsonUtils;
 
 /**
  * The Class Search.
  */
-public class Search {
+public class Search extends FacadeService {
 
 	/** The peer connection. */
 	private PeerConnection peerConnection;
 
 	/** The engine. */
-	private CryptoEngine engine;
+	protected CryptoEngine engine;
 
-	private SearchApi searchApi;
-	private boolean isLocalPeerConnection = false;
+	protected SearchApi searchApi;
+	protected boolean isLocalPeerConnection = false;
 
 	/**
 	 * Instantiates a new search.
@@ -60,7 +60,7 @@ public class Search {
 	}
 
 	public String searchByKeyword(String xPubkey, String keywords)
-			throws io.nem.api.ApiException, InterruptedException, ExecutionException {
+			throws io.nem.ApiException, InterruptedException, ExecutionException {
 		return JsonUtils.toJson(searchApi.searchTransactionWithKeywordUsingGET(xPubkey, keywords));
 	}
 

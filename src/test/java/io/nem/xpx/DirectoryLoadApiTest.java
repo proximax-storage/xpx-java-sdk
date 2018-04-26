@@ -13,7 +13,9 @@
 
 package io.nem.xpx;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
+import io.nem.xpx.service.DirectoryLoadApi;
+
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -40,7 +42,7 @@ public class DirectoryLoadApiTest {
      *          if the Api call fails
      */
     @Test
-    public void loadDirectoryUsingGETTest() throws io.nem.api.ApiException {
+    public void loadDirectoryUsingGETTest() throws io.nem.ApiException {
         String nemHash = null;
         Object response = api.loadDirectoryUsingGET(nemHash);
 

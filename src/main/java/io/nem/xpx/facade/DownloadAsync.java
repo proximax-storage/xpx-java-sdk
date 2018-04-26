@@ -28,34 +28,26 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.LocalDownloadApi;
-import io.nem.xpx.RemoteDownloadApi;
-import io.nem.xpx.TransactionApi;
+import io.nem.ApiException;
+import io.nem.xpx.callback.DownloadCallback;
+import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.facade.model.UploadData;
-import io.nem.xpx.intf.DownloadApi;
-import io.nem.xpx.model.DownloadCallback;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.intf.DownloadApi;
+import io.nem.xpx.service.local.LocalDownloadApi;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.UploadException;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.remote.RemoteDownloadApi;
 import io.nem.xpx.utils.CryptoUtils;
 
 /**
  * The Class Download.
  */
-public class DownloadAsync {
-
-	/** The peer connection. */
-	private PeerConnection peerConnection;
-
-	/** The download api. */
-	private DownloadApi downloadApi;
-
-	/** The engine. */
-	private CryptoEngine engine;
+public class DownloadAsync extends Download {
 
 	/**
 	 * Instantiates a new download.
@@ -72,23 +64,11 @@ public class DownloadAsync {
 	 *             the peer connection not found exception
 	 */
 	public DownloadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
-
-		if (peerConnection == null) {
-			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
-		}
-
-		if (peerConnection instanceof RemotePeerConnection) {
-			this.downloadApi = new RemoteDownloadApi();
-		} else {
-			this.downloadApi = new LocalDownloadApi();
-		}
-
-		this.peerConnection = peerConnection;
-		this.engine = CryptoEngines.ed25519Engine();
+		super(peerConnection);
 
 	}
 
-	public CompletableFuture<DownloadData> downloadPlain(String nemHash, DownloadCallback callback)
+	public CompletableFuture<DownloadData> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadData> callback)
 			 {
 
 		CompletableFuture<DownloadData> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
@@ -120,7 +100,7 @@ public class DownloadAsync {
 
 	}
 
-	public CompletableFuture<DownloadData> downloadFile(String nemHash, String transferType, DownloadCallback callback)
+	public CompletableFuture<DownloadData> downloadFile(String nemHash, String transferType, ServiceAsyncCallback<DownloadData> callback)
 			{
 
 		CompletableFuture<DownloadData> downloadFileAsync = CompletableFuture.supplyAsync(() -> {
@@ -154,7 +134,7 @@ public class DownloadAsync {
 	}
 
 	public CompletableFuture<DownloadData> downloadBinary(String nemHash, String transferType,
-			DownloadCallback callback) {
+			ServiceAsyncCallback<DownloadData> callback) {
 
 		CompletableFuture<DownloadData> downloadBinaryAsync = CompletableFuture.supplyAsync(() -> {
 
@@ -188,21 +168,21 @@ public class DownloadAsync {
 	}
 
 	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey, DownloadCallback callback)
+			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureBinaryOrFile(nemHash, "bytes", senderOrReceiverPrivateKey, senderOrReceiverPublicKey,
 				callback);
 	}
 
 	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey, DownloadCallback callback)
+			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureTextData(nemHash, "bytes", senderOrReceiverPrivateKey, senderOrReceiverPublicKey,
 				callback);
 	}
 
 	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String transferType,
-			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, DownloadCallback callback) {
+			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
 
 		CompletableFuture<DownloadData> downloadBinaryOrFileAsync = CompletableFuture.supplyAsync(() -> {
 
@@ -299,7 +279,7 @@ public class DownloadAsync {
 	}
 
 	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String transferType,
-			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, DownloadCallback callback) {
+			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
 
 		CompletableFuture<DownloadData> downloadSecureTextDataAsync = CompletableFuture.supplyAsync(() -> {
 			DownloadData downloadData = new DownloadData();
@@ -390,7 +370,7 @@ public class DownloadAsync {
 
 	}
 
-	public CompletableFuture<DownloadData> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, DownloadCallback callback) {
+	public CompletableFuture<DownloadData> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, ServiceAsyncCallback<DownloadData> callback) {
 		
 		CompletableFuture<DownloadData> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
 			DownloadData downloadData = new DownloadData();

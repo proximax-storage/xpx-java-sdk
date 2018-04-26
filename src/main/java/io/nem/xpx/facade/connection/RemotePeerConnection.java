@@ -6,11 +6,11 @@ package io.nem.xpx.facade.connection;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.Configuration;
-import io.nem.api.ApiClient;
-import io.nem.api.ApiException;
-import io.nem.xpx.NodeApi;
-import io.nem.xpx.model.NodeInfo;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiClient;
+import io.nem.ApiException;
+import io.nem.xpx.service.NodeApi;
+import io.nem.xpx.service.model.NodeInfo;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 
 
 /**

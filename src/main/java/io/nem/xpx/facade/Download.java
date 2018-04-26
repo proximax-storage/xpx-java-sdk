@@ -26,32 +26,32 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.LocalDownloadApi;
-import io.nem.xpx.RemoteDownloadApi;
-import io.nem.xpx.TransactionApi;
+import io.nem.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.intf.DownloadApi;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.intf.DownloadApi;
+import io.nem.xpx.service.local.LocalDownloadApi;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.remote.RemoteDownloadApi;
 import io.nem.xpx.utils.CryptoUtils;
 
 
 /**
  * The Class Download.
  */
-public class Download {
+public class Download extends FacadeService {
 
 	/** The peer connection. */
 	private PeerConnection peerConnection;
 
 	/** The download api. */
-	private DownloadApi downloadApi;
+	protected DownloadApi downloadApi;
 
 	/** The engine. */
-	private CryptoEngine engine;
+	protected CryptoEngine engine;
 
 	/**
 	 * Instantiates a new download.
@@ -91,7 +91,7 @@ public class Download {
 	 * @throws ApiException             the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadPlain(String nemHash)
+	public DownloadData downloadTextData(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
 
 		DownloadData downloadData = new DownloadData();
@@ -109,10 +109,7 @@ public class Download {
 
 	}
 	
-	
-	
-	
-	public DownloadData downloadFile(String nemHash,String transferType)
+	public DownloadData downloadBinaryOrFile(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
 
 		DownloadData downloadData = new DownloadData();
@@ -122,25 +119,7 @@ public class Download {
 		TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
 
-		securedResponse = downloadApi.downloadFileUsingGET(nemHash, transferType);
-		downloadData.setData(securedResponse);
-		downloadData.setDataMessage(resourceMessage);
-		downloadData.setMessageType(MessageTypes.PLAIN);
-		return downloadData;
-		
-	}
-	
-	public DownloadData downloadBinary(String nemHash,String transferType)
-			throws InterruptedException, ExecutionException, ApiException, IOException {
-
-		DownloadData downloadData = new DownloadData();
-		byte[] securedResponse = null;
-		
-		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
-		TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
-		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
-
-		securedResponse = downloadApi.downloadBinaryUsingGET(nemHash, transferType);
+		securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
 		downloadData.setData(securedResponse);
 		downloadData.setDataMessage(resourceMessage);
 		downloadData.setMessageType(MessageTypes.PLAIN);

@@ -7,13 +7,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.Search;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 
 /**
  * The Class SearchTest.

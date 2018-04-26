@@ -7,29 +7,21 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
-import io.nem.api.ApiException;
-import io.nem.xpx.LocalSearchApi;
-import io.nem.xpx.RemoteSearchApi;
+import io.nem.ApiException;
+import io.nem.xpx.callback.SearchCallback;
+import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.intf.SearchApi;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.SearchCallback;
+import io.nem.xpx.service.intf.SearchApi;
+import io.nem.xpx.service.local.LocalSearchApi;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.remote.RemoteSearchApi;
 import io.nem.xpx.utils.JsonUtils;
 
 /**
  * The Class Search.
  */
-public class SearchAsync {
-
-	/** The peer connection. */
-	private PeerConnection peerConnection;
-
-	/** The engine. */
-	private CryptoEngine engine;
-
-	private SearchApi searchApi;
-	private boolean isLocalPeerConnection = false;
+public class SearchAsync extends Search {
 
 	/**
 	 * Instantiates a new search.
@@ -39,24 +31,11 @@ public class SearchAsync {
 	 * @throws PeerConnectionNotFoundException
 	 */
 	public SearchAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
-
-		if (peerConnection == null) {
-			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
-		}
-
-		if (peerConnection instanceof RemotePeerConnection) {
-			this.searchApi = new RemoteSearchApi();
-		} else {
-			this.isLocalPeerConnection = true;
-			this.searchApi = new LocalSearchApi();
-		}
-
-		this.peerConnection = peerConnection;
-		this.engine = CryptoEngines.ed25519Engine();
+		super(peerConnection);
 	}
 
 	public CompletableFuture<String> searchByKeyword(String xPvkey, String xPubkey, String keywords,
-			SearchCallback callback) {
+			ServiceAsyncCallback<String> callback) {
 
 		CompletableFuture<String> searchByKeywordAsync = CompletableFuture.supplyAsync(() -> {
 			try {
@@ -74,7 +53,7 @@ public class SearchAsync {
 
 	}
 
-	public CompletableFuture<String> searchByKeyword(String xPubkey, String keywords, SearchCallback callback) {
+	public CompletableFuture<String> searchByKeyword(String xPubkey, String keywords, ServiceAsyncCallback<String> callback) {
 
 		CompletableFuture<String> searchByKeywordAsync = CompletableFuture.supplyAsync(() -> {
 			try {

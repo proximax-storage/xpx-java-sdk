@@ -13,7 +13,7 @@ import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.builder.MultisigSignatureTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 
@@ -21,7 +21,7 @@ import io.nem.xpx.facade.connection.PeerConnection;
 /**
  * The Class MultisigCoSign.
  */
-public class MultisigCoSign {
+public class MultisigCoSign extends FacadeService {
 
 	/** The peer connection. */
 	private PeerConnection peerConnection;

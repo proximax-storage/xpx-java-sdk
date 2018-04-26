@@ -2,9 +2,10 @@ package io.nem.xpx.builder;
 
 import org.nem.core.model.mosaic.Mosaic;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiException;
+import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.service.model.UploadDataParameter;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
 
 
@@ -64,7 +65,7 @@ public class UploadDataParameterBuilder {
 		 */
 		IBuild data(String data);
 		
-		IBuild contentType(String contentType);
+		IBuild contentType(DataTextContentType contentType);
 		
 		IBuild encoding(String encoding);
 
@@ -190,6 +191,10 @@ public class UploadDataParameterBuilder {
 			if(instance.getEncoding() == null) {
 				instance.setEncoding("UTF-8");
 			}
+			if(instance.getContentType() == null) {
+				instance.setEncoding("text/plain");
+			}
+			
 			return instance;
 		}
 
@@ -203,8 +208,8 @@ public class UploadDataParameterBuilder {
 		}
 
 		@Override
-		public IBuild contentType(String contentType) {
-			instance.setContentType(contentType);
+		public IBuild contentType(DataTextContentType contentType) {
+			instance.setContentType(contentType.toString());
 			return this;
 		}
 

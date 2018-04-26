@@ -6,11 +6,23 @@
 	<artifactId>xpx-java-sdk</artifactId>
 	<packaging>jar</packaging>
 	<name>xpx-java-sdk</name>
-	<version>1.0.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<description>Proximax P2P File Storage Java SDK</description>
 	<prerequisites>
 		<maven>2.2.0</maven>
 	</prerequisites>
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>Releases</name>
+			<url>http://13.228.214.237:8081/repository/maven-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Snapshot</name>
+			<url>http://13.228.214.237:8081/repository/maven-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -130,9 +142,7 @@
 			<groupId>io.ipfs</groupId>
 			<artifactId>api</artifactId>
 			<version>${ipfs.java.api.version}</version>
-<!-- <scope>system</scope>
-			<systemPath>${basedir}/lib/api-v1.2.0.jar</systemPath>
-			 -->			
+			<!-- <scope>system</scope> <systemPath>${basedir}/lib/api-v1.2.0.jar</systemPath> -->
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
@@ -150,7 +160,7 @@
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multibase</artifactId>
 			<version>v1.1.0</version>
-	
+
 		</dependency>
 		<dependency>
 			<groupId>com.github.ipld</groupId>

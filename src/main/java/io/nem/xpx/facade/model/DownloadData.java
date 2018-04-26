@@ -4,7 +4,8 @@
 package io.nem.xpx.facade.model;
 
 import java.io.Serializable;
-import io.nem.xpx.model.buffers.ResourceHashMessage;
+
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
 /**

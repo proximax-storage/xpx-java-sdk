@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * Amount
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-20T01:21:50.104-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T21:14:06.723-04:00")
 public class Amount {
   @SerializedName("numMicroNem")
   private Long numMicroNem = null;

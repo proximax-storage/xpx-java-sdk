@@ -13,11 +13,11 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.NemAccountApi;
-import io.nem.xpx.TransactionApi;
-import io.nem.xpx.model.InsufficientAmountException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiException;
+import io.nem.xpx.service.NemAccountApi;
+import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.model.InsufficientAmountException;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 
 
 /**

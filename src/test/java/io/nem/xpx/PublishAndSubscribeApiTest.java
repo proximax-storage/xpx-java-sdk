@@ -13,7 +13,9 @@
 
 package io.nem.xpx;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
+import io.nem.xpx.service.PublishAndSubscribeApi;
+
 import org.junit.Test;
 import org.junit.Ignore;
 

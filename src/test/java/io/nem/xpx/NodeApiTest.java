@@ -13,9 +13,10 @@
 
 package io.nem.xpx;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.model.GenericResponseMessage;
-import io.nem.xpx.model.NodeInfo;
+import io.nem.ApiException;
+import io.nem.xpx.service.NodeApi;
+import io.nem.xpx.service.model.GenericResponseMessage;
+import io.nem.xpx.service.model.NodeInfo;
 
 import org.junit.Test;
 import org.junit.Assert;

@@ -23,9 +23,9 @@ import org.nem.core.serialization.JsonDeserializer;
 import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiException;
+import io.nem.xpx.service.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
 

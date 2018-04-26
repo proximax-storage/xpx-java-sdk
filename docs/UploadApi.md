@@ -5,9 +5,9 @@ All URIs are relative to *http://localhost:8881*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**cleanupPinnedContentUsingPOST**](UploadApi.md#cleanupPinnedContentUsingPOST) | **POST** /upload/cleanup | Calls the garbage clean up and tries to unpin the given hash
+[**directoryExtractUsingPOST**](UploadApi.md#directoryExtractUsingPOST) | **POST** /upload/dir/extract | Grabs a zip file with static content, extract and load directory to the IPFS/P2P Network
 [**uploadBase64StringBinaryUsingPOST**](UploadApi.md#uploadBase64StringBinaryUsingPOST) | **POST** /upload/base64/binary | Uploads a Base64 encoded String binary file to the IPFS/P2P Storage Network
 [**uploadBytesBinaryUsingPOST**](UploadApi.md#uploadBytesBinaryUsingPOST) | **POST** /upload/bytes/binary | Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network
-[**uploadFileUsingPOST**](UploadApi.md#uploadFileUsingPOST) | **POST** /upload/file | Upload the File to the IPFS/P2P Storage Network
 [**uploadGenerateAndSignUsingPOST**](UploadApi.md#uploadGenerateAndSignUsingPOST) | **POST** /upload/generate-sign | uploadGenerateAndSign
 [**uploadPlainTextUsingPOST**](UploadApi.md#uploadPlainTextUsingPOST) | **POST** /upload/text | Upload the Text to the IPFS/P2P Storage Network
 
@@ -57,9 +57,60 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+<a name="directoryExtractUsingPOST"></a>
+# **directoryExtractUsingPOST**
+> String directoryExtractUsingPOST(file, name, keywords, metadata)
+
+Grabs a zip file with static content, extract and load directory to the IPFS/P2P Network
+
+Generates the Root hash of your directory.
+
+### Example
+```java
+// Import classes:
+//import io.nem.ApiException;
+//import io.nem.xpx.UploadApi;
+
+
+UploadApi apiInstance = new UploadApi();
+File file = new File("/path/to/file.txt"); // File | Base64 byte[] representation of the data object to be uploaded
+String name = "name_example"; // String | Custom Name of the data. If none is specified, timestamp will be used.
+String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
+String metadata = "metadata_example"; // String | Additional data in a JSON Format
+try {
+    String result = apiInstance.directoryExtractUsingPOST(file, name, keywords, metadata);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UploadApi#directoryExtractUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **File**| Base64 byte[] representation of the data object to be uploaded |
+ **name** | **String**| Custom Name of the data. If none is specified, timestamp will be used. | [optional]
+ **keywords** | **String**| Comma delimited Keyword/Tags | [optional]
+ **metadata** | **String**| Additional data in a JSON Format | [optional]
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
 <a name="uploadBase64StringBinaryUsingPOST"></a>
 # **uploadBase64StringBinaryUsingPOST**
-> Object uploadBase64StringBinaryUsingPOST(data, contentType, name, keywords, metadata)
+> Object uploadBase64StringBinaryUsingPOST(uploadBase64BinaryRequestParameter)
 
 Uploads a Base64 encoded String binary file to the IPFS/P2P Storage Network
 
@@ -73,13 +124,9 @@ This endpoint can be used to generate the data that will be injected to the NEM 
 
 
 UploadApi apiInstance = new UploadApi();
-String data = "data_example"; // String | Base64 String representation of the data object to be uploaded
-String contentType = "contentType_example"; // String | Content Type of the Data. If none is given, system will try to detect.
-String name = "name_example"; // String | Custom Name of the data. If none is specified, timestamp will be used.
-String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
-String metadata = "metadata_example"; // String | Additional data in a JSON Format
+UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter = new UploadBase64BinaryRequestParameter(); // UploadBase64BinaryRequestParameter | Base64 String representation of the data object to be uploaded
 try {
-    Object result = apiInstance.uploadBase64StringBinaryUsingPOST(data, contentType, name, keywords, metadata);
+    Object result = apiInstance.uploadBase64StringBinaryUsingPOST(uploadBase64BinaryRequestParameter);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadBase64StringBinaryUsingPOST");
@@ -91,11 +138,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **data** | **String**| Base64 String representation of the data object to be uploaded |
- **contentType** | **String**| Content Type of the Data. If none is given, system will try to detect. | [optional]
- **name** | **String**| Custom Name of the data. If none is specified, timestamp will be used. | [optional]
- **keywords** | **String**| Comma delimited Keyword/Tags | [optional]
- **metadata** | **String**| Additional data in a JSON Format | [optional]
+ **uploadBase64BinaryRequestParameter** | [**UploadBase64BinaryRequestParameter**](UploadBase64BinaryRequestParameter.md)| Base64 String representation of the data object to be uploaded |
 
 ### Return type
 
@@ -112,7 +155,7 @@ No authorization required
 
 <a name="uploadBytesBinaryUsingPOST"></a>
 # **uploadBytesBinaryUsingPOST**
-> Object uploadBytesBinaryUsingPOST(data, contentType, name, keywords, metadata)
+> Object uploadBytesBinaryUsingPOST(uploadBytesBinaryRequestParameter)
 
 Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network
 
@@ -126,13 +169,9 @@ This endpoint can be used to generate the data that will be injected to the NEM 
 
 
 UploadApi apiInstance = new UploadApi();
-byte[] data = data_example; // byte[] | Base64 byte[] representation of the data object to be uploaded
-String contentType = "contentType_example"; // String | Content Type of the Data. If none is given, system will try to detect.
-String name = "name_example"; // String | Custom Name of the data. If none is specified, timestamp will be used.
-String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
-String metadata = "metadata_example"; // String | Additional data in a JSON Format
+UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter = new UploadBytesBinaryRequestParameter(); // UploadBytesBinaryRequestParameter | Base64 byte[] representation of the data object to be uploaded
 try {
-    Object result = apiInstance.uploadBytesBinaryUsingPOST(data, contentType, name, keywords, metadata);
+    Object result = apiInstance.uploadBytesBinaryUsingPOST(uploadBytesBinaryRequestParameter);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadBytesBinaryUsingPOST");
@@ -144,11 +183,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **data** | **byte[]**| Base64 byte[] representation of the data object to be uploaded |
- **contentType** | **String**| Content Type of the Data. If none is given, system will try to detect. | [optional]
- **name** | **String**| Custom Name of the data. If none is specified, timestamp will be used. | [optional]
- **keywords** | **String**| Comma delimited Keyword/Tags | [optional]
- **metadata** | **String**| Additional data in a JSON Format | [optional]
+ **uploadBytesBinaryRequestParameter** | [**UploadBytesBinaryRequestParameter**](UploadBytesBinaryRequestParameter.md)| Base64 byte[] representation of the data object to be uploaded |
 
 ### Return type
 
@@ -161,57 +196,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="uploadFileUsingPOST"></a>
-# **uploadFileUsingPOST**
-> Object uploadFileUsingPOST(file, name, keywords, metadata)
-
-Upload the File to the IPFS/P2P Storage Network
-
-This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-
-### Example
-```java
-// Import classes:
-//import io.nem.ApiException;
-//import io.nem.xpx.UploadApi;
-
-
-UploadApi apiInstance = new UploadApi();
-File file = new File("/path/to/file.txt"); // File | The Multipart File that will be stored on the P2P Storage Network
-String name = "name_example"; // String | Custom Name of the data. If none is specified, timestamp will be used.
-String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
-String metadata = "metadata_example"; // String | Additional data in a JSON Format
-try {
-    Object result = apiInstance.uploadFileUsingPOST(file, name, keywords, metadata);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling UploadApi#uploadFileUsingPOST");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file** | **File**| The Multipart File that will be stored on the P2P Storage Network |
- **name** | **String**| Custom Name of the data. If none is specified, timestamp will be used. | [optional]
- **keywords** | **String**| Comma delimited Keyword/Tags | [optional]
- **metadata** | **String**| Additional data in a JSON Format | [optional]
-
-### Return type
-
-**Object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
  - **Accept**: */*
 
 <a name="uploadGenerateAndSignUsingPOST"></a>
@@ -269,7 +253,7 @@ No authorization required
 
 <a name="uploadPlainTextUsingPOST"></a>
 # **uploadPlainTextUsingPOST**
-> Object uploadPlainTextUsingPOST(text, name, encoding, keywords, metadata)
+> Object uploadPlainTextUsingPOST(uploadTextParameter)
 
 Upload the Text to the IPFS/P2P Storage Network
 
@@ -283,13 +267,9 @@ This endpoint can be used to generate the data that will be injected to the NEM 
 
 
 UploadApi apiInstance = new UploadApi();
-String text = "text_example"; // String | A Free Form Text based data
-String name = "name_example"; // String | Custom Name of the data. If none is specified, timestamp will be used.
-String encoding = "encoding_example"; // String | Text Data Encoding. Default: UTF-8
-String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
-String metadata = "metadata_example"; // String | Additional data in a JSON Format
+UploadTextRequestParameter uploadTextParameter = new UploadTextRequestParameter(); // UploadTextRequestParameter | A Free Form Text based data
 try {
-    Object result = apiInstance.uploadPlainTextUsingPOST(text, name, encoding, keywords, metadata);
+    Object result = apiInstance.uploadPlainTextUsingPOST(uploadTextParameter);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadPlainTextUsingPOST");
@@ -301,11 +281,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **text** | **String**| A Free Form Text based data |
- **name** | **String**| Custom Name of the data. If none is specified, timestamp will be used. | [optional]
- **encoding** | **String**| Text Data Encoding. Default: UTF-8 | [optional]
- **keywords** | **String**| Comma delimited Keyword/Tags | [optional]
- **metadata** | **String**| Additional data in a JSON Format | [optional]
+ **uploadTextParameter** | [**UploadTextRequestParameter**](UploadTextRequestParameter.md)| A Free Form Text based data |
 
 ### Return type
 
@@ -317,6 +293,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: text/plain
+ - **Content-Type**: application/json
  - **Accept**: */*
 

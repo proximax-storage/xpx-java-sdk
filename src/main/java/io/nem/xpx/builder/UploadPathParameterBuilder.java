@@ -2,10 +2,10 @@ package io.nem.xpx.builder;
 
 import org.nem.core.model.mosaic.Mosaic;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadPathParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiException;
+import io.nem.xpx.service.model.UploadDataParameter;
+import io.nem.xpx.service.model.UploadPathParameter;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
 
 

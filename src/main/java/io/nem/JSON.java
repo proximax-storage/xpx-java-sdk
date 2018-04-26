@@ -27,8 +27,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import io.nem.api.ApiClient;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;

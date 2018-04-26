@@ -30,23 +30,30 @@ import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.utils.HexEncoder;
-import io.nem.api.ApiException;
-import io.nem.xpx.LocalDataHashApi;
-import io.nem.xpx.LocalUploadApi;
-import io.nem.xpx.RemoteDataHashApi;
-import io.nem.xpx.RemoteUploadApi;
-import io.nem.xpx.TransactionAndAnnounceApi;
+import io.nem.ApiException;
 import io.nem.xpx.builder.MultisigTransactionBuilder;
 import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.MultisigUploadData;
-import io.nem.xpx.intf.UploadApi;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.model.buffers.ResourceHashMessage;
+import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadTextRequestParameter;
+import io.nem.xpx.model.UploadTextRequestParameter.ContentTypeEnum;
+import io.nem.xpx.service.TransactionAndAnnounceApi;
+import io.nem.xpx.service.intf.UploadApi;
+import io.nem.xpx.service.local.LocalDataHashApi;
+import io.nem.xpx.service.local.LocalUploadApi;
+import io.nem.xpx.service.model.MultisigUploadBinaryParameter;
+import io.nem.xpx.service.model.MultisigUploadDataParameter;
+import io.nem.xpx.service.model.MultisigUploadFileParameter;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.model.UploadException;
+import io.nem.xpx.service.model.UploadFileParameter;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.remote.RemoteDataHashApi;
+import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -54,7 +61,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class MultisigUpload.
  */
-public class MultisigUpload {
+public class MultisigUpload  extends FacadeService {
 	/** The peer connection. */
 	private PeerConnection peerConnection;
 
@@ -92,267 +99,77 @@ public class MultisigUpload {
 		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();
 	}
 
-	/**
-	 * Upload data on multisig transaction.
-	 *
-	 * @param messageType            the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey            the sender private key
-	 * @param recipientPublicKey            the recipient public key
-	 * @param data            the data
-	 * @param name            the name
-	 * @param keywords            the keywords
-	 * @param metaData            the meta data
-	 * @return the upload data
-	 * @throws ApiException             the api exception
-	 * @throws NoSuchAlgorithmException             the no such algorithm exception
-	 * @throws InvalidKeyException             the invalid key exception
-	 * @throws InvalidKeySpecException             the invalid key spec exception
-	 * @throws NoSuchPaddingException             the no such padding exception
-	 * @throws InvalidAlgorithmParameterException             the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException             the illegal block size exception
-	 * @throws BadPaddingException             the bad padding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
-			String metaData) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
+	
+	public MultisigUploadData uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigDataUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, data, name, keywords, metaData, new Mosaic[0]);
+		MultisigUploadData multisigUploadData = handleMultisigDataUpload(parameters);
 		return multisigUploadData;
 	}
 
-	/**
-	 * Upload data on multisig transaction.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param data the data
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaic the mosaic
-	 * @return the multisig upload data
-	 * @throws ApiException the api exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
-			String metaData, Mosaic mosaic) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
-			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
-
-		MultisigUploadData multisigUploadData = handleMultisigDataUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, data, name, keywords, metaData, mosaic);
-		return multisigUploadData;
-
-	}
-
-	/**
-	 * Upload data on multisig transaction.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param data the data
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaics the mosaics
-	 * @return the multisig upload data
-	 * @throws ApiException the api exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadDataOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
-			String metaData, Mosaic... mosaics) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
-			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
-
-		MultisigUploadData multisigUploadData = handleMultisigDataUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, data, name, keywords, metaData, mosaics);
-		return multisigUploadData;
-
-	}
-
-	/**
-	 * Upload file on multisig transaction.
-	 *
-	 * @param messageType            the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey            the sender private key
-	 * @param recipientPublicKey            the recipient public key
-	 * @param file            the file
-	 * @param keywords            the keywords
-	 * @param metaData            the meta data
-	 * @return the upload data
-	 * @throws IOException             Signals that an I/O exception has occurred.
-	 * @throws ApiException             the api exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData)
+	public MultisigUploadData uploadFileOnMultisigTransaction(MultisigUploadFileParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigFileUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, file, keywords, metaData);
+		MultisigUploadData multisigUploadData = handleMultisigFileUpload(uploadParameter);
 		return multisigUploadData;
 
 	}
-
-	/**
-	 * Upload file on multisig transaction.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param file the file
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaic the mosaic
-	 * @return the multisig upload data
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
-			Mosaic mosaic)
+	
+	public MultisigUploadData uploadBinaryOnMultisigTransaction(MultisigUploadBinaryParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigFileUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, file, keywords, metaData, mosaic);
+		MultisigUploadData multisigUploadData = handleMultisigBinaryUpload(uploadParameter);
 		return multisigUploadData;
 
 	}
 
-	/**
-	 * Upload file on multisig transaction.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param file the file
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaics the mosaics
-	 * @return the multisig upload data
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData uploadFileOnMultisigTransaction(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
-			Mosaic... mosaics)
-			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
-			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException,
-			UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigFileUpload(messageType, multisigPublicKey,
-				senderPrivateKey, recipientPublicKey, file, keywords, metaData, mosaics);
-		return multisigUploadData;
-
-	}
-
-	/**
-	 * Handle multisig data upload.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param data the data
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaics the mosaics
-	 * @return the multisig upload data
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData handleMultisigDataUpload(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, String data, String name, String keywords,
-			String metaData, Mosaic... mosaics) throws IOException, ApiException, UploadException {
+	public MultisigUploadData handleMultisigDataUpload(MultisigUploadDataParameter uploadParameter) throws IOException, ApiException, UploadException {
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
 
 		try {
-			if (messageType == MessageTypes.SECURE) {
+			
+			UploadTextRequestParameter parameter = new UploadTextRequestParameter();
+			parameter.setContentType(ContentTypeEnum.valueOf(uploadParameter.getContentType()));
+			parameter.setEncoding(uploadParameter.getEncoding());
+			parameter.setKeywords(uploadParameter.getKeywords());
+			parameter.setMetadata(uploadParameter.getMetaData());
+			parameter.setName(uploadParameter.getName());
+			
+			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
 				String keyRandom = Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
-				encrypted = CryptoUtils.encrypt(data.getBytes(), keyRandom.toCharArray());
+				encrypted = CryptoUtils.encrypt(uploadParameter.getData().getBytes(), keyRandom.toCharArray());
 				String encryptedData = org.apache.commons.codec.binary.Base64.encodeBase64String(encrypted);
-				response = uploadApi.uploadPlainTextUsingPOST(encryptedData, null, name, keywords,
-						metaData);
+				parameter.setText(encryptedData);
+				response = uploadApi.uploadPlainTextUsingPOST(parameter);
 				multisigUploadData.setSecretKey(keyRandom);
 			} else { // PLAIN
-				response = uploadApi.uploadPlainTextUsingPOST(data, null, name, keywords, metaData);
+				String encryptedData = org.apache.commons.codec.binary.Base64.encodeBase64String(uploadParameter.getData().getBytes());
+				parameter.setText(encryptedData);
+				response = uploadApi.uploadPlainTextUsingPOST(parameter);
 			}
 			resourceMessageHash = byteToSerialObject((byte[])response);
 			String publishedData = "";
 			if (this.isLocalPeerConnection) {
 
 				TransferTransaction transaction = TransferTransactionBuilder
-						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
 						.amount(Amount.fromNem(1l))
-						.message((byte[])response, messageType).buildTransaction();
+						.version(2)
+						.message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -360,13 +177,13 @@ public class MultisigUpload {
 			} else {
 				// Announce The Signature
 				TransferTransaction transaction = TransferTransactionBuilder
-						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-						.addMosaics(mosaics).amount(Amount.fromNem(1l)).message((byte[])response, messageType)
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -386,55 +203,43 @@ public class MultisigUpload {
 		return multisigUploadData;
 	}
 
-	/**
-	 * Handle multisig file upload.
-	 *
-	 * @param messageType the message type
-	 * @param multisigPublicKey the multisig public key
-	 * @param senderPrivateKey the sender private key
-	 * @param recipientPublicKey the recipient public key
-	 * @param file the file
-	 * @param keywords the keywords
-	 * @param metaData the meta data
-	 * @param mosaics the mosaics
-	 * @return the multisig upload data
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws UploadException the upload exception
-	 */
-	public MultisigUploadData handleMultisigFileUpload(int messageType, String multisigPublicKey,
-			String senderPrivateKey, String recipientPublicKey, File file, String keywords, String metaData,
-			Mosaic... mosaics) throws IOException, ApiException, UploadException {
+	public MultisigUploadData handleMultisigFileUpload(MultisigUploadFileParameter uploadParameter) throws IOException, ApiException, UploadException {
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
 
+		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter();
+		parameter.setContentType(uploadParameter.getContentType());
+		parameter.setKeywords(uploadParameter.getKeywords());
+		parameter.setMetadata(uploadParameter.getMetaData());
+		parameter.setName(uploadParameter.getName());
+		
 		try {
-			if (messageType == MessageTypes.SECURE) {
+			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
 				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
-				encrypted = CryptoUtils.encrypt(FileUtils.readFileToByteArray(file), keyRandom.toCharArray());
-				response = uploadApi.uploadBytesBinaryUsingPOST(encrypted, null,file.getName(),
-						keywords, metaData);
+				encrypted = CryptoUtils.encrypt(FileUtils.readFileToByteArray(uploadParameter.getData()), keyRandom.toCharArray());
+				parameter.setData(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
 				multisigUploadData.setSecretKey(keyRandom);
 			} else { // PLAIN
-				response = uploadApi.uploadBytesBinaryUsingPOST(FileUtils.readFileToByteArray(file), null,file.getName(), keywords,
-						metaData);
+				parameter.setData(FileUtils.readFileToByteArray(uploadParameter.getData()));
+				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
 			}
 			resourceMessageHash = byteToSerialObject((byte[])response);
 			String publishedData = "";
 			if (this.isLocalPeerConnection) {
 
 				TransferTransaction transaction = TransferTransactionBuilder
-						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-						.amount(Amount.fromNem(1l)).message((byte[])response, messageType).buildTransaction();
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -442,13 +247,13 @@ public class MultisigUpload {
 			} else {
 				// Announce The Signature
 				TransferTransaction transaction = TransferTransactionBuilder
-						.sender(new Account(new KeyPair(PublicKey.fromHexString(multisigPublicKey))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(recipientPublicKey))))
-						.addMosaics(mosaics).amount(Amount.fromNem(1l)).message((byte[])response, messageType)
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -467,34 +272,73 @@ public class MultisigUpload {
 		return multisigUploadData;
 	}
 	
-	private ResourceHashMessage byteToSerialObject(byte[] object) {
-		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
-		return resourceMessage;
-	}
-	
-	private void safeAsyncToGateways(ResourceHashMessage resource) {
-		Runnable task = () -> {
-		    for(String s: XpxSdkGlobalConstants.GLOBAL_GATEWAYS) {
-		    	HttpURLConnection conn = null;
-		    	try {
-		    		conn = (HttpURLConnection)new URL(s + "/ipfs/" + resource.hash()).openConnection();
-		    		System.out.println(s + "/ipfs/" + resource.hash());
-		    		conn.setRequestProperty("Content-Type", 
-		    			        "application/x-www-form-urlencoded");
-		    		conn.setRequestMethod("GET");
-		    		conn.setDoOutput(true);
-		    		conn.setUseCaches(false);
-		    		DataOutputStream wr = new DataOutputStream (
-		    				conn.getOutputStream());
-		    		wr.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}finally {
-					conn.disconnect();
-				}
-		    }
-		};
-		task.run();
+	public MultisigUploadData handleMultisigBinaryUpload(MultisigUploadBinaryParameter uploadParameter) throws IOException, ApiException, UploadException {
+		MultisigUploadData multisigUploadData = new MultisigUploadData();
+		byte[] encrypted = null;
+		Object response = null;
+		ResourceHashMessage resourceMessageHash = null;
+
+		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter();
+		parameter.setContentType(uploadParameter.getContentType());
+		parameter.setKeywords(uploadParameter.getKeywords());
+		parameter.setMetadata(uploadParameter.getMetaData());
+		parameter.setName(uploadParameter.getName());
+		
+		try {
+			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+				keyGen.init(128);
+				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
+
+				encrypted = CryptoUtils.encrypt(uploadParameter.getData(), keyRandom.toCharArray());
+				parameter.setData(encrypted);
+				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
+				multisigUploadData.setSecretKey(keyRandom);
+			} else { // PLAIN
+				parameter.setData(uploadParameter.getData());
+				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
+			}
+			resourceMessageHash = byteToSerialObject((byte[])response);
+			String publishedData = "";
+			if (this.isLocalPeerConnection) {
+
+				TransferTransaction transaction = TransferTransactionBuilder
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
+
+				NemAnnounceResult announceResult = MultisigTransactionBuilder
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.otherTransaction(transaction).buildAndSendMultisigTransaction();
+
+				publishedData = announceResult.getTransactionHash().toString();
+
+			} else {
+				// Announce The Signature
+				TransferTransaction transaction = TransferTransactionBuilder
+						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
+						.buildTransaction();
+
+				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.otherTransaction(transaction).buildAndSignMultisigTransaction();
+
+				// Return the NEM Txn Hash
+				publishedData = transactionAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+			}
+
+			multisigUploadData.getUploadData().setDataMessage(resourceMessageHash);
+			multisigUploadData.getUploadData().setNemHash(publishedData);
+		} catch (Exception e) {
+
+			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
+			throw new UploadException(e);
+		}
+
+		return multisigUploadData;
 	}
 
 }

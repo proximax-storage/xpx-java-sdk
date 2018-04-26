@@ -20,17 +20,18 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.UploadDataParameter;
+import io.nem.xpx.service.model.UploadException;
+import io.nem.xpx.service.model.UploadFileParameter;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 //import io.nem.xpx.monitor.UploadTransactionMonitor;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -57,7 +58,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 					.recipientPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
 					.data(new String("test plain - new 1".getBytes(),"UTF-8"))
-					.contentType("text/plain")
+					.contentType(DataTextContentType.TEXT_PLAIN)
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,test")
 					.build();
@@ -86,7 +87,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 					.recipientPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
 					.data(new String("test plain - new 2".getBytes(),"ASCII"))
-					.contentType("text/plain")
+					.contentType(DataTextContentType.TEXT_PLAIN)
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,test")
 					.build();
@@ -117,7 +118,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data("This is a Secure Test Data")
-					.contentType("text/plain")
+					.contentType(DataTextContentType.TEXT_PLAIN)
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("secure,test")
 					.build();
@@ -143,9 +144,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			
 			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
-				
 					.data("This is a Secure Test Data")
-					.contentType("text/plain")
+					.contentType(DataTextContentType.TEXT_PLAIN)
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("secure,test")
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

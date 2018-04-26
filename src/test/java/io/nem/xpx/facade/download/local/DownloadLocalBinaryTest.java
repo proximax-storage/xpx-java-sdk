@@ -12,12 +12,12 @@ import org.junit.Test;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.utils.HexEncoder;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 
 
 /**
@@ -38,13 +38,13 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 
-			DownloadData message = download.downloadPlain("dcdbe4ee6caa2136a6162ecbe771a4729c3b0601994d8b7246e18a853f2c72e7");
+			DownloadData message = download.downloadBinaryOrFile("e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
 			System.out.println(message.getDataMessage().name());
 			
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"),
 					message.getData());
-
+			
 			
 			
 			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//downloadPlainFileTest_"
@@ -55,8 +55,8 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
-			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
-					+ message.getDataMessage().name() + ".pdf"));
+//			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
+//					+ message.getDataMessage().name() + ".pdf"));
 			
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
-			DownloadData message = download.downloadPlain("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
+			DownloadData message = download.downloadBinaryOrFile("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
 
 			FileUtils
 					.writeByteArrayToFile(
@@ -106,7 +106,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
-			DownloadData message = download.downloadPlain("f4eab8bb8eb80628b1ba79ee9f9e7d71f3a121051c0c58d9e7b0329a37035bbd");
+			DownloadData message = download.downloadBinaryOrFile("f4eab8bb8eb80628b1ba79ee9f9e7d71f3a121051c0c58d9e7b0329a37035bbd");
 
 			FileUtils
 					.writeByteArrayToFile(
@@ -140,7 +140,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 
-			DownloadData message = download.downloadPlain("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
+			DownloadData message = download.downloadBinaryOrFile("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
 			new String(message.getData());
 
 			FileUtils
@@ -177,7 +177,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractLargeFileSize();
-			DownloadData message = download.downloadPlain("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
+			DownloadData message = download.downloadBinaryOrFile("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
 
 			FileUtils.writeByteArrayToFile(
 					new File("src//test//resources//downloadPlainPublicLargeFileTest_"
@@ -208,7 +208,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 			long expectedFileSize = this.extractSmallFileSize();
-			DownloadData message = download.downloadBinary("9a625840797fbac0e1c4db7f1d68de6e04cbcf325630ebf595ba0e7ee6fb0404", "bytes");
+			DownloadData message = download.downloadBinaryOrFile("9a625840797fbac0e1c4db7f1d68de6e04cbcf325630ebf595ba0e7ee6fb0404");
 
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureFileTest_"
 					+ message.getDataMessage().name() + timeStamp + ".txt"), message.getData());

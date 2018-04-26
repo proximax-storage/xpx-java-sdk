@@ -23,7 +23,7 @@ import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.api.ApiException;
+import io.nem.ApiException;
 import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
@@ -32,13 +32,14 @@ import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.model.UploadData;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.model.UploadPathParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.UploadDataParameter;
+import io.nem.xpx.service.model.UploadException;
+import io.nem.xpx.service.model.UploadFileParameter;
+import io.nem.xpx.service.model.UploadPathParameter;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -68,7 +69,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 					.senderPrivateKey(this.xPvkey)
 					.recipientPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data("plain-data")
+					.data("plain-data - alvin reyes this is a new one yes from local 3")
+					.contentType(DataTextContentType.APPLICATION_XML)
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data")
 					.build();

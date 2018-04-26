@@ -14,8 +14,8 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.api.ApiException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.ApiException;
+import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.TransactionSenderUtil;
 
 
