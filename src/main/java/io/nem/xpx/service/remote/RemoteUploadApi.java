@@ -35,28 +35,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class RemoteUploadApi.
+ */
 public class RemoteUploadApi implements UploadApi {
 	
+	/** The api client. */
 	private ApiClient apiClient;
 
+    /**
+     * Instantiates a new remote upload api.
+     */
     public RemoteUploadApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new remote upload api.
+     *
+     * @param apiClient the api client
+     */
     public RemoteUploadApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for cleanupPinnedContentUsingPOST
+     * Build call for cleanupPinnedContentUsingPOST.
+     *
      * @param multihash The pinned multihash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -105,6 +129,15 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Cleanup pinned content using POST validate before call.
+     *
+     * @param multihash the multihash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call cleanupPinnedContentUsingPOSTValidateBeforeCall(String multihash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -182,8 +215,10 @@ public class RemoteUploadApi implements UploadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for directoryExtractUsingPOST
+     * Build call for directoryExtractUsingPOST.
+     *
      * @param file Base64 byte[] representation of the data object to be uploaded (required)
      * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
      * @param keywords Comma delimited Keyword/Tags (optional)
@@ -241,6 +276,18 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Directory extract using POST validate before call.
+     *
+     * @param file the file
+     * @param name the name
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call directoryExtractUsingPOSTValidateBeforeCall(File file, String name, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -327,8 +374,10 @@ public class RemoteUploadApi implements UploadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for uploadBase64StringBinaryUsingPOST
+     * Build call for uploadBase64StringBinaryUsingPOST.
+     *
      * @param uploadBase64BinaryRequestParameter Base64 String representation of the data object to be uploaded (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -375,6 +424,15 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Upload base 64 string binary using POST validate before call.
+     *
+     * @param uploadBase64BinaryRequestParameter the upload base 64 binary request parameter
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadBase64StringBinaryUsingPOSTValidateBeforeCall(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -452,8 +510,10 @@ public class RemoteUploadApi implements UploadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for uploadBytesBinaryUsingPOST
+     * Build call for uploadBytesBinaryUsingPOST.
+     *
      * @param uploadBytesBinaryRequestParameter Base64 byte[] representation of the data object to be uploaded (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -500,6 +560,15 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Upload bytes binary using POST validate before call.
+     *
+     * @param uploadBytesBinaryRequestParameter the upload bytes binary request parameter
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTValidateBeforeCall(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -577,8 +646,10 @@ public class RemoteUploadApi implements UploadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for uploadGenerateAndSignUsingPOST
+     * Build call for uploadGenerateAndSignUsingPOST.
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -642,6 +713,20 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Upload generate and sign using POST validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param xPubkey the x pubkey
+     * @param messageType the message type
+     * @param file the file
+     * @param keywords the keywords
+     * @param metadata the metadata
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadGenerateAndSignUsingPOSTValidateBeforeCall(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -656,8 +741,8 @@ public class RemoteUploadApi implements UploadApi {
     }
 
     /**
-     * uploadGenerateAndSign
-     * 
+     * uploadGenerateAndSign.
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -673,8 +758,8 @@ public class RemoteUploadApi implements UploadApi {
     }
 
     /**
-     * uploadGenerateAndSign
-     * 
+     * uploadGenerateAndSign.
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -691,8 +776,8 @@ public class RemoteUploadApi implements UploadApi {
     }
 
     /**
-     * uploadGenerateAndSign (asynchronously)
-     * 
+     * uploadGenerateAndSign (asynchronously).
+     *
      * @param xPvkey Sender Private Key (optional)
      * @param xPubkey Receiver Public Key (optional)
      * @param messageType Message Type ( PLAIN or SECURE ) (optional)
@@ -729,8 +814,10 @@ public class RemoteUploadApi implements UploadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for uploadPlainTextUsingPOST
+     * Build call for uploadPlainTextUsingPOST.
+     *
      * @param uploadTextParameter A Free Form Text based data (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -777,6 +864,15 @@ public class RemoteUploadApi implements UploadApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Upload plain text using POST validate before call.
+     *
+     * @param uploadTextParameter the upload text parameter
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadPlainTextUsingPOSTValidateBeforeCall(UploadTextRequestParameter uploadTextParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

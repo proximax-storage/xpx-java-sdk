@@ -18,6 +18,10 @@ import java.util.concurrent.ExecutionException;
 
 import io.nem.ApiException;
 
+
+/**
+ * The Interface DownloadApi.
+ */
 public interface DownloadApi {
 	/**
 	 * Download stream using hash using POST.
@@ -28,7 +32,43 @@ public interface DownloadApi {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException,IOException;
+	
+	/**
+	 * Download binary using GET.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferMode the transfer mode
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException;
+	
+	/**
+	 * Download file using GET.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferMode the transfer mode
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException,IOException,InterruptedException, ExecutionException;
+	
+	/**
+	 * Download text using GET.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferMode the transfer mode
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException,IOException,InterruptedException, ExecutionException;
 }

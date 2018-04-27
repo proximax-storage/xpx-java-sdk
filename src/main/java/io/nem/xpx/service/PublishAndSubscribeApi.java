@@ -34,27 +34,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class PublishAndSubscribeApi.
+ */
 public class PublishAndSubscribeApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new publish and subscribe api.
+     */
     public PublishAndSubscribeApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new publish and subscribe api.
+     *
+     * @param apiClient the api client
+     */
     public PublishAndSubscribeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for publishTopicUsingGET
+     * Build call for publishTopicUsingGET.
+     *
      * @param topic Topic (required)
      * @param message Initial Message (optional)
      * @param progressListener Progress listener
@@ -105,6 +130,16 @@ public class PublishAndSubscribeApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Publish topic using GET validate before call.
+     *
+     * @param topic the topic
+     * @param message the message
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call publishTopicUsingGETValidateBeforeCall(String topic, String message, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -185,8 +220,10 @@ public class PublishAndSubscribeApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for sendToTopicUsingGET
+     * Build call for sendToTopicUsingGET.
+     *
      * @param topic Topic (required)
      * @param message Initial Message (optional)
      * @param progressListener Progress listener
@@ -237,6 +274,16 @@ public class PublishAndSubscribeApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Send to topic using GET validate before call.
+     *
+     * @param topic the topic
+     * @param message the message
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call sendToTopicUsingGETValidateBeforeCall(String topic, String message, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

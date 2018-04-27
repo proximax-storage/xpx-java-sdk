@@ -4,9 +4,10 @@ import java.nio.file.Paths;
 
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import jnr.ffi.Platform;
 import ru.serce.jnrfuse.FuseStubFS;
+
 
 
 /**

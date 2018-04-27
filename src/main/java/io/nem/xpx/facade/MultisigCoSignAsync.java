@@ -17,6 +17,7 @@ import io.nem.xpx.builder.MultisigSignatureTransactionBuilder;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 
+
 /**
  * The Class MultisigCoSign.
  */
@@ -38,15 +39,12 @@ public class MultisigCoSignAsync extends MultisigCoSign {
 	/**
 	 * Co sign.
 	 *
-	 * @param nemHash
-	 *            the nem hash
-	 * @param multisigAccount
-	 *            the multisig account
-	 * @param signers
-	 *            the signers
+	 * @param nemHash            the nem hash
+	 * @param multisigAccount            the multisig account
+	 * @param signers            the signers
+	 * @param callback the callback
 	 * @return the multisig signature transaction
-	 * @throws ApiException
-	 *             the api exception
+	 * @throws ApiException             the api exception
 	 */
 	public CompletableFuture<MultisigSignatureTransaction> coSign(String nemHash, String multisigAccount, List<Account> signers, 
 			ServiceAsyncCallback<MultisigSignatureTransaction> callback)

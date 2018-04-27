@@ -24,9 +24,10 @@ import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionSenderUtil;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.utils.TransactionUtils;
+
 
 
 /**
@@ -289,7 +290,7 @@ public class MultisigTransactionBuilder {
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
 			requestAnnounceDataSignature.setSignature(
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
-			return TransactionSenderUtil.sendMultisigTransaction(instance);
+			return TransactionUtils.sendMultisigTransaction(instance);
 
 		}
 
@@ -400,7 +401,7 @@ public class MultisigTransactionBuilder {
 		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException {
-			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
+			return TransactionUtils.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
 		}
 
 		/* (non-Javadoc)

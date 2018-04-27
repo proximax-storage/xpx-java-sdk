@@ -34,27 +34,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class DirectoryLoadApi.
+ */
 public class DirectoryLoadApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new directory load api.
+     */
     public DirectoryLoadApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new directory load api.
+     *
+     * @param apiClient the api client
+     */
     public DirectoryLoadApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for loadDirectoryUsingGET
+     * Build call for loadDirectoryUsingGET.
+     *
      * @param nemHash NEM Txn (Public) linked to the directory (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -102,6 +127,15 @@ public class DirectoryLoadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Load directory using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call loadDirectoryUsingGETValidateBeforeCall(String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

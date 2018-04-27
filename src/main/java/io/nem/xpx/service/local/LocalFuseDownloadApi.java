@@ -26,9 +26,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.model.ResponseEntity;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.intf.DownloadApi;
-import io.nem.xpx.service.model.ResponseEntity;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -37,28 +37,41 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * The Class LocalFuseDownloadApi.
  */
 public class LocalFuseDownloadApi implements DownloadApi {
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadUsingDataHashUsingGET(java.lang.String)
+	 */
 	@Override
 	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadBinaryUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadFileUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadTextUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException {
 		// TODO Auto-generated method stub

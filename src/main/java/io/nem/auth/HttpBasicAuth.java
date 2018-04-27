@@ -22,26 +22,57 @@ import java.util.List;
 
 import java.io.UnsupportedEncodingException;
 
+
+/**
+ * The Class HttpBasicAuth.
+ */
 public class HttpBasicAuth implements Authentication {
+    
+    /** The username. */
     private String username;
+    
+    /** The password. */
     private String password;
 
+    /**
+     * Gets the username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Sets the username.
+     *
+     * @param username the new username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gets the password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets the password.
+     *
+     * @param password the new password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /* (non-Javadoc)
+     * @see io.nem.auth.Authentication#applyToParams(java.util.List, java.util.Map)
+     */
     @Override
     public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
         if (username == null && password == null) {

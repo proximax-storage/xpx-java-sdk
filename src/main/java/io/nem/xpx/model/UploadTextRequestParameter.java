@@ -23,191 +23,221 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+
 /**
- * UploadTextRequestParameter
+ * UploadTextRequestParameter.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T21:14:06.723-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T23:45:59.064-04:00")
 public class UploadTextRequestParameter {
-  /**
-   * Gets or Sets contentType
-   */
-  @JsonAdapter(ContentTypeEnum.Adapter.class)
-  public enum ContentTypeEnum {
-    TEXT_PLAIN("text/plain"),
-    
-    TEXT_XML("text/xml"),
-    
-    TEXT_HTML("text/html"),
-    
-    APPLICATION_JSON("application/json"),
-    
-    APPLICATION_XML("application/xml");
-
-    private String value;
-
-    ContentTypeEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static ContentTypeEnum fromValue(String text) {
-      for (ContentTypeEnum b : ContentTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-
-    public static class Adapter extends TypeAdapter<ContentTypeEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final ContentTypeEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public ContentTypeEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
-        return ContentTypeEnum.fromValue(String.valueOf(value));
-      }
-    }
-  }
-
+  
+  /** The content type. */
   @SerializedName("contentType")
-  private ContentTypeEnum contentType = null;
+  private String contentType = null;
 
+  /** The encoding. */
   @SerializedName("encoding")
   private String encoding = null;
 
+  /** The keywords. */
   @SerializedName("keywords")
   private String keywords = null;
 
+  /** The metadata. */
   @SerializedName("metadata")
   private String metadata = null;
 
+  /** The name. */
   @SerializedName("name")
   private String name = null;
 
+  /** The text. */
   @SerializedName("text")
   private String text = null;
 
-  public UploadTextRequestParameter contentType(ContentTypeEnum contentType) {
+  /**
+   * Content type.
+   *
+   * @param contentType the content type
+   * @return the upload text request parameter
+   */
+  public UploadTextRequestParameter contentType(String contentType) {
     this.contentType = contentType;
     return this;
   }
 
    /**
-   * Get contentType
-   * @return contentType
-  **/
+    * Get contentType.
+    *
+    * @return contentType
+    */
   @ApiModelProperty(value = "")
-  public ContentTypeEnum getContentType() {
+  public String getContentType() {
     return contentType;
   }
 
-  public void setContentType(ContentTypeEnum contentType) {
+  /**
+   * Sets the content type.
+   *
+   * @param contentType the new content type
+   */
+  public void setContentType(String contentType) {
     this.contentType = contentType;
   }
 
+  /**
+   * Encoding.
+   *
+   * @param encoding the encoding
+   * @return the upload text request parameter
+   */
   public UploadTextRequestParameter encoding(String encoding) {
     this.encoding = encoding;
     return this;
   }
 
    /**
-   * Get encoding
-   * @return encoding
-  **/
+    * Get encoding.
+    *
+    * @return encoding
+    */
   @ApiModelProperty(value = "")
   public String getEncoding() {
     return encoding;
   }
 
+  /**
+   * Sets the encoding.
+   *
+   * @param encoding the new encoding
+   */
   public void setEncoding(String encoding) {
     this.encoding = encoding;
   }
 
+  /**
+   * Keywords.
+   *
+   * @param keywords the keywords
+   * @return the upload text request parameter
+   */
   public UploadTextRequestParameter keywords(String keywords) {
     this.keywords = keywords;
     return this;
   }
 
    /**
-   * Get keywords
-   * @return keywords
-  **/
+    * Get keywords.
+    *
+    * @return keywords
+    */
   @ApiModelProperty(value = "")
   public String getKeywords() {
     return keywords;
   }
 
+  /**
+   * Sets the keywords.
+   *
+   * @param keywords the new keywords
+   */
   public void setKeywords(String keywords) {
     this.keywords = keywords;
   }
 
+  /**
+   * Metadata.
+   *
+   * @param metadata the metadata
+   * @return the upload text request parameter
+   */
   public UploadTextRequestParameter metadata(String metadata) {
     this.metadata = metadata;
     return this;
   }
 
    /**
-   * Get metadata
-   * @return metadata
-  **/
+    * Get metadata.
+    *
+    * @return metadata
+    */
   @ApiModelProperty(value = "")
   public String getMetadata() {
     return metadata;
   }
 
+  /**
+   * Sets the metadata.
+   *
+   * @param metadata the new metadata
+   */
   public void setMetadata(String metadata) {
     this.metadata = metadata;
   }
 
+  /**
+   * Name.
+   *
+   * @param name the name
+   * @return the upload text request parameter
+   */
   public UploadTextRequestParameter name(String name) {
     this.name = name;
     return this;
   }
 
    /**
-   * Get name
-   * @return name
-  **/
+    * Get name.
+    *
+    * @return name
+    */
   @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets the name.
+   *
+   * @param name the new name
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Text.
+   *
+   * @param text the text
+   * @return the upload text request parameter
+   */
   public UploadTextRequestParameter text(String text) {
     this.text = text;
     return this;
   }
 
    /**
-   * Get text
-   * @return text
-  **/
+    * Get text.
+    *
+    * @return text
+    */
   @ApiModelProperty(value = "")
   public String getText() {
     return text;
   }
 
+  /**
+   * Sets the text.
+   *
+   * @param text the new text
+   */
   public void setText(String text) {
     this.text = text;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -225,12 +255,18 @@ public class UploadTextRequestParameter {
         Objects.equals(this.text, uploadTextRequestParameter.text);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(contentType, encoding, keywords, metadata, name, text);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -249,6 +285,9 @@ public class UploadTextRequestParameter {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

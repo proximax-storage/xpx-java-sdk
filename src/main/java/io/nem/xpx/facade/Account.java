@@ -1,21 +1,19 @@
 package io.nem.xpx.facade;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
-import org.nem.core.model.ncc.TransactionMetaDataPair;
-import org.nem.core.serialization.JsonSerializer;
-
 import io.nem.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.intf.AccountApi;
 import io.nem.xpx.service.local.LocalAccountApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.remote.RemoteAccountApi;
 
+
+/**
+ * The Class Account.
+ */
 public class Account {
 
 	/** The peer connection. */
@@ -24,16 +22,17 @@ public class Account {
 	/** The engine. */
 	private CryptoEngine engine;
 
+	/** The account api. */
 	private AccountApi accountApi;
 	
+	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
 
 	/**
 	 * Instantiates a new search.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
+	 * @param peerConnection            the peer connection
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
 	public Account(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 
@@ -53,30 +52,55 @@ public class Account {
 	}
 	
 
+	/**
+	 * Gets the incoming transactions.
+	 *
+	 * @param publicKey the public key
+	 * @param privateKey the private key
+	 * @return the incoming transactions
+	 * @throws ApiException the api exception
+	 */
 	public String getIncomingTransactions(String publicKey, String privateKey) throws ApiException {
 		return null;
 	}
 
 
+	/**
+	 * Gets the all transactions.
+	 *
+	 * @param publicKey the public key
+	 * @param privateKey the private key
+	 * @return the all transactions
+	 * @throws ApiException the api exception
+	 */
 	public String getAllTransactions(String publicKey, String privateKey) throws ApiException {
-//		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.TransactionApi
-//				.getAllTransactions(KeyConvertor.getAddressFromPublicKey(publicKey));
-//		List<String> transactionString = new ArrayList<String>();
-//		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
-//			if(checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
-//				transactionString.add(JsonSerializer.serializeToJson(metaDataPair.getEntity()).toJSONString());
-//			}
-//		}
+
 		return null;
 	}
 
 
 
+	/**
+	 * Gets the outgoing transactions.
+	 *
+	 * @param publicKey the public key
+	 * @param privateKey the private key
+	 * @return the outgoing transactions
+	 * @throws ApiException the api exception
+	 */
 	public String getOutgoingTransactions(String publicKey,String privateKey) throws ApiException {
 		return null;
 	}
 
 
+	/**
+	 * Gets the unconfirmed transactions.
+	 *
+	 * @param publicKey the public key
+	 * @param privateKey the private key
+	 * @return the unconfirmed transactions
+	 * @throws ApiException the api exception
+	 */
 	public String getUnconfirmedTransactions(String publicKey, String privateKey) throws ApiException {
 		return null;
 	}

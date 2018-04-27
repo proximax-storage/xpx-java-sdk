@@ -5,10 +5,11 @@ import java.io.File;
 import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
+
 
 
 /**
@@ -24,11 +25,11 @@ public class UploadFileParameterBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param senderPrivateKey the sender private key
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
 	 * @return the i sender
 	 */
-	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new UploadFileParameterBuilder.Builder(senderPrivateKey);
+	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		return new UploadFileParameterBuilder.Builder(senderOrReceiverPrivateKey);
 	}
 
 	/**
@@ -39,10 +40,10 @@ public class UploadFileParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param receiverOrSenderPublicKey the receiver or sender public key
 		 * @return the i build
 		 */
-		IBuild recipientPublicKey(String recipientPublicKey);
+		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 
 	}
 
@@ -67,6 +68,12 @@ public class UploadFileParameterBuilder {
 		 */
 		IBuild data(File data);
 
+		/**
+		 * Content type.
+		 *
+		 * @param contentType the content type
+		 * @return the i build
+		 */
 		IBuild contentType(String contentType);
 		/**
 		 * Name.
@@ -121,10 +128,10 @@ public class UploadFileParameterBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderPrivateKey the sender private key
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
-		public Builder(String senderPrivateKey) {
-			instance.setSenderPrivateKey(senderPrivateKey);
+		public Builder(String senderOrReceiverPrivateKey) {
+			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
 		/* (non-Javadoc)
@@ -194,11 +201,14 @@ public class UploadFileParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#recipientPublicKey(java.lang.String)
 		 */
 		@Override
-		public IBuild recipientPublicKey(String recipientPublicKey) {
-			instance.setRecipientPublicKey(recipientPublicKey);
+		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#contentType(java.lang.String)
+		 */
 		@Override
 		public IBuild contentType(String contentType) {
 			instance.setContentType(contentType);

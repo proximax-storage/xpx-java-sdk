@@ -36,26 +36,26 @@ import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.MultisigUploadData;
+import io.nem.xpx.model.MultisigUploadBinaryParameter;
+import io.nem.xpx.model.MultisigUploadDataParameter;
+import io.nem.xpx.model.MultisigUploadFileParameter;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.model.UploadTextRequestParameter.ContentTypeEnum;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalDataHashApi;
 import io.nem.xpx.service.local.LocalUploadApi;
-import io.nem.xpx.service.model.MultisigUploadBinaryParameter;
-import io.nem.xpx.service.model.MultisigUploadDataParameter;
-import io.nem.xpx.service.model.MultisigUploadFileParameter;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteDataHashApi;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
+
 
 
 /**
@@ -100,6 +100,22 @@ public class MultisigUpload  extends FacadeService {
 	}
 
 	
+	/**
+	 * Upload data on multisig transaction.
+	 *
+	 * @param parameters the parameters
+	 * @return the multisig upload data
+	 * @throws ApiException the api exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
@@ -108,6 +124,22 @@ public class MultisigUpload  extends FacadeService {
 		return multisigUploadData;
 	}
 
+	/**
+	 * Upload file on multisig transaction.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadFileOnMultisigTransaction(MultisigUploadFileParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
@@ -117,6 +149,22 @@ public class MultisigUpload  extends FacadeService {
 
 	}
 	
+	/**
+	 * Upload binary on multisig transaction.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData uploadBinaryOnMultisigTransaction(MultisigUploadBinaryParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
@@ -127,6 +175,15 @@ public class MultisigUpload  extends FacadeService {
 	}
 
 
+	/**
+	 * Handle multisig data upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData handleMultisigDataUpload(MultisigUploadDataParameter uploadParameter) throws IOException, ApiException, UploadException {
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
@@ -136,7 +193,7 @@ public class MultisigUpload  extends FacadeService {
 		try {
 			
 			UploadTextRequestParameter parameter = new UploadTextRequestParameter();
-			parameter.setContentType(ContentTypeEnum.valueOf(uploadParameter.getContentType()));
+			parameter.setContentType(uploadParameter.getContentType());
 			parameter.setEncoding(uploadParameter.getEncoding());
 			parameter.setKeywords(uploadParameter.getKeywords());
 			parameter.setMetadata(uploadParameter.getMetaData());
@@ -163,13 +220,13 @@ public class MultisigUpload  extends FacadeService {
 
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.amount(Amount.fromNem(1l))
 						.version(2)
 						.message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -178,12 +235,12 @@ public class MultisigUpload  extends FacadeService {
 				// Announce The Signature
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -203,6 +260,15 @@ public class MultisigUpload  extends FacadeService {
 		return multisigUploadData;
 	}
 
+	/**
+	 * Handle multisig file upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData handleMultisigFileUpload(MultisigUploadFileParameter uploadParameter) throws IOException, ApiException, UploadException {
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
@@ -235,11 +301,11 @@ public class MultisigUpload  extends FacadeService {
 
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -248,12 +314,12 @@ public class MultisigUpload  extends FacadeService {
 				// Announce The Signature
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -272,6 +338,15 @@ public class MultisigUpload  extends FacadeService {
 		return multisigUploadData;
 	}
 	
+	/**
+	 * Handle multisig binary upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the multisig upload data
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws UploadException the upload exception
+	 */
 	public MultisigUploadData handleMultisigBinaryUpload(MultisigUploadBinaryParameter uploadParameter) throws IOException, ApiException, UploadException {
 		MultisigUploadData multisigUploadData = new MultisigUploadData();
 		byte[] encrypted = null;
@@ -304,11 +379,11 @@ public class MultisigUpload  extends FacadeService {
 
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -317,12 +392,12 @@ public class MultisigUpload  extends FacadeService {
 				// Announce The Signature
 				TransferTransaction transaction = TransferTransactionBuilder
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash

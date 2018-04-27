@@ -27,12 +27,12 @@ import io.nem.xpx.builder.UploadPathParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -57,8 +57,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 
 			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
 					.data("hello")
 					.metaData(null)
@@ -83,8 +82,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf"))
 					.metaData(null)
 					.keywords("proximax-pdf")
@@ -110,8 +108,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//large_file.zip"))
 					.metaData(null).keywords(null).build();
 			
@@ -135,8 +132,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 		try {
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data("This is a Secure Test Data").metaData(null).keywords(null).build();
 
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
@@ -157,8 +153,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
 					.metaData(null).keywords(null).build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
@@ -180,8 +175,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
 					.metaData(null).keywords(null).build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -204,8 +198,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data("This is a test data from mosaic").metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
@@ -232,8 +225,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadPathParameter parameter = UploadPathParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.path("C:\\Sample")
 					.metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

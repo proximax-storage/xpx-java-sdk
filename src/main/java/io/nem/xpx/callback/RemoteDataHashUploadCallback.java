@@ -8,6 +8,7 @@ import io.nem.ApiCallback;
 import io.nem.ApiException;
 
 
+
 /**
  * The Class RemoteDataHashUploadCallback.
  */

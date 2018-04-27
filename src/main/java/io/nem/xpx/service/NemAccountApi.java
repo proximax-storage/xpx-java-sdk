@@ -13,8 +13,9 @@ import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.GeneratedAccount;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.GeneratedAccount;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
+
 
 
 /**

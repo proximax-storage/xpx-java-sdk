@@ -8,16 +8,32 @@ import java.nio.ByteBuffer;
 
 import org.apache.commons.codec.binary.Base64;
 
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
+
+/**
+ * The Class FacadeService.
+ */
 public abstract class FacadeService {
+	
+	/**
+	 * Byte to serial object.
+	 *
+	 * @param object the object
+	 * @return the resource hash message
+	 */
 	protected ResourceHashMessage byteToSerialObject(byte[] object) {
 		ResourceHashMessage resourceMessage = ResourceHashMessage
 				.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
 		return resourceMessage;
 	}
 
+	/**
+	 * Safe async to gateways.
+	 *
+	 * @param resource the resource
+	 */
 	protected void safeAsyncToGateways(ResourceHashMessage resource) {
 		Runnable task = () -> {
 			for (String s : XpxSdkGlobalConstants.GLOBAL_GATEWAYS) {

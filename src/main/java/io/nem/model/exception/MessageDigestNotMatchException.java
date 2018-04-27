@@ -1,6 +1,10 @@
 package io.nem.model.exception;
 
 
+
+/**
+ * The Class MessageDigestNotMatchException.
+ */
 public class MessageDigestNotMatchException extends Exception {
 	
 	/** The Constant serialVersionUID. */

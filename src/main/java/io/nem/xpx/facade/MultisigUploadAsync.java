@@ -25,19 +25,19 @@ import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.MultisigUploadData;
-
-import io.nem.xpx.service.model.MultisigUploadBinaryParameter;
-import io.nem.xpx.service.model.MultisigUploadDataParameter;
-import io.nem.xpx.service.model.MultisigUploadFileParameter;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.MultisigUploadBinaryParameter;
+import io.nem.xpx.model.MultisigUploadDataParameter;
+import io.nem.xpx.model.MultisigUploadFileParameter;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteDataHashApi;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
+
 
 /**
  * The Class MultisigUpload.
@@ -59,6 +59,23 @@ public class MultisigUploadAsync extends MultisigUpload {
 		}
 	}
 
+	/**
+	 * Upload data on multisig transaction.
+	 *
+	 * @param parameters the parameters
+	 * @param callback the callback
+	 * @return the completable future
+	 * @throws ApiException the api exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UploadException the upload exception
+	 */
 	public CompletableFuture<MultisigUploadData> uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters,
 			ServiceAsyncCallback<MultisigUploadData> callback) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
@@ -81,6 +98,23 @@ public class MultisigUploadAsync extends MultisigUpload {
 
 	}
 
+	/**
+	 * Upload file on multisig transaction.
+	 *
+	 * @param parameters the parameters
+	 * @param callback the callback
+	 * @return the completable future
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public CompletableFuture<MultisigUploadData> uploadFileOnMultisigTransaction(MultisigUploadFileParameter parameters,
 			ServiceAsyncCallback<MultisigUploadData> callback) throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException,
 			NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
@@ -103,6 +137,23 @@ public class MultisigUploadAsync extends MultisigUpload {
 
 	}
 
+	/**
+	 * Upload binary on multisig transaction.
+	 *
+	 * @param parameters the parameters
+	 * @param callback the callback
+	 * @return the completable future
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws UploadException the upload exception
+	 */
 	public CompletableFuture<MultisigUploadData> uploadBinaryOnMultisigTransaction(
 			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadData> callback) throws IOException, ApiException,
 			InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,

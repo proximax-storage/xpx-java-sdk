@@ -16,8 +16,8 @@ package io.nem.xpx;
 import java.io.File;
 
 import io.nem.ApiException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.service.TransactionAndAnnounceApi;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
 
 import org.junit.Test;
 import org.junit.Ignore;

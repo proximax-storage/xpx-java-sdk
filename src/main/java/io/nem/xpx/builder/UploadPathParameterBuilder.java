@@ -3,10 +3,11 @@ package io.nem.xpx.builder;
 import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
+
 
 
 /**
@@ -22,11 +23,11 @@ public class UploadPathParameterBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param senderPrivateKey the sender private key
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
 	 * @return the i sender
 	 */
-	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new UploadPathParameterBuilder.Builder(senderPrivateKey);
+	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		return new UploadPathParameterBuilder.Builder(senderOrReceiverPrivateKey);
 	}
 
 	/**
@@ -37,10 +38,10 @@ public class UploadPathParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param receiverOrSenderPublicKey the receiver or sender public key
 		 * @return the i build
 		 */
-		IBuild recipientPublicKey(String recipientPublicKey);
+		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 
 	}
 
@@ -118,10 +119,10 @@ public class UploadPathParameterBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderPrivateKey the sender private key
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
-		public Builder(String senderPrivateKey) {
-			instance.setSenderPrivateKey(senderPrivateKey);
+		public Builder(String senderOrReceiverPrivateKey) {
+			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
 		/* (non-Javadoc)
@@ -191,8 +192,8 @@ public class UploadPathParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadPathParameterBuilder.ISender#recipientPublicKey(java.lang.String)
 		 */
 		@Override
-		public IBuild recipientPublicKey(String recipientPublicKey) {
-			instance.setRecipientPublicKey(recipientPublicKey);
+		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
 

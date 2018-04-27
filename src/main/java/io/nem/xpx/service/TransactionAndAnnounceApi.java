@@ -17,11 +17,11 @@ import io.nem.ApiCallback;
 import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.ApiResponse;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
 import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -32,27 +32,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class TransactionAndAnnounceApi.
+ */
 public class TransactionAndAnnounceApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new transaction and announce api.
+     */
     public TransactionAndAnnounceApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new transaction and announce api.
+     *
+     * @param apiClient the api client
+     */
     public TransactionAndAnnounceApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for announceRequestPublishDataSignatureUsingPOST
+     * Build call for announceRequestPublishDataSignatureUsingPOST.
+     *
      * @param requestAnnounceDataSignature The Request Announce Data Signature Json Format (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -99,6 +124,15 @@ public class TransactionAndAnnounceApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Announce request publish data signature using POST validate before call.
+     *
+     * @param requestAnnounceDataSignature the request announce data signature
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call announceRequestPublishDataSignatureUsingPOSTValidateBeforeCall(RequestAnnounceDataSignature requestAnnounceDataSignature, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -171,8 +205,10 @@ public class TransactionAndAnnounceApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for getXPXTransactionUsingGET
+     * Build call for getXPXTransactionUsingGET.
+     *
      * @param nemHash XPX Transaction Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -220,6 +256,15 @@ public class TransactionAndAnnounceApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Gets the XPX transaction using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the XPX transaction using GET validate before call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getXPXTransactionUsingGETValidateBeforeCall(String nemHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

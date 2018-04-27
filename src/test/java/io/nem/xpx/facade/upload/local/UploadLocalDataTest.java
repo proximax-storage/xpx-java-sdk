@@ -34,12 +34,12 @@ import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.model.UploadData;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -61,13 +61,12 @@ public class UploadLocalDataTest extends AbstractApiTest {
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
-			
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.contentType(DataTextContentType.APPLICATION_XML)
@@ -95,8 +94,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
 					.data("plain-data")
 					.metaData(JsonUtils.toJson(metaData))
@@ -124,8 +123,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey)
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.SECURE)
 					.data("secure-data")
 					.metaData(JsonUtils.toJson(metaData))
@@ -136,7 +135,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			String hash =data.getDataMessage().hash();
 			String nemhash = data.getNemHash();
 			LOGGER.info(nemhash);
-			LOGGER.info(hash); //QmYgvneTkpG76X4Aa77KJnbbRP2sNsj7YGcuguG7LWQeeU
+			LOGGER.info(hash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -157,8 +156,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data("data-with-mosaics")
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")

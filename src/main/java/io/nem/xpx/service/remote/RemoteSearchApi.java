@@ -26,8 +26,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.intf.SearchApi;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,27 +36,52 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * The Class RemoteSearchApi.
+ */
 public class RemoteSearchApi implements SearchApi {
+	
+	/** The api client. */
 	private ApiClient apiClient;
 
+    /**
+     * Instantiates a new remote search api.
+     */
     public RemoteSearchApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new remote search api.
+     *
+     * @param apiClient the api client
+     */
     public RemoteSearchApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for searchTransactionWithKeywordUsingGET
+     * Build call for searchTransactionWithKeywordUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param keywords Comma delimited Keyword that will be match to the files available (required)
      * @param progressListener Progress listener
@@ -107,6 +132,16 @@ public class RemoteSearchApi implements SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search transaction with keyword using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param keywords the keywords
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithKeywordUsingGETValidateBeforeCall(String xPubkey, String keywords, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -188,8 +223,10 @@ public class RemoteSearchApi implements SearchApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for searchTransactionWithMetadataUsingGET
+     * Build call for searchTransactionWithMetadataUsingGET.
+     *
      * @param xPubkey The Sender or Receiver&#39;s Public Key (required)
      * @param key Meta key (optional)
      * @param value Meta value (optional)
@@ -244,6 +281,17 @@ public class RemoteSearchApi implements SearchApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Search transaction with metadata using GET validate before call.
+     *
+     * @param xPubkey the x pubkey
+     * @param key the key
+     * @param value the value
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call searchTransactionWithMetadataUsingGETValidateBeforeCall(String xPubkey, String key, String value, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -328,12 +376,18 @@ public class RemoteSearchApi implements SearchApi {
         return call;
     }
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithKeywordUsingGET(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey, String xPubkey,
 			String keywords) throws ApiException, InterruptedException, ExecutionException {
 		throw new ApiException("Method can't be accessed thru remote connection");
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchAllPublicTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey,
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {
@@ -341,6 +395,9 @@ public class RemoteSearchApi implements SearchApi {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {

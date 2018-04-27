@@ -5,11 +5,12 @@ import java.io.File;
 import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.UploadBinaryParameter;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
+
 
 
 /**
@@ -25,11 +26,11 @@ public class UploadBinaryParameterBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param senderPrivateKey the sender private key
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
 	 * @return the i sender
 	 */
-	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new UploadBinaryParameterBuilder.Builder(senderPrivateKey);
+	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		return new UploadBinaryParameterBuilder.Builder(senderOrReceiverPrivateKey);
 	}
 
 	/**
@@ -40,10 +41,10 @@ public class UploadBinaryParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param receiverOrSenderPublicKey the receiver or sender public key
 		 * @return the i build
 		 */
-		IBuild recipientPublicKey(String recipientPublicKey);
+		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 
 	}
 
@@ -68,6 +69,12 @@ public class UploadBinaryParameterBuilder {
 		 */
 		IBuild data(byte[] data);
 
+		/**
+		 * Content type.
+		 *
+		 * @param contentType the content type
+		 * @return the i build
+		 */
 		IBuild contentType(String contentType);
 		/**
 		 * Name.
@@ -122,10 +129,10 @@ public class UploadBinaryParameterBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderPrivateKey the sender private key
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
-		public Builder(String senderPrivateKey) {
-			instance.setSenderPrivateKey(senderPrivateKey);
+		public Builder(String senderOrReceiverPrivateKey) {
+			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
 		/* (non-Javadoc)
@@ -195,11 +202,14 @@ public class UploadBinaryParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#recipientPublicKey(java.lang.String)
 		 */
 		@Override
-		public IBuild recipientPublicKey(String recipientPublicKey) {
-			instance.setRecipientPublicKey(recipientPublicKey);
+		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IBuild#contentType(java.lang.String)
+		 */
 		@Override
 		public IBuild contentType(String contentType) {
 			instance.setContentType(contentType);

@@ -6,9 +6,13 @@ import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder.IBuild;
 import io.nem.xpx.builder.UploadDataParameterBuilder.ISender;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.service.model.MultisigUploadDataParameter;
-import io.nem.xpx.service.model.UploadDataParameter;
+import io.nem.xpx.model.MultisigUploadDataParameter;
+import io.nem.xpx.model.UploadDataParameter;
 
+
+/**
+ * The Class MultisigUploadDataParameterBuilder.
+ */
 public class MultisigUploadDataParameterBuilder {
 	/**
 	 * Instantiates a new transaction builder.
@@ -19,11 +23,11 @@ public class MultisigUploadDataParameterBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param senderPrivateKey the sender private key
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
 	 * @return the i sender
 	 */
-	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new MultisigUploadDataParameterBuilder.Builder(senderPrivateKey);
+	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		return new MultisigUploadDataParameterBuilder.Builder(senderOrReceiverPrivateKey);
 	}
 
 	/**
@@ -34,10 +38,10 @@ public class MultisigUploadDataParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param receiverOrSenderPublicKey the receiver or sender public key
 		 * @return the i build
 		 */
-		IMultiSig recipientPublicKey(String recipientPublicKey);
+		IMultiSig receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 
 	}
 	
@@ -49,7 +53,7 @@ public class MultisigUploadDataParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param multisigPublicKey the multisig public key
 		 * @return the i build
 		 */
 		IBuild multisigPublicKey(String multisigPublicKey);
@@ -77,8 +81,20 @@ public class MultisigUploadDataParameterBuilder {
 		 */
 		IBuild data(String data);
 		
+		/**
+		 * Content type.
+		 *
+		 * @param contentType the content type
+		 * @return the i build
+		 */
 		IBuild contentType(DataTextContentType contentType);
 		
+		/**
+		 * Encoding.
+		 *
+		 * @param encoding the encoding
+		 * @return the i build
+		 */
 		IBuild encoding(String encoding);
 
 		/**
@@ -134,10 +150,10 @@ public class MultisigUploadDataParameterBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderPrivateKey the sender private key
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
-		public Builder(String senderPrivateKey) {
-			instance.setSenderPrivateKey(senderPrivateKey);
+		public Builder(String senderOrReceiverPrivateKey) {
+			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
 		/* (non-Javadoc)
@@ -214,23 +230,32 @@ public class MultisigUploadDataParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.ISender#recipientPublicKey(java.lang.String)
 		 */
 		@Override
-		public IMultiSig recipientPublicKey(String recipientPublicKey) {
-			instance.setRecipientPublicKey(recipientPublicKey);
+		public IMultiSig receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigUploadDataParameterBuilder.IBuild#contentType(io.nem.xpx.facade.model.DataTextContentType)
+		 */
 		@Override
 		public IBuild contentType(DataTextContentType contentType) {
 			instance.setContentType(contentType.toString());
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigUploadDataParameterBuilder.IBuild#encoding(java.lang.String)
+		 */
 		@Override
 		public IBuild encoding(String encoding) {
 			instance.setEncoding(encoding);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigUploadDataParameterBuilder.IMultiSig#multisigPublicKey(java.lang.String)
+		 */
 		@Override
 		public IBuild multisigPublicKey(String multisigPublicKey) {
 			instance.setMultisigPublicKey(multisigPublicKey);

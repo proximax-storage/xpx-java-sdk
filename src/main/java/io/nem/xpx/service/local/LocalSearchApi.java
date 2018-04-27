@@ -24,9 +24,9 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.TransactionApi;
 import io.nem.xpx.service.intf.SearchApi;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 import java.lang.reflect.Type;
@@ -51,8 +51,15 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
+
+/**
+ * The Class LocalSearchApi.
+ */
 public class LocalSearchApi implements SearchApi {
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithKeywordUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPubkey, String keywords)
 			throws ApiException, InterruptedException, ExecutionException {
@@ -105,6 +112,9 @@ public class LocalSearchApi implements SearchApi {
 		return encryptedMessage;
 	}
 	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchAllPublicTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity>  searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value)
 			throws InterruptedException, ExecutionException, ApiException {
@@ -155,6 +165,9 @@ public class LocalSearchApi implements SearchApi {
 		return encryptedMessage;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {
@@ -239,6 +252,9 @@ public class LocalSearchApi implements SearchApi {
 		return encryptedMessage;
 	}
 	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithKeywordUsingGET(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey, String xPubkey,
 			String keywords) throws ApiException, InterruptedException, ExecutionException {
@@ -326,6 +342,12 @@ public class LocalSearchApi implements SearchApi {
 	}
 
 
+	/**
+	 * To entity.
+	 *
+	 * @param resourceMessage the resource message
+	 * @return the resource hash message json entity
+	 */
 	private ResourceHashMessageJsonEntity toEntity(ResourceHashMessage resourceMessage) {
 
 		ResourceHashMessageJsonEntity resourceHashMessageJsonEntity = new ResourceHashMessageJsonEntity();
@@ -339,6 +361,12 @@ public class LocalSearchApi implements SearchApi {
 		return resourceHashMessageJsonEntity;
 	}
 
+	/**
+	 * Check if txn have XPX mosaic.
+	 *
+	 * @param transaction the transaction
+	 * @return true, if successful
+	 */
 	protected boolean checkIfTxnHaveXPXMosaic(Transaction transaction) {
 
 		if (transaction instanceof TransferTransaction) {

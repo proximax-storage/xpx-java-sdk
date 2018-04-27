@@ -8,6 +8,7 @@ import java.io.Serializable;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
+
 /**
  * The Class DownloadData.
  */

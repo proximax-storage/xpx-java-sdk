@@ -26,8 +26,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.intf.DownloadApi;
-import io.nem.xpx.service.model.ResponseEntity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,31 +36,52 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * The Class RemoteDownloadApi.
  */
 public class RemoteDownloadApi implements DownloadApi {
 	
+	/** The api client. */
 	private ApiClient apiClient;
 
+    /**
+     * Instantiates a new remote download api.
+     */
     public RemoteDownloadApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new remote download api.
+     *
+     * @param apiClient the api client
+     */
     public RemoteDownloadApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for downloadBinaryUsingGET
+     * Build call for downloadBinaryUsingGET.
+     *
      * @param nemHash The NEM Transaction Hash (required)
      * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
@@ -112,6 +133,16 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download binary using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param transferMode the transfer mode
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadBinaryUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -197,8 +228,10 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadFileUsingGET
+     * Build call for downloadFileUsingGET.
+     *
      * @param nemHash The NEM Transaction Hash (required)
      * @param transferMode Transfer Mode default: bytes (bytes,stream,base64) (required)
      * @param progressListener Progress listener
@@ -250,6 +283,16 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download file using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param transferMode the transfer mode
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadFileUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -335,8 +378,10 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadSecureBinaryUsingGET
+     * Build call for downloadSecureBinaryUsingGET.
+     *
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
      * @param nemHash The NEM Transaction Hash (required)
      * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
@@ -391,6 +436,17 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download secure binary using GET validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param nemHash the nem hash
+     * @param transferType the transfer type
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadSecureBinaryUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -484,8 +540,10 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadSecureFileUsingGET
+     * Build call for downloadSecureFileUsingGET.
+     *
      * @param xPvkey The Sender or Receiver&#39;s Private Key (required)
      * @param nemHash The NEM Transaction Hash (required)
      * @param transferType Transfer Type default: bytes (bytes,stream,base64) (required)
@@ -540,6 +598,17 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download secure file using GET validate before call.
+     *
+     * @param xPvkey the x pvkey
+     * @param nemHash the nem hash
+     * @param transferType the transfer type
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadSecureFileUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -633,8 +702,10 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadTextUsingGET
+     * Build call for downloadTextUsingGET.
+     *
      * @param nemHash The NEM Transaction Hash (required)
      * @param transferMode Transfer Mode default: bytes (bytes,stream) (required)
      * @param progressListener Progress listener
@@ -686,6 +757,16 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download text using GET validate before call.
+     *
+     * @param nemHash the nem hash
+     * @param transferMode the transfer mode
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadTextUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -771,8 +852,10 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for downloadUsingDataHashUsingGET
+     * Build call for downloadUsingDataHashUsingGET.
+     *
      * @param dataHash The NEM Transaction Hash (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -821,6 +904,15 @@ public class RemoteDownloadApi implements DownloadApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Download using data hash using GET validate before call.
+     *
+     * @param dataHash the data hash
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadUsingDataHashUsingGETValidateBeforeCall(String dataHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -841,7 +933,8 @@ public class RemoteDownloadApi implements DownloadApi {
 
     /**
      * Download IPFS file associated to the datahash
-     * Download IPFS file associated to the datahash
+     * Download IPFS file associated to the datahash.
+     *
      * @param dataHash The NEM Transaction Hash (required)
      * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -853,7 +946,8 @@ public class RemoteDownloadApi implements DownloadApi {
 
     /**
      * Download IPFS file associated to the datahash
-     * Download IPFS file associated to the datahash
+     * Download IPFS file associated to the datahash.
+     *
      * @param dataHash The NEM Transaction Hash (required)
      * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -866,7 +960,8 @@ public class RemoteDownloadApi implements DownloadApi {
 
     /**
      * Download IPFS file associated to the datahash (asynchronously)
-     * Download IPFS file associated to the datahash
+     * Download IPFS file associated to the datahash.
+     *
      * @param dataHash The NEM Transaction Hash (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call

@@ -27,10 +27,10 @@ import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadBinaryParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 /**
@@ -51,8 +51,7 @@ public class MultiThreadUploadRemoteBinaryTest extends AbstractApiTest {
 
 					Upload upload = new Upload(remotePeerConnection);
 
-					UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-							.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
 							.name("pdf_file2.pdf").keywords("pdf_file2").metaData(JsonUtils.toJson(metaData))
 							.contentType("application/pdf") // make sure to put this in for files.

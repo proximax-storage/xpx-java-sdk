@@ -267,7 +267,7 @@ This endpoint can be used to generate the data that will be injected to the NEM 
 
 
 UploadApi apiInstance = new UploadApi();
-UploadTextRequestParameter uploadTextParameter = new UploadTextRequestParameter(); // UploadTextRequestParameter | A Free Form Text based data
+UploadTextRequestParameter uploadTextParameter = new UploadTextRequestParameter(); // UploadTextRequestParameter | A Plain Text
 try {
     Object result = apiInstance.uploadPlainTextUsingPOST(uploadTextParameter);
     System.out.println(result);
@@ -281,7 +281,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uploadTextParameter** | [**UploadTextRequestParameter**](UploadTextRequestParameter.md)| A Free Form Text based data |
+ **uploadTextParameter** | [**UploadTextRequestParameter**](UploadTextRequestParameter.md)| A Plain Text |
 
 ### Return type
 

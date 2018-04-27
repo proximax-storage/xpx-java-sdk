@@ -35,14 +35,15 @@ import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadException;
 import io.nem.xpx.service.TransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.local.LocalDownloadApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadException;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteDownloadApi;
 import io.nem.xpx.utils.CryptoUtils;
+
 
 /**
  * The Class Download.
@@ -68,6 +69,13 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download plain.
+	 *
+	 * @param nemHash the nem hash
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadData> callback)
 			 {
 
@@ -100,6 +108,14 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download file.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadFile(String nemHash, String transferType, ServiceAsyncCallback<DownloadData> callback)
 			{
 
@@ -133,6 +149,14 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download binary.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadBinary(String nemHash, String transferType,
 			ServiceAsyncCallback<DownloadData> callback) {
 
@@ -167,6 +191,19 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download secure binary or file.
+	 *
+	 * @param nemHash the nem hash
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @param callback the callback
+	 * @return the completable future
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
@@ -174,6 +211,19 @@ public class DownloadAsync extends Download {
 				callback);
 	}
 
+	/**
+	 * Download secure text data.
+	 *
+	 * @param nemHash the nem hash
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @param callback the callback
+	 * @return the completable future
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
@@ -181,6 +231,16 @@ public class DownloadAsync extends Download {
 				callback);
 	}
 
+	/**
+	 * Download secure binary or file.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String transferType,
 			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
 
@@ -278,6 +338,16 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download secure text data.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String transferType,
 			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
 
@@ -370,6 +440,15 @@ public class DownloadAsync extends Download {
 
 	}
 
+	/**
+	 * Download multisig file or data.
+	 *
+	 * @param messageType the message type
+	 * @param nemHash the nem hash
+	 * @param keySecret the key secret
+	 * @param callback the callback
+	 * @return the completable future
+	 */
 	public CompletableFuture<DownloadData> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, ServiceAsyncCallback<DownloadData> callback) {
 		
 		CompletableFuture<DownloadData> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {

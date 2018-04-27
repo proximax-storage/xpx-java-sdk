@@ -4,9 +4,10 @@ import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.ApiException;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.KeyUtils;
+
 
 
 /**
@@ -22,11 +23,11 @@ public class UploadDataParameterBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param senderPrivateKey the sender private key
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
 	 * @return the i sender
 	 */
-	public static ISender senderPrivateKey(String senderPrivateKey) {
-		return new UploadDataParameterBuilder.Builder(senderPrivateKey);
+	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		return new UploadDataParameterBuilder.Builder(senderOrReceiverPrivateKey);
 	}
 
 	/**
@@ -37,10 +38,10 @@ public class UploadDataParameterBuilder {
 		/**
 		 * Recipient public key.
 		 *
-		 * @param recipientPublicKey the recipient public key
+		 * @param receiverOrSenderPublicKey the receiver or sender public key
 		 * @return the i build
 		 */
-		IBuild recipientPublicKey(String recipientPublicKey);
+		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 
 	}
 
@@ -65,8 +66,20 @@ public class UploadDataParameterBuilder {
 		 */
 		IBuild data(String data);
 		
+		/**
+		 * Content type.
+		 *
+		 * @param contentType the content type
+		 * @return the i build
+		 */
 		IBuild contentType(DataTextContentType contentType);
 		
+		/**
+		 * Encoding.
+		 *
+		 * @param encoding the encoding
+		 * @return the i build
+		 */
 		IBuild encoding(String encoding);
 
 		/**
@@ -122,10 +135,10 @@ public class UploadDataParameterBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderPrivateKey the sender private key
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
-		public Builder(String senderPrivateKey) {
-			instance.setSenderPrivateKey(senderPrivateKey);
+		public Builder(String senderOrReceiverPrivateKey) {
+			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
 		/* (non-Javadoc)
@@ -192,7 +205,7 @@ public class UploadDataParameterBuilder {
 				instance.setEncoding("UTF-8");
 			}
 			if(instance.getContentType() == null) {
-				instance.setEncoding("text/plain");
+				instance.setContentType("text/plain");
 			}
 			
 			return instance;
@@ -202,17 +215,23 @@ public class UploadDataParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.ISender#recipientPublicKey(java.lang.String)
 		 */
 		@Override
-		public IBuild recipientPublicKey(String recipientPublicKey) {
-			instance.setRecipientPublicKey(recipientPublicKey);
+		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#contentType(io.nem.xpx.facade.model.DataTextContentType)
+		 */
 		@Override
 		public IBuild contentType(DataTextContentType contentType) {
 			instance.setContentType(contentType.toString());
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#encoding(java.lang.String)
+		 */
 		@Override
 		public IBuild encoding(String encoding) {
 			instance.setEncoding(encoding);

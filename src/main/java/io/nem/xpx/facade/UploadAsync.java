@@ -30,19 +30,20 @@ import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.UploadBinaryParameter;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteUploadApi;
+
 
 /**
  * The Class Upload.
@@ -69,6 +70,13 @@ public class UploadAsync extends Upload {
 
 	}
 
+	/**
+	 * Upload file.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @param callback the callback
+	 * @return the future
+	 */
 	public Future<UploadData> uploadFile(UploadFileParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
 		CompletableFuture<UploadData> uploadFileAsync = CompletableFuture.supplyAsync(() -> {
 			UploadData uploadData = null;
@@ -86,6 +94,13 @@ public class UploadAsync extends Upload {
 		return uploadFileAsync;
 	}
 
+	/**
+	 * Upload text data.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @param callback the callback
+	 * @return the future
+	 */
 	public Future<UploadData> uploadTextData(UploadDataParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
 		CompletableFuture<UploadData> uploadDataAsync = CompletableFuture.supplyAsync(() -> {
 			UploadData uploadData = null;
@@ -103,6 +118,13 @@ public class UploadAsync extends Upload {
 		return uploadDataAsync;
 	}
 
+	/**
+	 * Upload binary.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @param callback the callback
+	 * @return the future
+	 */
 	public Future<UploadData> uploadBinary(UploadBinaryParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
 
 		CompletableFuture<UploadData> uploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
@@ -122,6 +144,13 @@ public class UploadAsync extends Upload {
 		return uploadBinaryAsync;
 	}
 
+	/**
+	 * Upload path.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @param callback the callback
+	 * @return the future
+	 */
 	public Future<UploadData> uploadPath(UploadPathParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
 
 		CompletableFuture<UploadData> uploadPathAsync = CompletableFuture.supplyAsync(() -> {

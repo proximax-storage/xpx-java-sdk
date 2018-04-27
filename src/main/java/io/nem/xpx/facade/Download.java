@@ -30,13 +30,14 @@ import io.nem.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.TransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.local.LocalDownloadApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteDownloadApi;
 import io.nem.xpx.utils.CryptoUtils;
+
 
 
 /**
@@ -109,6 +110,16 @@ public class Download extends FacadeService {
 
 	}
 	
+	/**
+	 * Download binary or file.
+	 *
+	 * @param nemHash the nem hash
+	 * @return the download data
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public DownloadData downloadBinaryOrFile(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
 
@@ -128,18 +139,55 @@ public class Download extends FacadeService {
 	}
 	
 	
+	/**
+	 * Download secure binary or file.
+	 *
+	 * @param nemHash the nem hash
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public DownloadData downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureBinaryOrFile(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
 	}
 	
+	/**
+	 * Download secure text data.
+	 *
+	 * @param nemHash the nem hash
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public DownloadData downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureTextData(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
 	}
 	
+	/**
+	 * Download secure binary or file.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public DownloadData downloadSecureBinaryOrFile(String nemHash, String transferType, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
@@ -216,6 +264,19 @@ public class Download extends FacadeService {
 		return downloadData;
 	}
 	
+	/**
+	 * Download secure text data.
+	 *
+	 * @param nemHash the nem hash
+	 * @param transferType the transfer type
+	 * @param senderOrReceiverPrivateKey the sender or receiver private key
+	 * @param senderOrReceiverPublicKey the sender or receiver public key
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public DownloadData downloadSecureTextData(String nemHash, String transferType, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
@@ -293,6 +354,25 @@ public class Download extends FacadeService {
 
 
 
+	/**
+	 * Download multisig file or data.
+	 *
+	 * @param messageType the message type
+	 * @param nemHash the nem hash
+	 * @param keySecret the key secret
+	 * @return the download data
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 */
 	public DownloadData downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)
 			throws ApiException, InterruptedException, ExecutionException, IOException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
 		DownloadData downloadData = new DownloadData();

@@ -15,8 +15,9 @@ import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionSenderUtil;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.utils.TransactionUtils;
+
 
 
 /**
@@ -329,7 +330,7 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public MultisigSignatureTransaction coSign() throws ApiException {
-			TransactionSenderUtil.sendMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
+			TransactionUtils.sendMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 			return instance;
 		}
 
@@ -478,7 +479,7 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public CompletableFuture<Deserializer> coSignFuture() throws ApiException {
-			return TransactionSenderUtil
+			return TransactionUtils
 					.sendFutureMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 		}
 

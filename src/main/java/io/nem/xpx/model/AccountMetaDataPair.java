@@ -25,54 +25,85 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+
 /**
- * AccountMetaDataPair
+ * AccountMetaDataPair.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T21:14:06.723-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T23:45:59.064-04:00")
 public class AccountMetaDataPair {
+  
+  /** The entity. */
   @SerializedName("entity")
   private AccountInfo entity = null;
 
+  /** The meta data. */
   @SerializedName("metaData")
   private AccountMetaData metaData = null;
 
+  /**
+   * Entity.
+   *
+   * @param entity the entity
+   * @return the account meta data pair
+   */
   public AccountMetaDataPair entity(AccountInfo entity) {
     this.entity = entity;
     return this;
   }
 
    /**
-   * Get entity
-   * @return entity
-  **/
+    * Get entity.
+    *
+    * @return entity
+    */
   @ApiModelProperty(value = "")
   public AccountInfo getEntity() {
     return entity;
   }
 
+  /**
+   * Sets the entity.
+   *
+   * @param entity the new entity
+   */
   public void setEntity(AccountInfo entity) {
     this.entity = entity;
   }
 
+  /**
+   * Meta data.
+   *
+   * @param metaData the meta data
+   * @return the account meta data pair
+   */
   public AccountMetaDataPair metaData(AccountMetaData metaData) {
     this.metaData = metaData;
     return this;
   }
 
    /**
-   * Get metaData
-   * @return metaData
-  **/
+    * Get metaData.
+    *
+    * @return metaData
+    */
   @ApiModelProperty(value = "")
   public AccountMetaData getMetaData() {
     return metaData;
   }
 
+  /**
+   * Sets the meta data.
+   *
+   * @param metaData the new meta data
+   */
   public void setMetaData(AccountMetaData metaData) {
     this.metaData = metaData;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -86,12 +117,18 @@ public class AccountMetaDataPair {
         Objects.equals(this.metaData, accountMetaDataPair.metaData);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(entity, metaData);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -106,6 +143,9 @@ public class AccountMetaDataPair {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

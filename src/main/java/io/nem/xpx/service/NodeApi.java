@@ -17,12 +17,12 @@ import io.nem.ApiCallback;
 import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.ApiResponse;
-import io.nem.xpx.service.model.GenericResponseMessage;
-import io.nem.xpx.service.model.NodeInfo;
 import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
+import io.nem.xpx.model.GenericResponseMessage;
+import io.nem.xpx.model.NodeInfo;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -33,27 +33,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class NodeApi.
+ */
 public class NodeApi {
+    
+    /** The api client. */
     private ApiClient apiClient;
 
+    /**
+     * Instantiates a new node api.
+     */
     public NodeApi() {
         this(Configuration.getDefaultApiClient());
     }
 
+    /**
+     * Instantiates a new node api.
+     *
+     * @param apiClient the api client
+     */
     public NodeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
+    /**
+     * Gets the api client.
+     *
+     * @return the api client
+     */
     public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for checkNodeUsingGET
+     * Build call for checkNodeUsingGET.
+     *
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -99,6 +124,14 @@ public class NodeApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Check node using GET validate before call.
+     *
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call checkNodeUsingGETValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -168,8 +201,10 @@ public class NodeApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for getNodeInfoPeersUsingGET
+     * Build call for getNodeInfoPeersUsingGET.
+     *
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -215,6 +250,14 @@ public class NodeApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Gets the node info peers using GET validate before call.
+     *
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the node info peers using GET validate before call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getNodeInfoPeersUsingGETValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -230,7 +273,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @return NodeInfo
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -241,7 +285,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @return ApiResponse&lt;NodeInfo&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -253,7 +298,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information (asynchronously)
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -284,8 +330,10 @@ public class NodeApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for getNodeInfoUsingGET
+     * Build call for getNodeInfoUsingGET.
+     *
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -331,6 +379,14 @@ public class NodeApi {
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Gets the node info using GET validate before call.
+     *
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the node info using GET validate before call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call getNodeInfoUsingGETValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -346,7 +402,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @return NodeInfo
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -357,7 +414,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @return ApiResponse&lt;NodeInfo&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -369,7 +427,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information (asynchronously)
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -400,8 +459,10 @@ public class NodeApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    
     /**
-     * Build call for setBlockchainNodeConnectionUsingPOST
+     * Build call for setBlockchainNodeConnectionUsingPOST.
+     *
      * @param network Blockchain Network (required)
      * @param domain Blockchain Network Domain (xxx.xxx.xxx) (required)
      * @param port Blockchain Network Port (xxx.xxx.xxx) (required)
@@ -456,6 +517,17 @@ public class NodeApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Sets the blockchain node connection using POST validate before call.
+     *
+     * @param network the network
+     * @param domain the domain
+     * @param port the port
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call setBlockchainNodeConnectionUsingPOSTValidateBeforeCall(String network, String domain, String port, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -486,7 +558,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @param network Blockchain Network (required)
      * @param domain Blockchain Network Domain (xxx.xxx.xxx) (required)
      * @param port Blockchain Network Port (xxx.xxx.xxx) (required)
@@ -500,7 +573,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @param network Blockchain Network (required)
      * @param domain Blockchain Network Domain (xxx.xxx.xxx) (required)
      * @param port Blockchain Network Port (xxx.xxx.xxx) (required)
@@ -515,7 +589,8 @@ public class NodeApi {
 
     /**
      * Get Storage Node Information (asynchronously)
-     * This endpoint returns the information of the P2P Storage Node
+     * This endpoint returns the information of the P2P Storage Node.
+     *
      * @param network Blockchain Network (required)
      * @param domain Blockchain Network Domain (xxx.xxx.xxx) (required)
      * @param port Blockchain Network Port (xxx.xxx.xxx) (required)

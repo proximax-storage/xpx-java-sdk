@@ -2,7 +2,8 @@ package io.nem.xpx.facade.connection;
 
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
+
 
 
 /**

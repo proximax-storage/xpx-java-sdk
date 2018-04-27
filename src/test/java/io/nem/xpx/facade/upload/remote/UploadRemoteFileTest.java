@@ -26,10 +26,10 @@ import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -50,8 +50,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//pdf_file.pdf"))
 					.contentType("application/pdf")
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
@@ -74,8 +73,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//pdf_file.pdf"))
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,pdf,test")
@@ -102,8 +100,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//large_file.zip"))
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,large,test")
@@ -128,8 +125,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
 					.data(new File("src//test//resources//small_file.txt"))
 					.contentType("text/plain")
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
@@ -156,8 +152,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(new File("src//test//resources//large_file.zip"))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")

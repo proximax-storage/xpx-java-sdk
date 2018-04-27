@@ -33,25 +33,35 @@ import org.apache.tika.Tika;
 import com.google.flatbuffers.FlatBufferBuilder;
 
 import io.nem.ApiException;
+import io.nem.xpx.model.DataHashByteArrayEntity;
+import io.nem.xpx.model.PublishResult;
 import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.model.DataHashByteArrayEntity;
-import io.nem.xpx.service.model.PublishResult;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 
 import java.io.File;
 
+
+/**
+ * The Class LocalUploadApi.
+ */
 public class LocalUploadApi implements UploadApi {
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.UploadApi#cleanupPinnedContentUsingPOST(java.lang.String)
+	 */
 	@Override
 	public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException, IOException {
 		return XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multihash)).toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.UploadApi#uploadBase64StringBinaryUsingPOST(io.nem.xpx.model.UploadBase64BinaryRequestParameter)
+	 */
 	@Override
 	public Object uploadBase64StringBinaryUsingPOST(UploadBase64BinaryRequestParameter parameter) throws ApiException, IOException, NoSuchAlgorithmException {
 
@@ -104,6 +114,9 @@ public class LocalUploadApi implements UploadApi {
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.UploadApi#uploadBytesBinaryUsingPOST(io.nem.xpx.model.UploadBytesBinaryRequestParameter)
+	 */
 	@Override
 	public Object uploadBytesBinaryUsingPOST(UploadBytesBinaryRequestParameter parameter) throws ApiException, IOException, NoSuchAlgorithmException {
 
@@ -209,18 +222,21 @@ public class LocalUploadApi implements UploadApi {
 //		return Base64.encodeBase64(builder.sizedByteArray());
 //	}
 
-	@Override
+	/* (non-Javadoc)
+ * @see io.nem.xpx.service.intf.UploadApi#uploadPlainTextUsingPOST(io.nem.xpx.model.UploadTextRequestParameter)
+ */
+@Override
 	public Object uploadPlainTextUsingPOST(UploadTextRequestParameter parameter)
 			throws ApiException, IOException, NoSuchAlgorithmException {
 
 		// initialize the datahash byte array entity object.
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
-		String contentType = parameter.getContentType().toString();
+		String contentType = null;
 		if (parameter.getEncoding() == null || parameter.getEncoding().equals("")) {
 			parameter.setEncoding("UTF-8");
 		}
-		if (contentType == null || (contentType != null && contentType.equals(""))) {
-			contentType = "text/plain";
+		if (parameter.getContentType() == null || (parameter.getContentType() != null && parameter.getContentType().equals(""))) {
+			parameter.setContentType("text/plain");
 		}
 		dataHashByteArrayEntity.setFile(parameter.getText().getBytes(parameter.getEncoding()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
@@ -230,7 +246,7 @@ public class LocalUploadApi implements UploadApi {
 		}
 
 		
-		dataHashByteArrayEntity.setContentType(contentType);
+		dataHashByteArrayEntity.setContentType(parameter.getContentType());
 		dataHashByteArrayEntity.setKeywords(parameter.getKeywords());
 		dataHashByteArrayEntity.setMetadata((parameter.getMetadata() == null) ? null : JsonUtils.fromJson(parameter.getMetadata(), Map.class));
 
@@ -269,6 +285,16 @@ public class LocalUploadApi implements UploadApi {
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
+	/**
+	 * Upload path.
+	 *
+	 * @param path the path
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @return the object
+	 * @throws Exception the exception
+	 */
 	public Object uploadPath(String path, String name, String keywords, String metadata) throws Exception {
 		// initialize the datahash byte array entity object.
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
@@ -391,6 +417,12 @@ public class LocalUploadApi implements UploadApi {
 
 	}
 
+	/**
+	 * Recurse path to be added.
+	 *
+	 * @param streamables the streamables
+	 * @param path the path
+	 */
 	private void recursePathToBeAdded(List<NamedStreamable> streamables, String path) {
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();

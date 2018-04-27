@@ -3,6 +3,7 @@ package io.nem.xpx.facade.model;
 import java.io.Serializable;
 
 
+
 /**
  * The Class MultisigUploadData.
  */

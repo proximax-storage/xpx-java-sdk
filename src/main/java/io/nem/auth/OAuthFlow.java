@@ -13,6 +13,18 @@
 
 package io.nem.auth;
 
+
+/**
+ * The Enum OAuthFlow.
+ */
 public enum OAuthFlow {
-    accessCode, implicit, password, application
+    
+    /** The access code. */
+    accessCode, 
+ /** The implicit. */
+ implicit, 
+ /** The password. */
+ password, 
+ /** The application. */
+ application
 }

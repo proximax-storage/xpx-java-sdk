@@ -27,10 +27,10 @@ import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadBinaryParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -52,8 +52,8 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("proximax-pdf")
@@ -80,8 +80,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,remote,binary,test").build();
@@ -107,8 +106,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("secure,binary,test,remote")
@@ -134,8 +132,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("secure,binary,test,remote")
@@ -161,8 +158,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			metaData.put("key1", "value1");
 			
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")

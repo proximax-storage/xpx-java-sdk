@@ -23,117 +23,187 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+
 /**
- * UploadBytesBinaryRequestParameter
+ * UploadBytesBinaryRequestParameter.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T21:14:06.723-04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T23:45:59.064-04:00")
 public class UploadBytesBinaryRequestParameter {
+  
+  /** The content type. */
   @SerializedName("contentType")
   private String contentType = null;
 
+  /** The data. */
   @SerializedName("data")
   private byte[] data = null;
 
+  /** The keywords. */
   @SerializedName("keywords")
   private String keywords = null;
 
+  /** The metadata. */
   @SerializedName("metadata")
   private String metadata = null;
 
+  /** The name. */
   @SerializedName("name")
   private String name = null;
 
+  /**
+   * Content type.
+   *
+   * @param contentType the content type
+   * @return the upload bytes binary request parameter
+   */
   public UploadBytesBinaryRequestParameter contentType(String contentType) {
     this.contentType = contentType;
     return this;
   }
 
    /**
-   * Get contentType
-   * @return contentType
-  **/
+    * Get contentType.
+    *
+    * @return contentType
+    */
   @ApiModelProperty(value = "")
   public String getContentType() {
     return contentType;
   }
 
+  /**
+   * Sets the content type.
+   *
+   * @param contentType the new content type
+   */
   public void setContentType(String contentType) {
     this.contentType = contentType;
   }
 
+  /**
+   * Data.
+   *
+   * @param data the data
+   * @return the upload bytes binary request parameter
+   */
   public UploadBytesBinaryRequestParameter data(byte[] data) {
     this.data = data;
     return this;
   }
 
    /**
-   * Get data
-   * @return data
-  **/
+    * Get data.
+    *
+    * @return data
+    */
   @ApiModelProperty(value = "")
   public byte[] getData() {
     return data;
   }
 
+  /**
+   * Sets the data.
+   *
+   * @param data the new data
+   */
   public void setData(byte[] data) {
     this.data = data;
   }
 
+  /**
+   * Keywords.
+   *
+   * @param keywords the keywords
+   * @return the upload bytes binary request parameter
+   */
   public UploadBytesBinaryRequestParameter keywords(String keywords) {
     this.keywords = keywords;
     return this;
   }
 
    /**
-   * Get keywords
-   * @return keywords
-  **/
+    * Get keywords.
+    *
+    * @return keywords
+    */
   @ApiModelProperty(value = "")
   public String getKeywords() {
     return keywords;
   }
 
+  /**
+   * Sets the keywords.
+   *
+   * @param keywords the new keywords
+   */
   public void setKeywords(String keywords) {
     this.keywords = keywords;
   }
 
+  /**
+   * Metadata.
+   *
+   * @param metadata the metadata
+   * @return the upload bytes binary request parameter
+   */
   public UploadBytesBinaryRequestParameter metadata(String metadata) {
     this.metadata = metadata;
     return this;
   }
 
    /**
-   * Get metadata
-   * @return metadata
-  **/
+    * Get metadata.
+    *
+    * @return metadata
+    */
   @ApiModelProperty(value = "")
   public String getMetadata() {
     return metadata;
   }
 
+  /**
+   * Sets the metadata.
+   *
+   * @param metadata the new metadata
+   */
   public void setMetadata(String metadata) {
     this.metadata = metadata;
   }
 
+  /**
+   * Name.
+   *
+   * @param name the name
+   * @return the upload bytes binary request parameter
+   */
   public UploadBytesBinaryRequestParameter name(String name) {
     this.name = name;
     return this;
   }
 
    /**
-   * Get name
-   * @return name
-  **/
+    * Get name.
+    *
+    * @return name
+    */
   @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets the name.
+   *
+   * @param name the new name
+   */
   public void setName(String name) {
     this.name = name;
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -150,12 +220,18 @@ public class UploadBytesBinaryRequestParameter {
         Objects.equals(this.name, uploadBytesBinaryRequestParameter.name);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
   @Override
   public int hashCode() {
     return Objects.hash(contentType, data, keywords, metadata, name);
   }
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -173,6 +249,9 @@ public class UploadBytesBinaryRequestParameter {
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
+   *
+   * @param o the o
+   * @return the string
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

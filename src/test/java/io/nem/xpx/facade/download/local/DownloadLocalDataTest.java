@@ -12,7 +12,7 @@ import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 
 
 /**
@@ -32,7 +32,7 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 			
 			Download download = new Download(localPeerConnection);
 			DownloadData message = download.downloadTextData(
-					"beb617ab3eca8e5c152818a0f2d3a870ba8da9dddc5f150575945eded54f62cb");
+					"627e3b70b2e902c8ca33447216535c5f0cc90da408a3db9b5b7ded95873bb47c");
 			
 			//	Validate data.
 			LOGGER.info(new String(message.getData(), "UTF-8"));

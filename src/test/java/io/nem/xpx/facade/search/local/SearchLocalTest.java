@@ -13,7 +13,7 @@ import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.Search;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 
 /**
  * The Class SearchTest.

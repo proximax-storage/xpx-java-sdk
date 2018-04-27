@@ -21,6 +21,7 @@ import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
 
+
 /**
  * The Interface UploadApi.
  */
@@ -36,17 +37,22 @@ public interface UploadApi {
 	 */
 	public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException, IOException;
 
+	/**
+	 * Upload base 64 string binary using POST.
+	 *
+	 * @param parameter the parameter
+	 * @return the object
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
 	public Object uploadBase64StringBinaryUsingPOST(UploadBase64BinaryRequestParameter parameter)
 			throws ApiException, IOException, NoSuchAlgorithmException;
 	
 	/**
 	 * Upload binary using POST.
 	 *
-	 * @param data the data
-	 * @param contentType the content type
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metadata the metadata
+	 * @param parameter the parameter
 	 * @return the object
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -58,10 +64,7 @@ public interface UploadApi {
 	/**
 	 * Upload file using POST.
 	 *
-	 * @param file the file
-	 * @param name the name
-	 * @param keywords the keywords
-	 * @param metadata the metadata
+	 * @param parameter the parameter
 	 * @return the object
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.

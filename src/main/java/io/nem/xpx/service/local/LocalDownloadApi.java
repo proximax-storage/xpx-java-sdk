@@ -18,9 +18,9 @@ import io.nem.ApiException;
 import io.nem.model.exception.MessageDigestNotMatchException;
 import java.io.IOException;
 
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.TransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 import java.nio.ByteBuffer;
@@ -32,16 +32,23 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
 
+
 /**
  * The Class LocalDownloadApi.
  */
 public class LocalDownloadApi implements DownloadApi {
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadUsingDataHashUsingGET(java.lang.String)
+	 */
 	@Override
 	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
 	}
 	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadTextUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
@@ -50,6 +57,9 @@ public class LocalDownloadApi implements DownloadApi {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadBinaryUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
@@ -59,6 +69,9 @@ public class LocalDownloadApi implements DownloadApi {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.DownloadApi#downloadFileUsingGET(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
 		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
@@ -68,12 +81,28 @@ public class LocalDownloadApi implements DownloadApi {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 	
+	/**
+	 * Load resource.
+	 *
+	 * @param resourceMessage the resource message
+	 * @return the byte[]
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	public byte[] loadResource(ResourceHashMessage resourceMessage) throws IOException, ApiException {
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 	
 	
 	
+	/**
+	 * Validate digest.
+	 *
+	 * @param binaryData the binary data
+	 * @param digest the digest
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws MessageDigestNotMatchException the message digest not match exception
+	 */
 	private void validateDigest(byte[] binaryData, String digest)
 			throws NoSuchAlgorithmException, MessageDigestNotMatchException {
 

@@ -49,7 +49,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -57,20 +56,16 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
-
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -79,9 +74,19 @@ import io.nem.auth.HttpBasicAuth;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
 
+
+/**
+ * The Class ApiClient.
+ */
 public class ApiClient {
+    
+    /** The Constant JAVA_VERSION. */
     public static final double JAVA_VERSION;
+    
+    /** The Constant IS_ANDROID. */
     public static final boolean IS_ANDROID;
+    
+    /** The Constant ANDROID_SDK_VERSION. */
     public static final int ANDROID_SDK_VERSION;
 
     static {
@@ -112,28 +117,57 @@ public class ApiClient {
      */
     public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
+    /** The base path. */
     private String basePath = "http://localhost:8881";
+    
+    /** The lenient on json. */
     private boolean lenientOnJson = false;
+    
+    /** The debugging. */
     private boolean debugging = false;
+    
+    /** The default header map. */
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+    
+    /** The temp folder path. */
     private String tempFolderPath = null;
 
+    /** The authentications. */
     private Map<String, Authentication> authentications;
 
+    /** The date format. */
     private DateFormat dateFormat;
+    
+    /** The datetime format. */
     private DateFormat datetimeFormat;
+    
+    /** The lenient datetime format. */
     private boolean lenientDatetimeFormat;
+    
+    /** The date length. */
     private int dateLength;
 
+    /** The ssl ca cert. */
     private InputStream sslCaCert;
+    
+    /** The verifying ssl. */
     private boolean verifyingSsl;
+    
+    /** The key managers. */
     private KeyManager[] keyManagers;
 
+    /** The http client. */
     private OkHttpClient httpClient;
+    
+    /** The json. */
     private JSON json;
 
+    /** The logging interceptor. */
     private HttpLoggingInterceptor loggingInterceptor;
 
+    /**
+     * Instantiates a new api client.
+     */
     /*
      * Constructor for ApiClient
      */
@@ -168,7 +202,7 @@ public class ApiClient {
     }
 
     /**
-     * Get base path
+     * Get base path.
      *
      * @return Baes path
      */
@@ -177,7 +211,7 @@ public class ApiClient {
     }
 
     /**
-     * Set base path
+     * Set base path.
      *
      * @param basePath Base path of the URL (e.g http://localhost:8881
      * @return An instance of OkHttpClient
@@ -188,7 +222,7 @@ public class ApiClient {
     }
 
     /**
-     * Get HTTP client
+     * Get HTTP client.
      *
      * @return An instance of OkHttpClient
      */
@@ -197,7 +231,7 @@ public class ApiClient {
     }
 
     /**
-     * Set HTTP client
+     * Set HTTP client.
      *
      * @param httpClient An instance of OkHttpClient
      * @return Api Client
@@ -208,7 +242,7 @@ public class ApiClient {
     }
 
     /**
-     * Get JSON
+     * Get JSON.
      *
      * @return JSON object
      */
@@ -217,7 +251,7 @@ public class ApiClient {
     }
 
     /**
-     * Set JSON
+     * Set JSON.
      *
      * @param json JSON object
      * @return Api client
@@ -228,7 +262,7 @@ public class ApiClient {
     }
 
     /**
-     * True if isVerifyingSsl flag is on
+     * True if isVerifyingSsl flag is on.
      *
      * @return True if isVerifySsl flag is on
      */
@@ -272,6 +306,11 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * Gets the key managers.
+     *
+     * @return the key managers
+     */
     public KeyManager[] getKeyManagers() {
         return keyManagers;
     }
@@ -289,20 +328,42 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * Gets the date format.
+     *
+     * @return the date format
+     */
     public DateFormat getDateFormat() {
         return dateFormat;
     }
 
+    /**
+     * Sets the date format.
+     *
+     * @param dateFormat the date format
+     * @return the api client
+     */
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
         this.dateLength = this.dateFormat.format(new Date()).length();
         return this;
     }
 
+    /**
+     * Gets the datetime format.
+     *
+     * @return the datetime format
+     */
     public DateFormat getDatetimeFormat() {
         return datetimeFormat;
     }
 
+    /**
+     * Sets the datetime format.
+     *
+     * @param datetimeFormat the datetime format
+     * @return the api client
+     */
     public ApiClient setDatetimeFormat(DateFormat datetimeFormat) {
         this.datetimeFormat = datetimeFormat;
         return this;
@@ -310,13 +371,20 @@ public class ApiClient {
 
     /**
      * Whether to allow various ISO 8601 datetime formats when parsing a datetime string.
-     * @see #parseDatetime(String)
+     *
      * @return True if lenientDatetimeFormat flag is set to true
+     * @see #parseDatetime(String)
      */
     public boolean isLenientDatetimeFormat() {
         return lenientDatetimeFormat;
     }
 
+    /**
+     * Sets the lenient datetime format.
+     *
+     * @param lenientDatetimeFormat the lenient datetime format
+     * @return the api client
+     */
     public ApiClient setLenientDatetimeFormat(boolean lenientDatetimeFormat) {
         this.lenientDatetimeFormat = lenientDatetimeFormat;
         return this;
@@ -356,9 +424,10 @@ public class ApiClient {
      *   +08:00 (same with +0800)
      *   -02 (same with -0200)
      *   -0200
-     * @see <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>
+     *
      * @param str Date time string to be parsed
      * @return Date representation of the string
+     * @see <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>
      */
     public Date parseDatetime(String str) {
         if (str == null)
@@ -393,6 +462,12 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Parses the date or datetime.
+     *
+     * @param str the str
+     * @return the date
+     */
     /*
      * Parse date or date time in string format into Date object.
      *
@@ -546,16 +621,17 @@ public class ApiClient {
     }
 
     /**
-     * @see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)">setLenient</a>
+     * Checks if is lenient on json.
      *
      * @return True if lenientOnJson is enabled, false otherwise.
+     * @see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)">setLenient</a>
      */
     public boolean isLenientOnJson() {
         return lenientOnJson;
     }
 
     /**
-     * Set LenientOnJson
+     * Set LenientOnJson.
      *
      * @param lenient True to enable lenientOnJson
      * @return ApiClient
@@ -600,15 +676,15 @@ public class ApiClient {
      * with file response. The default value is <code>null</code>, i.e. using
      * the system's default tempopary folder.
      *
-     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile">createTempFile</a>
      * @return Temporary folder path
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile">createTempFile</a>
      */
     public String getTempFolderPath() {
         return tempFolderPath;
     }
 
     /**
-     * Set the tempoaray folder path (for downloading files)
+     * Set the tempoaray folder path (for downloading files).
      *
      * @param tempFolderPath Temporary folder path
      * @return ApiClient
@@ -754,7 +830,7 @@ public class ApiClient {
     /**
      * Select the Accept header's value from the given accepts array:
      *   if JSON exists in the given array, use it;
-     *   otherwise use all of them (joining into a string)
+     *   otherwise use all of them (joining into a string).
      *
      * @param accepts The accepts array to select from
      * @return The Accept header to use. If the given array is empty,
@@ -824,7 +900,7 @@ public class ApiClient {
             return null;
         }
 
-        if ("byte[]".equals(returnType.toString()) || returnType.equals(Object.class)) {
+        if ("byte[]".equals(returnType.toString()) ||  (returnType.equals(Object.class))) {
             // Handle binary response (byte array).
             try {
                 return (T) response.body().bytes();
@@ -902,8 +978,8 @@ public class ApiClient {
      * Download file from the given response.
      *
      * @param response An instance of the Response object
-     * @throws ApiException If fail to read file content from response and write to disk
      * @return Downloaded file
+     * @throws ApiException If fail to read file content from response and write to disk
      */
     public File downloadFileFromResponse(Response response) throws ApiException {
         try {
@@ -918,11 +994,11 @@ public class ApiClient {
     }
 
     /**
-     * Prepare file for download
+     * Prepare file for download.
      *
      * @param response An instance of the Response object
-     * @throws IOException If fail to prepare file for download
      * @return Prepared file for the download
+     * @throws IOException If fail to prepare file for download
      */
     public File prepareDownloadFile(Response response) throws IOException {
         String filename = null;
@@ -961,12 +1037,12 @@ public class ApiClient {
     }
 
     /**
-     * {@link #execute(Call, Type)}
+     * {@link #execute(Call, Type)}.
      *
      * @param <T> Type
      * @param call An instance of the Call object
-     * @throws ApiException If fail to execute the call
      * @return ApiResponse&lt;T&gt;
+     * @throws ApiException If fail to execute the call
      */
     public <T> ApiResponse<T> execute(Call call) throws ApiException {
         return execute(call, null);
@@ -975,9 +1051,9 @@ public class ApiClient {
     /**
      * Execute HTTP call and deserialize the HTTP response body into the given return type.
      *
-     * @param returnType The return type used to deserialize HTTP response body
      * @param <T> The return type corresponding to (same with) returnType
      * @param call Call
+     * @param returnType The return type used to deserialize HTTP response body
      * @return ApiResponse object containing response status, headers and
      *   data, which is a Java object deserialized from response body and would be null
      *   when returnType is null.
@@ -994,7 +1070,7 @@ public class ApiClient {
     }
 
     /**
-     * {@link #executeAsync(Call, Type, ApiCallback)}
+     * {@link #executeAsync(Call, Type, ApiCallback)}.
      *
      * @param <T> Type
      * @param call An instance of the Call object
@@ -1007,11 +1083,11 @@ public class ApiClient {
     /**
      * Execute HTTP call asynchronously.
      *
-     * @see #execute(Call, Type)
      * @param <T> Type
      * @param call The callback to be executed when the API call finishes
      * @param returnType Return type
      * @param callback ApiCallback
+     * @see #execute(Call, Type)
      */
     @SuppressWarnings("unchecked")
     public <T> void executeAsync(Call call, final Type returnType, final ApiCallback<T> callback) {
@@ -1041,9 +1117,9 @@ public class ApiClient {
      * @param <T> Type
      * @param response Response
      * @param returnType Return type
+     * @return Type
      * @throws ApiException If the response has a unsuccessful status code or
      *   fail to deserialize the response body
-     * @return Type
      */
     public <T> T handleResponse(Response response, Type returnType) throws ApiException {
         if (response.isSuccessful()) {
@@ -1346,6 +1422,13 @@ public class ApiClient {
         }
     }
 
+    /**
+     * New empty key store.
+     *
+     * @param password the password
+     * @return the key store
+     * @throws GeneralSecurityException the general security exception
+     */
     private KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {
         try {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());

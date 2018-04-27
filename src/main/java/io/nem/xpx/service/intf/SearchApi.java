@@ -13,20 +13,68 @@
 
 package io.nem.xpx.service.intf;
 import io.nem.ApiException;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * The Interface SearchApi.
+ */
 public interface SearchApi {
   
+    /**
+     * Search transaction with keyword using GET.
+     *
+     * @param xPubkey the x pubkey
+     * @param keywords the keywords
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
     public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPubkey, String keywords) throws ApiException, InterruptedException, ExecutionException;
 
+    /**
+     * Search transaction with keyword using GET.
+     *
+     * @param xPvKey the x pv key
+     * @param xPubkey the x pubkey
+     * @param keywords the keywords
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
     public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey,String xPubkey,String keywords)
 			throws ApiException, InterruptedException, ExecutionException;
     
+    /**
+     * Search all public transaction with metadata key value pair.
+     *
+     * @param xPubkey the x pubkey
+     * @param key the key
+     * @param value the value
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
     public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
     
+    /**
+     * Search transaction with metadata key value pair.
+     *
+     * @param xPvKey the x pv key
+     * @param xPubkey the x pubkey
+     * @param key the key
+     * @param value the value
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
     public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey,String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
 
 }

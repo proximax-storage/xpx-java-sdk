@@ -17,7 +17,7 @@ import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 
 
 /**
@@ -55,8 +55,8 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
-//			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
-//					+ message.getDataMessage().name() + ".pdf"));
+			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
+					+ message.getDataMessage().name() + ".pdf"));
 			
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();

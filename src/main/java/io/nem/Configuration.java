@@ -13,8 +13,14 @@
 
 package io.nem;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T21:14:06.723-04:00")
+
+/**
+ * The Class Configuration.
+ */
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T23:45:59.064-04:00")
 public class Configuration {
+    
+    /** The default api client. */
     private static ApiClient defaultApiClient = new ApiClient();
 
     /**

@@ -5,12 +5,16 @@ import org.nem.core.crypto.CryptoEngines;
 
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.PublishAndSubscribeApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.local.LocalSearchApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.remote.RemoteSearchApi;
 
+
+/**
+ * The Class PublishAndSubscribe.
+ */
 public class PublishAndSubscribe {
 
 	/** The peer connection. */
@@ -19,14 +23,17 @@ public class PublishAndSubscribe {
 	/** The engine. */
 	private CryptoEngine engine;
 	
+	/** The publish and subscribe api. */
 	private PublishAndSubscribeApi publishAndSubscribeApi;
+	
+	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
+	
 	/**
 	 * Instantiates a new search.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException 
+	 * @param peerConnection            the peer connection
+	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
 	public PublishAndSubscribe(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 

@@ -30,27 +30,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * The Class RemoteDataHashApi.
+ */
 public class RemoteDataHashApi implements DataHashApi {
+	
+	/** The api client. */
 	private ApiClient apiClient;
 
+	/**
+	 * Instantiates a new remote data hash api.
+	 */
 	public RemoteDataHashApi() {
 		this(Configuration.getDefaultApiClient());
 	}
 
+	/**
+	 * Instantiates a new remote data hash api.
+	 *
+	 * @param apiClient the api client
+	 */
 	public RemoteDataHashApi(ApiClient apiClient) {
 		this.apiClient = apiClient;
 	}
 
+	/**
+	 * Gets the api client.
+	 *
+	 * @return the api client
+	 */
 	public ApiClient getApiClient() {
         return apiClient;
     }
 
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient the new api client
+     */
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
     /**
-     * Build call for generateHashForDataOnlyUsingPOST
+     * Build call for generateHashForDataOnlyUsingPOST.
+     *
      * @param data Free form string data that will be stored on the P2P Network (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -97,6 +122,15 @@ public class RemoteDataHashApi implements DataHashApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
+    /**
+     * Generate hash for data only using POST validate before call.
+     *
+     * @param data the data
+     * @param progressListener the progress listener
+     * @param progressRequestListener the progress request listener
+     * @return the com.squareup.okhttp. call
+     * @throws ApiException the api exception
+     */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call generateHashForDataOnlyUsingPOSTValidateBeforeCall(byte[] data, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         

@@ -27,10 +27,11 @@ import org.nem.core.time.TimeInstant;
 
 import io.nem.ApiException;
 import io.nem.xpx.factory.AttachmentFactory;
-import io.nem.xpx.service.model.InsufficientAmountException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionSenderUtil;
+import io.nem.xpx.model.InsufficientAmountException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.utils.TransactionUtils;
+
 
 /**
  * The Class TransactionBuilder.
@@ -226,6 +227,10 @@ public class TransferTransactionBuilder {
 		 * Builds the and send transaction.
 		 *
 		 * @return the transaction
+		 * @throws ApiException the api exception
+		 * @throws InterruptedException the interrupted exception
+		 * @throws ExecutionException the execution exception
+		 * @throws InsufficientAmountException the insufficient amount exception
 		 */
 		NemAnnounceResult buildAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 		
@@ -240,6 +245,10 @@ public class TransferTransactionBuilder {
 		 * Builds the and send future transaction.
 		 *
 		 * @return the completable future
+		 * @throws ApiException the api exception
+		 * @throws InterruptedException the interrupted exception
+		 * @throws ExecutionException the execution exception
+		 * @throws InsufficientAmountException the insufficient amount exception
 		 */
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException;
 	}
@@ -351,7 +360,7 @@ public class TransferTransactionBuilder {
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction().sign();
-			return TransactionSenderUtil.sendTransferTransaction(this.instance);
+			return TransactionUtils.sendTransferTransaction(this.instance);
 		}
 
 		/*
@@ -494,7 +503,7 @@ public class TransferTransactionBuilder {
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction().sign();
-			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
+			return TransactionUtils.sendFutureTransferTransaction(this.instance);
 		}
 
 		/*
@@ -602,6 +611,9 @@ public class TransferTransactionBuilder {
 			return instance;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.TransferTransactionBuilder.IBuild#buildAndSignTransaction()
+		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
 			this.buildTransaction().sign();

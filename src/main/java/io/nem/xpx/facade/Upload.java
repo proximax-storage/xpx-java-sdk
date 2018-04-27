@@ -27,22 +27,22 @@ import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.model.UploadTextRequestParameter.ContentTypeEnum;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.model.UploadBinaryParameter;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteUploadApi;
+
 
 /**
  * The Class Upload.
@@ -136,12 +136,12 @@ public class Upload extends FacadeService {
 
 	/**
 	 * Upload a binary file.
-	 * 
-	 * @param uploadParameter
-	 * @return
-	 * @throws UploadException
-	 * @throws IOException
-	 * @throws ApiException
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
 	 */
 	public UploadData uploadBinary(UploadBinaryParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
@@ -198,7 +198,7 @@ public class Upload extends FacadeService {
 
 			// initialize the request parameter.
 			UploadTextRequestParameter parameter = new UploadTextRequestParameter();
-			parameter.setContentType(ContentTypeEnum.fromValue(uploadParameter.getContentType()));
+			parameter.setContentType(uploadParameter.getContentType());
 			parameter.setEncoding(uploadParameter.getEncoding());
 			parameter.setKeywords(uploadParameter.getKeywords());
 			parameter.setMetadata(uploadParameter.getMetaData());
@@ -206,10 +206,9 @@ public class Upload extends FacadeService {
 
 			byte[] serializedData = uploadParameter.getData().getBytes();
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
-				encrypted = engine
-						.createBlockCipher(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
-								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
+				encrypted = engine.createBlockCipher(
+						new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()), engine),
+						new KeyPair(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()), engine))
 						.encrypt(serializedData);
 
 				String encryptedData = Base64.encodeBase64String(encrypted);
@@ -226,9 +225,9 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
@@ -238,9 +237,9 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
@@ -295,10 +294,9 @@ public class Upload extends FacadeService {
 			parameter.setName(uploadParameter.getName());
 
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
-				encrypted = engine
-						.createBlockCipher(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
-								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
+				encrypted = engine.createBlockCipher(
+						new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()), engine),
+						new KeyPair(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()), engine))
 						.encrypt(FileUtils.readFileToByteArray(uploadParameter.getData()));
 
 				byte[] data = Base64.encodeBase64(encrypted);
@@ -314,9 +312,9 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
@@ -326,9 +324,9 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
@@ -340,17 +338,26 @@ public class Upload extends FacadeService {
 			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
 			uploadData.setNemHash(publishedData);
-			
+
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		} 
+		}
 		return uploadData;
 	}
 
+	/**
+	 * Handle binary upload.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ApiException the api exception
+	 */
 	protected UploadData handleBinaryUpload(UploadBinaryParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
@@ -369,12 +376,12 @@ public class Upload extends FacadeService {
 			parameter.setKeywords(uploadParameter.getKeywords());
 			parameter.setMetadata(uploadParameter.getMetaData());
 			parameter.setName(uploadParameter.getName());
-
+			
+			//	SECURE
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
-				encrypted = engine
-						.createBlockCipher(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
-								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
+				encrypted = engine.createBlockCipher(
+						new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()), engine),
+						new KeyPair(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()), engine))
 						.encrypt(uploadParameter.getData());
 
 				byte[] data = Base64.encodeBase64(encrypted);
@@ -390,10 +397,11 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
-						.version(2).amount(Amount.fromNem(1l))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.version(2)
+						.amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
 				publishedData = announceResult.getTransactionHash().toString();
@@ -402,9 +410,9 @@ public class Upload extends FacadeService {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
@@ -456,33 +464,20 @@ public class Upload extends FacadeService {
 		}
 
 		UploadData uploadData = new UploadData();
-		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
 		try {
-			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
-				encrypted = engine
-						.createBlockCipher(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()), engine),
-								new KeyPair(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()), engine))
-						.encrypt(uploadParameter.getPath().getBytes());
 
-				// byte[] data = Base64.encodeBase64(encrypted);
-				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
-						uploadParameter.getKeywords(), uploadParameter.getMetaData());
-			} else { // PLAIN
-				// byte[] data = Base64.encodeBase64(uploadParameter.getPath());
-				response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
-						uploadParameter.getKeywords(), uploadParameter.getMetaData());
-			}
+			response = ((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
+					uploadParameter.getKeywords(), uploadParameter.getMetaData());
 
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
 						.sender(new Account(
-								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
-						.recipient(new Account(Address
-								.fromPublicKey(PublicKey.fromHexString(uploadParameter.getRecipientPublicKey()))))
+								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.recipient(new Account(Address.fromPublicKey(
+								PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.version(2).amount(Amount.fromNem(1l))
 						.message((byte[]) response, uploadParameter.getMessageType())
 						.addMosaics(uploadParameter.getMosaics()).buildAndSendTransaction();
@@ -502,7 +497,5 @@ public class Upload extends FacadeService {
 		}
 		return uploadData;
 	}
-
-
 
 }

@@ -27,12 +27,12 @@ import io.nem.xpx.builder.UploadPathParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.model.UploadDataParameter;
-import io.nem.xpx.service.model.UploadException;
-import io.nem.xpx.service.model.UploadFileParameter;
-import io.nem.xpx.service.model.UploadPathParameter;
-import io.nem.xpx.service.model.XpxSdkGlobalConstants;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.model.UploadDataParameter;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.model.UploadPathParameter;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -53,8 +53,8 @@ public class UploadLocalPathTest extends AbstractApiTest {
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 
-			UploadPathParameter parameter = UploadPathParameterBuilder.senderPrivateKey(this.xPvkey)
-					.recipientPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadPathParameter parameter = UploadPathParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
 					.metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

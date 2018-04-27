@@ -18,6 +18,10 @@ import io.nem.Pair;
 import java.util.Map;
 import java.util.List;
 
+
+/**
+ * The Interface Authentication.
+ */
 public interface Authentication {
     /**
      * Apply authentication settings to header and query params.
