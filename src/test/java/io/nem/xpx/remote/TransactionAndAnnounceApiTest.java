@@ -11,17 +11,15 @@
  */
 
 
-package io.nem.xpx;
+package io.nem.xpx.remote;
 
 import java.io.File;
 
 import io.nem.ApiException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.TransactionAndAnnounceApi;
-
+import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
 import org.junit.Test;
 import org.junit.Ignore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,7 @@ import java.util.Map;
 public class TransactionAndAnnounceApiTest {
 
     /** The api. */
-    private final TransactionAndAnnounceApi api = new TransactionAndAnnounceApi();
+    private final RemoteTransactionAndAnnounceApi api = new RemoteTransactionAndAnnounceApi();
 
     
     /**

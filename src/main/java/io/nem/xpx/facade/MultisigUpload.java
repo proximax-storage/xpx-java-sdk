@@ -46,12 +46,13 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.TransactionAndAnnounceApi;
+import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalDataHashApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteDataHashApi;
+import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.JsonUtils;
@@ -90,13 +91,13 @@ public class MultisigUpload  extends FacadeService {
 
 		if (peerConnection instanceof RemotePeerConnection) {
 			this.uploadApi = new RemoteUploadApi();
+			this.transactionAndAnnounceApi = new RemoteTransactionAndAnnounceApi();
 		} else {
 			this.isLocalPeerConnection = true;
 			this.uploadApi = new LocalUploadApi();
 		}
 
 		this.engine = CryptoEngines.ed25519Engine();
-		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();
 	}
 
 	

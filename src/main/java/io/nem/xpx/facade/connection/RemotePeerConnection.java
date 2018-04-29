@@ -10,7 +10,7 @@ import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.NodeApi;
+import io.nem.xpx.service.remote.RemoteNodeApi;
 
 
 
@@ -30,7 +30,7 @@ public class RemotePeerConnection implements PeerConnection {
 				.setBasePath(baseUrl));
 		NodeInfo nodeInfo;
 		try {
-			nodeInfo = new NodeApi().getNodeInfoUsingGET();
+			nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
 			XpxSdkGlobalConstants.setNodeEndpoint(
 					new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort())));
 		} catch (ApiException e) {
@@ -51,7 +51,7 @@ public class RemotePeerConnection implements PeerConnection {
 		Configuration.setDefaultApiClient(new ApiClient().setBasePath(baseUrl));
 		NodeInfo nodeInfo;
 		try {
-			nodeInfo = new NodeApi().getNodeInfoUsingGET();
+			nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
 			XpxSdkGlobalConstants.setNodeEndpoint(
 					new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort())));
 		} catch (ApiException e) {

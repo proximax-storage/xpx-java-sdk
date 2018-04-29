@@ -1,5 +1,7 @@
 package io.nem.xpx.service.intf;
 
+import java.util.concurrent.ExecutionException;
+
 import io.nem.ApiException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 
@@ -16,7 +18,7 @@ public interface TransactionAndAnnounceApi {
 	 * @return the string
 	 * @throws ApiException the api exception
 	 */
-	public String announceRequestPublishDataSignatureUsingPOST(RequestAnnounceDataSignature requestAnnounceDataSignature) throws ApiException;
+	public String announceRequestPublishDataSignatureUsingPOST(RequestAnnounceDataSignature requestAnnounceDataSignature) throws  ApiException, InterruptedException, ExecutionException;
 	
 	/**
 	 * Gets the XPX transaction using GET.
@@ -25,5 +27,5 @@ public interface TransactionAndAnnounceApi {
 	 * @return the XPX transaction using GET
 	 * @throws ApiException the api exception
 	 */
-	public String getXPXTransactionUsingGET(String nemHash) throws ApiException;
+	public String getXPXTransactionUsingGET(String nemHash) throws ApiException, InterruptedException, ExecutionException;
 }

@@ -12,13 +12,13 @@ table ResourceHashMessage {
 }
 
 table NodeInfo {
-	
 	contextUri:string;
 	nemAddress:string;
 	network:string;
 	networkAddress:string;
 	networkPort:string;
-
+	namespace:string;
+	mosaic:string;
 }
 
 table NodePeer {
@@ -27,4 +27,5 @@ table NodePeer {
 	latency:string;
 	muxer:string;
 }
+
 root_type ResourceHashMessage;

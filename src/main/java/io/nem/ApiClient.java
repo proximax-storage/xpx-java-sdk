@@ -173,7 +173,9 @@ public class ApiClient {
      */
     public ApiClient() {
         httpClient = new OkHttpClient();
-
+        httpClient.setWriteTimeout(30, TimeUnit.MINUTES);
+        httpClient.setReadTimeout(30, TimeUnit.MINUTES);
+        httpClient.setConnectTimeout(30, TimeUnit.MINUTES);
 
         verifyingSsl = true;
 
@@ -194,7 +196,7 @@ public class ApiClient {
 
         // Set default User-Agent.
         setUserAgent("Swagger-Codegen/1.0.0/java");
-
+        
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
         // Prevent the authentications from being modified.

@@ -37,7 +37,7 @@ import io.nem.xpx.facade.model.DownloadData;
 import io.nem.xpx.facade.model.UploadData;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.local.LocalDownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
@@ -85,7 +85,7 @@ public class DownloadAsync extends Download {
 
 			try {
 
-				TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
@@ -125,7 +125,7 @@ public class DownloadAsync extends Download {
 
 			try {
 
-				TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
@@ -167,7 +167,7 @@ public class DownloadAsync extends Download {
 
 			try {
 
-				TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
@@ -261,7 +261,7 @@ public class DownloadAsync extends Download {
 			// Evaluate the transaction.
 			TransferTransaction transaction;
 			try {
-				transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+				transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getMessage().getType() == 2) {
 					if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
@@ -364,7 +364,7 @@ public class DownloadAsync extends Download {
 			// Evaluate the transaction.
 			TransferTransaction transaction;
 			try {
-				transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+				transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getMessage().getType() == 2) {
 					if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
@@ -459,7 +459,7 @@ public class DownloadAsync extends Download {
 
 
 				// Evauate the transaction.
-				TransferTransaction transaction = (TransferTransaction) TransactionApi.getTransaction(nemHash).getEntity();
+				TransferTransaction transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getSignature() != null) {
 					if (messageType == MessageTypes.SECURE) {

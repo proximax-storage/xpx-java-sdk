@@ -1,19 +1,14 @@
 package io.nem.xpx.facade.search.local;
 
-import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.node.NodeEndpoint;
-
 import io.nem.ApiException;
-import io.nem.xpx.AbstractApiTest;
-import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.Search;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.remote.AbstractApiTest;
 
 /**
  * The Class SearchTest.

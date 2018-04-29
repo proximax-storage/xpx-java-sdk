@@ -1,6 +1,7 @@
 package io.nem.xpx.service.local;
 
 import io.nem.ApiException;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.intf.PublishAndSubscribeApi;
 
 
@@ -13,18 +14,17 @@ public class LocalPublishAndSubscribeApi implements PublishAndSubscribeApi {
 	 * @see io.nem.xpx.service.intf.PublishAndSubscribeApi#sendToTopicUsingGET(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Object sendToTopicUsingGET(String topic, String message) throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
+	public Object sendToTopicUsingGET(String topic, String message) throws Exception {
+		return XpxSdkGlobalConstants.getProximaxConnection().pubsub.pub(topic, message);
 	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.PublishAndSubscribeApi#publishTopicUsingGET(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Object publishTopicUsingGET(String topic, String message) throws ApiException {
+	public Object publishTopicUsingGET(String topic, String message) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return XpxSdkGlobalConstants.getProximaxConnection().pubsub.pub(topic, message);
 	}
 
 }

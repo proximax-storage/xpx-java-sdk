@@ -22,7 +22,6 @@ import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
-import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
@@ -31,6 +30,7 @@ import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
 /**

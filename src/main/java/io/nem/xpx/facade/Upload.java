@@ -37,10 +37,12 @@ import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.TransactionAndAnnounceApi;
+import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 
 
@@ -85,6 +87,7 @@ public class Upload extends FacadeService {
 
 		if (peerConnection instanceof RemotePeerConnection) {
 			this.uploadApi = new RemoteUploadApi();
+			this.transactionAndAnnounceApi = new RemoteTransactionAndAnnounceApi();
 		} else {
 			this.isLocalPeerConnection = true;
 			this.uploadApi = new LocalUploadApi();
@@ -92,7 +95,7 @@ public class Upload extends FacadeService {
 
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
-		this.transactionAndAnnounceApi = new TransactionAndAnnounceApi();
+		
 	}
 
 	/**
@@ -194,6 +197,7 @@ public class Upload extends FacadeService {
 		byte[] encrypted = null;
 		Object response = null; // flat buffer object.
 		ResourceHashMessage resourceMessageHash = null;
+		
 		try {
 
 			// initialize the request parameter.

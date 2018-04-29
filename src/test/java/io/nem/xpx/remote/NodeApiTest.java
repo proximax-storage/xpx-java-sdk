@@ -11,12 +11,12 @@
  */
 
 
-package io.nem.xpx;
+package io.nem.xpx.remote;
 
 import io.nem.ApiException;
 import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.NodeInfo;
-import io.nem.xpx.service.NodeApi;
+import io.nem.xpx.service.remote.RemoteNodeApi;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class NodeApiTest extends AbstractApiTest {
 
     /** The api. */
-    private final NodeApi api = new NodeApi();
+    private final RemoteNodeApi api = new RemoteNodeApi();
 
     
     /**

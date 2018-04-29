@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
-import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
@@ -68,7 +68,7 @@ public class LocalSearchApi implements SearchApi {
 		Address address = Address.fromPublicKey(pbKey);
 		String publicKeyAddress = address.toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
 				.getAllTransactionsWithPageSize(publicKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -123,7 +123,7 @@ public class LocalSearchApi implements SearchApi {
 		String publicKeyAddress = address.toString();
 		
 		
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
 				.getAllTransactionsWithPageSize(publicKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -176,7 +176,7 @@ public class LocalSearchApi implements SearchApi {
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
 				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -263,7 +263,7 @@ public class LocalSearchApi implements SearchApi {
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = TransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
 				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();

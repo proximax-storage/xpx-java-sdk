@@ -19,7 +19,7 @@ import io.nem.model.exception.MessageDigestNotMatchException;
 import java.io.IOException;
 
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
@@ -51,7 +51,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
@@ -62,7 +62,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		
@@ -74,7 +74,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = TransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		

@@ -11,10 +11,10 @@
  */
 
 
-package io.nem.xpx;
+package io.nem.xpx.remote;
 
 import io.nem.ApiException;
-import io.nem.xpx.service.PublishAndSubscribeApi;
+import io.nem.xpx.service.remote.RemoteDirectoryLoadApi;
 
 import org.junit.Test;
 import org.junit.Ignore;
@@ -25,27 +25,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API tests for PublishAndSubscribeApi
+ * API tests for DirectoryLoadApi
  */
 @Ignore
-public class PublishAndSubscribeApiTest {
+public class DirectoryLoadApiTest {
 
-    private final PublishAndSubscribeApi api = new PublishAndSubscribeApi();
+    private final RemoteDirectoryLoadApi api = new RemoteDirectoryLoadApi();
 
     
     /**
-     * Publish and Subscribe. Make sure that the IPFS daemon has pubsub enabled.
+     * Loads a Static Content.
      *
-     * Publish and Subscribe. Make sure that the IPFS daemon has pubsub enabled.
+     * Loads a Static Content.
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void publishTopicUsingGETTest() throws ApiException {
-        String topic = null;
-        String message = null;
-        Object response = api.publishTopicUsingGET(topic, message);
+    public void loadDirectoryUsingGETTest() throws io.nem.ApiException {
+        String nemHash = null;
+        Object response = api.loadDirectoryUsingGET(nemHash);
 
         // TODO: test validations
     }

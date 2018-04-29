@@ -17,7 +17,7 @@ import io.nem.ApiException;
 import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.NemAccountApi;
-import io.nem.xpx.service.TransactionApi;
+import io.nem.xpx.service.NemTransactionApi;
 
 
 
@@ -42,7 +42,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = TransactionApi
+		final CompletableFuture<Deserializer> future = NemTransactionApi
 				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			future.thenAcceptAsync(d -> {
@@ -82,7 +82,7 @@ public class TransactionUtils {
 		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = TransactionApi
+		final CompletableFuture<Deserializer> future = NemTransactionApi
 				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
@@ -109,7 +109,7 @@ public class TransactionUtils {
 	public static NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws ApiException {
 
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
-		final CompletableFuture<Deserializer> future = TransactionApi
+		final CompletableFuture<Deserializer> future = NemTransactionApi
 				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
@@ -139,7 +139,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = TransactionApi
+		final CompletableFuture<Deserializer> future = NemTransactionApi
 				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
@@ -182,7 +182,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = TransactionApi
+		final CompletableFuture<Deserializer> future = NemTransactionApi
 				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
@@ -225,7 +225,7 @@ public class TransactionUtils {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return TransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
 
 	}
 

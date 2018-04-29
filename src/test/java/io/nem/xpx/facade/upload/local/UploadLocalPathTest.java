@@ -20,7 +20,6 @@ import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
-import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.builder.UploadPathParameterBuilder;
@@ -33,6 +32,7 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
 

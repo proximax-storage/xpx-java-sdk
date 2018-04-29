@@ -6,7 +6,7 @@ import org.nem.core.crypto.CryptoEngines;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.PublishAndSubscribeApi;
+import io.nem.xpx.service.intf.PublishAndSubscribeApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.local.LocalSearchApi;
 import io.nem.xpx.service.remote.RemoteSearchApi;

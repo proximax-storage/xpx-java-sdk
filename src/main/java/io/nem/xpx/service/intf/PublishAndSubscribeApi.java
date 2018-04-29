@@ -16,7 +16,7 @@ public interface PublishAndSubscribeApi {
 	 * @return the object
 	 * @throws ApiException the api exception
 	 */
-	public Object sendToTopicUsingGET(String topic, String message) throws ApiException;
+	public Object sendToTopicUsingGET(String topic, String message) throws Exception;
 	
 	/**
 	 * Publish topic using GET.
@@ -26,5 +26,5 @@ public interface PublishAndSubscribeApi {
 	 * @return the object
 	 * @throws ApiException the api exception
 	 */
-	public Object publishTopicUsingGET(String topic, String message) throws ApiException;
+	public Object publishTopicUsingGET(String topic, String message) throws Exception;
 }

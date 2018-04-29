@@ -1,13 +1,9 @@
 package io.nem.xpx.builder;
 
 import org.nem.core.model.mosaic.Mosaic;
-
 import io.nem.ApiException;
-import io.nem.xpx.builder.UploadDataParameterBuilder.IBuild;
-import io.nem.xpx.builder.UploadDataParameterBuilder.ISender;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.model.MultisigUploadDataParameter;
-import io.nem.xpx.model.UploadDataParameter;
 
 
 /**

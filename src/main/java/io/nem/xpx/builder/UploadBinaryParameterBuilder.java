@@ -1,15 +1,8 @@
 package io.nem.xpx.builder;
 
-import java.io.File;
-
 import org.nem.core.model.mosaic.Mosaic;
-
 import io.nem.ApiException;
 import io.nem.xpx.model.UploadBinaryParameter;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.KeyUtils;
 
 
 

@@ -1,3 +1,4 @@
+package io.nem.xpx.remote;
 ///*
 // * Proximax P2P Storage REST API
 // * Proximax P2P Storage REST API

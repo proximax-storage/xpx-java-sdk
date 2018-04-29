@@ -1,3 +1,4 @@
+package io.nem.xpx.remote;
 ///*
 // * Proximax REST API
 // * Proximax REST API

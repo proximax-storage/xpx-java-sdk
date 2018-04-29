@@ -1,12 +1,9 @@
 package io.nem.xpx.model;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.primitive.Amount;
@@ -15,12 +12,11 @@ import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
-
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
 import io.nem.ApiException;
 import io.nem.xpx.factory.ConnectorFactory;
-import io.nem.xpx.service.NodeApi;
+import io.nem.xpx.service.remote.RemoteNodeApi;
 import ru.serce.jnrfuse.FuseStubFS;
 
 
@@ -123,7 +119,7 @@ public class XpxSdkGlobalConstants {
 	 */
 	public static NodeEndpoint getNodeEndpoint() throws ApiException {
 		if (!isLocal) {
-			NodeInfo nodeInfo = new NodeApi().getNodeInfoUsingGET();
+			NodeInfo nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
 			NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
 					Integer.valueOf(nodeInfo.getNetworkPort()));
 		}

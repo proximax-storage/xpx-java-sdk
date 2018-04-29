@@ -2,11 +2,9 @@ package io.nem.xpx.facade.upload.remote;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
@@ -19,22 +17,17 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
-
 import io.nem.ApiException;
-import io.nem.xpx.AbstractApiTest;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
-//import io.nem.xpx.monitor.UploadTransactionMonitor;
+import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
-
 
 /** 
  * The Class UploadTest.
@@ -54,7 +47,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.SECURE)
 					.data(new String("test plain - new 1".getBytes(),"UTF-8"))
 					.contentType(DataTextContentType.TEXT_PLAIN)
