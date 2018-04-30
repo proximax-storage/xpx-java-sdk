@@ -25,8 +25,9 @@ import io.nem.ApiException;
 import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.model.DataParameter;
+import io.nem.xpx.model.DataResponse;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -36,14 +37,13 @@ import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
 import io.nem.xpx.service.remote.RemoteUploadApi;
+import io.nem.xpx.utils.JsonUtils;
 
 
 /**
@@ -65,6 +65,7 @@ public class Upload extends FacadeService {
 
 	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
+
 
 	/**
 	 * Instantiates a new upload.
@@ -249,8 +250,8 @@ public class Upload extends FacadeService {
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
-				publishedData = transactionAndAnnounceApi
-						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+				publishedData = JsonUtils.fromJson(transactionAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 
 			uploadData.setDataMessage(resourceMessageHash);
@@ -336,8 +337,8 @@ public class Upload extends FacadeService {
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
-				publishedData = transactionAndAnnounceApi
-						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+				publishedData = JsonUtils.fromJson(transactionAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
@@ -422,8 +423,8 @@ public class Upload extends FacadeService {
 						.addMosaics(uploadParameter.getMosaics()).buildAndSignTransaction();
 
 				// Return the NEM Txn Hash
-				publishedData = transactionAndAnnounceApi
-						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
+				publishedData = JsonUtils.fromJson(transactionAndAnnounceApi
+						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 			resourceMessageHash = byteToSerialObject((byte[]) response);
 			uploadData.setDataMessage(resourceMessageHash);
@@ -501,5 +502,7 @@ public class Upload extends FacadeService {
 		}
 		return uploadData;
 	}
-
+	
 }
+
+

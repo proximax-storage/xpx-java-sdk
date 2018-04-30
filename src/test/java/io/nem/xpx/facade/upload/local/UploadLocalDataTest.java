@@ -64,6 +64,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
+			
 			UploadDataParameter parameter = UploadDataParameterBuilder
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)

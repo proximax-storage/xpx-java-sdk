@@ -54,6 +54,7 @@ public abstract class FacadeService {
 				}
 			}
 		};
-		task.run();
+		Thread thread = new Thread(task);
+		thread.start();
 	}
 }

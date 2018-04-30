@@ -5,8 +5,6 @@ import org.nem.core.model.mosaic.Mosaic;
 import io.nem.ApiException;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.KeyUtils;
 
 
 
@@ -130,7 +128,7 @@ public class UploadDataParameterBuilder {
 	private static class Builder implements ISender, IBuild {
 
 		/** The instance. */
-		UploadDataParameter instance = new UploadDataParameter();
+		UploadDataParameter instance = null;
 
 		/**
 		 * Instantiates a new builder.
@@ -138,6 +136,7 @@ public class UploadDataParameterBuilder {
 		 * @param senderOrReceiverPrivateKey the sender or receiver private key
 		 */
 		public Builder(String senderOrReceiverPrivateKey) {
+			instance = new UploadDataParameter();
 			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 		}
 
