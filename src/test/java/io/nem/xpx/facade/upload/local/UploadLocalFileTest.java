@@ -51,7 +51,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//pdf_file.pdf"))
+					.data(new File("src//test//resources//pdf_file_version1.pdf"))
 					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
 					.contentType("application/pdf") // make sure to put this in for files.
 					.build();

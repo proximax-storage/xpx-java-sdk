@@ -51,7 +51,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//pdf_file.pdf"))
+					.data(new File("src//test//resources//pdf_file_version1.pdf"))
 					.contentType("application/pdf")
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,test")
@@ -74,7 +74,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(new File("src//test//resources//pdf_file.pdf"))
+					.data(new File("src//test//resources//pdf_file_version1.pdf"))
 					.metaData(JsonUtils.toJson(metaData)) // one level map to json
 					.keywords("plain,pdf,test")
 					.build();

@@ -42,22 +42,22 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 
 					UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-							.name("pdf_file2.pdf").keywords("pdf_file2").metaData(JsonUtils.toJson(metaData))
+							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
 							.contentType("application/pdf") // make sure to put this in for files.
 							.build();
 					
 					UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-							.name("pdf_file2.pdf").keywords("pdf_file2").metaData(JsonUtils.toJson(metaData))
+							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
 							.contentType("application/pdf") // make sure to put this in for files.
 							.build();
 					
 					UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
-							.name("pdf_file2.pdf").keywords("pdf_file2").metaData(JsonUtils.toJson(metaData))
+							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
 							.contentType("application/pdf") // make sure to put this in for files.
 							.build();
 

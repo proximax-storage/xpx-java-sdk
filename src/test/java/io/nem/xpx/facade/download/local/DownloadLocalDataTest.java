@@ -39,7 +39,7 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 			Assert.assertNotNull(message.getData());
 			
 			// validate the content.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "plain-data",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "plain-data - alvin reyes this is a new one yes from local 3",
 					new String(message.getData()));
 
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException
