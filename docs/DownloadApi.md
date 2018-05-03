@@ -31,7 +31,7 @@ String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
 String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream,base64)
 try {
     byte[] result = apiInstance.downloadBinaryUsingGET(nemHash, transferMode);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadBinaryUsingGET");
     e.printStackTrace();
@@ -79,7 +79,7 @@ String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
 String transferType = "transferType_example"; // String | Transfer Type default: bytes (bytes,stream,base64)
 try {
     byte[] result = apiInstance.downloadSecureBinaryUsingGET(xPvkey, nemHash, transferType);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadSecureBinaryUsingGET");
     e.printStackTrace();
@@ -128,7 +128,7 @@ String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
 String transferType = "transferType_example"; // String | Transfer Type default: bytes (bytes,stream,base64)
 try {
     byte[] result = apiInstance.downloadSecureFileUsingGET(xPvkey, nemHash, transferType);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadSecureFileUsingGET");
     e.printStackTrace();
@@ -176,7 +176,7 @@ String nemHash = "nemHash_example"; // String | The NEM Transaction Hash
 String transferMode = "transferMode_example"; // String | Transfer Mode default: bytes (bytes,stream)
 try {
     byte[] result = apiInstance.downloadTextUsingGET(nemHash, transferMode);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadTextUsingGET");
     e.printStackTrace();
@@ -222,7 +222,7 @@ DownloadApi apiInstance = new DownloadApi();
 String dataHash = "dataHash_example"; // String | The NEM Transaction Hash
 try {
     byte[] result = apiInstance.downloadUsingDataHashUsingGET(dataHash);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DownloadApi#downloadUsingDataHashUsingGET");
     e.printStackTrace();

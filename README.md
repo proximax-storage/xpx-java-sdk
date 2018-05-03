@@ -224,7 +224,7 @@ public class TestMonitor implements UploadTransactionMonitor {
 	}
 	@Override
 	public void handleFrame(StompHeaders headers, Object payload) {
-		System.out.println(payload.toString()); // handle the payload.
+		ln(payload.toString()); // handle the payload.
 	}
 }
 ```

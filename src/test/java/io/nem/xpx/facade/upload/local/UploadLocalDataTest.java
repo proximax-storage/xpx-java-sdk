@@ -1,5 +1,6 @@
 package io.nem.xpx.facade.upload.local;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
@@ -26,6 +28,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
@@ -36,6 +39,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
+@Category(IntegrationTest.class)
 public class UploadLocalDataTest extends AbstractApiTest {
 
 	/**
@@ -98,7 +102,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 
-			String nemhash = upload.uploadTextData(parameter, n -> {System.out.println(n.getDataMessage());}).get().getNemHash();
+			String nemhash = upload.uploadTextData(parameter, n -> {assertNotNull(n.getNemHash());}).get().getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {

@@ -9,12 +9,14 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
@@ -22,6 +24,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
+@Category(IntegrationTest.class)
 public class DownloadLocalBinaryTest extends AbstractApiTest {
 
 
@@ -34,12 +37,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 				new NodeEndpoint("http", "104.128.226.60", 7890));
 
 		try {
+			
 			Download download = new Download(localPeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
 
 			DownloadResult message = download.downloadBinaryOrFile("e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
-			System.out.println(message.getDataMessage().name());
-			
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"),
 					message.getData());
@@ -49,13 +51,13 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"));
 			
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version12.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version2.pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
-//			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
-//					+ message.getDataMessage().name() + ".pdf"));
+			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
+					+ message.getDataMessage().name() + ".pdf"));
 			
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();

@@ -23,7 +23,7 @@ public class MultiThreadDownloadRemoteBinaryTest extends AbstractApiTest {
 	public MultiThreadDownloadRemoteBinaryTest() {
 
 		for (int i = 0; i < 500; i++) {
-			System.out.println("Download Start: " + i);
+
 			Runnable task = () -> {
 
 				RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
@@ -47,7 +47,7 @@ public class MultiThreadDownloadRemoteBinaryTest extends AbstractApiTest {
 					// Remove file after.
 					FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
 							+ message.getDataMessage().name() + timeStamp + ".zip"));
-					System.out.println("Download End: ");
+		
 				} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 					e.printStackTrace();
 					//assertTrue(false);
@@ -55,7 +55,6 @@ public class MultiThreadDownloadRemoteBinaryTest extends AbstractApiTest {
 			};
 			Thread thread = new Thread(task);
 			thread.start();
-			System.out.println("Download End: ");
 		}
 	}
 

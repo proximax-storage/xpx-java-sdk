@@ -28,7 +28,7 @@ String topic = "topic_example"; // String | Topic
 String message = "message_example"; // String | Initial Message
 try {
     Object result = apiInstance.publishTopicUsingGET(topic, message);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PublishAndSubscribeApi#publishTopicUsingGET");
     e.printStackTrace();
@@ -75,7 +75,7 @@ String topic = "topic_example"; // String | Topic
 String message = "message_example"; // String | Initial Message
 try {
     Object result = apiInstance.sendToTopicUsingGET(topic, message);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PublishAndSubscribeApi#sendToTopicUsingGET");
     e.printStackTrace();

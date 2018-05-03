@@ -28,7 +28,7 @@ This endpoint is used to check if the P2P Storage Node instance is either alive 
 NodeApi apiInstance = new NodeApi();
 try {
     GenericResponseMessage result = apiInstance.checkNodeUsingGET();
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling NodeApi#checkNodeUsingGET");
     e.printStackTrace();
@@ -69,7 +69,7 @@ This endpoint returns the information of the P2P Storage Node
 NodeApi apiInstance = new NodeApi();
 try {
     NodeInfo result = apiInstance.getNodeInfoPeersUsingGET();
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling NodeApi#getNodeInfoPeersUsingGET");
     e.printStackTrace();
@@ -110,7 +110,7 @@ This endpoint returns the information of the P2P Storage Node
 NodeApi apiInstance = new NodeApi();
 try {
     NodeInfo result = apiInstance.getNodeInfoUsingGET();
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling NodeApi#getNodeInfoUsingGET");
     e.printStackTrace();
@@ -154,7 +154,7 @@ String domain = "domain_example"; // String | Blockchain Network Domain (xxx.xxx
 String port = "port_example"; // String | Blockchain Network Port (xxx.xxx.xxx)
 try {
     String result = apiInstance.setBlockchainNodeConnectionUsingPOST(network, domain, port);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling NodeApi#setBlockchainNodeConnectionUsingPOST");
     e.printStackTrace();

@@ -31,7 +31,7 @@ UploadApi apiInstance = new UploadApi();
 String multihash = "multihash_example"; // String | The pinned multihash
 try {
     String result = apiInstance.cleanupPinnedContentUsingPOST(multihash);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#cleanupPinnedContentUsingPOST");
     e.printStackTrace();
@@ -79,7 +79,7 @@ String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
 String metadata = "metadata_example"; // String | Additional data in a JSON Format
 try {
     String result = apiInstance.directoryExtractUsingPOST(file, name, keywords, metadata);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#directoryExtractUsingPOST");
     e.printStackTrace();
@@ -127,7 +127,7 @@ UploadApi apiInstance = new UploadApi();
 UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter = new UploadBase64BinaryRequestParameter(); // UploadBase64BinaryRequestParameter | Base64 String representation of the data object to be uploaded
 try {
     Object result = apiInstance.uploadBase64StringBinaryUsingPOST(uploadBase64BinaryRequestParameter);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadBase64StringBinaryUsingPOST");
     e.printStackTrace();
@@ -172,7 +172,7 @@ UploadApi apiInstance = new UploadApi();
 UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter = new UploadBytesBinaryRequestParameter(); // UploadBytesBinaryRequestParameter | Base64 byte[] representation of the data object to be uploaded
 try {
     Object result = apiInstance.uploadBytesBinaryUsingPOST(uploadBytesBinaryRequestParameter);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadBytesBinaryUsingPOST");
     e.printStackTrace();
@@ -220,7 +220,7 @@ String keywords = "keywords_example"; // String | Comma delimited Keyword/Tags
 String metadata = "metadata_example"; // String | Json Format Data Structure
 try {
     String result = apiInstance.uploadGenerateAndSignUsingPOST(xPvkey, xPubkey, messageType, file, keywords, metadata);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadGenerateAndSignUsingPOST");
     e.printStackTrace();
@@ -270,7 +270,7 @@ UploadApi apiInstance = new UploadApi();
 UploadTextRequestParameter uploadTextParameter = new UploadTextRequestParameter(); // UploadTextRequestParameter | A Plain Text
 try {
     Object result = apiInstance.uploadPlainTextUsingPOST(uploadTextParameter);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UploadApi#uploadPlainTextUsingPOST");
     e.printStackTrace();

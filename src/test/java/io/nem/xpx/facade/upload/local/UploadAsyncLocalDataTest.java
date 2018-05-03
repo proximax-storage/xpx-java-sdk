@@ -1,5 +1,6 @@
 package io.nem.xpx.facade.upload.local;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
@@ -23,6 +25,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -31,6 +34,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
+@Category(IntegrationTest.class)
 public class UploadAsyncLocalDataTest extends AbstractApiTest {
 
 	/**
@@ -74,15 +78,15 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
 			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 
 			CompletableFuture<Void> combinedFuture 
@@ -134,15 +138,15 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
 			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 
 			CompletableFuture<Void> combinedFuture 
@@ -202,15 +206,15 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
 			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 			
 			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
-				System.out.println(n.getNemHash());
+				assertNotNull(n.getNemHash());
 			});
 
 			CompletableFuture<Void> combinedFuture 

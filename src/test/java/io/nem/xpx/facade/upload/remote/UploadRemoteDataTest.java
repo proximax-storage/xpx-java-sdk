@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
@@ -20,6 +21,7 @@ import org.nem.core.model.primitive.Supply;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
@@ -32,6 +34,7 @@ import io.nem.xpx.utils.JsonUtils;
 /** 
  * The Class UploadTest.
  */
+@Category(IntegrationTest.class)
 public class UploadRemoteDataTest extends AbstractApiTest {
 
 	/**

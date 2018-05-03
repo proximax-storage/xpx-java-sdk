@@ -1,4 +1,4 @@
-package io.nem.xpx.remote;
+package io.nem.xpx.local;
 /*
  * Proximax REST API
  * Proximax REST API
@@ -22,6 +22,8 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
+import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteDataHashApi;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -37,7 +39,7 @@ import org.nem.core.utils.HexEncoder;
  * API tests for DataHashApi.
  */
 @Ignore
-public class RemoteDataHashApiTest extends AbstractApiTest {
+public class LocalDataHashApiTest extends AbstractApiTest {
 
 	/** The api. */
 	private final RemoteDataHashApi api = new RemoteDataHashApi(apiClient);

@@ -1,6 +1,9 @@
 package io.nem.xpx.facade;
 
 import io.nem.xpx.service.NemTransactionApi;
+
+import java.util.concurrent.ExecutionException;
+
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import io.nem.ApiException;
@@ -61,9 +64,11 @@ public class Account {
 	 * @param privateKey the private key
 	 * @return the incoming transactions
 	 * @throws ApiException the api exception
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public String getIncomingTransactions(String publicKey, String privateKey) throws ApiException {
-		return null;
+	public String getIncomingTransactions(String publicKey, String privateKey) throws ApiException, InterruptedException, ExecutionException {
+		return accountApi.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
 	}
 
 
@@ -106,6 +111,8 @@ public class Account {
 	public String getUnconfirmedTransactions(String publicKey, String privateKey) throws ApiException {
 		return null;
 	}
+	
+	
 }
 
 	

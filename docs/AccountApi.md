@@ -29,7 +29,7 @@ AccountApi apiInstance = new AccountApi();
 String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 try {
     String result = apiInstance.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getAllIncomingNemAddressTransactionsUsingGET");
     e.printStackTrace();
@@ -72,7 +72,7 @@ AccountApi apiInstance = new AccountApi();
 String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 try {
     String result = apiInstance.getAllNemAddressTransactionsUsingGET(publicKey);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getAllNemAddressTransactionsUsingGET");
     e.printStackTrace();
@@ -116,7 +116,7 @@ String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 String pageSize = "pageSize_example"; // String | Page Size
 try {
     String result = apiInstance.getAllNemAddressTransactionsWithPageSizeUsingGET(publicKey, pageSize);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getAllNemAddressTransactionsWithPageSizeUsingGET");
     e.printStackTrace();
@@ -160,7 +160,7 @@ AccountApi apiInstance = new AccountApi();
 String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 try {
     String result = apiInstance.getAllOutgoingNemAddressTransactionsUsingGET(publicKey);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getAllOutgoingNemAddressTransactionsUsingGET");
     e.printStackTrace();
@@ -203,7 +203,7 @@ AccountApi apiInstance = new AccountApi();
 String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 try {
     String result = apiInstance.getAllUnconfirmedNemAddressTransactionsUsingGET(publicKey);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getAllUnconfirmedNemAddressTransactionsUsingGET");
     e.printStackTrace();
@@ -248,7 +248,7 @@ AccountApi apiInstance = new AccountApi();
 String publicKey = "publicKey_example"; // String | The NEM Account Public Key
 try {
     AccountMetaDataPair result = apiInstance.getNemAddressDetailsUsingGET(publicKey);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AccountApi#getNemAddressDetailsUsingGET");
     e.printStackTrace();

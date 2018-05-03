@@ -14,13 +14,10 @@
 package io.nem.auth;
 
 import io.nem.Pair;
-
 import com.squareup.okhttp.Credentials;
-
 import java.util.Map;
 import java.util.List;
 
-import java.io.UnsupportedEncodingException;
 
 
 /**

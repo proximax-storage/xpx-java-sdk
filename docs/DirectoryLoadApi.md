@@ -26,7 +26,7 @@ DirectoryLoadApi apiInstance = new DirectoryLoadApi();
 String nemHash = "nemHash_example"; // String | NEM Txn (Public) linked to the directory
 try {
     Object result = apiInstance.loadDirectoryUsingGET(nemHash);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DirectoryLoadApi#loadDirectoryUsingGET");
     e.printStackTrace();

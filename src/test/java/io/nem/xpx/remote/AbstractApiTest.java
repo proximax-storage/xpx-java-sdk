@@ -15,6 +15,7 @@ import io.nem.ApiClient;
 /**
  * The Class AbstractApiTest.
  */
+
 public abstract class AbstractApiTest {
 	
 	/** The logger. */
@@ -46,6 +47,7 @@ public abstract class AbstractApiTest {
 	 
 	protected String localRemote = "http://localhost:8881";
 	//protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
+	
 	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";//"http://128.199.196.118:8881";
 
 	/** The download node base path. */

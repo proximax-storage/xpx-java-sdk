@@ -28,7 +28,7 @@ PublishAndAnnounceApi apiInstance = new PublishAndAnnounceApi();
 RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature(); // RequestAnnounceDataSignature | The Request Announce Data Signature Json Format
 try {
     String result = apiInstance.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PublishAndAnnounceApi#announceRequestPublishDataSignatureUsingPOST");
     e.printStackTrace();
@@ -76,7 +76,7 @@ String messageType = "messageType_example"; // String | Message Type ( PLAIN or 
 File file = new File("/path/to/file.txt"); // File | The Multipart File
 try {
     String result = apiInstance.publishAndSendSingleFileToAddressUsingPOST(xPvkey, address, messageType, file);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PublishAndAnnounceApi#publishAndSendSingleFileToAddressUsingPOST");
     e.printStackTrace();
@@ -127,7 +127,7 @@ String messageType = "messageType_example"; // String | Message Type ( PLAIN or 
 File file = new File("/path/to/file.txt"); // File | The Multipart File
 try {
     String result = apiInstance.publishAndSendSingleFileToAddressesUsingPOST(xPvkey, addresses, messageType, file);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PublishAndAnnounceApi#publishAndSendSingleFileToAddressesUsingPOST");
     e.printStackTrace();

@@ -26,7 +26,7 @@ DataHashApi apiInstance = new DataHashApi();
 byte[] data = data_example; // byte[] | Free form string data that will be stored on the P2P Network
 try {
     String result = apiInstance.generateHashForDataOnlyUsingPOST(data);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DataHashApi#generateHashForDataOnlyUsingPOST");
     e.printStackTrace();

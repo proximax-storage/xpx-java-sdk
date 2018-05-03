@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
@@ -22,6 +23,7 @@ import org.nem.core.model.primitive.Supply;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
@@ -34,6 +36,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
+@Category(IntegrationTest.class)
 public class UploadRemoteFileTest extends AbstractApiTest {
 
 	
@@ -105,7 +108,6 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
-			System.out.print(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -131,7 +133,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.build();
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
-			System.out.print(nemhash);
+			
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);

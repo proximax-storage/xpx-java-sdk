@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
@@ -23,6 +24,7 @@ import org.nem.core.model.primitive.Supply;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -31,33 +33,28 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
-
 /**
  * The Class UploadTest.
  */
+@Category(IntegrationTest.class)
 public class UploadRemoteBinaryTest extends AbstractApiTest {
-
 
 	@Test
 	public void uploadPlainBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "1");
-			
+
 			Upload upload = new Upload(remotePeerConnection);
-			
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
-					.messageType(MessageTypes.PLAIN)
+
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("large_video_1.mp4")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("proximax_vid")
-					.contentType("video/mp4")
-					.build();
-			
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
@@ -73,25 +70,24 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainLargeBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,remote,binary,test").build();
-			
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("large_video_1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
-			System.out.print(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
-
 
 	/**
 	 * Upload secure file test.
@@ -99,20 +95,19 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("secure,binary,test,remote")
-					.build();
-			
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("large_video_1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
-			System.out.print(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -125,41 +120,41 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureLargeBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_file.zip")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("secure,binary,test,remote")
-					.build();
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("large_video_1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
-			System.out.print(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void uploadPlainBinaryWithMosaicTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
+
 		try {
-			Map<String,String> metaData = new HashMap<String,String>();
+			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 			XpxSdkGlobalConstants.setGlobalTransactionFee(
 					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(remotePeerConnection);
 			metaData.put("key1", "value1");
-			
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data,wmosaics")
+
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("large_video_1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
 					.build();
@@ -172,7 +167,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
-	
+
 	/**
 	 * Mosaic info lookup.
 	 *
@@ -188,6 +183,5 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
 		};
 	}
-
 
 }

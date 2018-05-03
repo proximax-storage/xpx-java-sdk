@@ -19,18 +19,18 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class UploadTest.
  */
+
 public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 
 	public MultiThreadDownloadLocalBinaryTest() {
 
 		for (int i = 0; i < 500; i++) {
-			System.out.println("Download Start: " + i);
 			Runnable task = () -> {
 
 				RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 				try {
-					System.out.println("Download Start: ");
+
 					Download download = new DownloadAsync(remotePeerConnection);
 					String timeStamp = System.currentTimeMillis() + "";
 					long expectedFileSize = this.extractLargeFileSize();
@@ -49,7 +49,6 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 					// Remove file after.
 					FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
 							+ message.getDataMessage().name() + timeStamp + ".zip"));
-					System.out.println("Download End: ");
 				} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 					e.printStackTrace();
 					//assertTrue(false);
@@ -57,7 +56,6 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 			};
 			Thread thread = new Thread(task);
 			thread.start();
-			System.out.println("Download End: ");
 		}
 	}
 

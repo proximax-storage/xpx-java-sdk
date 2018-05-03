@@ -15,8 +15,7 @@ public class UploadDataParameterBuilder {
 	/**
 	 * Instantiates a new transaction builder.
 	 */
-	private UploadDataParameterBuilder() {
-	}
+	private UploadDataParameterBuilder() {}
 	
 	public static IMessageType messageType(int messageType) {
 		return new UploadDataParameterBuilder.Builder(messageType);

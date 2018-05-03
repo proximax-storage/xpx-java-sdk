@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import io.nem.ApiException;
 import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
@@ -17,6 +20,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
+@Category(IntegrationTest.class)
 public class DownloadRemoteDataTest extends AbstractApiTest {
 
 	/**

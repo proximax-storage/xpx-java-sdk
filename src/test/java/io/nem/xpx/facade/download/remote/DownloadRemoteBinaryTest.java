@@ -9,11 +9,13 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import io.nem.ApiException;
 import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
@@ -21,6 +23,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
+@Category(IntegrationTest.class)
 public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 
@@ -36,7 +39,6 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 			String timeStamp = System.currentTimeMillis() + "";
 
 			DownloadResult message = download.downloadBinaryOrFile("e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
-			System.out.println(message.getDataMessage().name());
 			
 			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"),
@@ -46,7 +48,7 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 					+ message.getDataMessage().name() + ".pdf"));
 			
 			
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version12.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version2.pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 

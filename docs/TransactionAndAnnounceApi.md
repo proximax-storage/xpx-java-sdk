@@ -27,7 +27,7 @@ TransactionAndAnnounceApi apiInstance = new TransactionAndAnnounceApi();
 RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature(); // RequestAnnounceDataSignature | The Request Announce Data Signature Json Format
 try {
     String result = apiInstance.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling TransactionAndAnnounceApi#announceRequestPublishDataSignatureUsingPOST");
     e.printStackTrace();
@@ -72,7 +72,7 @@ TransactionAndAnnounceApi apiInstance = new TransactionAndAnnounceApi();
 String nemHash = "nemHash_example"; // String | XPX Transaction Hash
 try {
     String result = apiInstance.getXPXTransactionUsingGET(nemHash);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling TransactionAndAnnounceApi#getXPXTransactionUsingGET");
     e.printStackTrace();

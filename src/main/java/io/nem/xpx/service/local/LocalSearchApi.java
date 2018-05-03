@@ -129,7 +129,6 @@ public class LocalSearchApi implements SearchApi {
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
 				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 					try {
-						System.out.println(transferTransaction.getMessage().getType());
 						if (transferTransaction.getMessage().getType() == 1) {
 
 							boolean found = false;

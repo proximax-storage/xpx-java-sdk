@@ -1,5 +1,7 @@
 package io.nem.xpx.facade.upload.local;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,7 +15,6 @@ import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -31,48 +32,58 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 		for (int i = 0; i < 100; i++) {
 			Runnable task = () -> {
 
-				RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
 				LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 						new NodeEndpoint("http", "104.128.226.60", 7890));
-
 				try {
 					UploadAsync upload = new UploadAsync(localPeerConnection);
 					Map<String, String> metaData = new HashMap<String, String>();
 					metaData.put("key1", "value1");
 
-					UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
-							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
-							.contentType("application/pdf") // make sure to put this in for files.
-							.build();
+					UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder
+								.messageType(MessageTypes.PLAIN)
+								.senderOrReceiverPrivateKey(this.xPvkey)
+								.receiverOrSenderPublicKey(this.xPubkey)
+								.name("pdf_file_version2.pdf")
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+								.contentType("application/pdf")
+								.keywords("pdf_file_version1")
+								.metadata(JsonUtils.toJson(metaData))
+								.build();
 					
-					UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
-							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
-							.contentType("application/pdf") // make sure to put this in for files.
-							.build();
+					UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder
+								.messageType(MessageTypes.PLAIN)
+								.senderOrReceiverPrivateKey(this.xPvkey)
+								.receiverOrSenderPublicKey(this.xPubkey)
+								.name("pdf_file_version2.pdf")
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version2.pdf")))
+								.contentType("application/pdf")
+								.keywords("pdf_file_version2")
+								.metadata(JsonUtils.toJson(metaData))
+								.build();
 					
-					UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-							.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
-							.name("pdf_file_version12.pdf").keywords("pdf_file_version12").metaData(JsonUtils.toJson(metaData))
-							.contentType("application/pdf") // make sure to put this in for files.
-							.build();
+					UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder
+								.messageType(MessageTypes.PLAIN)
+								.senderOrReceiverPrivateKey(this.xPvkey)
+								.receiverOrSenderPublicKey(this.xPubkey)
+								.name("pdf_file_version1.pdf")
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+								.contentType("application/pdf")
+								.keywords("pdf_file_version1")
+								.metadata(JsonUtils.toJson(metaData))
+								.build();
 
 					// 	Run the computation on another thread and wait for it to finish.
 					//	Callbacks are then handled.
 					CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
-						System.out.println(n.getNemHash());
+						assertNotNull(n.getNemHash());
 					});
 					
 					CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
-						System.out.println(n.getNemHash());
+						assertNotNull(n.getNemHash());
 					});
 					
 					CompletableFuture<UploadResult> future3 = upload.uploadBinary(parameter3, (n) -> {
-						System.out.println(n.getNemHash());
+						assertNotNull(n.getNemHash());
 					});
 
 					CompletableFuture<Void> combinedFuture 

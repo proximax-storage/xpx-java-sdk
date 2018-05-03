@@ -28,7 +28,7 @@ String xPubkey = "xPubkey_example"; // String | The Sender or Receiver's Public 
 String keywords = "keywords_example"; // String | Comma delimited Keyword that will be match to the files available
 try {
     List<ResourceHashMessageJsonEntity> result = apiInstance.searchTransactionWithKeywordUsingGET(xPubkey, keywords);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling SearchApi#searchTransactionWithKeywordUsingGET");
     e.printStackTrace();
@@ -76,7 +76,7 @@ String key = "key_example"; // String | Meta key
 String value = "value_example"; // String | Meta value
 try {
     List<ResourceHashMessageJsonEntity> result = apiInstance.searchTransactionWithMetadataUsingGET(xPubkey, key, value);
-    System.out.println(result);
+    ln(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling SearchApi#searchTransactionWithMetadataUsingGET");
     e.printStackTrace();

@@ -1,4 +1,4 @@
-package io.nem.xpx.remote;
+package io.nem.xpx.local;
 /*
  * Proximax REST API
  * Proximax REST API
@@ -14,6 +14,8 @@ package io.nem.xpx.remote;
 import io.nem.ApiException;
 import io.nem.xpx.service.remote.RemoteAccountApi;
 import io.nem.xpx.model.AccountMetaDataPair;
+import io.nem.xpx.remote.AbstractApiTest;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,7 +25,7 @@ import org.junit.Test;
  * API tests for AccountApi.
  */
 @Ignore
-public class RemoteAccountApiTest extends AbstractApiTest {
+public class LocalAccountApiTest extends AbstractApiTest {
 
 	/** The api. */
 	private final RemoteAccountApi api = new RemoteAccountApi(apiClient);
