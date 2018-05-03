@@ -31,7 +31,7 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			DownloadResult message = download.downloadTextData(
-					"627e3b70b2e902c8ca33447216535c5f0cc90da408a3db9b5b7ded95873bb47c");
+					"bfc0d92a0b467865e05230d5854ac04f462fd346c2eaf8e1e63f1523a42bd7b3");
 			
 			//	Validate data.
 			LOGGER.info(new String(message.getData(), "UTF-8"));
