@@ -1,23 +1,15 @@
 /*
- * 
+ *
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.download;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import io.nem.ApiException;
+import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.model.PeerConnectionNotFoundException;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.utils.CryptoUtils;
 import org.apache.commons.codec.binary.Base64;
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
@@ -28,21 +20,18 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
-import io.nem.ApiException;
-import io.nem.xpx.callback.DownloadCallback;
-import io.nem.xpx.callback.ServiceAsyncCallback;
-import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadResult;
-import io.nem.xpx.facade.model.UploadResult;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.service.NemTransactionApi;
-import io.nem.xpx.service.intf.DownloadApi;
-import io.nem.xpx.service.local.LocalDownloadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.remote.RemoteDownloadApi;
-import io.nem.xpx.utils.CryptoUtils;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -56,10 +45,8 @@ public class DownloadAsync extends Download {
 	 *
 	 * @param peerConnection
 	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
 	 */
-	public DownloadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public DownloadAsync(PeerConnection peerConnection) {
 		super(peerConnection);
 
 	}
@@ -71,28 +58,22 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadResult> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadResult> callback)
-			 {
+	public CompletableFuture<DownloadResult> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadResult> callback) {
 
 		CompletableFuture<DownloadResult> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadResult downloadData = new DownloadResult();
-			byte[] securedResponse = null;
 
 			try {
-
-				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
-				securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
-				downloadData.setData(Base64.decodeBase64(securedResponse));
-				downloadData.setDataMessage(resourceMessage);
-				downloadData.setMessageType(MessageTypes.PLAIN);
+				byte[] securedResponse = downloadApi.downloadUsingDataHashUsingGET(resourceMessage.hash());
+
+				return new DownloadResult(resourceMessage, Base64.decodeBase64(securedResponse), MessageTypes.PLAIN);
+
 			} catch (ApiException | IOException | InterruptedException | ExecutionException e) {
 				throw new CompletionException(e);
 			}
-
-			return downloadData;
 		}).thenApply(n -> {
 			// call the callback?
 			callback.process(n);
@@ -111,29 +92,25 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadResult> downloadFile(String nemHash, String transferType, ServiceAsyncCallback<DownloadResult> callback)
+	public CompletableFuture<DownloadResult> downloadFile(final String nemHash, String transferType,
+														  ServiceAsyncCallback<DownloadResult> callback)
 			{
 
 		CompletableFuture<DownloadResult> downloadFileAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadResult downloadData = new DownloadResult();
-			byte[] securedResponse = null;
-
 			try {
 
-				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
 
-				securedResponse = downloadApi.downloadFileUsingGET(nemHash, transferType);
-				downloadData.setData(securedResponse);
-				downloadData.setDataMessage(resourceMessage);
-				downloadData.setMessageType(MessageTypes.PLAIN);
+				byte[] securedResponse = downloadApi.downloadFileUsingGET(nemHash, transferType);
+
+				return new DownloadResult(resourceMessage, securedResponse, MessageTypes.PLAIN);
+
 			} catch (ApiException | IOException | InterruptedException | ExecutionException e) {
 				throw new CompletionException(e);
 			}
-
-			return downloadData;
 		}).thenApply(n -> {
 			// call the callback?
 			callback.process(n);
@@ -157,25 +134,20 @@ public class DownloadAsync extends Download {
 
 		CompletableFuture<DownloadResult> downloadBinaryAsync = CompletableFuture.supplyAsync(() -> {
 
-			DownloadResult downloadData = new DownloadResult();
-			byte[] securedResponse = null;
-
 			try {
 
-				TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+				TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 				TransferTransaction bTrans = ((TransferTransaction) transactionMetaDataPair.getEntity());
 				ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 						ByteBuffer.wrap(Base64.decodeBase64(bTrans.getMessage().getEncodedPayload())));
 
-				securedResponse = downloadApi.downloadBinaryUsingGET(nemHash, transferType);
-				downloadData.setData(securedResponse);
-				downloadData.setDataMessage(resourceMessage);
-				downloadData.setMessageType(MessageTypes.PLAIN);
-			} catch (ApiException | IOException | InterruptedException | ExecutionException e) {
+                byte[] securedResponse = downloadApi.downloadBinaryUsingGET(nemHash, transferType);
+
+                return new DownloadResult(resourceMessage, securedResponse, MessageTypes.PLAIN);
+
+            } catch (ApiException | IOException | InterruptedException | ExecutionException e) {
 				throw new CompletionException(e);
 			}
-
-			return downloadData;
 		}).thenApply(n -> {
 			// call the callback?
 			callback.process(n);
@@ -241,7 +213,6 @@ public class DownloadAsync extends Download {
 
 		CompletableFuture<DownloadResult> downloadBinaryOrFileAsync = CompletableFuture.supplyAsync(() -> {
 
-			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 			SecureMessage message;
 			// BinaryTransactionEncryptedMessage binaryEncryptedData = new
@@ -256,7 +227,7 @@ public class DownloadAsync extends Download {
 			// Evaluate the transaction.
 			TransferTransaction transaction;
 			try {
-				transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
+				transaction = (TransferTransaction) nemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getMessage().getType() == 2) {
 					if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
@@ -276,11 +247,9 @@ public class DownloadAsync extends Download {
 										new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
 								.decrypt(securedResponse);
 
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.SECURE);
-						return downloadData;
-					} else if (transaction.getRecipient().getAddress().getEncoded()
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.SECURE);
+
+                    } else if (transaction.getRecipient().getAddress().getEncoded()
 							.equals(senderOrReceiverPrivateKeyAddress)) {
 
 						message = SecureMessage.fromEncodedPayload(
@@ -299,11 +268,8 @@ public class DownloadAsync extends Download {
 										new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
 								.decrypt(securedResponse);
 						// byte[] decoded = Base64.decodeBase64(decrypted);
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.SECURE);
-						return downloadData;
 
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.SECURE);
 					}
 
 				} else if (transaction.getMessage().getType() == 1) {
@@ -313,16 +279,13 @@ public class DownloadAsync extends Download {
 
 					securedResponse = downloadApi.downloadTextUsingGET(nemHash, transferType);
 
-					downloadData.setData(securedResponse);
-					downloadData.setDataMessage(resourceMessage);
-					downloadData.setMessageType(MessageTypes.PLAIN);
-					return downloadData;
+                    return new DownloadResult(resourceMessage, securedResponse, MessageTypes.PLAIN);
 				}
 			} catch (InterruptedException | ExecutionException | ApiException | IOException e) {
 				throw new CompletionException(e);
 			}
 
-			return downloadData;
+            return new DownloadResult(null, null, 0);
 		}).thenApply(n -> {
 			// call the callback?
 			callback.process(n);
@@ -347,7 +310,6 @@ public class DownloadAsync extends Download {
 			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadResult> callback) {
 
 		CompletableFuture<DownloadResult> downloadSecureTextDataAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 			SecureMessage message;
 			// get the addresses
@@ -359,7 +321,7 @@ public class DownloadAsync extends Download {
 			// Evaluate the transaction.
 			TransferTransaction transaction;
 			try {
-				transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
+				transaction = (TransferTransaction) nemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getMessage().getType() == 2) {
 					if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKeyAddress)) {
@@ -379,10 +341,8 @@ public class DownloadAsync extends Download {
 										new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine))
 								.decrypt(Base64.decodeBase64(securedResponse));
 
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.SECURE);
-						return downloadData;
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.SECURE);
+
 					} else if (transaction.getRecipient().getAddress().getEncoded()
 							.equals(senderOrReceiverPrivateKeyAddress)) {
 
@@ -401,11 +361,8 @@ public class DownloadAsync extends Download {
 										new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine),
 										new KeyPair(PublicKey.fromHexString(senderOrReceiverPublicKey), engine))
 								.decrypt(Base64.decodeBase64(securedResponse));
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.SECURE);
-						return downloadData;
 
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.SECURE);
 					}
 
 				} else if (transaction.getMessage().getType() == 1) {
@@ -415,16 +372,13 @@ public class DownloadAsync extends Download {
 
 					securedResponse = downloadApi.downloadTextUsingGET(nemHash, transferType);
 
-					downloadData.setData(securedResponse);
-					downloadData.setDataMessage(resourceMessage);
-					downloadData.setMessageType(MessageTypes.PLAIN);
-					return downloadData;
+                    return new DownloadResult(resourceMessage, securedResponse, MessageTypes.PLAIN);
 				}
 			} catch (InterruptedException | ExecutionException | ApiException | IOException e) {
 				throw new CompletionException(e);
 			}
 
-			return downloadData;
+			return new DownloadResult(null, null, 0);
 		}).thenApply(n -> {
 			// call the callback?
 			callback.process(n);
@@ -445,16 +399,13 @@ public class DownloadAsync extends Download {
 	 * @return the completable future
 	 */
 	public CompletableFuture<DownloadResult> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, ServiceAsyncCallback<DownloadResult> callback) {
-		
+
 		CompletableFuture<DownloadResult> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 
 			try {
-
-
 				// Evauate the transaction.
-				TransferTransaction transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();
+				TransferTransaction transaction = (TransferTransaction) nemTransactionApi.getTransaction(nemHash).getEntity();
 
 				if (transaction.getSignature() != null) {
 					if (messageType == MessageTypes.SECURE) {
@@ -466,22 +417,19 @@ public class DownloadAsync extends Download {
 						securedResponse = downloadApi.downloadBinaryUsingGET(nemHash, "");
 						decrypted = CryptoUtils.decrypt(securedResponse, keySecret.toCharArray());
 						// String encryptedData = HexEncoder.getString(decrypted);
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.SECURE);
-						return downloadData;
-					} else {
+
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.SECURE);
+
+                    } else {
 						byte[] decrypted = null;
 						ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
 								ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getDecodedPayload())));
 						// String encryptedData = HexEncoder.getString(decrypted);
-						downloadData.setData(decrypted);
-						downloadData.setDataMessage(resourceMessage);
-						downloadData.setMessageType(MessageTypes.PLAIN);
-						return downloadData;
+
+                        return new DownloadResult(resourceMessage, decrypted, MessageTypes.PLAIN);
 					}
 				}
-				return downloadData;
+				return new DownloadResult(null, null, 0);
 			} catch (ApiException | IOException | InterruptedException | ExecutionException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchAlgorithmException | NoSuchPaddingException e) {
 				throw new CompletionException(e);
 			}
@@ -493,7 +441,7 @@ public class DownloadAsync extends Download {
 		});
 
 		return downloadPlainAsync;
-		
-		
+
+
 	}
 }

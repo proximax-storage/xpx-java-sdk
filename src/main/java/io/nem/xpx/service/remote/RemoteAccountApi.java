@@ -27,14 +27,7 @@ import io.nem.xpx.service.intf.AccountApi;
 public class RemoteAccountApi implements AccountApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote account api.
-     */
-    public RemoteAccountApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote account api.
@@ -52,15 +45,6 @@ public class RemoteAccountApi implements AccountApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

@@ -1,17 +1,24 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.upload;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.ByteBuffer;
+import io.nem.ApiException;
+import io.nem.xpx.builder.TransferTransactionBuilder;
+import io.nem.xpx.facade.AbstractFacadeService;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.model.*;
+import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
+import io.nem.xpx.service.intf.UploadApi;
+import io.nem.xpx.service.local.LocalUploadApi;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
+import io.nem.xpx.service.remote.RemoteUploadApi;
+import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
+import org.nem.core.crypto.*;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
@@ -21,50 +28,29 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
-import io.nem.ApiException;
-import io.nem.xpx.builder.TransferTransactionBuilder;
-import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.UploadResult;
-import io.nem.xpx.model.DataParameter;
-import io.nem.xpx.model.DataResponse;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.UploadBinaryParameter;
-import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.model.UploadPathParameter;
-import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
-import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.local.LocalUploadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
-import io.nem.xpx.service.remote.RemoteUploadApi;
-import io.nem.xpx.utils.JsonUtils;
+
+import java.io.IOException;
 
 
 /**
  * The Class Upload.
  */
-public class Upload extends FacadeService {
+public class Upload extends AbstractFacadeService {
 
 	/** The peer connection. */
-	private PeerConnection peerConnection;
+	private final PeerConnection peerConnection;
 
 	/** The engine. */
-	private CryptoEngine engine;
+	private final CryptoEngine engine;
 
 	/** The data hash api. */
-	private UploadApi uploadApi;
+	private final UploadApi uploadApi;
 
 	/** The publish and announce api. */
-	private TransactionAndAnnounceApi transactionAndAnnounceApi;
+	private final TransactionAndAnnounceApi transactionAndAnnounceApi;
 
 	/** The is local peer connection. */
-	private boolean isLocalPeerConnection = false;
+	private final boolean isLocalPeerConnection;
 
 
 	/**
@@ -75,19 +61,14 @@ public class Upload extends FacadeService {
 	 * @throws PeerConnectionNotFoundException
 	 *             the peer connection not found exception
 	 */
-	public Upload(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public Upload(PeerConnection peerConnection) {
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}
 
-		if (peerConnection instanceof RemotePeerConnection) {
-			this.uploadApi = new RemoteUploadApi();
-			this.transactionAndAnnounceApi = new RemoteTransactionAndAnnounceApi();
-		} else {
-			this.isLocalPeerConnection = true;
-			this.uploadApi = new LocalUploadApi();
-		}
-
+		this.uploadApi = peerConnection.getUploadApi();
+		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
+		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
 		
@@ -188,7 +169,6 @@ public class Upload extends FacadeService {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null; // flat buffer object.
 		ResourceHashMessage resourceMessageHash = null;
@@ -223,6 +203,7 @@ public class Upload extends FacadeService {
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -235,6 +216,7 @@ public class Upload extends FacadeService {
 			} else {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -248,8 +230,6 @@ public class Upload extends FacadeService {
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 
-			uploadData.setDataMessage(resourceMessageHash);
-			uploadData.setNemHash(publishedData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
@@ -257,7 +237,7 @@ public class Upload extends FacadeService {
 		} finally {
 			safeAsyncToGateways(resourceMessageHash);
 		}
-		return uploadData;
+		return new UploadResult(resourceMessageHash, publishedData);
 	}
 
 	/**
@@ -280,7 +260,6 @@ public class Upload extends FacadeService {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -310,6 +289,7 @@ public class Upload extends FacadeService {
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -322,6 +302,7 @@ public class Upload extends FacadeService {
 			} else {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -335,8 +316,6 @@ public class Upload extends FacadeService {
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 			resourceMessageHash = byteToSerialObject((byte[]) response);
-			uploadData.setDataMessage(resourceMessageHash);
-			uploadData.setNemHash(publishedData);
 
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
@@ -345,7 +324,8 @@ public class Upload extends FacadeService {
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
-		return uploadData;
+
+		return new UploadResult(resourceMessageHash, publishedData);
 	}
 
 	/**
@@ -364,10 +344,10 @@ public class Upload extends FacadeService {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
+
 		try {
 
 			UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter();
@@ -395,6 +375,7 @@ public class Upload extends FacadeService {
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -408,6 +389,7 @@ public class Upload extends FacadeService {
 			} else {
 				// Announce The Signature
 				RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -421,8 +403,6 @@ public class Upload extends FacadeService {
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
 			resourceMessageHash = byteToSerialObject((byte[]) response);
-			uploadData.setDataMessage(resourceMessageHash);
-			uploadData.setNemHash(publishedData);
 
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
@@ -431,7 +411,7 @@ public class Upload extends FacadeService {
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
-		return uploadData;
+		return new UploadResult(resourceMessageHash, publishedData);
 	}
 
 	/**
@@ -462,7 +442,6 @@ public class Upload extends FacadeService {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadResult uploadData = new UploadResult();
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
 		try {
@@ -473,6 +452,7 @@ public class Upload extends FacadeService {
 			if (this.isLocalPeerConnection) {
 				// Announce The Signature
 				NemAnnounceResult announceResult = TransferTransactionBuilder
+						.peerConnection(peerConnection)
 						.sender(new Account(
 								new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
 						.recipient(new Account(Address.fromPublicKey(
@@ -484,8 +464,6 @@ public class Upload extends FacadeService {
 
 			}
 			resourceMessageHash = byteToSerialObject((byte[]) response);
-			uploadData.setDataMessage(resourceMessageHash);
-			uploadData.setNemHash(publishedData);
 
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
@@ -494,7 +472,7 @@ public class Upload extends FacadeService {
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
-		return uploadData;
+		return new UploadResult(resourceMessageHash, publishedData);
 	}
 	
 }

@@ -1,12 +1,11 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.multisigcosign;
 
 import java.util.List;
 
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
+import io.nem.xpx.facade.AbstractFacadeService;
 import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PublicKey;
@@ -22,10 +21,10 @@ import io.nem.xpx.facade.connection.PeerConnection;
 /**
  * The Class MultisigCoSign.
  */
-public class MultisigCoSign extends FacadeService {
+public class MultisigCoSign extends AbstractFacadeService {
 
 	/** The peer connection. */
-	private PeerConnection peerConnection;
+	protected final PeerConnection peerConnection;
 	
 
 	/**
@@ -50,6 +49,7 @@ public class MultisigCoSign extends FacadeService {
 			throws ApiException {
 
 		MultisigSignatureTransaction multisigSignatureTransaction = MultisigSignatureTransactionBuilder
+				.peerConnection(peerConnection)
 				.multisig(new Account(new KeyPair(PublicKey.fromHexString(multisigAccount)))) // multisig
 				.addSigners(signers).otherTransaction(Hash.fromHexString(nemHash)).coSign();
 

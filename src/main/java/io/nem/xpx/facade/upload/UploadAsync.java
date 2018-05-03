@@ -1,7 +1,7 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.upload;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -9,7 +9,6 @@ import java.util.concurrent.CompletionException;
 import io.nem.ApiException;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadDataParameter;
@@ -29,10 +28,8 @@ public class UploadAsync extends Upload {
 	 *
 	 * @param peerConnection
 	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
 	 */
-	public UploadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public UploadAsync(PeerConnection peerConnection) {
 		super(peerConnection);
 
 	}

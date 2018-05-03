@@ -10,6 +10,7 @@ import org.nem.core.model.Account;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.HarvestInfo;
+import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.ApiException;
@@ -23,6 +24,17 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
  */
 public class NemAccountApi {
 
+	private final NodeEndpoint nodeEndpoint;
+
+	/**
+	 * Instantiate class
+	 * @param nodeEndpoint the node endpoint
+	 */
+	public NemAccountApi(final NodeEndpoint nodeEndpoint) {
+		this.nodeEndpoint = nodeEndpoint;
+	}
+
+
 	/**
 	 * Gets the account by address.
 	 *
@@ -32,11 +44,11 @@ public class NemAccountApi {
 	 * @throws ExecutionException the execution exception
 	 * @throws ApiException the api exception
 	 */
-	public static AccountMetaDataPair getAccountByAddress(String address)
+	public AccountMetaDataPair getAccountByAddress(String address)
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		des = XpxSdkGlobalConstants.CONNECTOR
-				.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
+				.getAsync(nodeEndpoint, NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -53,10 +65,10 @@ public class NemAccountApi {
 	 * @throws ExecutionException the execution exception
 	 * @throws ApiException the api exception
 	 */
-	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException, ApiException {
+	public List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<Mosaic> list;
-		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(),
+		des = XpxSdkGlobalConstants.CONNECTOR.getAsync(nodeEndpoint,
 				NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address).get();
 		list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
 		return list;
@@ -71,12 +83,12 @@ public class NemAccountApi {
 	 * @throws ExecutionException the execution exception
 	 * @throws ApiException the api exception
 	 */
-	public static List<HarvestInfo> getAccountHarvestInfo(String address)
+	public List<HarvestInfo> getAccountHarvestInfo(String address)
 			throws InterruptedException, ExecutionException, ApiException {
 		Deserializer des;
 		List<HarvestInfo> list;
 		des = XpxSdkGlobalConstants.CONNECTOR
-				.getAsync(XpxSdkGlobalConstants.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_HARVESTS, "address=" + address)
+				.getAsync(nodeEndpoint, NisApiId.NIS_REST_ACCOUNT_HARVESTS, "address=" + address)
 				.get();
 		list = (ArrayList<HarvestInfo>) des.readObjectArray("data", HarvestInfo::new);
 
@@ -88,7 +100,8 @@ public class NemAccountApi {
 	 *
 	 * @return the key pair view model
 	 */
-	public static GeneratedAccount generateAccount() {
+	// TODO - unused
+	public GeneratedAccount generateAccount() {
 		GeneratedAccount ga = new GeneratedAccount();
 		final KeyPair kp = new KeyPair();
 		final Account account = new Account(kp);

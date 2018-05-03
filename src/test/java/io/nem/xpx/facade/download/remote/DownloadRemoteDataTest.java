@@ -6,12 +6,10 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nem.core.node.NodeEndpoint;
 import io.nem.ApiException;
-import io.nem.xpx.facade.Download;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadResult;
+import io.nem.xpx.facade.download.DownloadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 

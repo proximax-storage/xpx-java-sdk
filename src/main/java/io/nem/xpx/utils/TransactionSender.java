@@ -1,8 +1,9 @@
 package io.nem.xpx.utils;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
+import io.nem.ApiException;
+import io.nem.xpx.model.InsufficientAmountException;
+import io.nem.xpx.service.NemAccountApi;
+import io.nem.xpx.service.NemTransactionApi;
 import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
@@ -13,21 +14,27 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.ApiException;
-import io.nem.xpx.model.InsufficientAmountException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.NemAccountApi;
-import io.nem.xpx.service.NemTransactionApi;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 
 
 /**
  * The Class TransactionSenderUtil.
  */
-public class TransactionUtils {
+public class TransactionSender {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(TransactionUtils.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(TransactionSender.class.getName());
+
+	private final NemTransactionApi nemTransactionApi;
+	private final NemAccountApi nemAccountApi;
+
+	public TransactionSender(NemTransactionApi nemTransactionApi, NemAccountApi nemAccountApi) {
+		this.nemTransactionApi = nemTransactionApi;
+		this.nemAccountApi = nemAccountApi;
+	}
 
 	/**
 	 * Send transaction.
@@ -37,13 +44,12 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static void sendTransaction(Transaction transaction) throws ApiException {
+	public void sendTransaction(Transaction transaction) throws ApiException {
 		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = NemTransactionApi
-				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = nemTransactionApi.announceTransaction(request);
 		try {
 			future.thenAcceptAsync(d -> {
 				final NemAnnounceResult result = new NemAnnounceResult(d);
@@ -76,14 +82,13 @@ public class TransactionUtils {
 	 * @throws ExecutionException the execution exception
 	 * @throws InsufficientAmountException the insufficient amount exception
 	 */
-	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
+	public NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 		
 		checkAddressBalanceAgainstAmount(transaction.getSigner().getAddress().toString(), transaction.getAmount());
 		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = NemTransactionApi
-				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = nemTransactionApi.announceTransaction(request);
 		try {
 			Deserializer transDes = future.get();
 
@@ -106,11 +111,10 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws ApiException {
+	public NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws ApiException {
 
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
-		final CompletableFuture<Deserializer> future = NemTransactionApi
-				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = nemTransactionApi.announceTransaction(request);
 		try {
 			Deserializer transDes = future.get();
 
@@ -131,7 +135,7 @@ public class TransactionUtils {
 	 * @throws ExecutionException the execution exception
 	 * @throws InsufficientAmountException the insufficient amount exception
 	 */
-	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction)
+	public CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction)
 			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 		
 		checkAddressBalanceAgainstAmount(transaction.getSigner().getAddress().toString(), transaction.getAmount());
@@ -139,7 +143,7 @@ public class TransactionUtils {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return nemTransactionApi.announceTransaction(request);
 	}
 
 	/**
@@ -151,13 +155,12 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static NemAnnounceResult sendMultisigTransaction(MultisigTransaction transaction) throws ApiException {
+	public NemAnnounceResult sendMultisigTransaction(MultisigTransaction transaction) throws ApiException {
 		
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = NemTransactionApi
-				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = nemTransactionApi.announceTransaction(request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -176,13 +179,13 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction)
+	public CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction)
 			throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return nemTransactionApi.announceTransaction(request);
 	}
 
 	/**
@@ -194,14 +197,13 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction)
+	public NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction)
 			throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = NemTransactionApi
-				.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = nemTransactionApi.announceTransaction(request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -220,12 +222,12 @@ public class TransactionUtils {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public static CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(
+	public CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(
 			MultisigSignatureTransaction transaction) throws ApiException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return NemTransactionApi.announceTransaction(XpxSdkGlobalConstants.getNodeEndpoint(), request);
+		return nemTransactionApi.announceTransaction(request);
 
 	}
 
@@ -239,8 +241,8 @@ public class TransactionUtils {
 	 * @throws ApiException the api exception
 	 * @throws InsufficientAmountException the insufficient amount exception
 	 */
-	public static void checkAddressBalanceAgainstAmount(String address, Amount amount) throws InterruptedException, ExecutionException, ApiException, InsufficientAmountException {
-		long balance = NemAccountApi.getAccountByAddress(address).getEntity().getBalance().getNumNem();
+	private void checkAddressBalanceAgainstAmount(String address, Amount amount) throws InterruptedException, ExecutionException, ApiException, InsufficientAmountException {
+		long balance = nemAccountApi.getAccountByAddress(address).getEntity().getBalance().getNumNem();
 		long transactionAmount = amount.getNumNem();
 		if (balance < transactionAmount) {
 			

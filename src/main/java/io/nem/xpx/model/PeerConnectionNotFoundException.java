@@ -5,7 +5,7 @@ package io.nem.xpx.model;
 /**
  * The Class PeerConnectionNotFoundException.
  */
-public class PeerConnectionNotFoundException extends Exception {
+public class PeerConnectionNotFoundException extends RuntimeException {
 
 	/**
 	 * Instantiates a new peer connection not found exception.

@@ -5,18 +5,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-import org.apache.commons.codec.binary.Base64;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nem.core.node.NodeEndpoint;
-import org.nem.core.utils.HexEncoder;
 
 import io.nem.ApiException;
-import io.nem.xpx.facade.Download;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadResult;
+import io.nem.xpx.facade.download.DownloadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 

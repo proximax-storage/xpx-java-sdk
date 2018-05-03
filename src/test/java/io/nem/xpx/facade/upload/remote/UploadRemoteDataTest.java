@@ -19,7 +19,7 @@ import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.facade.Upload;
+import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.model.PeerConnectionNotFoundException;

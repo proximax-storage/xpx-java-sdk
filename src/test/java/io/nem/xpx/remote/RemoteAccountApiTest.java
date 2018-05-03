@@ -28,7 +28,7 @@ import org.junit.Test;
 public class RemoteAccountApiTest extends AbstractApiTest {
 
 	/** The api. */
-	private final RemoteAccountApi api = new RemoteAccountApi();
+	private final RemoteAccountApi api = new RemoteAccountApi(apiClient);
 
 	/**
 	 * getAllIncomingNemAddressTransactions.

@@ -1,21 +1,15 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.search;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
+
 import io.nem.ApiException;
-import io.nem.xpx.callback.SearchCallback;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.service.intf.SearchApi;
-import io.nem.xpx.service.local.LocalSearchApi;
-import io.nem.xpx.service.remote.RemoteSearchApi;
 import io.nem.xpx.utils.JsonUtils;
 
 
@@ -28,9 +22,8 @@ public class SearchAsync extends Search {
 	 * Instantiates a new search.
 	 *
 	 * @param peerConnection            the peer connection
-	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
-	public SearchAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public SearchAsync(PeerConnection peerConnection) {
 		super(peerConnection);
 	}
 

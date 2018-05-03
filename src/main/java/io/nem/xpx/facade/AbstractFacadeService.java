@@ -13,9 +13,9 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
 /**
- * The Class FacadeService.
+ * The Class AbstractFacadeService.
  */
-public abstract class FacadeService {
+public abstract class AbstractFacadeService {
 	
 	/**
 	 * Byte to serial object.

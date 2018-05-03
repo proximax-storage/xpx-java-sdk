@@ -43,14 +43,7 @@ import java.util.Map;
 public class RemoteDownloadApi implements DownloadApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote download api.
-     */
-    public RemoteDownloadApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote download api.
@@ -68,15 +61,6 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

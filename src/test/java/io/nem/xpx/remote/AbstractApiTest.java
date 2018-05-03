@@ -53,14 +53,16 @@ public abstract class AbstractApiTest {
 	
 	/** The search node base path. */
 	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
+
+	protected ApiClient apiClient;
 	
 	/**
 	 * Instantiates a new abstract api test.
 	 */
 	public AbstractApiTest() {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath(uploadNodeBasePath));
+		this.apiClient = new ApiClient().setBasePath(uploadNodeBasePath);
 	}
-	
+
 	/**
 	 * Extract expected small txt file content.
 	 *

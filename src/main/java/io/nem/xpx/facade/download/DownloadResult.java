@@ -1,7 +1,7 @@
 /*
  * 
  */
-package io.nem.xpx.facade.model;
+package io.nem.xpx.facade.download;
 
 import java.io.Serializable;
 
@@ -18,14 +18,27 @@ public class DownloadResult implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/** The data message. */
-	private ResourceHashMessage dataMessage;
+	private final ResourceHashMessage dataMessage;
 	
 	/** The data. */
-	private byte[] data;
+	private final byte[] data;
 	
 	/** The message type. */
-	private int messageType;
-	
+	private final int messageType;
+
+    /**
+     * Instantiate class
+     *
+     * @param dataMessage the data message
+     * @param data the data
+     * @param messageType the message type
+     */
+	public DownloadResult(final ResourceHashMessage dataMessage, final byte[] data, final int messageType) {
+		this.dataMessage = dataMessage;
+		this.data = data;
+		this.messageType = messageType;
+	}
+
 	/**
 	 * Gets the data message.
 	 *
@@ -33,15 +46,6 @@ public class DownloadResult implements Serializable {
 	 */
 	public ResourceHashMessage getDataMessage() {
 		return dataMessage;
-	}
-	
-	/**
-	 * Sets the data message.
-	 *
-	 * @param dataMessage the new data message
-	 */
-	public void setDataMessage(ResourceHashMessage dataMessage) {
-		this.dataMessage = dataMessage;
 	}
 	
 	/**
@@ -54,30 +58,12 @@ public class DownloadResult implements Serializable {
 	}
 	
 	/**
-	 * Sets the data.
-	 *
-	 * @param data the new data
-	 */
-	public void setData(byte[] data) {
-		this.data = data;
-	}
-	
-	/**
 	 * Gets the message type.
 	 *
 	 * @return the message type
 	 */
 	public int getMessageType() {
 		return messageType;
-	}
-	
-	/**
-	 * Sets the message type.
-	 *
-	 * @param messageType the new message type
-	 */
-	public void setMessageType(int messageType) {
-		this.messageType = messageType;
 	}
 	
 	/**

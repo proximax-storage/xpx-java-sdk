@@ -35,7 +35,7 @@ import java.util.Map;
 public class RemoteNodeApiTest extends AbstractApiTest {
 
     /** The api. */
-    private final RemoteNodeApi api = new RemoteNodeApi();
+    private final RemoteNodeApi api = new RemoteNodeApi(apiClient);
 
     
     /**

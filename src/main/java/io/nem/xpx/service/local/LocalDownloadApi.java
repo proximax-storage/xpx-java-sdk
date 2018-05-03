@@ -16,27 +16,31 @@ package io.nem.xpx.service.local;
 import io.ipfs.multihash.Multihash;
 import io.nem.ApiException;
 import io.nem.model.exception.MessageDigestNotMatchException;
-import java.io.IOException;
-
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutionException;
 import org.apache.commons.codec.binary.Base64;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
 
 
 /**
  * The Class LocalDownloadApi.
  */
 public class LocalDownloadApi implements DownloadApi {
+
+	private final NemTransactionApi nemTransactionApi;
+
+	public LocalDownloadApi(NemTransactionApi nemTransactionApi) {
+		this.nemTransactionApi = nemTransactionApi;
+	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.DownloadApi#downloadUsingDataHashUsingGET(java.lang.String)
@@ -51,7 +55,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadTextUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
@@ -62,7 +66,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadBinaryUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		
@@ -74,7 +78,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadFileUsingGET(String nemHash, String transferMode) throws ApiException, IOException, InterruptedException, ExecutionException {
-		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
+		TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		
