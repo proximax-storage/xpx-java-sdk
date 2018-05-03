@@ -33,8 +33,8 @@ import io.nem.xpx.callback.DownloadCallback;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.DownloadResult;
+import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.service.NemTransactionApi;
@@ -50,11 +50,6 @@ import io.nem.xpx.utils.CryptoUtils;
  */
 public class DownloadAsync extends Download {
 
-	/**
-	 * Instantiates a new download.
-	 */
-	public DownloadAsync() {
-	}
 
 	/**
 	 * Instantiates a new download.
@@ -76,11 +71,11 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadData> callback)
+	public CompletableFuture<DownloadResult> downloadPlain(String nemHash, ServiceAsyncCallback<DownloadResult> callback)
 			 {
 
-		CompletableFuture<DownloadData> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadData downloadData = new DownloadData();
+		CompletableFuture<DownloadResult> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 
 			try {
@@ -116,11 +111,11 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadFile(String nemHash, String transferType, ServiceAsyncCallback<DownloadData> callback)
+	public CompletableFuture<DownloadResult> downloadFile(String nemHash, String transferType, ServiceAsyncCallback<DownloadResult> callback)
 			{
 
-		CompletableFuture<DownloadData> downloadFileAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadData downloadData = new DownloadData();
+		CompletableFuture<DownloadResult> downloadFileAsync = CompletableFuture.supplyAsync(() -> {
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 
 			try {
@@ -157,12 +152,12 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadBinary(String nemHash, String transferType,
-			ServiceAsyncCallback<DownloadData> callback) {
+	public CompletableFuture<DownloadResult> downloadBinary(String nemHash, String transferType,
+			ServiceAsyncCallback<DownloadResult> callback) {
 
-		CompletableFuture<DownloadData> downloadBinaryAsync = CompletableFuture.supplyAsync(() -> {
+		CompletableFuture<DownloadResult> downloadBinaryAsync = CompletableFuture.supplyAsync(() -> {
 
-			DownloadData downloadData = new DownloadData();
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 
 			try {
@@ -204,8 +199,8 @@ public class DownloadAsync extends Download {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
+	public CompletableFuture<DownloadResult> downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
+			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadResult> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureBinaryOrFile(nemHash, "bytes", senderOrReceiverPrivateKey, senderOrReceiverPublicKey,
 				callback);
@@ -224,8 +219,8 @@ public class DownloadAsync extends Download {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
-			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback)
+	public CompletableFuture<DownloadResult> downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
+			String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadResult> callback)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureTextData(nemHash, "bytes", senderOrReceiverPrivateKey, senderOrReceiverPublicKey,
 				callback);
@@ -241,12 +236,12 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadSecureBinaryOrFile(String nemHash, String transferType,
-			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
+	public CompletableFuture<DownloadResult> downloadSecureBinaryOrFile(String nemHash, String transferType,
+			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadResult> callback) {
 
-		CompletableFuture<DownloadData> downloadBinaryOrFileAsync = CompletableFuture.supplyAsync(() -> {
+		CompletableFuture<DownloadResult> downloadBinaryOrFileAsync = CompletableFuture.supplyAsync(() -> {
 
-			DownloadData downloadData = new DownloadData();
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 			SecureMessage message;
 			// BinaryTransactionEncryptedMessage binaryEncryptedData = new
@@ -348,11 +343,11 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadSecureTextData(String nemHash, String transferType,
-			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadData> callback) {
+	public CompletableFuture<DownloadResult> downloadSecureTextData(String nemHash, String transferType,
+			String senderOrReceiverPrivateKey, String senderOrReceiverPublicKey, ServiceAsyncCallback<DownloadResult> callback) {
 
-		CompletableFuture<DownloadData> downloadSecureTextDataAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadData downloadData = new DownloadData();
+		CompletableFuture<DownloadResult> downloadSecureTextDataAsync = CompletableFuture.supplyAsync(() -> {
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 			SecureMessage message;
 			// get the addresses
@@ -449,10 +444,10 @@ public class DownloadAsync extends Download {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<DownloadData> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, ServiceAsyncCallback<DownloadData> callback) {
+	public CompletableFuture<DownloadResult> downloadMultisigFileOrData(int messageType, String nemHash, String keySecret, ServiceAsyncCallback<DownloadResult> callback) {
 		
-		CompletableFuture<DownloadData> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
-			DownloadData downloadData = new DownloadData();
+		CompletableFuture<DownloadResult> downloadPlainAsync = CompletableFuture.supplyAsync(() -> {
+			DownloadResult downloadData = new DownloadResult();
 			byte[] securedResponse = null;
 
 			try {

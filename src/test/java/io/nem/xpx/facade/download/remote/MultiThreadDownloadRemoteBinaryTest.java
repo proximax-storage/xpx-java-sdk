@@ -30,7 +30,7 @@ import io.nem.xpx.facade.DownloadAsync;
 import io.nem.xpx.facade.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadData;
+import io.nem.xpx.facade.model.DownloadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadException;
@@ -55,7 +55,7 @@ public class MultiThreadDownloadRemoteBinaryTest extends AbstractApiTest {
 					Download download = new Download(remotePeerConnection);
 					String timeStamp = System.currentTimeMillis() + "";
 					long expectedFileSize = this.extractLargeFileSize();
-					DownloadData message = download.downloadBinaryOrFile("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
+					DownloadResult message = download.downloadBinaryOrFile("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
 
 					FileUtils
 							.writeByteArrayToFile(

@@ -1,7 +1,7 @@
 package io.nem.xpx.callback;
 
-import io.nem.xpx.facade.model.DownloadData;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.DownloadResult;
+import io.nem.xpx.facade.model.UploadResult;
 
 
 /**
@@ -14,5 +14,5 @@ public interface DownloadCallback {
 	 *
 	 * @param downloadData the download data
 	 */
-	public void process(DownloadData downloadData);
+	public void process(DownloadResult downloadData);
 }

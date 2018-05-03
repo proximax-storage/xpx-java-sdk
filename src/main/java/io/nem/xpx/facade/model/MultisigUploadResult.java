@@ -7,13 +7,13 @@ import java.io.Serializable;
 /**
  * The Class MultisigUploadData.
  */
-public class MultisigUploadData implements Serializable {
+public class MultisigUploadResult implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The upload data. */
-	private UploadData uploadData;
+	private UploadResult uploadData;
 	
 	/** The secret key. */
 	private String secretKey;
@@ -22,8 +22,8 @@ public class MultisigUploadData implements Serializable {
 	/**
 	 * Instantiates a new multisig upload data.
 	 */
-	public MultisigUploadData() {
-		this.uploadData = new UploadData();
+	public MultisigUploadResult() {
+		this.uploadData = new UploadResult();
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class MultisigUploadData implements Serializable {
 	 *
 	 * @return the upload data
 	 */
-	public UploadData getUploadData() {
+	public UploadResult getUploadData() {
 		return uploadData;
 	}
 
@@ -40,7 +40,7 @@ public class MultisigUploadData implements Serializable {
 	 *
 	 * @param uploadData the new upload data
 	 */
-	public void setUploadData(UploadData uploadData) {
+	public void setUploadData(UploadResult uploadData) {
 		this.uploadData = uploadData;
 	}
 

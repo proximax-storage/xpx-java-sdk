@@ -45,7 +45,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-
+		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");

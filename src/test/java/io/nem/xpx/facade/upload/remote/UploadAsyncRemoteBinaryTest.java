@@ -30,7 +30,7 @@ import io.nem.xpx.facade.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadDataParameter;
@@ -81,23 +81,24 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 					.contentType("video/mp4")
 					.build();
 			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data("plain-data - alvin reyes this is a new one yes from local 3")
-					.contentType(DataTextContentType.APPLICATION_XML).metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data").build();
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("plain-data - alvin reyes this is a new one yes from local 1")
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
 
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadBinary(parameter1, (n) -> {
+			CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future2 = upload.uploadBinary(parameter2, (n) -> {
+			CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 
@@ -147,23 +148,24 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 					.contentType("video/mp4")
 					.build();
 			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
-					.contentType(DataTextContentType.APPLICATION_XML).metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data").build();
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
 
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadBinary(parameter1, (n) -> {
+			CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future2 = upload.uploadBinary(parameter2, (n) -> {
+			CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 
@@ -208,23 +210,26 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("data-with-mosaics 3")
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("plain-data - alvin reyes this is a new one yes from local 3")
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadBinary(parameter1, (n) -> {
+			CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future2 = upload.uploadBinary(parameter2, (n) -> {
+			CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 

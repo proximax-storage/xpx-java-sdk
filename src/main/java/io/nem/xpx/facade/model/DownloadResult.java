@@ -12,7 +12,7 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 /**
  * The Class DownloadData.
  */
-public class DownloadData implements Serializable {
+public class DownloadResult implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

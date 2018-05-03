@@ -9,7 +9,7 @@ import java.util.concurrent.CompletionException;
 import io.nem.ApiException;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadDataParameter;
@@ -23,12 +23,6 @@ import io.nem.xpx.model.UploadPathParameter;
  */
 public class UploadAsync extends Upload {
 
-	/**
-	 * Instantiates a new upload.
-	 */
-	public UploadAsync() {
-
-	}
 
 	/**
 	 * Instantiates a new upload.
@@ -50,9 +44,9 @@ public class UploadAsync extends Upload {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadData> uploadFile(UploadFileParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
-		CompletableFuture<UploadData> uploadFileAsync = CompletableFuture.supplyAsync(() -> {
-			UploadData uploadData = null;
+	public CompletableFuture<UploadResult> uploadFile(UploadFileParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+		CompletableFuture<UploadResult> uploadFileAsync = CompletableFuture.supplyAsync(() -> {
+			UploadResult uploadData = null;
 			try {
 				uploadData = handleFileUpload(uploadParameter);
 			} catch (UploadException | IOException | ApiException e) {
@@ -74,9 +68,9 @@ public class UploadAsync extends Upload {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadData> uploadTextData(UploadDataParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
-		CompletableFuture<UploadData> uploadDataAsync = CompletableFuture.supplyAsync(() -> {
-			UploadData uploadData = null;
+	public CompletableFuture<UploadResult> uploadTextData(UploadDataParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+		CompletableFuture<UploadResult> uploadDataAsync = CompletableFuture.supplyAsync(() -> {
+			UploadResult uploadData = null;
 			try {
 				uploadData = handleTextDataUpload(uploadParameter);
 			} catch (UploadException | IOException | ApiException e) {
@@ -97,10 +91,10 @@ public class UploadAsync extends Upload {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadData> uploadBinary(UploadBinaryParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
+	public CompletableFuture<UploadResult> uploadBinary(UploadBinaryParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
-		CompletableFuture<UploadData> uploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
-			UploadData uploadData = null;
+		CompletableFuture<UploadResult> uploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
+			UploadResult uploadData = null;
 			try {
 				uploadData = handleBinaryUpload(uploadParameter);
 			} catch (UploadException | IOException | ApiException e) {
@@ -123,10 +117,10 @@ public class UploadAsync extends Upload {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadData> uploadPath(UploadPathParameter uploadParameter, ServiceAsyncCallback<UploadData> callback) {
+	public CompletableFuture<UploadResult> uploadPath(UploadPathParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
-		CompletableFuture<UploadData> uploadPathAsync = CompletableFuture.supplyAsync(() -> {
-			UploadData uploadData = null;
+		CompletableFuture<UploadResult> uploadPathAsync = CompletableFuture.supplyAsync(() -> {
+			UploadResult uploadData = null;
 			try {
 				uploadData = handlePathUpload(uploadParameter);
 			} catch (UploadException | IOException | ApiException | PeerConnectionNotFoundException e) {

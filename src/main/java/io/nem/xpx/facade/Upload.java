@@ -25,7 +25,7 @@ import io.nem.ApiException;
 import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.model.DataResponse;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
@@ -69,12 +69,6 @@ public class Upload extends FacadeService {
 
 	/**
 	 * Instantiates a new upload.
-	 */
-	public Upload() {
-	}
-
-	/**
-	 * Instantiates a new upload.
 	 *
 	 * @param peerConnection
 	 *            the peer connection
@@ -112,9 +106,9 @@ public class Upload extends FacadeService {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public UploadData uploadFile(UploadFileParameter uploadParameter)
+	public UploadResult uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleFileUpload(uploadParameter);
+		UploadResult uploadData = handleFileUpload(uploadParameter);
 		return uploadData;
 
 	}
@@ -132,9 +126,9 @@ public class Upload extends FacadeService {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	public UploadData uploadTextData(UploadDataParameter uploadParameter)
+	public UploadResult uploadTextData(UploadDataParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleTextDataUpload(uploadParameter);
+		UploadResult uploadData = handleTextDataUpload(uploadParameter);
 		return uploadData;
 	}
 
@@ -147,9 +141,9 @@ public class Upload extends FacadeService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ApiException the api exception
 	 */
-	public UploadData uploadBinary(UploadBinaryParameter uploadParameter)
+	public UploadResult uploadBinary(UploadBinaryParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
-		UploadData uploadData = handleBinaryUpload(uploadParameter);
+		UploadResult uploadData = handleBinaryUpload(uploadParameter);
 		return uploadData;
 	}
 
@@ -168,9 +162,9 @@ public class Upload extends FacadeService {
 	 * @throws PeerConnectionNotFoundException
 	 *             the peer connection not found exception
 	 */
-	public UploadData uploadPath(UploadPathParameter uploadParameter)
+	public UploadResult uploadPath(UploadPathParameter uploadParameter)
 			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
-		UploadData uploadData = handlePathUpload(uploadParameter);
+		UploadResult uploadData = handlePathUpload(uploadParameter);
 		return uploadData;
 	}
 
@@ -187,14 +181,14 @@ public class Upload extends FacadeService {
 	 * @throws UploadException
 	 *             the upload exception
 	 */
-	protected UploadData handleTextDataUpload(UploadDataParameter uploadParameter)
+	protected UploadResult handleTextDataUpload(UploadDataParameter uploadParameter)
 			throws IOException, ApiException, UploadException {
 		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadData uploadData = new UploadData();
+		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null; // flat buffer object.
 		ResourceHashMessage resourceMessageHash = null;
@@ -209,7 +203,7 @@ public class Upload extends FacadeService {
 			parameter.setMetadata(uploadParameter.getMetaData());
 			parameter.setName(uploadParameter.getName());
 
-			byte[] serializedData = uploadParameter.getData().getBytes();
+			byte[] serializedData = uploadParameter.getData().getBytes(uploadParameter.getEncoding());
 			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
 				encrypted = engine.createBlockCipher(
 						new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()), engine),
@@ -279,14 +273,14 @@ public class Upload extends FacadeService {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	protected UploadData handleFileUpload(UploadFileParameter uploadParameter)
+	protected UploadResult handleFileUpload(UploadFileParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadData uploadData = new UploadData();
+		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -363,14 +357,14 @@ public class Upload extends FacadeService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ApiException the api exception
 	 */
-	protected UploadData handleBinaryUpload(UploadBinaryParameter uploadParameter)
+	protected UploadResult handleBinaryUpload(UploadBinaryParameter uploadParameter)
 			throws UploadException, IOException, ApiException {
 		String publishedData = "";
 		if (uploadParameter.getMosaics() == null) {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadData uploadData = new UploadData();
+		UploadResult uploadData = new UploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -456,7 +450,7 @@ public class Upload extends FacadeService {
 	 *             the peer connection not found exception
 	 */
 	// can only be called if the connection is local really.
-	protected UploadData handlePathUpload(UploadPathParameter uploadParameter)
+	protected UploadResult handlePathUpload(UploadPathParameter uploadParameter)
 			throws UploadException, IOException, ApiException, PeerConnectionNotFoundException {
 
 		if (peerConnection instanceof RemotePeerConnection) {
@@ -468,7 +462,7 @@ public class Upload extends FacadeService {
 			uploadParameter.setMosaics(new Mosaic[0]);
 		}
 
-		UploadData uploadData = new UploadData();
+		UploadResult uploadData = new UploadResult();
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
 		try {

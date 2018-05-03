@@ -35,7 +35,7 @@ import io.nem.xpx.builder.MultisigTransactionBuilder;
 import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.MultisigUploadData;
+import io.nem.xpx.facade.model.MultisigUploadResult;
 import io.nem.xpx.model.MultisigUploadBinaryParameter;
 import io.nem.xpx.model.MultisigUploadDataParameter;
 import io.nem.xpx.model.MultisigUploadFileParameter;
@@ -117,11 +117,11 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
+	public MultisigUploadResult uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigDataUpload(parameters);
+		MultisigUploadResult multisigUploadData = handleMultisigDataUpload(parameters);
 		return multisigUploadData;
 	}
 
@@ -141,11 +141,11 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws BadPaddingException the bad padding exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData uploadFileOnMultisigTransaction(MultisigUploadFileParameter uploadParameter)
+	public MultisigUploadResult uploadFileOnMultisigTransaction(MultisigUploadFileParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigFileUpload(uploadParameter);
+		MultisigUploadResult multisigUploadData = handleMultisigFileUpload(uploadParameter);
 		return multisigUploadData;
 
 	}
@@ -166,11 +166,11 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws BadPaddingException the bad padding exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData uploadBinaryOnMultisigTransaction(MultisigUploadBinaryParameter uploadParameter)
+	public MultisigUploadResult uploadBinaryOnMultisigTransaction(MultisigUploadBinaryParameter uploadParameter)
 			throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		MultisigUploadData multisigUploadData = handleMultisigBinaryUpload(uploadParameter);
+		MultisigUploadResult multisigUploadData = handleMultisigBinaryUpload(uploadParameter);
 		return multisigUploadData;
 
 	}
@@ -185,8 +185,8 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws ApiException the api exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData handleMultisigDataUpload(MultisigUploadDataParameter uploadParameter) throws IOException, ApiException, UploadException {
-		MultisigUploadData multisigUploadData = new MultisigUploadData();
+	public MultisigUploadResult handleMultisigDataUpload(MultisigUploadDataParameter uploadParameter) throws IOException, ApiException, UploadException {
+		MultisigUploadResult multisigUploadData = new MultisigUploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -270,8 +270,8 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws ApiException the api exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData handleMultisigFileUpload(MultisigUploadFileParameter uploadParameter) throws IOException, ApiException, UploadException {
-		MultisigUploadData multisigUploadData = new MultisigUploadData();
+	public MultisigUploadResult handleMultisigFileUpload(MultisigUploadFileParameter uploadParameter) throws IOException, ApiException, UploadException {
+		MultisigUploadResult multisigUploadData = new MultisigUploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -348,8 +348,8 @@ public class MultisigUpload  extends FacadeService {
 	 * @throws ApiException the api exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadData handleMultisigBinaryUpload(MultisigUploadBinaryParameter uploadParameter) throws IOException, ApiException, UploadException {
-		MultisigUploadData multisigUploadData = new MultisigUploadData();
+	public MultisigUploadResult handleMultisigBinaryUpload(MultisigUploadBinaryParameter uploadParameter) throws IOException, ApiException, UploadException {
+		MultisigUploadResult multisigUploadData = new MultisigUploadResult();
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;

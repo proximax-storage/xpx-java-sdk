@@ -11,7 +11,7 @@ import io.nem.ApiException;
 import io.nem.xpx.facade.Download;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadData;
+import io.nem.xpx.facade.model.DownloadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
@@ -30,7 +30,7 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 
 		try {
 			Download download = new Download(remotePeerConnection);
-			DownloadData message = download.downloadTextData(
+			DownloadResult message = download.downloadTextData(
 					"627e3b70b2e902c8ca33447216535c5f0cc90da408a3db9b5b7ded95873bb47c");
 			
 			//	Validate data.
@@ -57,10 +57,10 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 
 		try {
 			Download download = new Download(remotePeerConnection);
-			DownloadData message = download.downloadSecureTextData(
-					"13eb1935e2bf6459ab197757f69b834410fb6cd43efbf533eb65cc8632691d32",this.xPvkey,this.xPubkey);
+			DownloadResult message = download.downloadSecureTextData(
+					"be7e880d16e8b7c93d74dc79c6b9caf73466a63d44d9b19ccdaa34ae7e790722",this.xPvkey,this.xPubkey);
 			
-			
+			LOGGER.info(">");
 			LOGGER.info(new String(message.getData(), "UTF-8"));
 			Assert.assertTrue(true);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException | IOException e) {
@@ -69,7 +69,26 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void downloadSecureAsciiDataTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
+		try {
+			Download download = new Download(remotePeerConnection);
+			DownloadResult message = download.downloadSecureTextData(
+					"e3c95cc11780224408f7c379b1ebba415b0e82a8304444b1d531c4a1a645e258",this.xPvkey,this.xPubkey);
+			
+			LOGGER.info(">");
+			LOGGER.info(new String(message.getData(), "ASCII"));
+			Assert.assertTrue(true);
+		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException | IOException e) {
 
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	
 
 }

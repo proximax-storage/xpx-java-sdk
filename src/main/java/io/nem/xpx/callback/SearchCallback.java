@@ -1,6 +1,6 @@
 package io.nem.xpx.callback;
 
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.UploadResult;
 
 
 /**

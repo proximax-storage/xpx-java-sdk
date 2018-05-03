@@ -29,7 +29,7 @@ import org.nem.core.model.ncc.TransactionMetaDataPair;
 import io.nem.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DownloadData;
+import io.nem.xpx.facade.model.DownloadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
@@ -54,10 +54,6 @@ public class Download extends FacadeService {
 	/** The engine. */
 	protected CryptoEngine engine;
 
-	/**
-	 * Instantiates a new download.
-	 */
-	public Download() {}
 
 	/**
 	 * Instantiates a new download.
@@ -92,10 +88,10 @@ public class Download extends FacadeService {
 	 * @throws ApiException             the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadTextData(String nemHash)
+	public DownloadResult downloadTextData(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
 
-		DownloadData downloadData = new DownloadData();
+		DownloadResult downloadData = new DownloadResult();
 		byte[] securedResponse = null;
 		
 		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
@@ -120,10 +116,10 @@ public class Download extends FacadeService {
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadBinaryOrFile(String nemHash)
+	public DownloadResult downloadBinaryOrFile(String nemHash)
 			throws InterruptedException, ExecutionException, ApiException, IOException {
 
-		DownloadData downloadData = new DownloadData();
+		DownloadResult downloadData = new DownloadResult();
 		byte[] securedResponse = null;
 		
 		TransactionMetaDataPair transactionMetaDataPair = NemTransactionApi.getTransaction(nemHash);
@@ -151,7 +147,7 @@ public class Download extends FacadeService {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
+	public DownloadResult downloadSecureBinaryOrFile(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureBinaryOrFile(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
@@ -169,7 +165,7 @@ public class Download extends FacadeService {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
+	public DownloadResult downloadSecureTextData(String nemHash, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
 		return downloadSecureTextData(nemHash,"bytes",senderOrReceiverPrivateKey,senderOrReceiverPublicKey);
@@ -188,10 +184,10 @@ public class Download extends FacadeService {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadSecureBinaryOrFile(String nemHash, String transferType, String senderOrReceiverPrivateKey,
+	public DownloadResult downloadSecureBinaryOrFile(String nemHash, String transferType, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
-		DownloadData downloadData = new DownloadData();
+		DownloadResult downloadData = new DownloadResult();
 		byte[] securedResponse = null;
 		SecureMessage message;
 		//BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
@@ -277,10 +273,10 @@ public class Download extends FacadeService {
 	 * @throws ExecutionException the execution exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DownloadData downloadSecureTextData(String nemHash, String transferType, String senderOrReceiverPrivateKey,
+	public DownloadResult downloadSecureTextData(String nemHash, String transferType, String senderOrReceiverPrivateKey,
 			String senderOrReceiverPublicKey)
 			throws ApiException, InterruptedException, ExecutionException, IOException {
-		DownloadData downloadData = new DownloadData();
+		DownloadResult downloadData = new DownloadResult();
 		byte[] securedResponse = null;
 		SecureMessage message;
 		//BinaryTransactionEncryptedMessage binaryEncryptedData = new BinaryTransactionEncryptedMessage();
@@ -373,9 +369,9 @@ public class Download extends FacadeService {
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 * @throws NoSuchPaddingException the no such padding exception
 	 */
-	public DownloadData downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)
+	public DownloadResult downloadMultisigFileOrData(int messageType, String nemHash, String keySecret)
 			throws ApiException, InterruptedException, ExecutionException, IOException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
-		DownloadData downloadData = new DownloadData();
+		DownloadResult downloadData = new DownloadResult();
 		byte[] securedResponse = null;
 		// Evauate the transaction.
 		TransferTransaction transaction = (TransferTransaction) NemTransactionApi.getTransaction(nemHash).getEntity();

@@ -14,7 +14,7 @@ import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.facade.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.model.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -63,15 +63,15 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 
 					// 	Run the computation on another thread and wait for it to finish.
 					//	Callbacks are then handled.
-					CompletableFuture<UploadData> future1 = upload.uploadBinary(parameter1, (n) -> {
+					CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
 						System.out.println(n.getNemHash());
 					});
 					
-					CompletableFuture<UploadData> future2 = upload.uploadBinary(parameter2, (n) -> {
+					CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
 						System.out.println(n.getNemHash());
 					});
 					
-					CompletableFuture<UploadData> future3 = upload.uploadBinary(parameter3, (n) -> {
+					CompletableFuture<UploadResult> future3 = upload.uploadBinary(parameter3, (n) -> {
 						System.out.println(n.getNemHash());
 					});
 

@@ -13,7 +13,7 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 /**
  * The Class UploadData.
  */
-public class UploadData implements Serializable{
+public class UploadResult implements Serializable{
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

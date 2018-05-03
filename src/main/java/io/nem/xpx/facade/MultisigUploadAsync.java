@@ -24,7 +24,7 @@ import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.MultisigUploadData;
+import io.nem.xpx.facade.model.MultisigUploadResult;
 import io.nem.xpx.model.MultisigUploadBinaryParameter;
 import io.nem.xpx.model.MultisigUploadDataParameter;
 import io.nem.xpx.model.MultisigUploadFileParameter;
@@ -76,13 +76,13 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UploadException the upload exception
 	 */
-	public CompletableFuture<MultisigUploadData> uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters,
-			ServiceAsyncCallback<MultisigUploadData> callback) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
+	public CompletableFuture<MultisigUploadResult> uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters,
+			ServiceAsyncCallback<MultisigUploadResult> callback) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
 
-		CompletableFuture<MultisigUploadData> multisigUploadDataAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadData multisigUploadData = null;
+		CompletableFuture<MultisigUploadResult> multisigUploadDataAsync = CompletableFuture.supplyAsync(() -> {
+			MultisigUploadResult multisigUploadData = null;
 			try {
 				multisigUploadData = handleMultisigDataUpload(parameters);
 			} catch (UploadException | IOException | ApiException e) {
@@ -115,13 +115,13 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws BadPaddingException the bad padding exception
 	 * @throws UploadException the upload exception
 	 */
-	public CompletableFuture<MultisigUploadData> uploadFileOnMultisigTransaction(MultisigUploadFileParameter parameters,
-			ServiceAsyncCallback<MultisigUploadData> callback) throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException,
+	public CompletableFuture<MultisigUploadResult> uploadFileOnMultisigTransaction(MultisigUploadFileParameter parameters,
+			ServiceAsyncCallback<MultisigUploadResult> callback) throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException,
 			NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		CompletableFuture<MultisigUploadData> multisigUploadFileAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadData multisigUploadData = null;
+		CompletableFuture<MultisigUploadResult> multisigUploadFileAsync = CompletableFuture.supplyAsync(() -> {
+			MultisigUploadResult multisigUploadData = null;
 			try {
 				multisigUploadData = handleMultisigFileUpload(parameters);
 			} catch (UploadException | IOException | ApiException e) {
@@ -154,13 +154,13 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws BadPaddingException the bad padding exception
 	 * @throws UploadException the upload exception
 	 */
-	public CompletableFuture<MultisigUploadData> uploadBinaryOnMultisigTransaction(
-			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadData> callback) throws IOException, ApiException,
+	public CompletableFuture<MultisigUploadResult> uploadBinaryOnMultisigTransaction(
+			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadResult> callback) throws IOException, ApiException,
 			InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
 
-		CompletableFuture<MultisigUploadData> multisigUploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadData multisigUploadData = null;
+		CompletableFuture<MultisigUploadResult> multisigUploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
+			MultisigUploadResult multisigUploadData = null;
 			try {
 				multisigUploadData = handleMultisigBinaryUpload(parameters);
 			} catch (UploadException | IOException | ApiException e) {

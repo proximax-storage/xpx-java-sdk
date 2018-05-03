@@ -47,13 +47,15 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadDataParameter parameter = UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.messageType(MessageTypes.SECURE)
+					.name("NAME1")
 					.data(new String("test plain - new 1".getBytes(),"UTF-8"))
 					.contentType(DataTextContentType.TEXT_PLAIN)
-					.metaData(JsonUtils.toJson(metaData)) // one level map to json
-					.keywords("plain,test")
+					.encoding("UTF-8")
+					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData)) // one level map to json
 					.build();
 
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
@@ -76,12 +78,15 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadDataParameter parameter = UploadDataParameterBuilder
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data(new String("test plain - new 2".getBytes(),"ASCII"))
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("NAME1")
+					.data(new String("test plain - new 1".getBytes(),"ASCII"))
 					.contentType(DataTextContentType.TEXT_PLAIN)
-					.metaData(JsonUtils.toJson(metaData)) // one level map to json
-					.keywords("plain,test")
+					.encoding("UTF-8")
+					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData)) // one level map to json
 					.build();
 
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
@@ -107,12 +112,18 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
-					.data("This is a Secure Test Data")
+			UploadDataParameter parameter = UploadDataParameterBuilder
+					.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("NAME1")
+					.data(new String("test secure - new 2".getBytes(),"UTF-8"))
 					.contentType(DataTextContentType.TEXT_PLAIN)
-					.metaData(JsonUtils.toJson(metaData)) // one level map to json
-					.keywords("secure,test")
+					.encoding("UTF-8")
+					.keywords("secure,data")
+					.metadata(JsonUtils.toJson(metaData)) // one level map to json
 					.build();
+			
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
@@ -121,6 +132,33 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 		}
 	}
 
+	
+	@Test
+	public void uploadSecureDataAsciiTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+
+		try {
+			Map<String,String> metaData = new HashMap<String,String>();
+			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
+			UploadDataParameter parameter = UploadDataParameterBuilder
+					.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("NAME1")
+					.data(new String("test secure - new 2".getBytes(),"ASCII"))
+					.contentType(DataTextContentType.TEXT_PLAIN)
+					.encoding("UTF-8")
+					.keywords("secure,data")
+					.metadata(JsonUtils.toJson(metaData)) // one level map to json
+					.build();
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
+			LOGGER.info(nemhash);
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 	
 	@Test
 	public void uploadPlainDataWithMosaicTest() {
@@ -133,11 +171,12 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
-					.data("This is a Secure Test Data")
-					.contentType(DataTextContentType.TEXT_PLAIN)
-					.metaData(JsonUtils.toJson(metaData)) // one level map to json
-					.keywords("secure,test")
+			UploadDataParameter parameter = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("plain-data - alvin reyes this is a new one yes from local 1")
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 							Quantity.fromValue(0)))
 					.build();
