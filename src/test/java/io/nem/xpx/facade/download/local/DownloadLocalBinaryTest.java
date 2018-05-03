@@ -51,7 +51,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//downloadPlainFileTest_"
 					+ message.getDataMessage().name() + ".pdf"));
 			
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version2.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version1.pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 

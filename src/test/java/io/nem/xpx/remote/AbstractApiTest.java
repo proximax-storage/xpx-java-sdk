@@ -44,17 +44,12 @@ public abstract class AbstractApiTest {
 	protected String localNodeBasePath = "http://localhost:8881";
 	
 	/** The upload node base path. */
-	 
 	protected String localRemote = "http://localhost:8881";
-	//protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
-	
-	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";//"http://128.199.196.118:8881";
-
+	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";
 	/** The download node base path. */
-	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
-	
+	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";
 	/** The search node base path. */
-	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
+	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";
 
 	protected ApiClient apiClient;
 	

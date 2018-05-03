@@ -136,6 +136,7 @@ public class LocalSearchApi implements SearchApi {
 									.getRootAsResourceHashMessage(ByteBuffer.wrap(
 											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
@@ -191,6 +192,7 @@ public class LocalSearchApi implements SearchApi {
 											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
@@ -222,6 +224,7 @@ public class LocalSearchApi implements SearchApi {
 									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
 
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
