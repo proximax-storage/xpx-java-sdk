@@ -37,14 +37,7 @@ import java.util.Map;
 public class RemoteDataHashApi implements DataHashApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-	/**
-	 * Instantiates a new remote data hash api.
-	 */
-	public RemoteDataHashApi() {
-		this(Configuration.getDefaultApiClient());
-	}
+	private final ApiClient apiClient;
 
 	/**
 	 * Instantiates a new remote data hash api.
@@ -62,15 +55,6 @@ public class RemoteDataHashApi implements DataHashApi {
 	 */
 	public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

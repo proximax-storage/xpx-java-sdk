@@ -1,9 +1,8 @@
 package io.nem.xpx.builder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import io.nem.ApiException;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
@@ -14,9 +13,9 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.ApiException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 
@@ -31,16 +30,31 @@ public class MultisigSignatureTransactionBuilder {
 	private MultisigSignatureTransactionBuilder() {
 	}
 
-	/**
-	 * Sender.
-	 *
-	 * @param multisig
-	 *            the multisig
-	 * @return the i sender
-	 */
 
-	public static ISigner multisig(Account multisig) {
-		return new MultisigSignatureTransactionBuilder.Builder(multisig);
+	/**
+	 * PeerConnection.
+	 *
+	 * @param peerConnection
+	 *            the peer connection
+	 * @return the i peer connection
+	 */
+	public static IPeerConnection peerConnection(PeerConnection peerConnection) {
+		return new MultisigSignatureTransactionBuilder.Builder(peerConnection);
+	}
+
+	/**
+	 * The Interface ISender.
+	 */
+	public interface IPeerConnection {
+
+		/**
+		 * Sender.
+		 *
+		 * @param multisig
+		 *            the sender
+		 * @return the i sender
+		 */
+		ISigner multisig(Account multisig);
 	}
 
 	/**
@@ -195,7 +209,7 @@ public class MultisigSignatureTransactionBuilder {
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISigner, ITransaction, IBuild {
+	private static class Builder implements IPeerConnection, ISigner, ITransaction, IBuild {
 
 		/*
 		 * (non-Javadoc)
@@ -223,6 +237,8 @@ public class MultisigSignatureTransactionBuilder {
 
 		/** The instance. */
 		private MultisigSignatureTransaction instance;
+
+		private PeerConnection peerConnection;
 
 		/** The time stamp. */
 		// constructor
@@ -259,14 +275,18 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param multisig
-		 *            the multisig
+		 * @param peerConnection
+		 *            the peerConnection
 		 */
-		public Builder(Account multisig) {
-			this.multisig = multisig;
+		public Builder(PeerConnection peerConnection) {
+			this.peerConnection = peerConnection;
 
 		}
 
+		public ISigner multisig(Account multisig) {
+			this.multisig = multisig;
+			return this;
+		}
 		/**
 		 * Builds the multisig signature transaction.
 		 *
@@ -330,7 +350,7 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public MultisigSignatureTransaction coSign() throws ApiException {
-			TransactionUtils.sendMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
+			peerConnection.getTransactionSender().sendMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 			return instance;
 		}
 
@@ -479,7 +499,7 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public CompletableFuture<Deserializer> coSignFuture() throws ApiException {
-			return TransactionUtils
+			return peerConnection.getTransactionSender()
 					.sendFutureMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 		}
 

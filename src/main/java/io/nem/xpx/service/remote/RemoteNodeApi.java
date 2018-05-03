@@ -44,14 +44,7 @@ import java.util.Map;
 public class RemoteNodeApi implements NodeApi {
     
     /** The api client. */
-    private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote node api.
-     */
-    public RemoteNodeApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote node api.
@@ -69,15 +62,6 @@ public class RemoteNodeApi implements NodeApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

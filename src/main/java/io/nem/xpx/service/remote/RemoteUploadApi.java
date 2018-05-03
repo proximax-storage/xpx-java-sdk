@@ -42,14 +42,7 @@ import java.util.Map;
 public class RemoteUploadApi implements UploadApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote upload api.
-     */
-    public RemoteUploadApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote upload api.
@@ -67,15 +60,6 @@ public class RemoteUploadApi implements UploadApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

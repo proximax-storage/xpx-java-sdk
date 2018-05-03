@@ -1,17 +1,15 @@
 package io.nem.xpx.builder;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
+import io.nem.ApiException;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.factory.AttachmentFactory;
+import io.nem.xpx.model.InsufficientAmountException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
 import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
-import org.nem.core.model.Account;
-import org.nem.core.model.Message;
-import org.nem.core.model.MessageTypes;
-import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.TransferTransaction;
-import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.*;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
@@ -25,12 +23,8 @@ import org.nem.core.serialization.JsonDeserializer;
 import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.ApiException;
-import io.nem.xpx.factory.AttachmentFactory;
-import io.nem.xpx.model.InsufficientAmountException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionUtils;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -45,14 +39,29 @@ public class TransferTransactionBuilder {
 	}
 
 	/**
-	 * Sender.
+	 * PeerConnection.
 	 *
-	 * @param sender
-	 *            the sender
-	 * @return the i sender
+	 * @param peerConnection
+	 *            the peer connection
+	 * @return the i peer connection
 	 */
-	public static ISender sender(Account sender) {
-		return new TransferTransactionBuilder.Builder(sender);
+	public static IPeerConnection peerConnection(PeerConnection peerConnection) {
+		return new TransferTransactionBuilder.Builder(peerConnection);
+	}
+
+	/**
+	 * The Interface ISender.
+	 */
+	public interface IPeerConnection {
+
+		/**
+		 * Sender.
+		 *
+		 * @param sender
+		 *            the sender
+		 * @return the i sender
+		 */
+		ISender sender(Account sender);
 	}
 
 	/**
@@ -256,11 +265,14 @@ public class TransferTransactionBuilder {
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IBuild {
+	private static class Builder implements IPeerConnection, ISender, IBuild {
 
 		/** The instance. */
 		// private SpectroTransaction instance = new SpectroTransaction();
+
 		private TransferTransaction instance;
+
+		private PeerConnection peerConnection;
 
 		/** The version. */
 		// constructor
@@ -300,11 +312,22 @@ public class TransferTransactionBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
+		 * @param peerConnection
+		 *            the peer connection
+		 */
+		public Builder(PeerConnection peerConnection) {
+			this.peerConnection = peerConnection;
+		}
+
+		/**
+		 *
 		 * @param sender
 		 *            the sender
+		 * @return the i sender
 		 */
-		public Builder(Account sender) {
+		public ISender sender(Account sender) {
 			this.sender = sender;
+			return this;
 		}
 
 		/*
@@ -360,7 +383,7 @@ public class TransferTransactionBuilder {
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction().sign();
-			return TransactionUtils.sendTransferTransaction(this.instance);
+			return peerConnection.getTransactionSender().sendTransferTransaction(this.instance);
 		}
 
 		/*
@@ -503,7 +526,7 @@ public class TransferTransactionBuilder {
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 			this.buildTransaction().sign();
-			return TransactionUtils.sendFutureTransferTransaction(this.instance);
+			return peerConnection.getTransactionSender().sendFutureTransferTransaction(this.instance);
 		}
 
 		/*
@@ -627,7 +650,6 @@ public class TransferTransactionBuilder {
 			return requestAnnounceDataSignature;
 
 		}
-
 	}
 
 }

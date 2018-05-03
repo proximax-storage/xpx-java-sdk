@@ -2,7 +2,6 @@ package io.nem.xpx.facade.upload.remote;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -17,18 +16,14 @@ import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
-import org.nem.core.node.NodeEndpoint;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.facade.Upload;
-import io.nem.xpx.facade.UploadAsync;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -48,55 +43,55 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 	public void uploadAsyncPlainDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
-
 		try {
 			UploadAsync upload = new UploadAsync(remotePeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 
-			UploadDataParameter parameter1 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadDataParameter parameter1 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 1")
-					.contentType(DataTextContentType.APPLICATION_XML).metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data").build();
-			
-			UploadDataParameter parameter2 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
+
+			UploadDataParameter parameter2 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 2")
-					.contentType(DataTextContentType.APPLICATION_XML).metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data").build();
-			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
+
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
-					.contentType(DataTextContentType.APPLICATION_XML).metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data").build();
+					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
 
-			// 	Run the computation on another thread and wait for it to finish.
-			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			// Run the computation on another thread and wait for it to finish.
+			// Callbacks are then handled.
+			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 
-			CompletableFuture<Void> combinedFuture 
-			  = CompletableFuture.allOf(future1, future2, future3);
-			
+			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
+
 			combinedFuture.get();
-			
+
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
-
 
 	/**
 	 * Upload secure data test.
@@ -105,48 +100,52 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 	public void uploadAsyncSecureDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
-
 		try {
 			UploadAsync upload = new UploadAsync(remotePeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 
-			UploadDataParameter parameter1 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data("secure-data 1")
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,data").build();
-			
-			UploadDataParameter parameter2 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data("secure-data 2")
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,data").build();
-			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data("secure-data 3")
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,data").build();
+			UploadDataParameter parameter1 = UploadDataParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 1").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData)).build();
 
-			// 	Run the computation on another thread and wait for it to finish.
-			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			UploadDataParameter parameter2 = UploadDataParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 2").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData)).build();
+
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 3").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData)).build();
+
+			// Run the computation on another thread and wait for it to finish.
+			// Callbacks are then handled.
+			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 
-			CompletableFuture<Void> combinedFuture 
-			  = CompletableFuture.allOf(future1, future2, future3);
-			
+			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
+
 			combinedFuture.get();
 			Assert.assertTrue(true);
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-		
+
 	}
 
 	/**
@@ -155,52 +154,54 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 	@Test
 	public void uploadAsyncPlainDataWithMosaicTest() {
 
-		
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-
 
 		try {
 			UploadAsync upload = new UploadAsync(remotePeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 
-			UploadDataParameter parameter1 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("data-with-mosaics 1")
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
-					.build();
-			
-			UploadDataParameter parameter2 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("data-with-mosaics 2")
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
-					.build();
-			
-			UploadDataParameter parameter3 = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN).data("data-with-mosaics 3")
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
+			UploadDataParameter parameter1 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 3").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 
-			// 	Run the computation on another thread and wait for it to finish.
-			//	Callbacks are then handled.
-			CompletableFuture<UploadData> future1 = upload.uploadTextData(parameter1, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future2 = upload.uploadTextData(parameter2, (n) -> {
-				System.out.println(n.getNemHash());
-			});
-			
-			CompletableFuture<UploadData> future3 = upload.uploadTextData(parameter3, (n) -> {
+			UploadDataParameter parameter2 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 3").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData))
+					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
+					.build();
+			UploadDataParameter parameter3 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("Secure Data 3").contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.keywords("secure,data").metadata(JsonUtils.toJson(metaData))
+					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
+					.build();
+
+			// Run the computation on another thread and wait for it to finish.
+			// Callbacks are then handled.
+			CompletableFuture<UploadResult> future1 = upload.uploadTextData(parameter1, (n) -> {
 				System.out.println(n.getNemHash());
 			});
 
-			CompletableFuture<Void> combinedFuture 
-			  = CompletableFuture.allOf(future1, future2, future3);
-			
+			CompletableFuture<UploadResult> future2 = upload.uploadTextData(parameter2, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<UploadResult> future3 = upload.uploadTextData(parameter3, (n) -> {
+				System.out.println(n.getNemHash());
+			});
+
+			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
+
 			combinedFuture.get();
-			
+
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			assertTrue(false);

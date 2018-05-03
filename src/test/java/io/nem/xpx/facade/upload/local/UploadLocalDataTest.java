@@ -2,43 +2,33 @@ package io.nem.xpx.facade.upload.local;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.builder.UploadFileParameterBuilder;
-import io.nem.xpx.builder.UploadPathParameterBuilder;
-import io.nem.xpx.facade.Upload;
-import io.nem.xpx.facade.UploadAsync;
+import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.facade.model.UploadData;
+import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
-import io.nem.xpx.model.UploadPathParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -66,13 +56,15 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadDataParameter parameter = UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.messageType(MessageTypes.PLAIN)
+					.name("RandomName")
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.contentType(DataTextContentType.APPLICATION_XML)
-					.metaData(JsonUtils.toJson(metaData))
+					.encoding("UTF-8")
 					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
@@ -94,13 +86,16 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			UploadAsync upload = new UploadAsync(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadDataParameter parameter = UploadDataParameterBuilder
+			UploadDataParameter parameter =  UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.messageType(MessageTypes.PLAIN)
-					.data("plain-data")
-					.metaData(JsonUtils.toJson(metaData))
+					.name("RandomName")
+					.data("plain-data - alvin reyes this is a new one yes from local 3")
+					.contentType(DataTextContentType.APPLICATION_XML)
+					.encoding("UTF-8")
 					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 
 			String nemhash = upload.uploadTextData(parameter, n -> {System.out.println(n.getDataMessage());}).get().getNemHash();
@@ -124,15 +119,19 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
+			UploadDataParameter parameter =  UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.messageType(MessageTypes.SECURE)
-					.data("secure-data")
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("secure,data")
+					.name("RandomName")
+					.data("plain-data - alvin reyes this is a new one yes from local 3")
+					.contentType(DataTextContentType.APPLICATION_XML)
+					.encoding("UTF-8")
+					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 
-			UploadData data = upload.uploadTextData(parameter);
+			UploadResult data = upload.uploadTextData(parameter);
 			String hash =data.getDataMessage().hash();
 			String nemhash = data.getNemHash();
 			LOGGER.info(nemhash);
@@ -157,11 +156,16 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadDataParameter parameter = UploadDataParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data("data-with-mosaics")
-					.metaData(JsonUtils.toJson(metaData))
-					.keywords("plain,data,wmosaics")
+			UploadDataParameter parameter =  UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("RandomName1")
+					.data("plain-data - alvin reyes this is a new one yes from local 3")
+					.contentType(DataTextContentType.APPLICATION_XML)
+					.encoding("UTF-8")
+					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 							Quantity.fromValue(10000)))
 					.build();

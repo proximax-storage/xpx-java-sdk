@@ -43,14 +43,7 @@ import java.util.concurrent.ExecutionException;
 public class RemoteSearchApi implements SearchApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote search api.
-     */
-    public RemoteSearchApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote search api.
@@ -68,15 +61,6 @@ public class RemoteSearchApi implements SearchApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

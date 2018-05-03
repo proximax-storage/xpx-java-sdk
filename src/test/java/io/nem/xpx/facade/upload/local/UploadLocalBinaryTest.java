@@ -23,7 +23,7 @@ import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
-import io.nem.xpx.facade.Upload;
+import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -53,9 +53,9 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file2.pdf")))
-					.name("pdf_file2.pdf")
-					.keywords("pdf_file2")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version12.pdf")))
+					.name("pdf_file_version12.pdf")
+					.keywords("pdf_file_version12")
 					.metaData(JsonUtils.toJson(metaData))
 					.build();
 
@@ -84,9 +84,9 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
 					.contentType("application/pdf")
-					.metaData(JsonUtils.toJson(metaData)).keywords("pdf_file").build();
+					.metaData(JsonUtils.toJson(metaData)).keywords("pdf_file_version1").build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -114,7 +114,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//babyshark.mp4")))
 					.metaData(JsonUtils.toJson(metaData))
-					.keywords("pdf_file")
+					.keywords("pdf_file_version1")
 					.build();
 			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
@@ -138,7 +138,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
 					.metaData(JsonUtils.toJson(metaData)).keywords("plain,data,wmosaics")
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))

@@ -43,14 +43,7 @@ import java.util.Map;
 public class RemoteTransactionAndAnnounceApi implements TransactionAndAnnounceApi {
     
     /** The api client. */
-    private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote transaction and announce api.
-     */
-    public RemoteTransactionAndAnnounceApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote transaction and announce api.
@@ -68,15 +61,6 @@ public class RemoteTransactionAndAnnounceApi implements TransactionAndAnnounceAp
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

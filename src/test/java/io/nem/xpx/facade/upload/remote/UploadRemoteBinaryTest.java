@@ -19,12 +19,10 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
-import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
-import io.nem.xpx.facade.Upload;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -40,26 +38,24 @@ import io.nem.xpx.utils.JsonUtils;
 public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 
-	/**
-	 * Upload plain file test.
-	 */
 	@Test
 	public void uploadPlainBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
+			metaData.put("key1", "1");
 			
 			Upload upload = new Upload(remotePeerConnection);
+			
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
 					.messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
 					.metaData(JsonUtils.toJson(metaData))
-					.keywords("proximax-pdf")
-					.contentType("application/pdf") // make sure to put this in for files.
+					.keywords("proximax_vid")
+					.contentType("video/mp4")
 					.build();
 			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
@@ -109,7 +105,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("secure,binary,test,remote")
 					.build();
@@ -161,7 +157,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//ProximaX-Whitepaper-v1.4.pdf")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
 					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

@@ -17,173 +17,64 @@ public class UploadDataParameterBuilder {
 	 */
 	private UploadDataParameterBuilder() {
 	}
-
-	/**
-	 * Sender.
-	 *
-	 * @param senderOrReceiverPrivateKey the sender or receiver private key
-	 * @return the i sender
-	 */
-	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		return new UploadDataParameterBuilder.Builder(senderOrReceiverPrivateKey);
+	
+	public static IMessageType messageType(int messageType) {
+		return new UploadDataParameterBuilder.Builder(messageType);
 	}
-
-	/**
-	 * The Interface ISender.
-	 */
+	
+	public interface IMessageType {
+		ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey);
+	}
+	
 	public interface ISender {
-
-		/**
-		 * Recipient public key.
-		 *
-		 * @param receiverOrSenderPublicKey the receiver or sender public key
-		 * @return the i build
-		 */
-		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
-
+		IReceiver receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
+	}
+	
+	public interface IReceiver {
+		IName name(String name);
+	}
+	
+	public interface IName {
+		IData data(String data);
+	}
+	
+	public interface IData {
+		IContentType contentType(DataTextContentType contentType);
 	}
 
-	/**
-	 * The Interface IBuild.
-	 */
+	public interface IContentType {
+		IEncoding encoding(String encoding);
+	}
+	
+	
+	public interface IEncoding {
+		IKeywords keywords(String keywords);
+	}
+	
+	public interface IKeywords {
+		IBuild metadata(String metadata);
+	}
+	
 	public interface IBuild {
-
-		/**
-		 * Message type.
-		 *
-		 * @param messageType the message type
-		 * @return the i build
-		 */
-		IBuild messageType(int messageType);
-
-		/**
-		 * Data.
-		 *
-		 * @param data the data
-		 * @return the i build
-		 */
-		IBuild data(String data);
-		
-		/**
-		 * Content type.
-		 *
-		 * @param contentType the content type
-		 * @return the i build
-		 */
-		IBuild contentType(DataTextContentType contentType);
-		
-		/**
-		 * Encoding.
-		 *
-		 * @param encoding the encoding
-		 * @return the i build
-		 */
-		IBuild encoding(String encoding);
-
-		/**
-		 * Name.
-		 *
-		 * @param name the name
-		 * @return the i build
-		 */
-		IBuild name(String name);
-
-		/**
-		 * Keywords.
-		 *
-		 * @param keywords the keywords
-		 * @return the i build
-		 */
-		IBuild keywords(String keywords);
-
-		/**
-		 * Meta data.
-		 *
-		 * @param metaData the meta data
-		 * @return the i build
-		 */
-		IBuild metaData(String metaData);
-
-		/**
-		 * Mosaics.
-		 *
-		 * @param mosaics the mosaics
-		 * @return the i build
-		 */
 		IBuild mosaics(Mosaic... mosaics);
-
-		/**
-		 * Builds the.
-		 *
-		 * @return the upload data parameter
-		 * @throws ApiException the api exception
-		 */
 		UploadDataParameter build() throws ApiException;
-
 	}
+	
 
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IBuild {
+	private static class Builder implements ISender, IReceiver, IMessageType,IData,IEncoding,IContentType,IKeywords,IName,IBuild {
 
 		/** The instance. */
 		UploadDataParameter instance = null;
 
-		/**
-		 * Instantiates a new builder.
-		 *
-		 * @param senderOrReceiverPrivateKey the sender or receiver private key
-		 */
-		public Builder(String senderOrReceiverPrivateKey) {
+		
+		public Builder(int messageType) {
 			instance = new UploadDataParameter();
-			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#messageType(int)
-		 */
-		@Override
-		public IBuild messageType(int messageType) {
 			instance.setMessageType(messageType);
-			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#data(java.lang.String)
-		 */
-		@Override
-		public IBuild data(String data) {
-			instance.setData(data);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#name(java.lang.String)
-		 */
-		@Override
-		public IBuild name(String name) {
-			instance.setName(name);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#keywords(java.lang.String)
-		 */
-		@Override
-		public IBuild keywords(String keywords) {
-			instance.setKeywords(keywords);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#metaData(java.lang.String)
-		 */
-		@Override
-		public IBuild metaData(String metaData) {
-			instance.setMetaData(metaData);
-			return this;
-		}
 
 		/* (non-Javadoc)
 		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#mosaics(org.nem.core.model.mosaic.Mosaic[])
@@ -210,32 +101,62 @@ public class UploadDataParameterBuilder {
 			return instance;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.ISender#recipientPublicKey(java.lang.String)
-		 */
+
 		@Override
-		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+		public IKeywords keywords(String keywords) {
+			this.instance.setKeywords(keywords);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#contentType(io.nem.xpx.facade.model.DataTextContentType)
-		 */
+
 		@Override
-		public IBuild contentType(DataTextContentType contentType) {
-			instance.setContentType(contentType.toString());
+		public IBuild metadata(String metadata) {
+			this.instance.setMetaData(metadata);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#encoding(java.lang.String)
-		 */
+
 		@Override
-		public IBuild encoding(String encoding) {
-			instance.setEncoding(encoding);
+		public IEncoding encoding(String encoding) {
+			this.instance.setEncoding(encoding);
 			return this;
 		}
+
+
+		@Override
+		public IContentType contentType(DataTextContentType contentType) {
+			this.instance.setContentType(contentType.name());
+			return this;
+		}
+
+
+		@Override
+		public ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
+			return this;
+		}
+
+
+		@Override
+		public IData data(String data) {
+			this.instance.setData(data);
+			return this;
+		}
+
+
+		@Override
+		public IReceiver receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+			return this;
+		}
+
+
+		@Override
+		public IName name(String name) {
+			this.instance.setName(name);
+			return this;
+		}
+
 
 	}
 }
