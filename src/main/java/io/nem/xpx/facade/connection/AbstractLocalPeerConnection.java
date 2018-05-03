@@ -1,25 +1,17 @@
-/*
- * 
- */
 package io.nem.xpx.facade.connection;
 
-import io.nem.ApiClient;
-import io.nem.ApiException;
-import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.*;
-import io.nem.xpx.service.remote.*;
+import io.nem.xpx.service.local.*;
 import io.nem.xpx.utils.TransactionSender;
 import org.nem.core.node.NodeEndpoint;
 
-
 /**
- * The Class RemotePeerConnection.
+ * The Class AbstractLocalPeerConnection.
  */
-public class RemotePeerConnection implements PeerConnection {
+public abstract class AbstractLocalPeerConnection implements PeerConnection {
 
-	private final ApiClient apiClient;
 	private final NodeEndpoint nodeEndpoint;
 
 	private AccountApi accountApi;
@@ -35,39 +27,10 @@ public class RemotePeerConnection implements PeerConnection {
 	private NemAccountApi nemAccountApi;
 	private TransactionSender transactionSender;
 
-	/**
-	 * Instantiates a new remote peer connection.
-	 *
-	 * @param baseUrl
-	 *            the base url
-	 */
-	public RemotePeerConnection(String baseUrl) {
-		apiClient = new ApiClient().setBasePath(baseUrl);
-
-		try {
-			NodeInfo nodeInfo = new RemoteNodeApi(apiClient).getNodeInfoUsingGET();
-			nodeEndpoint = new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort()));
-		} catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			// TODO - throw cannot be initialized exception?
-			throw new RuntimeException(e);
-		}
+	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint) {
+		this.nodeEndpoint = nodeEndpoint;
 	}
 
-	/**
-	 * Get Api Client
-	 * @return the Api Client
-	 */
-	public ApiClient getApiClient() {
-		return apiClient;
-	}
-
-	/**
-	 * Get Node Endpoint
-	 * @return the node endpoint
-	 */
 	@Override
 	public NodeEndpoint getNodeEndpoint() {
 		return nodeEndpoint;
@@ -78,70 +41,68 @@ public class RemotePeerConnection implements PeerConnection {
 	 * @return the is local
 	 */
 	@Override
-	public boolean isLocal() {
-		return false;
+	public final boolean isLocal() {
+		return true;
 	}
 
 	@Override
 	public AccountApi getAccountApi() {
 		if (accountApi == null)
-			accountApi = new RemoteAccountApi(apiClient);
+			accountApi = new LocalAccountApi(getNemTransactionApi());
 		return accountApi;
 	}
 
 	@Override
 	public DataHashApi getDataHashApi() {
 		if (dataHashApi == null)
-			dataHashApi = new RemoteDataHashApi(apiClient);
+			dataHashApi = new LocalDataHashApi();
 		return dataHashApi;
 	}
 
 	@Override
 	public DirectoryLoadApi getDirectoryLoadApi() {
-		if (directoryLoadApi == null)
-			directoryLoadApi = new RemoteDirectoryLoadApi(apiClient);
-		return directoryLoadApi;
+		throw new RuntimeException("not supported");
 	}
 
 	@Override
 	public DownloadApi getDownloadApi() {
 		if (downloadApi == null)
-			downloadApi = new RemoteDownloadApi(apiClient);
+			downloadApi = new LocalDownloadApi(getNemTransactionApi());
 		return downloadApi;
 	}
 
 	@Override
 	public NodeApi getNodeApi() {
 		if (nodeApi == null)
-			nodeApi = new RemoteNodeApi(apiClient);
+			nodeApi = new LocalNodeApi();
 		return nodeApi;
 	}
 
 	@Override
 	public PublishAndSubscribeApi getPublishAndSubscribeApi() {
 		if (publishAndSubscribeApi == null)
-			publishAndSubscribeApi = new RemotePublishAndSubscribeApi(apiClient);
+			publishAndSubscribeApi = new LocalPublishAndSubscribeApi();
 		return publishAndSubscribeApi;
 	}
 
 	@Override
 	public SearchApi getSearchApi() {
 		if (searchApi == null)
-			searchApi = new RemoteSearchApi(apiClient);
+			searchApi = new LocalSearchApi(getNemTransactionApi());
 		return searchApi;
 	}
 
 	@Override
 	public TransactionAndAnnounceApi getTransactionAndAnnounceApi() {
 		if (transactionAndAnnounceApi == null)
-			transactionAndAnnounceApi = new RemoteTransactionAndAnnounceApi(apiClient);
+			transactionAndAnnounceApi = new LocalTransactionAndAnnounceApi(getNemTransactionApi());
 		return transactionAndAnnounceApi;
 	}
 
 	@Override
 	public UploadApi getUploadApi() {
 		if (uploadApi == null)
-			uploadApi = new RemoteUploadApi(apiClient);
+			uploadApi = new LocalUploadApi();
 		return uploadApi;
 	}
 

@@ -2,7 +2,6 @@ package io.nem.xpx.facade.upload.remote;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -17,18 +16,14 @@ import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
-import org.nem.core.node.NodeEndpoint;
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.facade.Upload;
-import io.nem.xpx.facade.UploadAsync;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
-import io.nem.xpx.facade.model.UploadResult;
+import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 

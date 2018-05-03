@@ -30,10 +30,10 @@ import java.util.Map;
  * API tests for TransactionAndAnnounceApi.
  */
 @Ignore
-public class RemoteTransactionAndAnnounceApiTest {
+public class RemoteTransactionAndAnnounceApiTest extends AbstractApiTest {
 
     /** The api. */
-    private final RemoteTransactionAndAnnounceApi api = new RemoteTransactionAndAnnounceApi();
+    private final RemoteTransactionAndAnnounceApi api = new RemoteTransactionAndAnnounceApi(apiClient);
 
     
     /**

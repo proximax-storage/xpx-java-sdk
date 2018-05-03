@@ -15,22 +15,16 @@ package io.nem.xpx.remote;
 
 import io.nem.ApiException;
 import io.nem.xpx.service.remote.RemotePublishAndSubscribeApi;
-
-import org.junit.Test;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.junit.Test;
 
 /**
  * API tests for PublishAndSubscribeApi
  */
 @Ignore
-public class RemotePublishAndSubscribeApiTest {
+public class RemotePublishAndSubscribeApiTest extends AbstractApiTest{
 
-    private final RemotePublishAndSubscribeApi api = new RemotePublishAndSubscribeApi();
+    private final RemotePublishAndSubscribeApi api = new RemotePublishAndSubscribeApi(apiClient);
 
     
     /**

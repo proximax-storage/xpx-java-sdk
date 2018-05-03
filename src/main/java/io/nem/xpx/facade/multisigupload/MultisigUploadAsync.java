@@ -1,11 +1,6 @@
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.multisigupload;
 
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -15,28 +10,16 @@ import java.util.concurrent.CompletionException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 
 import io.nem.ApiException;
-import io.nem.xpx.builder.MultisigTransactionBuilder;
-import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.MultisigUploadResult;
 import io.nem.xpx.model.MultisigUploadBinaryParameter;
 import io.nem.xpx.model.MultisigUploadDataParameter;
 import io.nem.xpx.model.MultisigUploadFileParameter;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.remote.RemoteDataHashApi;
-import io.nem.xpx.service.remote.RemoteUploadApi;
-import io.nem.xpx.utils.CryptoUtils;
-import io.nem.xpx.utils.JsonUtils;
 
 
 /**
@@ -52,7 +35,7 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws PeerConnectionNotFoundException
 	 *             the peer connection not found exception
 	 */
-	public MultisigUploadAsync(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public MultisigUploadAsync(PeerConnection peerConnection) {
 		super(peerConnection);
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");

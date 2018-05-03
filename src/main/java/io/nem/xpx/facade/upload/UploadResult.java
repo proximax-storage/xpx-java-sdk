@@ -1,7 +1,7 @@
 /*
  * 
  */
-package io.nem.xpx.facade.model;
+package io.nem.xpx.facade.upload;
 
 import java.io.Serializable;
 
@@ -19,11 +19,21 @@ public class UploadResult implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/** The data message. */
-	private ResourceHashMessage dataMessage;
+	private final ResourceHashMessage dataMessage;
 	
 	/** The nem hash. */
-	private String nemHash;
-	
+	private final String nemHash;
+
+    /**
+     * Instantiate class
+     * @param dataMessage the data message
+     * @param nemHash the nem hash
+     */
+	public UploadResult(final ResourceHashMessage dataMessage, final String nemHash) {
+		this.dataMessage = dataMessage;
+		this.nemHash = nemHash;
+	}
+
 	/**
 	 * Gets the data message.
 	 *
@@ -34,15 +44,6 @@ public class UploadResult implements Serializable{
 	}
 	
 	/**
-	 * Sets the data message.
-	 *
-	 * @param dataMessage the new data message
-	 */
-	public void setDataMessage(ResourceHashMessage dataMessage) {
-		this.dataMessage = dataMessage;
-	}
-	
-	/**
 	 * Gets the nem hash.
 	 *
 	 * @return the nem hash
@@ -50,16 +51,4 @@ public class UploadResult implements Serializable{
 	public String getNemHash() {
 		return nemHash;
 	}
-	
-	/**
-	 * Sets the nem hash.
-	 *
-	 * @param nemHash the new nem hash
-	 */
-	public void setNemHash(String nemHash) {
-		this.nemHash = nemHash;
-	}
-	
-	
-	
 }

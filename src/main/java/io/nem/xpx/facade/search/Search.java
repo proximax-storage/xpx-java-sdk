@@ -1,10 +1,13 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.search;
 
 
 import java.util.concurrent.ExecutionException;
+
+import io.nem.xpx.facade.AbstractFacadeService;
+import io.nem.xpx.service.NemTransactionApi;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import io.nem.ApiException;
@@ -20,39 +23,33 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class Search.
  */
-public class Search extends FacadeService {
+public class Search extends AbstractFacadeService {
 
 	/** The peer connection. */
-	private PeerConnection peerConnection;
+	private final PeerConnection peerConnection;
 
 	/** The engine. */
-	protected CryptoEngine engine;
+	protected final CryptoEngine engine;
 
 	/** The search api. */
-	protected SearchApi searchApi;
+	protected final SearchApi searchApi;
 	
 	/** The is local peer connection. */
-	protected boolean isLocalPeerConnection = false;
+	protected final boolean isLocalPeerConnection;
 
 	/**
 	 * Instantiates a new search.
 	 *
 	 * @param peerConnection            the peer connection
-	 * @throws PeerConnectionNotFoundException the peer connection not found exception
 	 */
-	public Search(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public Search(PeerConnection peerConnection) {
 
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}
 
-		if (peerConnection instanceof RemotePeerConnection) {
-			this.searchApi = new RemoteSearchApi();
-		} else {
-			this.isLocalPeerConnection = true;
-			this.searchApi = new LocalSearchApi();
-		}
-
+		this.searchApi = peerConnection.getSearchApi();
+		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
 	}

@@ -15,6 +15,7 @@ import io.nem.xpx.service.remote.RemoteSearchApi;
 /**
  * The Class PublishAndSubscribe.
  */
+// TODO can I delete this? no reference from anywhere
 public class PublishAndSubscribe {
 
 	/** The peer connection. */

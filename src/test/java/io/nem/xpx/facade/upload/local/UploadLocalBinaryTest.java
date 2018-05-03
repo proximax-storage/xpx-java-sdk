@@ -23,7 +23,7 @@ import org.nem.core.node.NodeEndpoint;
 
 import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
-import io.nem.xpx.facade.Upload;
+import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;

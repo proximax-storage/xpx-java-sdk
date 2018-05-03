@@ -29,9 +29,9 @@ import java.util.Map;
  * API tests for UploadApi
  */
 @Ignore
-public class RemoteUploadApiTest {
+public class RemoteUploadApiTest extends AbstractApiTest {
 
-    private final RemoteUploadApi api = new RemoteUploadApi();
+    private final RemoteUploadApi api = new RemoteUploadApi(apiClient);
 
     
     /**

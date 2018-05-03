@@ -12,6 +12,7 @@ package io.nem.xpx.remote;
  */
 
 
+import io.nem.ApiClient;
 import io.nem.ApiException;
 import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.remote.RemoteDownloadApi;
@@ -37,7 +38,7 @@ import java.io.UnsupportedEncodingException;
 public class RemoteDownloadApiTest extends AbstractApiTest {
 
 	/** The api. */
-	private final RemoteDownloadApi api = new RemoteDownloadApi();
+	private final RemoteDownloadApi api = new RemoteDownloadApi(apiClient);
 
 	/**
 	 * Download resource/file using NEM Transaction Hash

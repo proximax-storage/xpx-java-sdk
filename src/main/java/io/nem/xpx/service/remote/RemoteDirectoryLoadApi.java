@@ -42,14 +42,7 @@ import java.util.Map;
 public class RemoteDirectoryLoadApi implements DirectoryLoadApi {
     
     /** The api client. */
-    private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote directory load api.
-     */
-    public RemoteDirectoryLoadApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote directory load api.
@@ -67,15 +60,6 @@ public class RemoteDirectoryLoadApi implements DirectoryLoadApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

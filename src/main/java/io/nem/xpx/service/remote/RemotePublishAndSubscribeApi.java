@@ -42,14 +42,7 @@ import java.util.Map;
 public class RemotePublishAndSubscribeApi implements PublishAndSubscribeApi {
     
     /** The api client. */
-    private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote publish and subscribe api.
-     */
-    public RemotePublishAndSubscribeApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote publish and subscribe api.
@@ -67,15 +60,6 @@ public class RemotePublishAndSubscribeApi implements PublishAndSubscribeApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

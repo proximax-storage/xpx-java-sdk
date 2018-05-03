@@ -1,22 +1,29 @@
 package io.nem.xpx.service.local;
 
-import java.util.concurrent.ExecutionException;
-
+import io.nem.ApiException;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.utils.HexEncoder;
-import io.nem.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.service.NemTransactionApi;
-import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
+
+import java.util.concurrent.ExecutionException;
 
 
 /**
  * The Class LocalTransactionAndAnnounceApi.
  */
 public class LocalTransactionAndAnnounceApi implements TransactionAndAnnounceApi {
+
+	private final NemTransactionApi nemTransactionApi;
+
+	public LocalTransactionAndAnnounceApi(NemTransactionApi nemTransactionApi) {
+		this.nemTransactionApi = nemTransactionApi;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.TransactionAndAnnounceApi#announceRequestPublishDataSignatureUsingPOST(io.nem.xpx.model.RequestAnnounceDataSignature)
@@ -25,11 +32,11 @@ public class LocalTransactionAndAnnounceApi implements TransactionAndAnnounceApi
 	public String announceRequestPublishDataSignatureUsingPOST(
 			RequestAnnounceDataSignature requestAnnounceDataSignature) throws ApiException, InterruptedException, ExecutionException {
 		
-		NemAnnounceResult announceResult = NemTransactionApi.sendTransferTransaction(
+		NemAnnounceResult announceResult = nemTransactionApi.sendTransferTransaction(
 				HexEncoder.getBytes(requestAnnounceDataSignature.getData()),
 				HexEncoder.getBytes(requestAnnounceDataSignature.getSignature()));
 		
-		TransactionMetaDataPair transactionMpair = NemTransactionApi
+		TransactionMetaDataPair transactionMpair = nemTransactionApi
 				.getTransaction(announceResult.getTransactionHash().toString());
 		TransferTransaction transferTransaction = ((TransferTransaction) transactionMpair.getEntity());
 		return JsonSerializer.serializeToJson(transferTransaction).toJSONString();
@@ -40,7 +47,7 @@ public class LocalTransactionAndAnnounceApi implements TransactionAndAnnounceApi
 	 */
 	@Override
 	public String getXPXTransactionUsingGET(String nemHash) throws ApiException, InterruptedException, ExecutionException {
-		return JsonSerializer.serializeToJson(NemTransactionApi.getTransaction(nemHash)).toJSONString();
+		return JsonSerializer.serializeToJson(nemTransactionApi.getTransaction(nemHash)).toJSONString();
 	}
 
 }

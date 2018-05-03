@@ -28,7 +28,7 @@ public class XpxSdkGlobalConstants {
 	public static final TimeProvider TIME_PROVIDER = new SystemTimeProvider();
 
 	/** The Constant NODE_ENDPOINT. */
-	private static NodeEndpoint NODE_ENDPOINT;
+//	private static NodeEndpoint NODE_ENDPOINT;
 
 	/** The proximax connection. */
 	private static IPFS PROXIMAX_CONNECTION;
@@ -91,40 +91,40 @@ public class XpxSdkGlobalConstants {
 		};
 	}
 
-	/**
-	 * Gets the websocket uri.
-	 *
-	 * @return the websocket uri
-	 */
-	public static String getWebsocketUri() {
-		if (NODE_ENDPOINT == null) {
-			try {
-				NODE_ENDPOINT = getNodeEndpoint();
-			} catch (ApiException e) {
-				e.printStackTrace();
-			}
-		}
-		StringBuilder builder = new StringBuilder();
-		builder.append("ws://").append(NODE_ENDPOINT.getBaseUrl().getHost()).append(":").append(WS_PORT)
-				.append(URL_WS_W_MESSAGES);
-		return builder.toString();
-	}
-
-	/**
-	 * Gets the node endpoint.
-	 *
-	 * @return the node endpoint
-	 * @throws ApiException
-	 *             the api exception
-	 */
-	public static NodeEndpoint getNodeEndpoint() throws ApiException {
-		if (!isLocal) {
-			NodeInfo nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
-			NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
-					Integer.valueOf(nodeInfo.getNetworkPort()));
-		}
-		return NODE_ENDPOINT;
-	}
+//	/**
+//	 * Gets the websocket uri.
+//	 *
+//	 * @return the websocket uri
+//	 */
+//	public static String getWebsocketUri() {
+//		if (NODE_ENDPOINT == null) {
+//			try {
+//				NODE_ENDPOINT = getNodeEndpoint();
+//			} catch (ApiException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("ws://").append(NODE_ENDPOINT.getBaseUrl().getHost()).append(":").append(WS_PORT)
+//				.append(URL_WS_W_MESSAGES);
+//		return builder.toString();
+//	}
+//
+//	/**
+//	 * Gets the node endpoint.
+//	 *
+//	 * @return the node endpoint
+//	 * @throws ApiException
+//	 *             the api exception
+//	 */
+//	public static NodeEndpoint getNodeEndpoint() throws ApiException {
+//		if (!isLocal) {
+//			NodeInfo nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
+//			NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
+//					Integer.valueOf(nodeInfo.getNetworkPort()));
+//		}
+//		return NODE_ENDPOINT;
+//	}
 
 	/**
 	 * Gets the proximax connection.
@@ -175,15 +175,15 @@ public class XpxSdkGlobalConstants {
 		return feeCalculatorMultiSig;
 	}
 
-	/**
-	 * Sets the node endpoint.
-	 *
-	 * @param endpoint
-	 *            the new node endpoint
-	 */
-	public static void setNodeEndpoint(NodeEndpoint endpoint) {
-		XpxSdkGlobalConstants.NODE_ENDPOINT = endpoint;
-	}
+//	/**
+//	 * Sets the node endpoint.
+//	 *
+//	 * @param endpoint
+//	 *            the new node endpoint
+//	 */
+//	public static void setNodeEndpoint(NodeEndpoint endpoint) {
+//		XpxSdkGlobalConstants.NODE_ENDPOINT = endpoint;
+//	}
 
 	/**
 	 * Sets the proximax connection.

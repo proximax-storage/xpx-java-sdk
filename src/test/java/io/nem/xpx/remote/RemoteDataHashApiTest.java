@@ -45,7 +45,7 @@ import org.nem.core.utils.HexEncoder;
 public class RemoteDataHashApiTest extends AbstractApiTest {
 
 	/** The api. */
-	private final RemoteDataHashApi api = new RemoteDataHashApi();
+	private final RemoteDataHashApi api = new RemoteDataHashApi(apiClient);
 
 	@Test
 	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException,

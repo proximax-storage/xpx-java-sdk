@@ -1,5 +1,6 @@
 package io.nem.xpx.facade;
 
+import io.nem.xpx.service.NemTransactionApi;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import io.nem.ApiException;
@@ -14,6 +15,7 @@ import io.nem.xpx.service.remote.RemoteAccountApi;
 /**
  * The Class Account.
  */
+// TODO can I delete this? no reference from anywhere
 public class Account {
 
 	/** The peer connection. */
@@ -41,10 +43,10 @@ public class Account {
 		}
 
 		if (peerConnection instanceof RemotePeerConnection) {
-			this.accountApi = new RemoteAccountApi();
+			this.accountApi = new RemoteAccountApi(((RemotePeerConnection) peerConnection).getApiClient());
 		} else {
 			this.isLocalPeerConnection = true;
-			this.accountApi = new LocalAccountApi();
+			this.accountApi = new LocalAccountApi(new NemTransactionApi(peerConnection.getNodeEndpoint()));
 		}
 
 		this.peerConnection = peerConnection;

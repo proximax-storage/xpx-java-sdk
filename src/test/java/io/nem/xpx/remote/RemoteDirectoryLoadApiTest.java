@@ -28,9 +28,9 @@ import java.util.Map;
  * API tests for DirectoryLoadApi
  */
 @Ignore
-public class RemoteDirectoryLoadApiTest {
+public class RemoteDirectoryLoadApiTest extends AbstractApiTest {
 
-    private final RemoteDirectoryLoadApi api = new RemoteDirectoryLoadApi();
+    private final RemoteDirectoryLoadApi api = new RemoteDirectoryLoadApi(apiClient);
 
     
     /**

@@ -1,7 +1,7 @@
 /*
  * 
  */
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.multisigcosign;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,9 +22,6 @@ import io.nem.xpx.facade.connection.PeerConnection;
  * The Class MultisigCoSign.
  */
 public class MultisigCoSignAsync extends MultisigCoSign {
-
-	/** The peer connection. */
-	private PeerConnection peerConnection;
 
 	/**
 	 * Instantiates a new multisig co sign.
@@ -56,6 +53,7 @@ public class MultisigCoSignAsync extends MultisigCoSign {
 					MultisigSignatureTransaction multisigSignatureTransaction = null;
 					try {
 						multisigSignatureTransaction = MultisigSignatureTransactionBuilder
+								.peerConnection(peerConnection)
 								.multisig(new Account(new KeyPair(PublicKey.fromHexString(multisigAccount)))) // multisig
 								.addSigners(signers).otherTransaction(Hash.fromHexString(nemHash)).coSign();
 					} catch (ApiException e) {
