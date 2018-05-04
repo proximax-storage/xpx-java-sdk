@@ -25,7 +25,7 @@ import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;

@@ -100,11 +100,6 @@ public class RemotePeerConnection implements PeerConnection {
 		return nodeEndpoint;
 	}
 
-	@Override
-	public IPFS getProximaxIpfsConnection() {
-		throw new RuntimeException("not supported");
-	}
-
 	/**
 	 * Is local.
 	 *

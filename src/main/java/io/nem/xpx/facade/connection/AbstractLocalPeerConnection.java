@@ -73,11 +73,6 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return nodeEndpoint;
 	}
 
-	@Override
-	public IPFS getProximaxIpfsConnection() {
-		return proximaxIpfsConnection;
-	}
-
 	/**
 	 * Is local.
 	 *
@@ -122,7 +117,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public DownloadApi getDownloadApi() {
 		if (downloadApi == null)
-			downloadApi = new LocalDownloadApi(getNemTransactionApi(), getProximaxIpfsConnection());
+			downloadApi = new LocalDownloadApi(getNemTransactionApi(), proximaxIpfsConnection);
 		return downloadApi;
 	}
 
@@ -142,7 +137,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public PublishAndSubscribeApi getPublishAndSubscribeApi() {
 		if (publishAndSubscribeApi == null)
-			publishAndSubscribeApi = new LocalPublishAndSubscribeApi(getProximaxIpfsConnection());
+			publishAndSubscribeApi = new LocalPublishAndSubscribeApi(proximaxIpfsConnection);
 		return publishAndSubscribeApi;
 	}
 
@@ -172,7 +167,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public UploadApi getUploadApi() {
 		if (uploadApi == null)
-			uploadApi = new LocalUploadApi(getProximaxIpfsConnection());
+			uploadApi = new LocalUploadApi(proximaxIpfsConnection);
 		return uploadApi;
 	}
 

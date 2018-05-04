@@ -5,7 +5,7 @@ import java.util.List;
 import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.model.UploadDataParameter;
 
 
@@ -279,7 +279,7 @@ public class UploadDataParameterBuilderV2 {
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilderV2.IDataContentType#contentType(io.nem.xpx.facade.model.DataTextContentType)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilderV2.IDataContentType#contentType(io.nem.xpx.facade.DataTextContentType)
 		 */
 		@Override
 		public IDataEncoding contentType(DataTextContentType contentType) {
@@ -332,7 +332,7 @@ public class UploadDataParameterBuilderV2 {
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilderV2.IStartData#defineData(java.lang.String, java.lang.String, io.nem.xpx.facade.model.DataTextContentType, java.lang.String)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilderV2.IStartData#defineData(java.lang.String, java.lang.String, io.nem.xpx.facade.DataTextContentType, java.lang.String)
 		 */
 		@Override
 		public IBuild defineData(String name, String data, DataTextContentType contentType, String encoding) {

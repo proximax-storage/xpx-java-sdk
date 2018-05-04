@@ -5,7 +5,7 @@ import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.xpx.adapters.cipher.CustomEncryption;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.model.UploadDataParameter;
 
 
@@ -393,7 +393,7 @@ public class UploadDataParameterBuilder {
 
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IData#contentType(io.nem.xpx.facade.model.DataTextContentType)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IData#contentType(io.nem.xpx.facade.DataTextContentType)
 		 */
 		@Override
 		public IContentType contentType(DataTextContentType contentType) {
@@ -459,7 +459,7 @@ public class UploadDataParameterBuilder {
 		}
 		
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IDataContent#setContentType(io.nem.xpx.facade.model.DataTextContentType)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IDataContent#setContentType(io.nem.xpx.facade.DataTextContentType)
 		 */
 		@Override
 		public IDataContentType setContentType(DataTextContentType contentType) {
@@ -477,7 +477,7 @@ public class UploadDataParameterBuilder {
 		}
 		
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IReceiver#defineData(java.lang.String, java.lang.String, io.nem.xpx.facade.model.DataTextContentType, java.lang.String)
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IReceiver#defineData(java.lang.String, java.lang.String, io.nem.xpx.facade.DataTextContentType, java.lang.String)
 		 */
 		@Override
 		public IBuild defineData(String name, String data, DataTextContentType contentType, String encoding) {

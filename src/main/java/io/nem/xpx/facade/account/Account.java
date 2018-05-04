@@ -1,26 +1,20 @@
 package io.nem.xpx.facade.account;
 
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
+import io.nem.xpx.facade.AbstractFacadeService;
+import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.service.NemTransactionApi;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
+import io.nem.xpx.service.intf.AccountApi;
 import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Address;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
-import org.nem.core.serialization.JsonSerializer;
 
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
-import io.nem.xpx.facade.AbstractFacadeService;
-import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.intf.AccountApi;
-import io.nem.xpx.service.local.LocalAccountApi;
-import io.nem.xpx.service.remote.RemoteAccountApi;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -29,19 +23,19 @@ import io.nem.xpx.service.remote.RemoteAccountApi;
 public class Account extends AbstractFacadeService {
 
 	/** The peer connection. */
-	private PeerConnection peerConnection;
+	private final PeerConnection peerConnection;
 
 	/** The engine. */
-	private CryptoEngine engine;
+	private final CryptoEngine engine;
 
 	/** The account api. */
-	private AccountApi accountApi;
+	private final AccountApi accountApi;
 
 	/** The nem transaction api. */
 	protected final NemTransactionApi nemTransactionApi;
 
 	/** The is local peer connection. */
-	private boolean isLocalPeerConnection = false;
+	private final boolean isLocalPeerConnection;
 
 	/**
 	 * Instantiates a new search.
@@ -51,19 +45,14 @@ public class Account extends AbstractFacadeService {
 	 * @throws PeerConnectionNotFoundException
 	 *             the peer connection not found exception
 	 */
-	public Account(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
+	public Account(PeerConnection peerConnection) {
 
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}
 
-		if (peerConnection instanceof RemotePeerConnection) {
-			this.accountApi = new RemoteAccountApi(((RemotePeerConnection) peerConnection).getApiClient());
-		} else {
-			this.isLocalPeerConnection = true;
-			this.accountApi = new LocalAccountApi(new NemTransactionApi(peerConnection.getNodeEndpoint()));
-		}
-
+		this.accountApi = peerConnection.getAccountApi();
+		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.peerConnection = peerConnection;
 		this.nemTransactionApi = peerConnection.getNemTransactionApi();
 		this.engine = CryptoEngines.ed25519Engine();

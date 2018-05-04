@@ -24,9 +24,6 @@ public class XpxSdkGlobalConstants {
 	/** The Constant TIME_PROVIDER. */
 	public static final TimeProvider TIME_PROVIDER = new SystemTimeProvider();
 
-	/** The Constant NODE_ENDPOINT. */
-//	private static NodeEndpoint NODE_ENDPOINT;
-
 	/** The fuse ipfs stub. */
 	private static FuseStubFS FUSE_IPFS_STUB = null;
 
@@ -57,9 +54,6 @@ public class XpxSdkGlobalConstants {
 
 	/** The Constant GLOBAL_GATEWAYS. */
 	public static final String[] GLOBAL_GATEWAYS = { "https://ipfs.io", "https://gateway.ipfs.io" };
-
-	/** The is local. */
-	public static boolean isLocal = false;
 
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(

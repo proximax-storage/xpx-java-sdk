@@ -31,14 +31,6 @@ public interface PeerConnection {
     boolean isLocal();
 
     /**
-     * Gets the node endpoint.
-     *
-     * @return the node endpoint
-     */
-    IPFS getProximaxIpfsConnection();
-
-
-    /**
      * Gets the account api.
      *
      * @return the account api
