@@ -4,9 +4,10 @@ import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.local.*;
-import io.nem.xpx.utils.TransactionSender;
+import io.nem.xpx.service.TransactionSender;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -53,6 +54,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	
 	/** The transaction sender. */
 	private TransactionSender transactionSender;
+
+	private TransactionFeeCalculators transactionFeeCalculators;
+
 
 	/**
 	 * Instantiates a new abstract local peer connection.
@@ -201,4 +205,10 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return transactionSender;
 	}
 
+	@Override
+	public TransactionFeeCalculators getTransactionFeeCalculators() {
+		if (transactionFeeCalculators == null)
+			transactionFeeCalculators = new TransactionFeeCalculators();
+		return transactionFeeCalculators;
+	}
 }

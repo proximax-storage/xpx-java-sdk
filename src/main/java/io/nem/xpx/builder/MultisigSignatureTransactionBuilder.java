@@ -313,7 +313,7 @@ public class MultisigSignatureTransactionBuilder {
 				}
 
 				if (this.fee == null && this.feeCalculator == null) {
-					instance.setFee(XpxSdkGlobalConstants.getGlobalTransactionFee().calculateMinimumFee(instance));
+					instance.setFee(peerConnection.getTransactionFeeCalculators().getFeeCalculator().calculateMinimumFee(instance));
 				} else {
 
 					if (this.fee != null) {
@@ -323,7 +323,7 @@ public class MultisigSignatureTransactionBuilder {
 						if (this.feeCalculator != null) {
 							feeCalculator = this.feeCalculator;
 						} else {
-							feeCalculator = XpxSdkGlobalConstants.getGlobalTransactionFee();
+							feeCalculator = peerConnection.getTransactionFeeCalculators().getFeeCalculator();
 						}
 						instance.setFee(feeCalculator.calculateMinimumFee(instance));
 					}

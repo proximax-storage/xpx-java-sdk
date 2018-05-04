@@ -3,16 +3,17 @@
  */
 package io.nem.xpx.facade.connection;
 
-import io.ipfs.api.IPFS;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.intf.*;
-import io.nem.xpx.utils.TransactionSender;
+import io.nem.xpx.service.TransactionSender;
+import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.node.NodeEndpoint;
 
 
 /**
- * The Interface PeerConnection.
+ * The Class PeerConnection.
  */
 public interface PeerConnection {
 
@@ -113,5 +114,8 @@ public interface PeerConnection {
      * @return the transaction sender
      */
     TransactionSender getTransactionSender();
+
+    TransactionFeeCalculators getTransactionFeeCalculators();
+
 
 }

@@ -8,7 +8,7 @@ import org.nem.core.node.NodeEndpoint;
 /**
  * The Class LocalHttpPeerConnection.
  */
-public class LocalHttpPeerConnection extends AbstractLocalPeerConnection {
+public final class LocalHttpPeerConnection extends AbstractLocalPeerConnection {
 
 	/**
 	 * Instantiates a new local http peer connection.

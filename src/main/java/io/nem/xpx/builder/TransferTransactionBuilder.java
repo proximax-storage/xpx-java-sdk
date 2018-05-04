@@ -615,8 +615,8 @@ public class TransferTransactionBuilder {
 				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
 				TransactionFeeCalculator globalFeeCalculator = isForMultisig
-						? XpxSdkGlobalConstants.getGlobalMultisigTransactionFee()
-						: XpxSdkGlobalConstants.getGlobalTransactionFee();
+						? peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig()
+						: peerConnection.getTransactionFeeCalculators().getFeeCalculator();
 				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
 			instance.setFee(amountFee);

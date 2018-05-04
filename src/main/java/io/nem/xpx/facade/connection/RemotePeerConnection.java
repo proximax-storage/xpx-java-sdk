@@ -3,15 +3,15 @@
  */
 package io.nem.xpx.facade.connection;
 
-import io.ipfs.api.IPFS;
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.TransactionFeeCalculators;
+import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
-import io.nem.xpx.utils.TransactionSender;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -19,7 +19,7 @@ import org.nem.core.node.NodeEndpoint;
 /**
  * The Class RemotePeerConnection.
  */
-public class RemotePeerConnection implements PeerConnection {
+public final class RemotePeerConnection implements PeerConnection {
 
 	/** The api client. */
 	private final ApiClient apiClient;
@@ -62,6 +62,8 @@ public class RemotePeerConnection implements PeerConnection {
 	
 	/** The transaction sender. */
 	private TransactionSender transactionSender;
+
+	private TransactionFeeCalculators transactionFeeCalculators;
 
 	/**
 	 * Instantiates a new remote peer connection.
@@ -228,5 +230,12 @@ public class RemotePeerConnection implements PeerConnection {
 		if (transactionSender == null)
 			transactionSender = new TransactionSender(getNemTransactionApi(), getNemAccountApi());
 		return transactionSender;
+	}
+
+	@Override
+	public TransactionFeeCalculators getTransactionFeeCalculators() {
+        if (transactionFeeCalculators == null)
+            transactionFeeCalculators = new TransactionFeeCalculators();
+		return transactionFeeCalculators;
 	}
 }

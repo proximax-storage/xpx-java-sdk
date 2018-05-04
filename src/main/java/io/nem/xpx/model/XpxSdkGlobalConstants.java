@@ -2,12 +2,6 @@ package io.nem.xpx.model;
 
 import io.nem.xpx.factory.ConnectorFactory;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
-import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
-import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.mosaic.MosaicFeeInformation;
-import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
-import org.nem.core.model.primitive.Amount;
-import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.ApiId;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
@@ -54,68 +48,6 @@ public class XpxSdkGlobalConstants {
 
 	/** The Constant GLOBAL_GATEWAYS. */
 	public static final String[] GLOBAL_GATEWAYS = { "https://ipfs.io", "https://gateway.ipfs.io" };
-
-	/** The fee calculator. */
-	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
-			Amount.fromMicroNem(50_000L), mosaicInfoLookup());
-
-	/** The fee calculator multi sig. */
-	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(
-			Amount.fromMicroNem(50_000L), mosaicInfoLookup());
-
-	/**
-	 * Mosaic info lookup.
-	 *
-	 * @return the mosaic fee information lookup
-	 */
-	private static MosaicFeeInformationLookup mosaicInfoLookup() {
-		return id -> {
-			if (id.getName().equals("xpx")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 4);
-			}
-			final int multiplier = Integer.parseInt(id.getName().substring(4));
-			final int divisibilityChange = multiplier - 1;
-			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
-		};
-	}
-
-	/**
-	 * Sets the global transaction fee.
-	 *
-	 * @param feeCalculator
-	 *            the new global transaction fee
-	 */
-	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxSdkGlobalConstants.feeCalculator = feeCalculator;
-	}
-
-	/**
-	 * Sets the global multisig transaction fee.
-	 *
-	 * @param feeCalculator
-	 *            the new global multisig transaction fee
-	 */
-	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
-		XpxSdkGlobalConstants.feeCalculatorMultiSig = feeCalculator;
-	}
-
-	/**
-	 * Gets the global transaction fee.
-	 *
-	 * @return the global transaction fee
-	 */
-	public static TransactionFeeCalculator getGlobalTransactionFee() {
-		return feeCalculator;
-	}
-
-	/**
-	 * Gets the global multisig transaction fee.
-	 *
-	 * @return the global multisig transaction fee
-	 */
-	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
-		return feeCalculatorMultiSig;
-	}
 
 	/**
 	 * Gets the ipfs mount point.

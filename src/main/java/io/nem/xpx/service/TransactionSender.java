@@ -1,4 +1,4 @@
-package io.nem.xpx.utils;
+package io.nem.xpx.service;
 
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.InsufficientAmountException;
