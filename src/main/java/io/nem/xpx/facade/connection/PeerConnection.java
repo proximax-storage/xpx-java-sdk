@@ -3,6 +3,7 @@
  */
 package io.nem.xpx.facade.connection;
 
+import io.ipfs.api.IPFS;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.*;
@@ -28,6 +29,14 @@ public interface PeerConnection {
      * @return true, if is local
      */
     boolean isLocal();
+
+    /**
+     * Gets the node endpoint.
+     *
+     * @return the node endpoint
+     */
+    IPFS getProximaxIpfsConnection();
+
 
     /**
      * Gets the account api.

@@ -1,5 +1,7 @@
 package io.nem.xpx.facade.connection;
 
+import io.ipfs.api.IPFS;
+import io.ipfs.multiaddr.MultiAddress;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.*;
@@ -16,14 +18,14 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
+	/** The Ipfs **/
+	private final IPFS proximaxIpfsConnection;
+
 	/** The account api. */
 	private AccountApi accountApi;
 	
 	/** The data hash api. */
 	private DataHashApi dataHashApi;
-	
-	/** The directory load api. */
-	private DirectoryLoadApi directoryLoadApi;
 	
 	/** The download api. */
 	private DownloadApi downloadApi;
@@ -56,9 +58,11 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	 * Instantiates a new abstract local peer connection.
 	 *
 	 * @param nodeEndpoint the node endpoint
+	 * @param multiAddress the multi address
 	 */
-	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint) {
+	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
 		this.nodeEndpoint = nodeEndpoint;
+		this.proximaxIpfsConnection = new IPFS(new MultiAddress(multiAddress));
 	}
 
 	/* (non-Javadoc)
@@ -67,6 +71,11 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public NodeEndpoint getNodeEndpoint() {
 		return nodeEndpoint;
+	}
+
+	@Override
+	public IPFS getProximaxIpfsConnection() {
+		return proximaxIpfsConnection;
 	}
 
 	/**
@@ -95,7 +104,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public DataHashApi getDataHashApi() {
 		if (dataHashApi == null)
-			dataHashApi = new LocalDataHashApi();
+			dataHashApi = new LocalDataHashApi(proximaxIpfsConnection);
 		return dataHashApi;
 	}
 
@@ -113,7 +122,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public DownloadApi getDownloadApi() {
 		if (downloadApi == null)
-			downloadApi = new LocalDownloadApi(getNemTransactionApi());
+			downloadApi = new LocalDownloadApi(getNemTransactionApi(), getProximaxIpfsConnection());
 		return downloadApi;
 	}
 
@@ -133,7 +142,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public PublishAndSubscribeApi getPublishAndSubscribeApi() {
 		if (publishAndSubscribeApi == null)
-			publishAndSubscribeApi = new LocalPublishAndSubscribeApi();
+			publishAndSubscribeApi = new LocalPublishAndSubscribeApi(getProximaxIpfsConnection());
 		return publishAndSubscribeApi;
 	}
 
@@ -163,7 +172,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public UploadApi getUploadApi() {
 		if (uploadApi == null)
-			uploadApi = new LocalUploadApi();
+			uploadApi = new LocalUploadApi(getProximaxIpfsConnection());
 		return uploadApi;
 	}
 
@@ -196,4 +205,5 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 			transactionSender = new TransactionSender(getNemTransactionApi(), getNemAccountApi());
 		return transactionSender;
 	}
+
 }

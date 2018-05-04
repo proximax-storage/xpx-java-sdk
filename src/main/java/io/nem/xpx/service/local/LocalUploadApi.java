@@ -12,9 +12,21 @@
 
 package io.nem.xpx.service.local;
 
+import com.google.flatbuffers.FlatBufferBuilder;
+import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.model.*;
+import io.nem.xpx.service.intf.UploadApi;
+import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.utils.JsonUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.tika.Tika;
+import org.pmw.tinylog.Logger;
+
+import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,24 +34,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.tika.Tika;
-import org.pmw.tinylog.Logger;
-
-import com.google.flatbuffers.FlatBufferBuilder;
-
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.DataHashByteArrayEntity;
-import io.nem.xpx.model.PublishResult;
-import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
-import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.utils.JsonUtils;
-
-import java.io.File;
 
 
 /**
@@ -48,7 +42,13 @@ import java.io.File;
 @SuppressWarnings("unchecked")
 
 public class LocalUploadApi implements UploadApi {
-	
+
+	private final IPFS proximaxIfpsConnection;
+
+	public LocalUploadApi(final IPFS proximaxIfpsConnection) {
+		this.proximaxIfpsConnection = proximaxIfpsConnection;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -58,7 +58,7 @@ public class LocalUploadApi implements UploadApi {
 	 */
 	@Override
 	public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException, IOException {
-		return XpxSdkGlobalConstants.getProximaxConnection().pin.rm(Multihash.fromBase58(multihash)).toString();
+		return proximaxIfpsConnection.pin.rm(Multihash.fromBase58(multihash)).toString();
 	}
 
 	/*
@@ -356,8 +356,8 @@ public class LocalUploadApi implements UploadApi {
 	private PublishResult exposeAndPinBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
-		List<Multihash> pinned = XpxSdkGlobalConstants.getProximaxConnection().pin.add(node.get(0).hash);
+		List<MerkleNode> node = proximaxIfpsConnection.add(byteArrayWrapper);
+		List<Multihash> pinned = proximaxIfpsConnection.pin.add(node.get(0).hash);
 		result.setMerkleNode(node);
 		result.setMultiHash(pinned);
 		return result;
@@ -380,7 +380,7 @@ public class LocalUploadApi implements UploadApi {
 			streamables
 					.add(new NamedStreamable.DirWrapper(new File(path).getAbsolutePath(), fileWrapper.getChildren()));
 			// recursePathToBeAdded(streamables, path);
-			List<MerkleNode> merkleNode = XpxSdkGlobalConstants.getProximaxConnection().add(streamables, true, false);
+			List<MerkleNode> merkleNode = proximaxIfpsConnection.add(streamables, true, false);
 			result.setMerkleNode(merkleNode);
 		} catch (Exception e) {
 			Logger.error("Error on decoding NEM Transaction Message." + e.getMessage());
@@ -427,7 +427,7 @@ public class LocalUploadApi implements UploadApi {
 	private PublishResult exposeBinary(String name, byte[] binary) throws IOException, ApiException {
 		PublishResult result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper);
+		List<MerkleNode> node = proximaxIfpsConnection.add(byteArrayWrapper);
 		result.setMerkleNode(node);
 		return result;
 	}
@@ -451,7 +451,7 @@ public class LocalUploadApi implements UploadApi {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper, false, true);
+		List<MerkleNode> node = proximaxIfpsConnection.add(byteArrayWrapper, false, true);
 		result.setMerkleNode(node);
 
 		return result;
@@ -475,7 +475,7 @@ public class LocalUploadApi implements UploadApi {
 			NamedStreamable.FileWrapper fileWrapper = new NamedStreamable.FileWrapper(f);
 			NamedStreamable.DirWrapper dirWrapper = new NamedStreamable.DirWrapper(f.getName().toString(),
 					fileWrapper.getChildren());
-			node.addAll(XpxSdkGlobalConstants.getProximaxConnection().add(dirWrapper, true, false));
+			node.addAll(proximaxIfpsConnection.add(dirWrapper, true, false));
 			grabDirs(f.getAbsolutePath(), node);
 		}
 	}

@@ -12,29 +12,12 @@
 
 package io.nem.xpx.service.local;
 
+import io.ipfs.api.IPFS;
 import io.ipfs.multihash.Multihash;
-import io.nem.Configuration;
-import io.nem.Pair;
-import io.nem.ProgressRequestBody;
-import io.nem.ProgressResponseBody;
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
-import io.nem.ApiResponse;
-
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.ResponseEntity;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.intf.DownloadApi;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 
 
@@ -44,12 +27,18 @@ import java.util.Map;
  */
 public class LocalFuseDownloadApi implements DownloadApi {
 
+	private final IPFS proximaxIfpsConnection;
+
+	public LocalFuseDownloadApi(final IPFS proximaxIfpsConnection) {
+		this.proximaxIfpsConnection = proximaxIfpsConnection;
+	}
+
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.DownloadApi#downloadUsingDataHashUsingGET(java.lang.String)
 	 */
 	@Override
 	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(hash));
 	}
 
 	/* (non-Javadoc)

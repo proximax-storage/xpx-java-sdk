@@ -3,6 +3,7 @@
  */
 package io.nem.xpx.facade.connection;
 
+import io.ipfs.api.IPFS;
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
@@ -97,6 +98,11 @@ public class RemotePeerConnection implements PeerConnection {
 	@Override
 	public NodeEndpoint getNodeEndpoint() {
 		return nodeEndpoint;
+	}
+
+	@Override
+	public IPFS getProximaxIpfsConnection() {
+		throw new RuntimeException("not supported");
 	}
 
 	/**

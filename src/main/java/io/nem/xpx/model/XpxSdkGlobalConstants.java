@@ -1,6 +1,6 @@
 package io.nem.xpx.model;
 
-import java.nio.file.Paths;
+import io.nem.xpx.factory.ConnectorFactory;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.TransactionFeeCalculator;
@@ -9,15 +9,11 @@ import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.ApiId;
-import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
-import io.ipfs.api.IPFS;
-import io.ipfs.multiaddr.MultiAddress;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.factory.ConnectorFactory;
-import io.nem.xpx.service.remote.RemoteNodeApi;
 import ru.serce.jnrfuse.FuseStubFS;
+
+import java.nio.file.Paths;
 
 
 
@@ -30,9 +26,6 @@ public class XpxSdkGlobalConstants {
 
 	/** The Constant NODE_ENDPOINT. */
 //	private static NodeEndpoint NODE_ENDPOINT;
-
-	/** The proximax connection. */
-	private static IPFS PROXIMAX_CONNECTION;
 
 	/** The fuse ipfs stub. */
 	private static FuseStubFS FUSE_IPFS_STUB = null;
@@ -92,19 +85,6 @@ public class XpxSdkGlobalConstants {
 		};
 	}
 
-
-
-	/**
-	 * Gets the proximax connection.
-	 *
-	 * @return the proximax connection
-	 * @throws ApiException
-	 *             the api exception
-	 */
-	public static IPFS getProximaxConnection() throws ApiException {
-		return PROXIMAX_CONNECTION;
-	}
-
 	/**
 	 * Sets the global transaction fee.
 	 *
@@ -141,16 +121,6 @@ public class XpxSdkGlobalConstants {
 	 */
 	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
 		return feeCalculatorMultiSig;
-	}
-
-	/**
-	 * Sets the proximax connection.
-	 *
-	 * @param multiAddress
-	 *            the new proximax connection
-	 */
-	public static void setProximaxConnection(String multiAddress) {
-		XpxSdkGlobalConstants.PROXIMAX_CONNECTION = new IPFS(new MultiAddress(multiAddress));
 	}
 
 	/**
