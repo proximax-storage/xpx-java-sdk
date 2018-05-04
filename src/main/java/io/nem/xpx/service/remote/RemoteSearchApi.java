@@ -16,7 +16,6 @@ package io.nem.xpx.service.remote;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
 import io.nem.ApiResponse;
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;

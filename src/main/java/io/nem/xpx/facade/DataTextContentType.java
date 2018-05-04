@@ -1,4 +1,4 @@
-package io.nem.xpx.facade.model;
+package io.nem.xpx.facade;
 
 
 

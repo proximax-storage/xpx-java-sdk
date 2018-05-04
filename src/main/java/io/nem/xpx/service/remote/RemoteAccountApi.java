@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
 
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;

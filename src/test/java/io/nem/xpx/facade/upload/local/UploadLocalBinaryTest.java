@@ -8,29 +8,26 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
@@ -38,7 +35,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadLocalBinaryTest extends AbstractApiTest {
 
 	/**
@@ -141,13 +138,12 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 	 * Upload plain binary with mosaic test.
 	 */
 	@Test
+	@Ignore
 	public void uploadPlainBinaryWithMosaicTest() {
 		try {
 			
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 					new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");

@@ -36,7 +36,7 @@ public class MultiThreadUploadRemoteBinaryTest extends AbstractApiTest {
 	 */
 	public MultiThreadUploadRemoteBinaryTest() {
 
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			Runnable task = () -> {
 
 				RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localNodeBasePath);

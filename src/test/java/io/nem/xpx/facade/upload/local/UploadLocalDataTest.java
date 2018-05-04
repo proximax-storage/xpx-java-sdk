@@ -22,15 +22,14 @@ import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.builder.UploadDataParameterBuilderV2;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -41,7 +40,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadLocalDataTest extends AbstractApiTest {
 
 	/**

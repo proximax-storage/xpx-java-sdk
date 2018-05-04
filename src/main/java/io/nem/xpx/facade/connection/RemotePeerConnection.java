@@ -5,12 +5,16 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.factory.ConnectorFactory;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.TransactionFeeCalculators;
+import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
-import io.nem.xpx.utils.TransactionSender;
+import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -18,7 +22,7 @@ import org.nem.core.node.NodeEndpoint;
 /**
  * The Class RemotePeerConnection.
  */
-public class RemotePeerConnection implements PeerConnection {
+public final class RemotePeerConnection implements PeerConnection {
 
 	/** The api client. */
 	private final ApiClient apiClient;
@@ -52,8 +56,10 @@ public class RemotePeerConnection implements PeerConnection {
 	
 	/** The upload api. */
 	private UploadApi uploadApi;
-	
-	/** The nem transaction api. */
+
+    private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
+
+    /** The nem transaction api. */
 	private NemTransactionApi nemTransactionApi;
 	
 	/** The nem account api. */
@@ -61,6 +67,8 @@ public class RemotePeerConnection implements PeerConnection {
 	
 	/** The transaction sender. */
 	private TransactionSender transactionSender;
+
+	private TransactionFeeCalculators transactionFeeCalculators;
 
 	/**
 	 * Instantiates a new remote peer connection.
@@ -205,7 +213,7 @@ public class RemotePeerConnection implements PeerConnection {
 	@Override
 	public NemTransactionApi getNemTransactionApi() {
 		if (nemTransactionApi == null)
-			nemTransactionApi = new NemTransactionApi(nodeEndpoint);
+			nemTransactionApi = new NemTransactionApi(nodeEndpoint, getAsyncNemConnector());
 		return nemTransactionApi;
 	}
 
@@ -215,7 +223,7 @@ public class RemotePeerConnection implements PeerConnection {
 	@Override
 	public NemAccountApi getNemAccountApi() {
 		if (nemAccountApi == null)
-			nemAccountApi = new NemAccountApi(nodeEndpoint);
+			nemAccountApi = new NemAccountApi(nodeEndpoint, getAsyncNemConnector());
 		return nemAccountApi;
 	}
 
@@ -228,4 +236,17 @@ public class RemotePeerConnection implements PeerConnection {
 			transactionSender = new TransactionSender(getNemTransactionApi(), getNemAccountApi());
 		return transactionSender;
 	}
+
+	@Override
+	public TransactionFeeCalculators getTransactionFeeCalculators() {
+        if (transactionFeeCalculators == null)
+            transactionFeeCalculators = new TransactionFeeCalculators();
+		return transactionFeeCalculators;
+	}
+
+    private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
+        if (asyncNemConnector == null)
+            asyncNemConnector = ConnectorFactory.createConnector();
+        return asyncNemConnector;
+    }
 }

@@ -13,10 +13,10 @@
 
 package io.nem.xpx.service.local;
 
+import io.ipfs.api.IPFS;
 import io.ipfs.multihash.Multihash;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.MessageDigestNotMatchException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
@@ -39,14 +39,11 @@ public class LocalDownloadApi implements DownloadApi {
 
 	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
+	private final IPFS proximaxIfpsConnection;
 
-	/**
-	 * Instantiates a new local download api.
-	 *
-	 * @param nemTransactionApi the nem transaction api
-	 */
-	public LocalDownloadApi(NemTransactionApi nemTransactionApi) {
+	public LocalDownloadApi(NemTransactionApi nemTransactionApi, IPFS proximaxIfpsConnection) {
 		this.nemTransactionApi = nemTransactionApi;
+		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +51,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 */
 	@Override
 	public byte[] downloadUsingDataHashUsingGET(String hash) throws ApiException, IOException {
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(hash));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(hash));
 	}
 	
 	/* (non-Javadoc)
@@ -65,7 +62,7 @@ public class LocalDownloadApi implements DownloadApi {
 		TransactionMetaDataPair transactionMetaDataPair = nemTransactionApi.getTransaction(nemHash);
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 
 	/* (non-Javadoc)
@@ -77,7 +74,7 @@ public class LocalDownloadApi implements DownloadApi {
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +86,7 @@ public class LocalDownloadApi implements DownloadApi {
 		TransferTransaction transfer = ((TransferTransaction) transactionMetaDataPair.getEntity());
 		ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(transfer.getMessage().getEncodedPayload())));
 		
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 	
 	/**
@@ -101,7 +98,7 @@ public class LocalDownloadApi implements DownloadApi {
 	 * @throws ApiException the api exception
 	 */
 	public byte[] loadResource(ResourceHashMessage resourceMessage) throws IOException, ApiException {
-		return XpxSdkGlobalConstants.getProximaxConnection().cat(Multihash.fromBase58(resourceMessage.hash()));
+		return proximaxIfpsConnection.cat(Multihash.fromBase58(resourceMessage.hash()));
 	}
 	
 	

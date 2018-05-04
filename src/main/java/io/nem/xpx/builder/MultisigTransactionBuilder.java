@@ -254,7 +254,7 @@ public class MultisigTransactionBuilder {
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 //
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig().calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
@@ -264,7 +264,7 @@ public class MultisigTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
+						feeCalculator = peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig();
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}

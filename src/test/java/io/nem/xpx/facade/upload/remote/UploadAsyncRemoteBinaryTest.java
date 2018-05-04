@@ -26,7 +26,7 @@ import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -35,7 +35,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 	/**
@@ -56,21 +56,21 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_1.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("test_pdf_file_v2_temp1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
+					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_2.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("test_pdf_file_v2_temp2")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
+					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_3.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("test_pdf_file_v2_temp3")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
+					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			// Run the computation on another thread and wait for it to finish.
 			// Callbacks are then handled.
@@ -88,9 +88,11 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			assertNotNull(combinedFuture.get());
+			combinedFuture.get();
+			
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
+			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
@@ -109,20 +111,20 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_1.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("test_pdf_file_v2_temp1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
+					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
 					.name("large_video_2.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
 					.name("large_video_3.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
 
 			// Run the computation on another thread and wait for it to finish.
@@ -141,7 +143,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			assertNotNull(combinedFuture.get());
+			combinedFuture.get();
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
@@ -164,24 +166,24 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_3.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.name("test_pdf_file_v2_temp1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_3.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.name("test_pdf_file_v2_temp1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_3.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
+					.name("test_pdf_file_v2_temp1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
@@ -202,7 +204,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			assertNotNull(combinedFuture.get());
+			combinedFuture.get();
 			
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {

@@ -408,6 +408,7 @@ public class Upload extends AbstractFacadeService {
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Logger.error("Error on uploading binary data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);

@@ -1,15 +1,13 @@
 package io.nem.xpx.remote;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import io.nem.ApiClient;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
-import io.nem.Configuration;
-import io.nem.ApiClient;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 
 
@@ -21,8 +19,6 @@ public abstract class AbstractApiTest {
 	
 	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
-	/** The configuration. */
-	protected Configuration configuration;
 
 	/** The x pvkey. */
 	// testnet keys
@@ -71,7 +67,7 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String extractExpectedSmallTxtFileContent() throws IOException {
-		return FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
+		return FileUtils.readFileToString(new File("src//test//resources//test_small_file.txt"));
 	}
 	
 	/**sput
@@ -81,7 +77,7 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public long extractLargeFileSize() throws IOException {
-		return FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+		return FileUtils.sizeOf(new File("src//test//resources//test_large_file.zip"));
 	}
 
 	/**
@@ -91,6 +87,6 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public long extractSmallFileSize() throws IOException {
-		return FileUtils.sizeOf(new File("src//test//resources//small_file.txt"));
+		return FileUtils.sizeOf(new File("src//test//resources//test_small_file.txt"));
 	}
 }

@@ -23,9 +23,9 @@ import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.model.DataTextContentType;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
@@ -36,7 +36,7 @@ import io.nem.xpx.utils.JsonUtils;
 /** 
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadRemoteDataTest extends AbstractApiTest {
 
 	/**
@@ -146,7 +146,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadSecureDataAsciiTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -176,12 +176,10 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadPlainDataWithMosaicTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 		
 		try {
 			Upload upload = new Upload(remotePeerConnection);
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			

@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * The Class Account.
  */
-public class Account extends AbstractFacadeService {
+public class AccountAsync extends AbstractFacadeService {
 
 	/** The peer connection. */
 	private final PeerConnection peerConnection;
@@ -45,7 +45,7 @@ public class Account extends AbstractFacadeService {
 	 * @throws PeerConnectionNotFoundException
 	 *             the peer connection not found exception
 	 */
-	public Account(PeerConnection peerConnection) {
+	public AccountAsync(PeerConnection peerConnection) {
 
 		if (peerConnection == null) {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
@@ -74,6 +74,7 @@ public class Account extends AbstractFacadeService {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getIncomingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
 			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
 				returnListOfTxnMetaDataPair.add(metaDataPair);
@@ -97,6 +98,7 @@ public class Account extends AbstractFacadeService {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getAllTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
 			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
 				returnListOfTxnMetaDataPair.add(metaDataPair);
@@ -120,6 +122,7 @@ public class Account extends AbstractFacadeService {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getOutgoingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
 			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
 				returnListOfTxnMetaDataPair.add(metaDataPair);
@@ -143,6 +146,7 @@ public class Account extends AbstractFacadeService {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getUnconfirmedTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
 			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
 				returnListOfTxnMetaDataPair.add(metaDataPair);

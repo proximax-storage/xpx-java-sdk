@@ -8,7 +8,7 @@ import org.nem.core.node.NodeEndpoint;
 /**
  * The Class LocalFusePeerConnection.
  */
-public class LocalFusePeerConnection extends AbstractLocalPeerConnection {
+public final class LocalFusePeerConnection extends AbstractLocalPeerConnection {
 
 	/**
 	 * Instantiates a new local fuse peer connection.
@@ -16,7 +16,7 @@ public class LocalFusePeerConnection extends AbstractLocalPeerConnection {
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public LocalFusePeerConnection(NodeEndpoint nodeEndpoint) {
-		super(nodeEndpoint);
+		this(nodeEndpoint, "/ip4/127.0.0.1/tcp/5001");
 	}
 
 	/**
@@ -26,6 +26,6 @@ public class LocalFusePeerConnection extends AbstractLocalPeerConnection {
 	 * @param multiAddress the multi address
 	 */
 	public LocalFusePeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
-		super(nodeEndpoint);
+		super(nodeEndpoint, multiAddress);
 	}
 }

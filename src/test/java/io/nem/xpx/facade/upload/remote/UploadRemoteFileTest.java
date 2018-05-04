@@ -25,7 +25,7 @@ import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
@@ -38,7 +38,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 @Ignore
 public class UploadRemoteFileTest extends AbstractApiTest {
 
@@ -164,13 +164,12 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	 * Upload plain file with mosaic test.
 	 */
 	@Test
+	@Ignore
 	public void uploadPlainFileWithMosaicTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
 		
 		try {
 			Upload upload = new Upload(remotePeerConnection);
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			
