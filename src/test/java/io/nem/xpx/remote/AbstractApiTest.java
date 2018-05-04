@@ -1,15 +1,13 @@
 package io.nem.xpx.remote;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import io.nem.ApiClient;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
-import io.nem.Configuration;
-import io.nem.ApiClient;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 
 
@@ -21,8 +19,6 @@ public abstract class AbstractApiTest {
 	
 	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
-	/** The configuration. */
-	protected Configuration configuration;
 
 	/** The x pvkey. */
 	// testnet keys

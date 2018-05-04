@@ -13,7 +13,6 @@
 
 package io.nem.xpx.service.remote;
 
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
@@ -26,7 +25,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.intf.DownloadApi;
 
 import java.lang.reflect.Type;
