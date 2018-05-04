@@ -95,10 +95,9 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 			CompletableFuture<Void> combinedFuture 
 			  = CompletableFuture.allOf(future1, future2, future3);
 			
-			combinedFuture.get();
+			assertNotNull(combinedFuture.get());
 			
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}

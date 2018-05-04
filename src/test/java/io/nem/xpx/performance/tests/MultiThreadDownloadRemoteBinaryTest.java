@@ -1,4 +1,4 @@
-package io.nem.xpx.facade.download.remote;
+package io.nem.xpx.performance.tests;
 
 import static org.junit.Assert.assertTrue;
 

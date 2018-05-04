@@ -232,13 +232,11 @@ public class Upload extends AbstractFacadeService {
 				publishedData = JsonUtils.fromJson(transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
-
+			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
 			Logger.error("Error on uploading text data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		} finally {
-			safeAsyncToGateways(resourceMessageHash);
 		}
 		return new UploadResult(resourceMessageHash, publishedData);
 	}

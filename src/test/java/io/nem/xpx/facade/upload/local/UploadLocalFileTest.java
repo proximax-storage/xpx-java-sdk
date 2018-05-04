@@ -57,7 +57,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version1.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -87,8 +87,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
-					.keywords("plain,file")
+					.data(new File("src//test//resources//test_large_file.zip"))
+					.keywords("plain,large,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -117,8 +117,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.SECURE)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//small_file.txt"))
-					.keywords("secure,file")
+					.data(new File("src//test//resources//test_small_file.txt"))
+					.keywords("secure,small,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -145,8 +145,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			UploadFileParameter parameter = UploadFileParameterBuilder.messageType(MessageTypes.SECURE)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
-					.keywords("")
+					.data(new File("src//test//resources//test_large_file.zip"))
+					.keywords("secure,large,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -176,7 +176,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,data,wmosaics")
 					.metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),

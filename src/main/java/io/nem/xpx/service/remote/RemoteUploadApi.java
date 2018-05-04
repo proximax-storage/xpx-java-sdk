@@ -557,11 +557,9 @@ public class RemoteUploadApi implements UploadApi {
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTValidateBeforeCall(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'uploadBytesBinaryRequestParameter' is set
         if (uploadBytesBinaryRequestParameter == null) {
             throw new ApiException("Missing the required parameter 'uploadBytesBinaryRequestParameter' when calling uploadBytesBinaryUsingPOST(Async)");
         }
-        
         
         com.squareup.okhttp.Call call = uploadBytesBinaryUsingPOSTCall(uploadBytesBinaryRequestParameter, progressListener, progressRequestListener);
         return call;

@@ -46,7 +46,6 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 	 * Upload plain data test.
 	 */
 	@Test
-	@Ignore
 	public void uploadAsyncPlainBinaryAndDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
@@ -89,11 +88,9 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			combinedFuture.get();
-			assertTrue(true);
+			assertNotNull(combinedFuture.get());
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
@@ -102,7 +99,6 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 	 * Upload secure data test.
 	 */
 	@Test
-	@Ignore
 	public void uploadAsyncSecureBinaryAndDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
@@ -145,12 +141,10 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			combinedFuture.get();
-			assertTrue(true);
+			assertNotNull(combinedFuture.get());
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
@@ -159,7 +153,6 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 	 * Upload plain data with mosaic test.
 	 */
 	@Test
-	@Ignore
 	public void uploadAsyncPlainDataWithMosaicTest() {
 
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
@@ -209,11 +202,10 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
-			combinedFuture.get();
-			assertTrue(true);
+			assertNotNull(combinedFuture.get());
+			
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
