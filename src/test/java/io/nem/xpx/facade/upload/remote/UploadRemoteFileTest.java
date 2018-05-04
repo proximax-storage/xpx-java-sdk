@@ -169,8 +169,6 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 		
 		try {
 			Upload upload = new Upload(remotePeerConnection);
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			

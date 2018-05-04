@@ -152,8 +152,6 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 		try {
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(remotePeerConnection);
 			metaData.put("key1", "value1");
 

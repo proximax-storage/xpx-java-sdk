@@ -146,8 +146,6 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
 					new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
 			Upload upload = new Upload(localPeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");

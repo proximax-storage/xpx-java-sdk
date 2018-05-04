@@ -8,7 +8,7 @@ import org.nem.core.node.NodeEndpoint;
 /**
  * The Class LocalFusePeerConnection.
  */
-public class LocalFusePeerConnection extends AbstractLocalPeerConnection {
+public final class LocalFusePeerConnection extends AbstractLocalPeerConnection {
 
 	/**
 	 * Instantiates a new local fuse peer connection.
