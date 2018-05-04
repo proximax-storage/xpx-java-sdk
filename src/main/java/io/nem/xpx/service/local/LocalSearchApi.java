@@ -12,7 +12,7 @@
 
 package io.nem.xpx.service.local;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.SearchApi;
@@ -29,6 +29,7 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
+import org.pmw.tinylog.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -149,7 +150,7 @@ public class LocalSearchApi implements SearchApi {
 
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -238,7 +239,7 @@ public class LocalSearchApi implements SearchApi {
 						}
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -327,7 +328,7 @@ public class LocalSearchApi implements SearchApi {
 						}
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}

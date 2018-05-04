@@ -19,13 +19,13 @@ import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.intf.DownloadApi;
 

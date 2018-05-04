@@ -1,7 +1,8 @@
 package io.nem.xpx.builder;
 
 import org.nem.core.model.mosaic.Mosaic;
-import io.nem.ApiException;
+
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadPathParameter;
 
 

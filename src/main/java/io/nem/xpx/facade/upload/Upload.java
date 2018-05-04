@@ -3,8 +3,9 @@
  */
 package io.nem.xpx.facade.upload;
 
-import io.nem.ApiException;
 import io.nem.xpx.builder.TransferTransactionBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
@@ -28,8 +29,10 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
+import org.pmw.tinylog.Logger;
 
 import java.io.IOException;
+
 
 
 /**
@@ -231,7 +234,7 @@ public class Upload extends AbstractFacadeService {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Error on uploading text data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		} finally {
@@ -320,7 +323,7 @@ public class Upload extends AbstractFacadeService {
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Error on uploading file data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
@@ -407,7 +410,7 @@ public class Upload extends AbstractFacadeService {
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Error on uploading binary data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}
@@ -468,7 +471,7 @@ public class Upload extends AbstractFacadeService {
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Error on uploading path: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
 		}

@@ -13,7 +13,7 @@ package io.nem.xpx.remote;
 
 
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 
 import java.io.File;

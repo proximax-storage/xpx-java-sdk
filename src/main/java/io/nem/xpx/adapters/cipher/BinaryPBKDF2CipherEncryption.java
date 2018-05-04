@@ -1,4 +1,4 @@
-package io.nem.xpx.utils;
+package io.nem.xpx.adapters.cipher;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -21,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * The Class BinaryPBKDF2Cipher.
  */
-public class BinaryPBKDF2Cipher {
+public class BinaryPBKDF2CipherEncryption extends SymmetricKeyEncryption  {
 
 	/** The Constant CONST_ALGO_PBKDF2. */
 	private static final String CONST_ALGO_PBKDF2 = "PBKDF2WithHmacSHA256";
@@ -34,6 +34,7 @@ public class BinaryPBKDF2Cipher {
 	private static final byte[] FIXED_NONCE = { (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32, (byte) 0x56,
 			(byte) 0x35, (byte) 0xE3, (byte) 0x03 };
 
+	
 	/**
 	 * Encrypt.
 	 *

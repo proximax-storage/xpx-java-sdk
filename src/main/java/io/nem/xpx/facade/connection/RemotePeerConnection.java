@@ -4,7 +4,7 @@
 package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
@@ -14,25 +14,52 @@ import io.nem.xpx.utils.TransactionSender;
 import org.nem.core.node.NodeEndpoint;
 
 
+
 /**
  * The Class RemotePeerConnection.
  */
 public class RemotePeerConnection implements PeerConnection {
 
+	/** The api client. */
 	private final ApiClient apiClient;
+	
+	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
+	/** The account api. */
 	private AccountApi accountApi;
+	
+	/** The data hash api. */
 	private DataHashApi dataHashApi;
+	
+	/** The directory load api. */
 	private DirectoryLoadApi directoryLoadApi;
+	
+	/** The download api. */
 	private DownloadApi downloadApi;
+	
+	/** The node api. */
 	private NodeApi nodeApi;
+	
+	/** The publish and subscribe api. */
 	private PublishAndSubscribeApi publishAndSubscribeApi;
+	
+	/** The search api. */
 	private SearchApi searchApi;
+	
+	/** The transaction and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
+	
+	/** The upload api. */
 	private UploadApi uploadApi;
+	
+	/** The nem transaction api. */
 	private NemTransactionApi nemTransactionApi;
+	
+	/** The nem account api. */
 	private NemAccountApi nemAccountApi;
+	
+	/** The transaction sender. */
 	private TransactionSender transactionSender;
 
 	/**
@@ -48,16 +75,14 @@ public class RemotePeerConnection implements PeerConnection {
 			NodeInfo nodeInfo = new RemoteNodeApi(apiClient).getNodeInfoUsingGET();
 			nodeEndpoint = new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort()));
 		} catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
 			// TODO - throw cannot be initialized exception?
 			throw new RuntimeException(e);
 		}
 	}
 
 	/**
-	 * Get Api Client
+	 * Get Api Client.
+	 *
 	 * @return the Api Client
 	 */
 	public ApiClient getApiClient() {
@@ -65,7 +90,8 @@ public class RemotePeerConnection implements PeerConnection {
 	}
 
 	/**
-	 * Get Node Endpoint
+	 * Get Node Endpoint.
+	 *
 	 * @return the node endpoint
 	 */
 	@Override
@@ -74,7 +100,8 @@ public class RemotePeerConnection implements PeerConnection {
 	}
 
 	/**
-	 * Is local
+	 * Is local.
+	 *
 	 * @return the is local
 	 */
 	@Override
@@ -82,6 +109,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getAccountApi()
+	 */
 	@Override
 	public AccountApi getAccountApi() {
 		if (accountApi == null)
@@ -89,6 +119,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return accountApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getDataHashApi()
+	 */
 	@Override
 	public DataHashApi getDataHashApi() {
 		if (dataHashApi == null)
@@ -96,6 +129,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return dataHashApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getDirectoryLoadApi()
+	 */
 	@Override
 	public DirectoryLoadApi getDirectoryLoadApi() {
 		if (directoryLoadApi == null)
@@ -103,6 +139,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return directoryLoadApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getDownloadApi()
+	 */
 	@Override
 	public DownloadApi getDownloadApi() {
 		if (downloadApi == null)
@@ -110,6 +149,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return downloadApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getNodeApi()
+	 */
 	@Override
 	public NodeApi getNodeApi() {
 		if (nodeApi == null)
@@ -117,6 +159,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return nodeApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getPublishAndSubscribeApi()
+	 */
 	@Override
 	public PublishAndSubscribeApi getPublishAndSubscribeApi() {
 		if (publishAndSubscribeApi == null)
@@ -124,6 +169,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return publishAndSubscribeApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getSearchApi()
+	 */
 	@Override
 	public SearchApi getSearchApi() {
 		if (searchApi == null)
@@ -131,6 +179,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return searchApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getTransactionAndAnnounceApi()
+	 */
 	@Override
 	public TransactionAndAnnounceApi getTransactionAndAnnounceApi() {
 		if (transactionAndAnnounceApi == null)
@@ -138,6 +189,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return transactionAndAnnounceApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getUploadApi()
+	 */
 	@Override
 	public UploadApi getUploadApi() {
 		if (uploadApi == null)
@@ -145,6 +199,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return uploadApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getNemTransactionApi()
+	 */
 	@Override
 	public NemTransactionApi getNemTransactionApi() {
 		if (nemTransactionApi == null)
@@ -152,6 +209,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return nemTransactionApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getNemAccountApi()
+	 */
 	@Override
 	public NemAccountApi getNemAccountApi() {
 		if (nemAccountApi == null)
@@ -159,6 +219,9 @@ public class RemotePeerConnection implements PeerConnection {
 		return nemAccountApi;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getTransactionSender()
+	 */
 	@Override
 	public TransactionSender getTransactionSender() {
 		if (transactionSender == null)

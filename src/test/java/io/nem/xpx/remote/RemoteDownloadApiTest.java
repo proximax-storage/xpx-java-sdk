@@ -13,7 +13,7 @@ package io.nem.xpx.remote;
 
 
 import io.nem.ApiClient;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.remote.RemoteDownloadApi;
 import io.nem.xpx.utils.JsonUtils;

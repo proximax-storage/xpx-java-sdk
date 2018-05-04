@@ -3,10 +3,10 @@
  */
 package io.nem.xpx.facade.download;
 
-import io.nem.ApiException;
 import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.CryptoUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -32,6 +32,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
+
 
 
 /**

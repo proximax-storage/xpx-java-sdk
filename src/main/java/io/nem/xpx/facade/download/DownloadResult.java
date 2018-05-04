@@ -9,6 +9,7 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
 
+
 /**
  * The Class DownloadData.
  */
@@ -27,7 +28,7 @@ public class DownloadResult implements Serializable {
 	private final int messageType;
 
     /**
-     * Instantiate class
+     * Instantiate class.
      *
      * @param dataMessage the data message
      * @param data the data

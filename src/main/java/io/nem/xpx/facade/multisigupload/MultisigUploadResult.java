@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 
+
 /**
  * The Class MultisigUploadData.
  */
@@ -21,7 +22,7 @@ public class MultisigUploadResult implements Serializable {
 	private final String secretKey;
 
 	/**
-	 * Instantiate class
+	 * Instantiate class.
 	 *
 	 * @param uploadData the upload data
 	 * @param secretKey the secret key

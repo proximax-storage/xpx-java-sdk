@@ -1,6 +1,6 @@
 package io.nem.xpx.builder;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Hash;

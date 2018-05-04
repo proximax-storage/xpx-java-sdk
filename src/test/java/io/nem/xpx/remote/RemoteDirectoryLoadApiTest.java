@@ -13,7 +13,7 @@
 
 package io.nem.xpx.remote;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.service.remote.RemoteDirectoryLoadApi;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -35,7 +35,7 @@ public class RemoteDirectoryLoadApiTest extends AbstractApiTest {
      *          if the Api call fails
      */
     @Test
-    public void loadDirectoryUsingGETTest() throws io.nem.ApiException {
+    public void loadDirectoryUsingGETTest() throws io.nem.xpx.exceptions.ApiException {
         String nemHash = null;
         Object response = api.loadDirectoryUsingGET(nemHash);
 

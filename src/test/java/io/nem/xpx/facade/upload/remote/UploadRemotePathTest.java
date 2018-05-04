@@ -19,12 +19,12 @@ import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.ApiException;
 import io.nem.xpx.builder.UploadPathParameterBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;

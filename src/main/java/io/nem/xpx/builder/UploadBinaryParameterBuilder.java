@@ -1,7 +1,12 @@
 package io.nem.xpx.builder;
 
+import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
-import io.nem.ApiException;
+
+import io.nem.xpx.adapters.cipher.CustomEncryption;
+import io.nem.xpx.builder.UploadDataParameterBuilder.IInit;
+import io.nem.xpx.builder.UploadDataParameterBuilder.IMessageType;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadBinaryParameter;
 
 /**
@@ -14,8 +19,19 @@ public class UploadBinaryParameterBuilder {
 	private UploadBinaryParameterBuilder() {
 	}
 
+	public static IInit init() {
+		return new UploadBinaryParameterBuilder.Builder();
+	}
+	
+	
 	public static IMessageType messageType(int messageType) {
 		return new UploadBinaryParameterBuilder.Builder(messageType);
+	}
+	
+	public interface IInit {
+		IMessageType plainContent();
+		IMessageType plainContent(CustomEncryption customEncryption);
+		IMessageType secureContent();
 	}
 
 	public interface IMessageType {
@@ -58,16 +74,39 @@ public class UploadBinaryParameterBuilder {
 	 * The Class Builder.
 	 */
 	private static class Builder
-			implements ISender, IReceiver, IMessageType, IData, IEncoding, IKeywords, IName, IBuild {
+			implements IInit,ISender, IReceiver, IMessageType, IData, IEncoding, IKeywords, IName, IBuild {
 
 		/** The instance. */
 		UploadBinaryParameter instance = null;
+		
+		public Builder() {
+			instance = new UploadBinaryParameter();
+		}
 
 		public Builder(int messageType) {
 			instance = new UploadBinaryParameter();
 			instance.setMessageType(messageType);
 		}
 
+		@Override
+		public IMessageType plainContent() {
+			this.instance.setMessageType(MessageTypes.PLAIN);
+			return this;
+		}
+
+		@Override
+		public IMessageType plainContent(CustomEncryption customEncryption) {
+			this.instance.setMessageType(MessageTypes.PLAIN);
+			this.instance.setCustomEncryption(customEncryption);
+			return this;
+		}
+
+		@Override
+		public IMessageType secureContent() {
+			this.instance.setMessageType(MessageTypes.SECURE);
+			return this;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 

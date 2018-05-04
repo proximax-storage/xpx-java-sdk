@@ -5,6 +5,8 @@ import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 
+import io.nem.xpx.adapters.cipher.CustomEncryption;
+
 
 /**
  * The Class DataParameter.
@@ -19,7 +21,6 @@ public class DataParameter {
 	
 	/** The recipient public key. */
 	private String receiverOrSenderPublicKey;
-	
 	
 	/** The content type. */
 	private String contentType;
@@ -38,7 +39,19 @@ public class DataParameter {
 	
 	/** The mosaics. */
 	private Mosaic[] mosaics;
+	
+	private CustomEncryption customEncryption;
+	
 
+	
+
+	public CustomEncryption getCustomEncryption() {
+		return customEncryption;
+	}
+
+	public void setCustomEncryption(CustomEncryption customEncryption) {
+		this.customEncryption = customEncryption;
+	}
 
 	/**
 	 * Gets the message type.

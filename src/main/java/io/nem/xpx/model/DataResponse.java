@@ -6,6 +6,7 @@ import io.nem.xpx.utils.JsonUtils;
 
 
 
+
 /**
  * The Class DataResponse.
  */

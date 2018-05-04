@@ -1,8 +1,9 @@
-package io.nem.xpx.facade;
+package io.nem.xpx.facade.publishandsubscribe;
 
 import org.nem.core.crypto.CryptoEngine;
+
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.service.intf.PublishAndSubscribeApi;
 
 

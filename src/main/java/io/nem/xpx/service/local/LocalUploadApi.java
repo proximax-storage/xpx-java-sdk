@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.tika.Tika;
+import org.pmw.tinylog.Logger;
+
 import com.google.flatbuffers.FlatBufferBuilder;
-import io.nem.ApiException;
+
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.PublishResult;
 import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
@@ -42,9 +44,9 @@ import java.io.File;
 /**
  * The Class LocalUploadApi.
  */
-public class LocalUploadApi implements UploadApi {
+@SuppressWarnings("unchecked")
 
-	protected Logger LOGGER = Logger.getAnonymousLogger();
+public class LocalUploadApi implements UploadApi {
 	
 	/*
 	 * (non-Javadoc)
@@ -289,7 +291,7 @@ public class LocalUploadApi implements UploadApi {
 
 		// log it.
 		spfsBlockResult.getMerkleNode().stream().forEach(n -> {
-			LOGGER.info(n.hash + " " + n.name + " " + n.data);
+			Logger.error(n);
 		});
 
 		while (merkleNodeIter.hasNext()) {
@@ -380,7 +382,7 @@ public class LocalUploadApi implements UploadApi {
 			List<MerkleNode> merkleNode = XpxSdkGlobalConstants.getProximaxConnection().add(streamables, true, false);
 			result.setMerkleNode(merkleNode);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Error on decoding NEM Transaction Message." + e.getMessage());
 		}
 		return result;
 

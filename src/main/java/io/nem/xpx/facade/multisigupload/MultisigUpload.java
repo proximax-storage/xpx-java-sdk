@@ -1,8 +1,9 @@
 package io.nem.xpx.facade.multisigupload;
 
-import io.nem.ApiException;
 import io.nem.xpx.builder.MultisigTransactionBuilder;
 import io.nem.xpx.builder.TransferTransactionBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
@@ -37,6 +38,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
 
 
 /**

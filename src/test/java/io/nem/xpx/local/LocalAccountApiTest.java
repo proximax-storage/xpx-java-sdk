@@ -11,8 +11,8 @@ package io.nem.xpx.local;
  * Do not edit the class manually.
  */
 
-import io.nem.ApiException;
 import io.nem.xpx.service.remote.RemoteAccountApi;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
 import io.nem.xpx.remote.AbstractApiTest;
 

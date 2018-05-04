@@ -11,10 +11,11 @@
  */
 
 
-package io.nem;
+package io.nem.xpx.exceptions;
 
 import java.util.Map;
 import java.util.List;
+
 
 
 /**

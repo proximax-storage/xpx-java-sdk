@@ -13,15 +13,16 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.model.MessageTypes;
 
-import io.nem.ApiException;
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
+
 
 /**
  * The Class UploadTest.
@@ -29,6 +30,9 @@ import io.nem.xpx.utils.JsonUtils;
 
 public class MultiThreadUploadRemoteBinaryTest extends AbstractApiTest {
 
+	/**
+	 * Instantiates a new multi thread upload remote binary test.
+	 */
 	public MultiThreadUploadRemoteBinaryTest() {
 
 		for (int i = 0; i < 100; i++) {
@@ -102,6 +106,11 @@ public class MultiThreadUploadRemoteBinaryTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new MultiThreadUploadRemoteBinaryTest();
 	}

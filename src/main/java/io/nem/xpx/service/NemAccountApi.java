@@ -13,9 +13,10 @@ import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.GeneratedAccount;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
+
 
 
 
@@ -24,10 +25,12 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
  */
 public class NemAccountApi {
 
+	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
 	/**
-	 * Instantiate class
+	 * Instantiate class.
+	 *
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public NemAccountApi(final NodeEndpoint nodeEndpoint) {

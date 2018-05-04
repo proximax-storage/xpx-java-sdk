@@ -4,6 +4,7 @@ import org.nem.core.node.NodeEndpoint;
 
 
 
+
 /**
  * The Class LocalFusePeerConnection.
  */

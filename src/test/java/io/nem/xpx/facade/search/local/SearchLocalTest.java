@@ -5,11 +5,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+import org.pmw.tinylog.Logger;
+
 import io.nem.xpx.facade.search.Search;
 import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
 /**
@@ -28,11 +30,10 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
 			Search search = new Search(localPeerConnection);
-			String s = search.searchByKeyword(this.xPubkey, "plain");
-
+			String result = search.searchByKeyword(this.xPubkey, "plain");
+			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.error("Exception: " + e.getMessage());
 		}
 		Assert.assertTrue(false);
 
@@ -45,11 +46,10 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
 			Search search = new Search(localPeerConnection);
-			String s = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
-	
+			String result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
+			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.error("Exception: " + e.getMessage());
 		}
 		Assert.assertTrue(false);
 	}
@@ -61,11 +61,10 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
 			Search search = new Search(localPeerConnection);
-			String s = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
-
+			String result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
+			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.error("Exception: " + e.getMessage());
 		}
 		Assert.assertTrue(false);
 

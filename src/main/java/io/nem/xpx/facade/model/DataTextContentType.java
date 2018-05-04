@@ -1,6 +1,7 @@
 package io.nem.xpx.facade.model;
 
 
+
 /**
  * The Enum DataTextContentType.
  */

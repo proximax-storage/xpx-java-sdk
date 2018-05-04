@@ -12,12 +12,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.ApiException;
 import io.nem.xpx.facade.download.Download;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
 import io.nem.xpx.integration.tests.IntegrationTest;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
 

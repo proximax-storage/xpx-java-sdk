@@ -1,4 +1,5 @@
-package io.nem.model.exception;
+package io.nem.xpx.exceptions;
+
 
 
 

@@ -1,6 +1,6 @@
 package io.nem.xpx.service.local;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
@@ -13,13 +13,20 @@ import org.nem.core.utils.HexEncoder;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class LocalTransactionAndAnnounceApi.
  */
 public class LocalTransactionAndAnnounceApi implements TransactionAndAnnounceApi {
 
+	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
 
+	/**
+	 * Instantiates a new local transaction and announce api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
 	public LocalTransactionAndAnnounceApi(NemTransactionApi nemTransactionApi) {
 		this.nemTransactionApi = nemTransactionApi;
 	}

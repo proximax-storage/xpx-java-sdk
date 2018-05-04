@@ -1,9 +1,13 @@
 package io.nem.xpx.builder;
 
 import java.io.File;
-
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
+import org.apache.tika.Tika;
+import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
-import io.nem.ApiException;
+import io.nem.xpx.adapters.cipher.CustomEncryption;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadFileParameter;
 
 
@@ -17,166 +21,87 @@ public class UploadFileParameterBuilder {
 	 */
 	private UploadFileParameterBuilder() {
 	}
-
-	/**
-	 * Sender.
-	 *
-	 * @param senderOrReceiverPrivateKey the sender or receiver private key
-	 * @return the i sender
-	 */
-	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		return new UploadFileParameterBuilder.Builder(senderOrReceiverPrivateKey);
+	
+	public static IInit init() {
+		return new UploadFileParameterBuilder.Builder();
 	}
 
-	/**
-	 * The Interface ISender.
-	 */
+	public static IMessageType messageType(int messageType) {
+		return new UploadFileParameterBuilder.Builder(messageType);
+	}
+	
+	public interface IInit {
+		IMessageType plainContent();
+		IMessageType plainContent(CustomEncryption customEncryption);
+		IMessageType secureContent();
+	}
+
+	public interface IMessageType {
+		ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey);
+	}
+
 	public interface ISender {
-
-		/**
-		 * Recipient public key.
-		 *
-		 * @param receiverOrSenderPublicKey the receiver or sender public key
-		 * @return the i build
-		 */
-		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
-
+		IName receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 	}
 
-	/**
-	 * The Interface IBuild.
-	 */
+	public interface IName {
+		IBuild data(File data) throws IOException;
+		IName name(String name);
+		IName contentType(String contentType);
+		IName encoding(String encoding);
+	}
+
 	public interface IBuild {
-
-		/**
-		 * Message type.
-		 *
-		 * @param messageType the message type
-		 * @return the i build
-		 */
-		IBuild messageType(int messageType);
-
-		/**
-		 * Data.
-		 *
-		 * @param data the data
-		 * @return the i build
-		 */
-		IBuild data(File data);
-
-		/**
-		 * Content type.
-		 *
-		 * @param contentType the content type
-		 * @return the i build
-		 */
-		IBuild contentType(String contentType);
-		/**
-		 * Name.
-		 *
-		 * @param name the name
-		 * @return the i build
-		 */
-		IBuild name(String name);
-
-		/**
-		 * Keywords.
-		 *
-		 * @param keywords the keywords
-		 * @return the i build
-		 */
 		IBuild keywords(String keywords);
-
-		/**
-		 * Meta data.
-		 *
-		 * @param metaData the meta data
-		 * @return the i build
-		 */
-		IBuild metaData(String metaData);
-
-		/**
-		 * Mosaics.
-		 *
-		 * @param mosaics the mosaics
-		 * @return the i build
-		 */
+		IBuild metadata(String metadata);
 		IBuild mosaics(Mosaic... mosaics);
 
-		/**
-		 * Builds the.
-		 *
-		 * @return the upload file parameter
-		 * @throws ApiException the api exception
-		 */
 		UploadFileParameter build() throws ApiException;
-
 	}
 
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IBuild {
+	private static class Builder
+			implements IInit, ISender, IMessageType , IName, IBuild {
 
 		/** The instance. */
-		UploadFileParameter instance = new UploadFileParameter();
+		UploadFileParameter instance = null;
+		Tika tika = new Tika();
 
-		/**
-		 * Instantiates a new builder.
-		 *
-		 * @param senderOrReceiverPrivateKey the sender or receiver private key
-		 */
-		public Builder(String senderOrReceiverPrivateKey) {
-			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
+		public Builder() {
+			instance = new UploadFileParameter();
 		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#messageType(int)
-		 */
-		@Override
-		public IBuild messageType(int messageType) {
+		public Builder(int messageType) {
+			instance = new UploadFileParameter();
 			instance.setMessageType(messageType);
-			return this;
 		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#data(java.io.File)
-		 */
+		
 		@Override
-		public IBuild data(File data) {
-			instance.setData(data);
+		public IMessageType plainContent() {
+			this.instance.setMessageType(MessageTypes.PLAIN);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#name(java.lang.String)
-		 */
 		@Override
-		public IBuild name(String name) {
-			instance.setName(name);
+		public IMessageType plainContent(CustomEncryption customEncryption) {
+			this.instance.setMessageType(MessageTypes.PLAIN);
+			this.instance.setCustomEncryption(customEncryption);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#keywords(java.lang.String)
-		 */
 		@Override
-		public IBuild keywords(String keywords) {
-			instance.setKeywords(keywords);
+		public IMessageType secureContent() {
+			this.instance.setMessageType(MessageTypes.SECURE);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#metaData(java.lang.String)
-		 */
-		@Override
-		public IBuild metaData(String metaData) {
-			instance.setMetaData(metaData);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#mosaics(org.nem.core.model.mosaic.Mosaic[])
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#mosaics(org.nem.core.
+		 * model.mosaic.Mosaic[])
 		 */
 		@Override
 		public IBuild mosaics(Mosaic... mosaics) {
@@ -184,32 +109,68 @@ public class UploadFileParameterBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#build()
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#build()
 		 */
 		@Override
 		public UploadFileParameter build() throws ApiException {
-			
 			return instance;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#recipientPublicKey(java.lang.String)
-		 */
 		@Override
-		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+		public IBuild keywords(String keywords) {
+			this.instance.setKeywords(keywords);
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#contentType(java.lang.String)
-		 */
 		@Override
-		public IBuild contentType(String contentType) {
-			instance.setContentType(contentType);
+		public IBuild metadata(String metadata) {
+			this.instance.setMetaData(metadata);
 			return this;
 		}
 
+		@Override
+		public IName encoding(String encoding) {
+			this.instance.setEncoding(encoding);
+			return this;
+		}
+
+		@Override
+		public IName contentType(String contentType) {
+			if(contentType == null || contentType.equals("")) {
+				Tika tika = new Tika();
+				contentType = tika.detect(contentType);
+			}
+			this.instance.setContentType(contentType);
+			return this;
+		}
+
+		@Override
+		public ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
+			return this;
+		}
+
+		@Override
+		public IBuild data(File data) throws IOException {
+			this.instance.setData(data);
+			this.instance.setName(data.getName());
+			this.instance.setContentType(tika.detect(FileUtils.readFileToByteArray(data)));
+			return this;
+		}
+
+		@Override
+		public IName receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+			return this;
+		}
+
+		@Override
+		public IName name(String name) {
+			this.instance.setName(name);
+			return this;
+		}
 	}
 }

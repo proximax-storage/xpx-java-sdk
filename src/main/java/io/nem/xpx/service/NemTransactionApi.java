@@ -1,6 +1,6 @@
 package io.nem.xpx.service;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.connect.HttpJsonPostRequest;
 import org.nem.core.connect.client.NisApiId;
@@ -15,15 +15,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+
 /**
  * The Class TransactionApi.
  */
 public class NemTransactionApi {
 
+	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
 	/**
-	 * Instantiate class
+	 * Instantiate class.
+	 *
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public NemTransactionApi(final NodeEndpoint nodeEndpoint) {
@@ -329,6 +332,16 @@ public class NemTransactionApi {
 		return list;
 	}
 
+	/**
+	 * Send transfer transaction.
+	 *
+	 * @param data the data
+	 * @param signature the signature
+	 * @return the nem announce result
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 * @throws ApiException the api exception
+	 */
 	public NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) throws InterruptedException, ExecutionException, ApiException {
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
 		final CompletableFuture<Deserializer> future = announceTransaction(request);

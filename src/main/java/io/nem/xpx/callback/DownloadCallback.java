@@ -3,6 +3,7 @@ package io.nem.xpx.callback;
 import io.nem.xpx.facade.download.DownloadResult;
 
 
+
 /**
  * The Interface DownloadCallback.
  */

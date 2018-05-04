@@ -15,7 +15,6 @@ package io.nem.xpx.service.remote;
 
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
 import io.nem.Configuration;
 import io.nem.Pair;
@@ -26,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 
 /**

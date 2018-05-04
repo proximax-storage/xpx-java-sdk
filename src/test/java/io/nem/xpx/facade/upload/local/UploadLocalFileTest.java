@@ -21,12 +21,12 @@ import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.ApiException;
 import io.nem.xpx.builder.UploadFileParameterBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
@@ -52,11 +52,13 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.data(new File("src//test//resources//pdf_file_version1.pdf"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
-					.contentType("application/pdf") // make sure to put this in for files.
+					.keywords("plain,file")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
@@ -80,10 +82,13 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.data(new File("src//test//resources//large_file.zip"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("plain,file")
+					.keywords("plain,file")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
@@ -107,9 +112,13 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//small_file.txt"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,file")
+			UploadFileParameter parameter = UploadFileParameterBuilder
+					.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.data(new File("src//test//resources//small_file.txt"))
+					.keywords("secure,file")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
@@ -132,10 +141,14 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.SECURE).data(new File("src//test//resources//large_file.zip"))
-					.metaData(JsonUtils.toJson(metaData)).keywords("secure,file")
+			UploadFileParameter parameter = UploadFileParameterBuilder.messageType(MessageTypes.SECURE)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.data(new File("src//test//resources//large_file.zip"))
+					.keywords("")
+					.metadata(JsonUtils.toJson(metaData))
 					.build();
+			
 			String nemhash = upload.uploadFile(parameter).getNemHash();
 			LOGGER.info(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
@@ -155,11 +168,13 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			
-			UploadFileParameter parameter = UploadFileParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
+			UploadFileParameter parameter = UploadFileParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.data(new File("src//test//resources//large_file.zip"))
-					.metaData(JsonUtils.toJson(metaData))
 					.keywords("plain,data,wmosaics")
+					.metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
 					.build();

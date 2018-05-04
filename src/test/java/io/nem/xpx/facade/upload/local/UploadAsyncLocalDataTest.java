@@ -19,14 +19,15 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-import io.nem.ApiException;
+
 import io.nem.xpx.builder.UploadDataParameterBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.integration.tests.IntegrationTest;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -73,7 +74,8 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
-					.keywords("plain,data").metadata(JsonUtils.toJson(metaData)).build();
+					.keywords("plain,data").metadata(JsonUtils.toJson(metaData))
+					.build();
 
 			// 	Run the computation on another thread and wait for it to finish.
 			//	Callbacks are then handled.

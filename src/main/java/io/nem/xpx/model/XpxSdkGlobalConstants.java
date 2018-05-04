@@ -14,10 +14,11 @@ import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.factory.ConnectorFactory;
 import io.nem.xpx.service.remote.RemoteNodeApi;
 import ru.serce.jnrfuse.FuseStubFS;
+
 
 
 /**
@@ -91,40 +92,7 @@ public class XpxSdkGlobalConstants {
 		};
 	}
 
-//	/**
-//	 * Gets the websocket uri.
-//	 *
-//	 * @return the websocket uri
-//	 */
-//	public static String getWebsocketUri() {
-//		if (NODE_ENDPOINT == null) {
-//			try {
-//				NODE_ENDPOINT = getNodeEndpoint();
-//			} catch (ApiException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("ws://").append(NODE_ENDPOINT.getBaseUrl().getHost()).append(":").append(WS_PORT)
-//				.append(URL_WS_W_MESSAGES);
-//		return builder.toString();
-//	}
-//
-//	/**
-//	 * Gets the node endpoint.
-//	 *
-//	 * @return the node endpoint
-//	 * @throws ApiException
-//	 *             the api exception
-//	 */
-//	public static NodeEndpoint getNodeEndpoint() throws ApiException {
-//		if (!isLocal) {
-//			NodeInfo nodeInfo = new RemoteNodeApi().getNodeInfoUsingGET();
-//			NODE_ENDPOINT = new NodeEndpoint("http", nodeInfo.getNetworkAddress(),
-//					Integer.valueOf(nodeInfo.getNetworkPort()));
-//		}
-//		return NODE_ENDPOINT;
-//	}
+
 
 	/**
 	 * Gets the proximax connection.
@@ -174,16 +142,6 @@ public class XpxSdkGlobalConstants {
 	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
 		return feeCalculatorMultiSig;
 	}
-
-//	/**
-//	 * Sets the node endpoint.
-//	 *
-//	 * @param endpoint
-//	 *            the new node endpoint
-//	 */
-//	public static void setNodeEndpoint(NodeEndpoint endpoint) {
-//		XpxSdkGlobalConstants.NODE_ENDPOINT = endpoint;
-//	}
 
 	/**
 	 * Sets the proximax connection.

@@ -10,6 +10,7 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
 
+
 /**
  * The Class UploadData.
  */
@@ -25,7 +26,8 @@ public class UploadResult implements Serializable{
 	private final String nemHash;
 
     /**
-     * Instantiate class
+     * Instantiate class.
+     *
      * @param dataMessage the data message
      * @param nemHash the nem hash
      */

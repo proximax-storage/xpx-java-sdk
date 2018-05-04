@@ -12,11 +12,12 @@
 
 
 package io.nem.xpx.service.intf;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 
 
 /**

@@ -12,13 +12,13 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import io.nem.ApiException;
 import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.model.MultisigUploadBinaryParameter;
 import io.nem.xpx.model.MultisigUploadDataParameter;
 import io.nem.xpx.model.MultisigUploadFileParameter;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadException;
 
 

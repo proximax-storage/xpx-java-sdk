@@ -12,7 +12,6 @@ package io.nem.xpx.remote;
  */
 
 
-import io.nem.ApiException;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -22,6 +21,8 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.service.remote.RemoteDataHashApi;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;

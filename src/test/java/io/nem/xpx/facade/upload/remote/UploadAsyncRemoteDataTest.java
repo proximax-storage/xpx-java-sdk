@@ -18,14 +18,15 @@ import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
-import io.nem.ApiException;
+
 import io.nem.xpx.builder.UploadDataParameterBuilder;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.model.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.integration.tests.IntegrationTest;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -51,7 +52,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			UploadAsync upload = new UploadAsync(remotePeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
-
+			
 			UploadDataParameter parameter1 = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
 					.name("RandomName1")
@@ -88,7 +89,6 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			});
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
-
 			combinedFuture.get();
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {

@@ -1,7 +1,7 @@
 package io.nem.xpx.utils;
 
-import io.nem.ApiException;
-import io.nem.xpx.model.InsufficientAmountException;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.InsufficientAmountException;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import org.nem.core.model.MultisigSignatureTransaction;
@@ -13,10 +13,10 @@ import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
+import org.pmw.tinylog.Logger;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 
 
@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 public class TransactionSender {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(TransactionSender.class.getName());
 
 	private final NemTransactionApi nemTransactionApi;
 	private final NemAccountApi nemAccountApi;
@@ -56,18 +55,17 @@ public class TransactionSender {
 
 				switch (result.getCode()) {
 				case 1:
-					LOGGER.info(String.format("successfully send xem " + result.getMessage()));
+					Logger.info(String.format("successfully send xem " + result.getMessage()));
 					break;
 				default:
-					LOGGER.warning(String.format("could not send xem " + result.getMessage()));
+					Logger.info(String.format("could not send xem " + result.getMessage()));
 				}
 			}).exceptionally(e -> {
-				e.printStackTrace();
-				LOGGER.warning(String.format("could not send xem:" + e.getMessage()));
+				Logger.error("Error on uploading file data: " + e.getMessage());
 				return null;
 			}).get();
 		} catch (Exception e) {
-			LOGGER.warning("Error Occured: " + e.getMessage());
+			Logger.error("Sending/Announcing Transfer Transaction: " + e.getMessage());
 			// e.printStackTrace();
 		}
 	}
@@ -94,8 +92,7 @@ public class TransactionSender {
 
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			e.printStackTrace();
-			LOGGER.warning("Error Occured: " + e.getMessage());
+			Logger.error("Sending/Announcing Transfer Transaction: " + e.getMessage());
 		}
 		return null;
 	}
@@ -120,7 +117,7 @@ public class TransactionSender {
 
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("Error Occured: " + e.getMessage());
+			Logger.error("Error Occured: " + e.getMessage());
 		}
 		return null;
 	}
@@ -165,7 +162,7 @@ public class TransactionSender {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("Error Occured: " + e.getMessage());
+			Logger.error("Error Occured: " + e.getMessage());
 		}
 		return null;
 	}
@@ -208,7 +205,7 @@ public class TransactionSender {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("Error Occured: " + e.getMessage());
+			Logger.error("Error Occured: " + e.getMessage());
 		}
 		return null;
 	}

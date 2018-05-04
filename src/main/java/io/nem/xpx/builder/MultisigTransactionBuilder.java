@@ -1,6 +1,6 @@
 package io.nem.xpx.builder;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
@@ -18,6 +18,7 @@ import org.nem.core.time.TimeInstant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
 
 
 
@@ -181,6 +182,7 @@ public class MultisigTransactionBuilder {
 		/** The instance. */
 		private MultisigTransaction instance;
 
+		/** The peer connection. */
 		private PeerConnection peerConnection;
 
 		/** The time stamp. */
@@ -223,6 +225,9 @@ public class MultisigTransactionBuilder {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigTransactionBuilder.IPeerConnection#sender(org.nem.core.model.Account)
+		 */
 		@Override
 		public ITransaction sender(Account sender) {
 			this.sender = sender;

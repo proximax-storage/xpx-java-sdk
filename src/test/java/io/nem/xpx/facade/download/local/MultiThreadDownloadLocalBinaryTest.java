@@ -8,12 +8,12 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 
-import io.nem.ApiException;
 import io.nem.xpx.facade.download.Download;
 import io.nem.xpx.facade.download.DownloadAsync;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
 import io.nem.xpx.remote.AbstractApiTest;
 
 /**

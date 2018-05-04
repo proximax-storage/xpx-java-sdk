@@ -7,7 +7,7 @@ import io.ipfs.api.NamedStreamable;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.PublishResult;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
@@ -15,6 +15,7 @@ import io.nem.xpx.service.intf.DataHashApi;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 
 
 

@@ -1,9 +1,9 @@
 package io.nem.xpx.builder;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.InsufficientAmountException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.factory.AttachmentFactory;
-import io.nem.xpx.model.InsufficientAmountException;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
@@ -25,6 +25,7 @@ import org.nem.core.time.TimeInstant;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
 
 
 /**
@@ -272,6 +273,7 @@ public class TransferTransactionBuilder {
 
 		private TransferTransaction instance;
 
+		/** The peer connection. */
 		private PeerConnection peerConnection;
 
 		/** The version. */
@@ -320,9 +322,9 @@ public class TransferTransactionBuilder {
 		}
 
 		/**
+		 * Sender.
 		 *
-		 * @param sender
-		 *            the sender
+		 * @param sender            the sender
 		 * @return the i sender
 		 */
 		public ISender sender(Account sender) {

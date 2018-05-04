@@ -15,10 +15,11 @@ import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
 import io.nem.xpx.service.intf.AccountApi;
+
 
 
 /**

@@ -14,8 +14,8 @@
 package io.nem.xpx.service.local;
 
 import io.ipfs.multihash.Multihash;
-import io.nem.ApiException;
-import io.nem.model.exception.MessageDigestNotMatchException;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.MessageDigestNotMatchException;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
@@ -31,13 +31,20 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class LocalDownloadApi.
  */
 public class LocalDownloadApi implements DownloadApi {
 
+	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
 
+	/**
+	 * Instantiates a new local download api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
 	public LocalDownloadApi(NemTransactionApi nemTransactionApi) {
 		this.nemTransactionApi = nemTransactionApi;
 	}

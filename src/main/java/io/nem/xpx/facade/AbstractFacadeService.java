@@ -5,22 +5,27 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 
 import org.apache.commons.codec.binary.Base64;
+import org.nem.core.model.Transaction;
+import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.mosaic.Mosaic;
+import org.pmw.tinylog.Logger;
 
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-
 
 /**
  * The Class AbstractFacadeService.
  */
 public abstract class AbstractFacadeService {
-	
+
 	/**
 	 * Byte to serial object.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 * @return the resource hash message
 	 */
 	protected ResourceHashMessage byteToSerialObject(byte[] object) {
@@ -29,10 +34,27 @@ public abstract class AbstractFacadeService {
 		return resourceMessage;
 	}
 
+	protected boolean checkIfTxnHaveXPXMosaic(Transaction transaction) {
+
+		if (transaction instanceof TransferTransaction) {
+			Iterator<Mosaic> mosaicIter = ((TransferTransaction) transaction).getMosaics().iterator();
+			while (mosaicIter.hasNext()) {
+				Mosaic mosaic = mosaicIter.next();
+				if (mosaic.getMosaicId().getNamespaceId().getRoot().toString().equals("prx")
+						&& mosaic.getMosaicId().getName().equals("xpx")) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
 	/**
 	 * Safe async to gateways.
 	 *
-	 * @param resource the resource
+	 * @param resource
+	 *            the resource
 	 */
 	protected void safeAsyncToGateways(ResourceHashMessage resource) {
 		Runnable task = () -> {
@@ -48,7 +70,9 @@ public abstract class AbstractFacadeService {
 					DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
 					wr.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					// we don't throw any error. Just Log.
+					Logger.error("Error calling gateways");
+
 				} finally {
 					conn.disconnect();
 				}

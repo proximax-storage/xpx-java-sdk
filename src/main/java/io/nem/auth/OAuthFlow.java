@@ -14,6 +14,7 @@
 package io.nem.auth;
 
 
+
 /**
  * The Enum OAuthFlow.
  */
