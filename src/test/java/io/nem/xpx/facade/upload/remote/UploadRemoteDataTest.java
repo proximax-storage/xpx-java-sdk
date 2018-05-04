@@ -32,7 +32,7 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
-
+// TODO: Auto-generated Javadoc
 /** 
  * The Class UploadTest.
  */
@@ -90,7 +90,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
 					.name("NAME1")
-					.data(new String("test plain - new 1".getBytes(),"ASCII"))
+					.data(new String("test plain - new 1".getBytes("ASCII")))
 					.contentType(DataTextContentType.TEXT_PLAIN)
 					.encoding("UTF-8")
 					.keywords("plain,data")
@@ -114,7 +114,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadSecureDataTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();

@@ -397,7 +397,7 @@ public class UploadDataParameterBuilder {
 		 */
 		@Override
 		public IContentType contentType(DataTextContentType contentType) {
-			this.instance.setContentType(contentType.name());
+			this.instance.setContentType(contentType.toString());
 			return this;
 		}
 

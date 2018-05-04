@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
@@ -38,6 +39,7 @@ import io.nem.xpx.utils.JsonUtils;
  * The Class UploadTest.
  */
 @Category(IntegrationTest.class)
+@Ignore
 public class UploadRemoteFileTest extends AbstractApiTest {
 
 	
@@ -106,7 +108,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	 */
 	@Test
 	public void uploadPlainLargeFileTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -116,7 +118,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
+					.data(new File("src//test//resources//pdf_file_version2.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();

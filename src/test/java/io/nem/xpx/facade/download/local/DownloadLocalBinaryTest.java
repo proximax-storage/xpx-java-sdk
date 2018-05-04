@@ -254,7 +254,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadSecureLargeFileTest_"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 			
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file_version1.pdf"));
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file_version2.pdf"));
 
 			Assert.assertEquals(expectedFileSize, actualFileSize);
 			FileUtils.forceDelete(new File("src//test//resources//downloadSecureLargeFileTest_"

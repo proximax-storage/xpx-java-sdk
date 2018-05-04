@@ -55,9 +55,9 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_1.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("pdf_file_version1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+					.contentType("application/pdf").keywords("pdf_file_version1").metadata(JsonUtils.toJson(metaData)).build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
@@ -81,9 +81,9 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("large_video_1.mp4")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//large_video.mp4")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("pdf_file_version1.mp4")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+					.contentType("application/pdf").keywords("pdf_file_version1").metadata(JsonUtils.toJson(metaData)).build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);

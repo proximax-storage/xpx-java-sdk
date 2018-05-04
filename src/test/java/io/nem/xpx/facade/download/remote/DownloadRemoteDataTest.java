@@ -34,7 +34,7 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			DownloadResult message = download.downloadTextData(
-					"bfc0d92a0b467865e05230d5854ac04f462fd346c2eaf8e1e63f1523a42bd7b3");
+					"2d8db574ef9c438d249d36c55137b315a68bc74ae3215d6bbc5c5e0598e6ff00");
 			
 			//	Validate data.
 			LOGGER.info(new String(message.getData(), "UTF-8"));
@@ -61,9 +61,8 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			DownloadResult message = download.downloadSecureTextData(
-					"be7e880d16e8b7c93d74dc79c6b9caf73466a63d44d9b19ccdaa34ae7e790722",this.xPvkey,this.xPubkey);
-			
-			LOGGER.info(">");
+					"51213456ec5fba0ca89980686ffb09310537dbf975adfb5fa808af2b52474a81",this.xPvkey,this.xPubkey);
+
 			LOGGER.info(new String(message.getData(), "UTF-8"));
 			Assert.assertTrue(true);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException | IOException e) {
@@ -83,7 +82,7 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			DownloadResult message = download.downloadSecureTextData(
-					"e3c95cc11780224408f7c379b1ebba415b0e82a8304444b1d531c4a1a645e258",this.xPvkey,this.xPubkey);
+					"fb22666a36403e25bfc724695993ab95e39a75774091a284ed96d45a90891c9a",this.xPvkey,this.xPubkey);
 			
 			LOGGER.info(">");
 			LOGGER.info(new String(message.getData(), "ASCII"));

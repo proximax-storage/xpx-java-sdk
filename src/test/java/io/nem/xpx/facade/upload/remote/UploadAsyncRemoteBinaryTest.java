@@ -90,7 +90,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
 			combinedFuture.get();
-
+			assertTrue(true);
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
 			e.printStackTrace();
@@ -146,6 +146,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
 			combinedFuture.get();
+			assertTrue(true);
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
@@ -209,7 +210,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
 			combinedFuture.get();
-
+			assertTrue(true);
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException
 				| IOException e) {
 			e.printStackTrace();
