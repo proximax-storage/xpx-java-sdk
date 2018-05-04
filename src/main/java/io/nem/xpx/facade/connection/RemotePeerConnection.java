@@ -5,6 +5,7 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.factory.ConnectorFactory;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
@@ -12,6 +13,8 @@ import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
+import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -53,8 +56,10 @@ public final class RemotePeerConnection implements PeerConnection {
 	
 	/** The upload api. */
 	private UploadApi uploadApi;
-	
-	/** The nem transaction api. */
+
+    private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
+
+    /** The nem transaction api. */
 	private NemTransactionApi nemTransactionApi;
 	
 	/** The nem account api. */
@@ -208,7 +213,7 @@ public final class RemotePeerConnection implements PeerConnection {
 	@Override
 	public NemTransactionApi getNemTransactionApi() {
 		if (nemTransactionApi == null)
-			nemTransactionApi = new NemTransactionApi(nodeEndpoint);
+			nemTransactionApi = new NemTransactionApi(nodeEndpoint, getAsyncNemConnector());
 		return nemTransactionApi;
 	}
 
@@ -218,7 +223,7 @@ public final class RemotePeerConnection implements PeerConnection {
 	@Override
 	public NemAccountApi getNemAccountApi() {
 		if (nemAccountApi == null)
-			nemAccountApi = new NemAccountApi(nodeEndpoint);
+			nemAccountApi = new NemAccountApi(nodeEndpoint, getAsyncNemConnector());
 		return nemAccountApi;
 	}
 
@@ -238,4 +243,10 @@ public final class RemotePeerConnection implements PeerConnection {
             transactionFeeCalculators = new TransactionFeeCalculators();
 		return transactionFeeCalculators;
 	}
+
+    private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
+        if (asyncNemConnector == null)
+            asyncNemConnector = ConnectorFactory.createConnector();
+        return asyncNemConnector;
+    }
 }

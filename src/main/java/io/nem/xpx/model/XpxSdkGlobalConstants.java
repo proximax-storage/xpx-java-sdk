@@ -49,69 +49,64 @@ public class XpxSdkGlobalConstants {
 	/** The Constant GLOBAL_GATEWAYS. */
 	public static final String[] GLOBAL_GATEWAYS = { "https://ipfs.io", "https://gateway.ipfs.io" };
 
-	/**
-	 * Gets the ipfs mount point.
-	 *
-	 * @return the ipfs mount point
-	 */
-	public static String getIpfsMountPoint() {
-
-		return ipfsMountPoint;
-	}
-
-	/**
-	 * Sets the ipfs mount point.
-	 *
-	 * @param ipfsMountPoint
-	 *            the new ipfs mount point
-	 */
-	public static void setIpfsMountPoint(String ipfsMountPoint) {
-		XpxSdkGlobalConstants.ipfsMountPoint = ipfsMountPoint;
-	}
-
-	/**
-	 * Gets the ipns mount point.
-	 *
-	 * @return the ipns mount point
-	 */
-	public static String getIpnsMountPoint() {
-		return ipnsMountPoint;
-	}
-
-	/**
-	 * Sets the ipns mount point.
-	 *
-	 * @param ipnsMountPoint
-	 *            the new ipns mount point
-	 */
-	public static void setIpnsMountPoint(String ipnsMountPoint) {
-		XpxSdkGlobalConstants.ipnsMountPoint = ipnsMountPoint;
-	}
-
-	/**
-	 * Gets the fuse ipfs stub.
-	 *
-	 * @return the fuse ipfs stub
-	 */
-	public static FuseStubFS getFuseIpfsStub() {
-		FUSE_IPFS_STUB = new FuseStubFS();
-		FUSE_IPFS_STUB.mount(Paths.get(ipfsMountPoint));
-		return FUSE_IPFS_STUB;
-	}
-
-	/**
-	 * Gets the fuse ipns stub.
-	 *
-	 * @return the fuse ipns stub
-	 */
-	public static FuseStubFS getFuseIpnsStub() {
-		FUSE_IPNS_STUB = new FuseStubFS();
-		FUSE_IPNS_STUB.mount(Paths.get(ipnsMountPoint));
-		return FUSE_IPNS_STUB;
-	}
-	
-	
-
-	/** The Constant CONNECTOR. */
-	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();
+//	/**
+//	 * Gets the ipfs mount point.
+//	 *
+//	 * @return the ipfs mount point
+//	 */
+//	public static String getIpfsMountPoint() {
+//
+//		return ipfsMountPoint;
+//	}
+//
+//	/**
+//	 * Sets the ipfs mount point.
+//	 *
+//	 * @param ipfsMountPoint
+//	 *            the new ipfs mount point
+//	 */
+//	public static void setIpfsMountPoint(String ipfsMountPoint) {
+//		XpxSdkGlobalConstants.ipfsMountPoint = ipfsMountPoint;
+//	}
+//
+//	/**
+//	 * Gets the ipns mount point.
+//	 *
+//	 * @return the ipns mount point
+//	 */
+//	public static String getIpnsMountPoint() {
+//		return ipnsMountPoint;
+//	}
+//
+//	/**
+//	 * Sets the ipns mount point.
+//	 *
+//	 * @param ipnsMountPoint
+//	 *            the new ipns mount point
+//	 */
+//	public static void setIpnsMountPoint(String ipnsMountPoint) {
+//		XpxSdkGlobalConstants.ipnsMountPoint = ipnsMountPoint;
+//	}
+//
+//	/**
+//	 * Gets the fuse ipfs stub.
+//	 *
+//	 * @return the fuse ipfs stub
+//	 */
+//	public static FuseStubFS getFuseIpfsStub() {
+//		FUSE_IPFS_STUB = new FuseStubFS();
+//		FUSE_IPFS_STUB.mount(Paths.get(ipfsMountPoint));
+//		return FUSE_IPFS_STUB;
+//	}
+//
+//	/**
+//	 * Gets the fuse ipns stub.
+//	 *
+//	 * @return the fuse ipns stub
+//	 */
+//	public static FuseStubFS getFuseIpnsStub() {
+//		FUSE_IPNS_STUB = new FuseStubFS();
+//		FUSE_IPNS_STUB.mount(Paths.get(ipnsMountPoint));
+//		return FUSE_IPNS_STUB;
+//	}
 }

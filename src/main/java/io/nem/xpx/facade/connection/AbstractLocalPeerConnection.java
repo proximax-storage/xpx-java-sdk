@@ -2,12 +2,15 @@ package io.nem.xpx.facade.connection;
 
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
+import io.nem.xpx.factory.ConnectorFactory;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
+import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.local.*;
-import io.nem.xpx.service.TransactionSender;
+import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -45,7 +48,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	
 	/** The upload api. */
 	private UploadApi uploadApi;
-	
+
+	private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
+
 	/** The nem transaction api. */
 	private NemTransactionApi nemTransactionApi;
 	
@@ -56,7 +61,6 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	private TransactionSender transactionSender;
 
 	private TransactionFeeCalculators transactionFeeCalculators;
-
 
 	/**
 	 * Instantiates a new abstract local peer connection.
@@ -181,7 +185,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public NemTransactionApi getNemTransactionApi() {
 		if (nemTransactionApi == null)
-			nemTransactionApi = new NemTransactionApi(nodeEndpoint);
+			nemTransactionApi = new NemTransactionApi(nodeEndpoint, getAsyncNemConnector());
 		return nemTransactionApi;
 	}
 
@@ -191,7 +195,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public NemAccountApi getNemAccountApi() {
 		if (nemAccountApi == null)
-			nemAccountApi = new NemAccountApi(nodeEndpoint);
+			nemAccountApi = new NemAccountApi(nodeEndpoint, getAsyncNemConnector());
 		return nemAccountApi;
 	}
 
@@ -210,5 +214,11 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		if (transactionFeeCalculators == null)
 			transactionFeeCalculators = new TransactionFeeCalculators();
 		return transactionFeeCalculators;
+	}
+
+	private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
+		if (asyncNemConnector == null)
+			asyncNemConnector = ConnectorFactory.createConnector();
+		return asyncNemConnector;
 	}
 }
