@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 
 
+
 /**
  * The Class TransactionSenderUtil.
  */
@@ -28,8 +29,16 @@ public class TransactionSender {
 	/** The Constant LOGGER. */
 
 	private final NemTransactionApi nemTransactionApi;
+	
+	/** The nem account api. */
 	private final NemAccountApi nemAccountApi;
 
+	/**
+	 * Instantiates a new transaction sender.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 * @param nemAccountApi the nem account api
+	 */
 	public TransactionSender(NemTransactionApi nemTransactionApi, NemAccountApi nemAccountApi) {
 		this.nemTransactionApi = nemTransactionApi;
 		this.nemAccountApi = nemAccountApi;

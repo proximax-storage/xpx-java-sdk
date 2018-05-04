@@ -32,6 +32,7 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /** 
  * The Class UploadTest.
  */
@@ -72,6 +73,9 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Upload plain data ascii test.
+	 */
 	@Test
 	public void uploadPlainDataAsciiTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
@@ -137,6 +141,9 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	}
 
 	
+	/**
+	 * Upload secure data ascii test.
+	 */
 	@Test
 	public void uploadSecureDataAsciiTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
@@ -164,6 +171,9 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Upload plain data with mosaic test.
+	 */
 	@Test
 	public void uploadPlainDataWithMosaicTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);

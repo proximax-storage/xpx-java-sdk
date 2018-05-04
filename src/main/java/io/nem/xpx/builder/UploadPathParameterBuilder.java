@@ -7,6 +7,7 @@ import io.nem.xpx.model.UploadPathParameter;
 
 
 
+
 /**
  * The Class UploadPathParameterBuilder.
  */

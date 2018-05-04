@@ -33,6 +33,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
 
+
 /**
  * The Class UploadTest.
  */
@@ -69,6 +70,9 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Upload plain pdf file test.
+	 */
 	@Test
 	public void uploadPlainPdfFileTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);
@@ -154,6 +158,9 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 	}
 
 	
+	/**
+	 * Upload plain file with mosaic test.
+	 */
 	@Test
 	public void uploadPlainFileWithMosaicTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(localRemote);

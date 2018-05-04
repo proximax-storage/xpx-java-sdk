@@ -16,6 +16,7 @@ import org.pmw.tinylog.Logger;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
+
 /**
  * The Class AbstractFacadeService.
  */
@@ -34,6 +35,12 @@ public abstract class AbstractFacadeService {
 		return resourceMessage;
 	}
 
+	/**
+	 * Check if txn have XPX mosaic.
+	 *
+	 * @param transaction the transaction
+	 * @return true, if successful
+	 */
 	protected boolean checkIfTxnHaveXPXMosaic(Transaction transaction) {
 
 		if (transaction instanceof TransferTransaction) {

@@ -18,12 +18,15 @@ import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteDirectoryLoadApi;
 import org.junit.Test;
 import org.junit.Ignore;
+
+
 /**
- * API tests for DirectoryLoadApi
+ * API tests for DirectoryLoadApi.
  */
 @Ignore
 public class LocalDirectoryLoadApiTest extends AbstractApiTest {
 
+    /** The api. */
     private final RemoteDirectoryLoadApi api = new RemoteDirectoryLoadApi(apiClient);
 
     

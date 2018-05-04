@@ -39,13 +39,20 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class LocalSearchApi.
  */
 public class LocalSearchApi implements SearchApi {
 
+	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
 
+	/**
+	 * Instantiates a new local search api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
 	public LocalSearchApi(NemTransactionApi nemTransactionApi) {
 		this.nemTransactionApi = nemTransactionApi;
 	}

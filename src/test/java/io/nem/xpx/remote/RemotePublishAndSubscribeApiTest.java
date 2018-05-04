@@ -18,12 +18,14 @@ import io.nem.xpx.service.remote.RemotePublishAndSubscribeApi;
 import org.junit.Ignore;
 import org.junit.Test;
 
+
 /**
- * API tests for PublishAndSubscribeApi
+ * API tests for PublishAndSubscribeApi.
  */
 @Ignore
 public class RemotePublishAndSubscribeApiTest extends AbstractApiTest{
 
+    /** The api. */
     private final RemotePublishAndSubscribeApi api = new RemotePublishAndSubscribeApi(apiClient);
 
     

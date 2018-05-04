@@ -19,13 +19,20 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class LocalAccountApi.
  */
 public class LocalAccountApi implements AccountApi {
 
+	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
 
+	/**
+	 * Instantiates a new local account api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
 	public LocalAccountApi(NemTransactionApi nemTransactionApi) {
 		this.nemTransactionApi = nemTransactionApi;
 	}

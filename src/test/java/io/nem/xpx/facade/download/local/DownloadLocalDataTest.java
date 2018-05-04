@@ -18,6 +18,7 @@ import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
+
 /**
  * The Class DownloadTest.
  */

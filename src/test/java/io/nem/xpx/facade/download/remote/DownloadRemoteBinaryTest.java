@@ -20,6 +20,7 @@ import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
+
 /**
  * The Class DownloadTest.
  */
@@ -97,6 +98,9 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Download plain large binary media test.
+	 */
 	@Test
 	public void downloadPlainLargeBinaryMediaTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);

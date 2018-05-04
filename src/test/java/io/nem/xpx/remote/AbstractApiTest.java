@@ -12,6 +12,7 @@ import io.nem.Configuration;
 import io.nem.ApiClient;
 
 
+
 /**
  * The Class AbstractApiTest.
  */
@@ -45,12 +46,15 @@ public abstract class AbstractApiTest {
 	
 	/** The upload node base path. */
 	protected String localRemote = "http://localhost:8881";
+	
+	/** The upload node base path. */
 	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";
 	/** The download node base path. */
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";
 	/** The search node base path. */
 	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";
 
+	/** The api client. */
 	protected ApiClient apiClient;
 	
 	/**

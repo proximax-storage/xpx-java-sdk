@@ -14,6 +14,7 @@ import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.remote.AbstractApiTest;
 
+
 /**
  * The Class SearchTest.
  */
@@ -39,6 +40,9 @@ public class SearchLocalTest extends AbstractApiTest {
 
 	}
 
+	/**
+	 * Test search by meta data with secure.
+	 */
 	@Test
 	public void testSearchByMetaDataWithSecure() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
@@ -54,6 +58,9 @@ public class SearchLocalTest extends AbstractApiTest {
 		Assert.assertTrue(false);
 	}
 	
+	/**
+	 * Test search by keyword with secure.
+	 */
 	@Test
 	public void testSearchByKeywordWithSecure() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

@@ -76,6 +76,7 @@ import io.nem.auth.OAuth;
 import io.nem.xpx.exceptions.ApiException;
 
 
+
 /**
  * The Class ApiClient.
  */

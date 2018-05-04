@@ -32,6 +32,7 @@ import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class UploadTest.
  */

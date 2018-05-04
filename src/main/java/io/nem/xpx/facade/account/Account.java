@@ -22,6 +22,7 @@ import io.nem.xpx.service.intf.AccountApi;
 import io.nem.xpx.service.local.LocalAccountApi;
 import io.nem.xpx.service.remote.RemoteAccountApi;
 
+
 /**
  * The Class Account.
  */
@@ -36,6 +37,7 @@ public class Account extends AbstractFacadeService {
 	/** The account api. */
 	private AccountApi accountApi;
 
+	/** The nem transaction api. */
 	protected final NemTransactionApi nemTransactionApi;
 
 	/** The is local peer connection. */
@@ -68,6 +70,15 @@ public class Account extends AbstractFacadeService {
 	}
 
 
+	/**
+	 * Gets the incoming transactions.
+	 *
+	 * @param publicKey the public key
+	 * @return the incoming transactions
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public List<TransactionMetaDataPair> getIncomingTransactions(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
 		
@@ -87,15 +98,11 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the all transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
-	 * @param privateKey
-	 *            the private key
+	 * @param publicKey            the public key
 	 * @return the all transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public List<TransactionMetaDataPair> getAllTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
 
@@ -115,15 +122,12 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the outgoing transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
-	 * @param privateKey
-	 *            the private key
+	 * @param publicKey            the public key
+	 * @param privateKey            the private key
 	 * @return the outgoing transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public List<TransactionMetaDataPair> getOutgoingTransactions(String publicKey, String privateKey) throws ApiException, InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
@@ -142,15 +146,12 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the unconfirmed transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
-	 * @param privateKey
-	 *            the private key
+	 * @param publicKey            the public key
+	 * @param privateKey            the private key
 	 * @return the unconfirmed transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public List<TransactionMetaDataPair> getUnconfirmedTransactions(String publicKey, String privateKey) throws ApiException, InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();

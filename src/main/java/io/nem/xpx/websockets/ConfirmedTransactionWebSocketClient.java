@@ -8,11 +8,13 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 
+
 /**
  * The Class ConfirmedTransactionWebSocketClient.
  */
 public class ConfirmedTransactionWebSocketClient extends WebSocketClient {
 
+	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
 
 	/**

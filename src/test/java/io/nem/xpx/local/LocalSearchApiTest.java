@@ -17,6 +17,7 @@ import io.nem.xpx.service.remote.RemoteSearchApi;
 import org.junit.Ignore;
 
 
+
 /**
  * API tests for SearchApi.
  */

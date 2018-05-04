@@ -37,6 +37,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
 
+
 /**
  * The Class UploadTest.
  */
@@ -81,6 +82,9 @@ public class UploadLocalDataTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * Upload plain data test async.
+	 */
 	@Test
 	public void uploadPlainDataTestAsync() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

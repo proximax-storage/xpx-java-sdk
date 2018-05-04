@@ -35,6 +35,7 @@ import org.nem.core.crypto.PublicKey;
 import org.nem.core.utils.HexEncoder;
 
 
+
 /**
  * API tests for DataHashApi.
  */
@@ -44,6 +45,19 @@ public class LocalDataHashApiTest extends AbstractApiTest {
 	/** The api. */
 	private final RemoteDataHashApi api = new RemoteDataHashApi(apiClient);
 
+	/**
+	 * Upload json data and generate hash using POST test.
+	 *
+	 * @throws ApiException the api exception
+	 * @throws InvalidKeyException the invalid key exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws NoSuchPaddingException the no such padding exception
+	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+	 * @throws IllegalBlockSizeException the illegal block size exception
+	 * @throws BadPaddingException the bad padding exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void uploadJsonDataAndGenerateHashUsingPOSTTest() throws ApiException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,

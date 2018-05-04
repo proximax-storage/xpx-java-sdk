@@ -16,12 +16,16 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
 import io.nem.xpx.remote.AbstractApiTest;
 
+
 /**
  * The Class UploadTest.
  */
 
 public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 
+	/**
+	 * Instantiates a new multi thread download local binary test.
+	 */
 	public MultiThreadDownloadLocalBinaryTest() {
 
 		for (int i = 0; i < 500; i++) {
@@ -59,6 +63,11 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new MultiThreadDownloadLocalBinaryTest();
 	}

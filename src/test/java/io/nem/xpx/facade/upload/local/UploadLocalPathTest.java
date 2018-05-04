@@ -32,6 +32,7 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
+
 /**
  * The Class UploadTest.
  */

@@ -8,6 +8,7 @@ import org.nem.core.model.primitive.Quantity;
 import io.nem.xpx.adapters.cipher.CustomEncryption;
 
 
+
 /**
  * The Class DataParameter.
  */
@@ -40,15 +41,26 @@ public class DataParameter {
 	/** The mosaics. */
 	private Mosaic[] mosaics;
 	
+	/** The custom encryption. */
 	private CustomEncryption customEncryption;
 	
 
 	
 
+	/**
+	 * Gets the custom encryption.
+	 *
+	 * @return the custom encryption
+	 */
 	public CustomEncryption getCustomEncryption() {
 		return customEncryption;
 	}
 
+	/**
+	 * Sets the custom encryption.
+	 *
+	 * @param customEncryption the new custom encryption
+	 */
 	public void setCustomEncryption(CustomEncryption customEncryption) {
 		this.customEncryption = customEncryption;
 	}

@@ -21,6 +21,7 @@ import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
+
 /**
  * The Class DownloadTest.
  */
@@ -98,6 +99,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Download plain large file media test.
+	 */
 	@Test
 	public void downloadPlainLargeFileMediaTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

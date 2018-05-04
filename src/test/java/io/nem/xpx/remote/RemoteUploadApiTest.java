@@ -25,12 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * API tests for UploadApi
+ * API tests for UploadApi.
  */
 @Ignore
 public class RemoteUploadApiTest extends AbstractApiTest {
 
+    /** The api. */
     private final RemoteUploadApi api = new RemoteUploadApi(apiClient);
 
     

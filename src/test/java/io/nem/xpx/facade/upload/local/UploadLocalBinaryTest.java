@@ -34,6 +34,7 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class UploadTest.
  */
@@ -136,6 +137,9 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * Upload plain binary with mosaic test.
+	 */
 	@Test
 	public void uploadPlainBinaryWithMosaicTest() {
 		try {

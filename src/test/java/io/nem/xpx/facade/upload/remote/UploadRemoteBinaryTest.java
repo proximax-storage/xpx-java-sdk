@@ -33,12 +33,16 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class UploadTest.
  */
 @Category(IntegrationTest.class)
 public class UploadRemoteBinaryTest extends AbstractApiTest {
 
+	/**
+	 * Upload plain binary test.
+	 */
 	@Test
 	public void uploadPlainBinaryTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
@@ -138,6 +142,9 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * Upload plain binary with mosaic test.
+	 */
 	@Test
 	public void uploadPlainBinaryWithMosaicTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);

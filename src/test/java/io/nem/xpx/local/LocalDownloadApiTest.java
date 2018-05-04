@@ -32,6 +32,7 @@ import org.nem.core.utils.HexEncoder;
 import java.io.UnsupportedEncodingException;
 
 
+
 /**
  * API tests for DownloadApi.
  */

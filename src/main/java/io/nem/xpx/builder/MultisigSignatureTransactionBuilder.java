@@ -19,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -238,6 +239,7 @@ public class MultisigSignatureTransactionBuilder {
 		/** The instance. */
 		private MultisigSignatureTransaction instance;
 
+		/** The peer connection. */
 		private PeerConnection peerConnection;
 
 		/** The time stamp. */
@@ -283,6 +285,9 @@ public class MultisigSignatureTransactionBuilder {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigSignatureTransactionBuilder.IPeerConnection#multisig(org.nem.core.model.Account)
+		 */
 		public ISigner multisig(Account multisig) {
 			this.multisig = multisig;
 			return this;

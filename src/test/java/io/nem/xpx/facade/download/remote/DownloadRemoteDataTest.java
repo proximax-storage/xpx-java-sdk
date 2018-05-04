@@ -17,6 +17,7 @@ import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
+
 /**
  * The Class DownloadTest.
  */
@@ -72,6 +73,9 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 		}
 	}
 	
+	/**
+	 * Download secure ascii data test.
+	 */
 	@Test
 	public void downloadSecureAsciiDataTest() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);

@@ -22,11 +22,15 @@ import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 
+
 /**
  * The Class UploadTest.
  */
 public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 
+	/**
+	 * Instantiates a new multi thread upload local binary test.
+	 */
 	//	Simple Multithreading test.
 	public MultiThreadUploadLocalBinaryTest() {
 
@@ -102,6 +106,11 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new MultiThreadUploadLocalBinaryTest();
 		//System.exit(0);

@@ -15,6 +15,7 @@ package io.nem.xpx.utils;
 
 
 
+
 /**
  * The Class StringUtils.
  */
