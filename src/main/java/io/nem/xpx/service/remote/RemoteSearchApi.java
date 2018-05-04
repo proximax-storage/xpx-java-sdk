@@ -15,9 +15,7 @@ package io.nem.xpx.service.remote;
 
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
@@ -26,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.intf.SearchApi;
 
@@ -37,20 +36,14 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class RemoteSearchApi.
  */
 public class RemoteSearchApi implements SearchApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote search api.
-     */
-    public RemoteSearchApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote search api.
@@ -68,15 +61,6 @@ public class RemoteSearchApi implements SearchApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

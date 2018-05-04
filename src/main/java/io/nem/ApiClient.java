@@ -73,6 +73,8 @@ import io.nem.auth.Authentication;
 import io.nem.auth.HttpBasicAuth;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
+import io.nem.xpx.exceptions.ApiException;
+
 
 
 /**

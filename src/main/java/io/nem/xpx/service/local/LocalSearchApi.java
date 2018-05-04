@@ -12,33 +12,12 @@
 
 package io.nem.xpx.service.local;
 
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
-import io.nem.ApiException;
-import io.nem.ApiResponse;
-import io.nem.Configuration;
-import io.nem.Pair;
-import io.nem.ProgressRequestBody;
-import io.nem.ProgressResponseBody;
-import com.google.gson.reflect.TypeToken;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
-import java.lang.reflect.Type;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.regex.Pattern;
-
 import org.apache.commons.codec.binary.Base64;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -50,12 +29,34 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
+import org.pmw.tinylog.Logger;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 
 
 /**
  * The Class LocalSearchApi.
  */
 public class LocalSearchApi implements SearchApi {
+
+	/** The nem transaction api. */
+	private final NemTransactionApi nemTransactionApi;
+
+	/**
+	 * Instantiates a new local search api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
+	public LocalSearchApi(NemTransactionApi nemTransactionApi) {
+		this.nemTransactionApi = nemTransactionApi;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithKeywordUsingGET(java.lang.String, java.lang.String)
@@ -68,7 +69,7 @@ public class LocalSearchApi implements SearchApi {
 		Address address = Address.fromPublicKey(pbKey);
 		String publicKeyAddress = address.toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
 				.getAllTransactionsWithPageSize(publicKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -123,7 +124,7 @@ public class LocalSearchApi implements SearchApi {
 		String publicKeyAddress = address.toString();
 		
 		
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
 				.getAllTransactionsWithPageSize(publicKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -136,7 +137,6 @@ public class LocalSearchApi implements SearchApi {
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
 				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 					try {
-						System.out.println(transferTransaction.getMessage().getType());
 						if (transferTransaction.getMessage().getType() == 1) {
 
 							boolean found = false;
@@ -144,6 +144,7 @@ public class LocalSearchApi implements SearchApi {
 									.getRootAsResourceHashMessage(ByteBuffer.wrap(
 											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
@@ -156,7 +157,7 @@ public class LocalSearchApi implements SearchApi {
 
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -176,7 +177,7 @@ public class LocalSearchApi implements SearchApi {
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
 				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -199,6 +200,7 @@ public class LocalSearchApi implements SearchApi {
 											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
@@ -230,6 +232,7 @@ public class LocalSearchApi implements SearchApi {
 									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
 
 							if (resourceMessage.metaData() != null) {
+								@SuppressWarnings("unchecked")
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(), Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
 									found = true;
@@ -243,7 +246,7 @@ public class LocalSearchApi implements SearchApi {
 						}
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -263,7 +266,7 @@ public class LocalSearchApi implements SearchApi {
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = NemTransactionApi
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
 				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
@@ -332,7 +335,7 @@ public class LocalSearchApi implements SearchApi {
 						}
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}

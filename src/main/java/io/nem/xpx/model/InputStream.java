@@ -16,6 +16,7 @@ package io.nem.xpx.model;
 import java.util.Objects;
 
 
+
 /**
  * InputStream.
  */

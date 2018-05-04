@@ -2,14 +2,13 @@ package io.nem.xpx.facade.connection;
 
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 
 
 /**
  * The Class LocalHttpPeerConnection.
  */
-public class LocalHttpPeerConnection implements PeerConnection {
+public class LocalHttpPeerConnection extends AbstractLocalPeerConnection {
 
 	/**
 	 * Instantiates a new local http peer connection.
@@ -17,9 +16,7 @@ public class LocalHttpPeerConnection implements PeerConnection {
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint) {
-		XpxSdkGlobalConstants.isLocal = true;
-		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
-		XpxSdkGlobalConstants.setProximaxConnection("/ip4/127.0.0.1/tcp/5001");	// yes, constant.
+		this(nodeEndpoint, "/ip4/127.0.0.1/tcp/5001");
 	}
 	
 	/**
@@ -29,9 +26,7 @@ public class LocalHttpPeerConnection implements PeerConnection {
 	 * @param multiAddress the multi address
 	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
-		XpxSdkGlobalConstants.isLocal = true;
-		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
-		XpxSdkGlobalConstants.setProximaxConnection(multiAddress);
+		super(nodeEndpoint, multiAddress);
 	}
 
 }

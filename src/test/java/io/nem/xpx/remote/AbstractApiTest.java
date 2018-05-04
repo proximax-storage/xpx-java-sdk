@@ -1,26 +1,24 @@
 package io.nem.xpx.remote;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import io.nem.ApiClient;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
-import io.nem.Configuration;
-import io.nem.ApiClient;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
+
 
 
 /**
  * The Class AbstractApiTest.
  */
+
 public abstract class AbstractApiTest {
 	
 	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
-	/** The configuration. */
-	protected Configuration configuration;
 
 	/** The x pvkey. */
 	// testnet keys
@@ -43,24 +41,25 @@ public abstract class AbstractApiTest {
 	protected String localNodeBasePath = "http://localhost:8881";
 	
 	/** The upload node base path. */
-	 
 	protected String localRemote = "http://localhost:8881";
-	//protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
-	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";//"http://128.199.196.118:8881";
 	
+	/** The upload node base path. */
+	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";
 	/** The download node base path. */
-	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
-	
+	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";
 	/** The search node base path. */
-	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
+	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";
+
+	/** The api client. */
+	protected ApiClient apiClient;
 	
 	/**
 	 * Instantiates a new abstract api test.
 	 */
 	public AbstractApiTest() {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath(uploadNodeBasePath));
+		this.apiClient = new ApiClient().setBasePath(uploadNodeBasePath);
 	}
-	
+
 	/**
 	 * Extract expected small txt file content.
 	 *

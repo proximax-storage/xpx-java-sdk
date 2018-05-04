@@ -3,6 +3,7 @@ package io.nem.xpx.model;
 import java.io.Serializable;
 
 
+
 /**
  * The Class MultisigUploadDataParameter.
  */

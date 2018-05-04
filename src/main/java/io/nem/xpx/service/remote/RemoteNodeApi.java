@@ -15,9 +15,7 @@ package io.nem.xpx.service.remote;
 
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
@@ -26,7 +24,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
-
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.GenericResponseMessage;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
@@ -38,20 +36,14 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * The Class RemoteNodeApi.
  */
 public class RemoteNodeApi implements NodeApi {
     
     /** The api client. */
-    private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote node api.
-     */
-    public RemoteNodeApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote node api.
@@ -69,15 +61,6 @@ public class RemoteNodeApi implements NodeApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

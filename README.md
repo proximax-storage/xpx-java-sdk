@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>io.nem.xpx</groupId>
     <artifactId>xpx-java-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-BETA</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -224,7 +224,7 @@ public class TestMonitor implements UploadTransactionMonitor {
 	}
 	@Override
 	public void handleFrame(StompHeaders headers, Object payload) {
-		System.out.println(payload.toString()); // handle the payload.
+		ln(payload.toString()); // handle the payload.
 	}
 }
 ```

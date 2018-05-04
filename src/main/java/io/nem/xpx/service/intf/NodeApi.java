@@ -1,7 +1,8 @@
 package io.nem.xpx.service.intf;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
+
 
 
 /**

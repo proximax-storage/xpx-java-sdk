@@ -14,6 +14,7 @@
 package io.nem;
 
 
+
 /**
  * The Class StringUtil.
  */

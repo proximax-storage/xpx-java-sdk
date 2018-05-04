@@ -1,6 +1,7 @@
 package io.nem.xpx.service.intf;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
+
 
 
 /**
@@ -14,7 +15,7 @@ public interface PublishAndSubscribeApi {
 	 * @param topic the topic
 	 * @param message the message
 	 * @return the object
-	 * @throws ApiException the api exception
+	 * @throws Exception the exception
 	 */
 	public Object sendToTopicUsingGET(String topic, String message) throws Exception;
 	
@@ -24,7 +25,7 @@ public interface PublishAndSubscribeApi {
 	 * @param topic the topic
 	 * @param message the message
 	 * @return the object
-	 * @throws ApiException the api exception
+	 * @throws Exception the exception
 	 */
 	public Object publishTopicUsingGET(String topic, String message) throws Exception;
 }

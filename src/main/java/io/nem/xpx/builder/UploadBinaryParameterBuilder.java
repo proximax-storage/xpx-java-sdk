@@ -1,9 +1,13 @@
 package io.nem.xpx.builder;
 
+import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
-import io.nem.ApiException;
-import io.nem.xpx.model.UploadBinaryParameter;
 
+import io.nem.xpx.adapters.cipher.CustomEncryption;
+import io.nem.xpx.builder.UploadDataParameterBuilder.IInit;
+import io.nem.xpx.builder.UploadDataParameterBuilder.IMessageType;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.model.UploadBinaryParameter;
 
 
 /**
@@ -17,82 +21,165 @@ public class UploadBinaryParameterBuilder {
 	}
 
 	/**
-	 * Sender.
+	 * Inits the.
 	 *
-	 * @param senderOrReceiverPrivateKey the sender or receiver private key
-	 * @return the i sender
+	 * @return the i init
 	 */
-	public static ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		return new UploadBinaryParameterBuilder.Builder(senderOrReceiverPrivateKey);
+	public static IInit init() {
+		return new UploadBinaryParameterBuilder.Builder();
+	}
+	
+	
+	/**
+	 * Message type.
+	 *
+	 * @param messageType the message type
+	 * @return the i message type
+	 */
+	public static IMessageType messageType(int messageType) {
+		return new UploadBinaryParameterBuilder.Builder(messageType);
+	}
+	
+	/**
+	 * The Interface IInit.
+	 */
+	public interface IInit {
+		
+		/**
+		 * Plain content.
+		 *
+		 * @return the i message type
+		 */
+		IMessageType plainContent();
+		
+		/**
+		 * Plain content.
+		 *
+		 * @param customEncryption the custom encryption
+		 * @return the i message type
+		 */
+		IMessageType plainContent(CustomEncryption customEncryption);
+		
+		/**
+		 * Secure content.
+		 *
+		 * @return the i message type
+		 */
+		IMessageType secureContent();
+	}
+
+	/**
+	 * The Interface IMessageType.
+	 */
+	public interface IMessageType {
+		
+		/**
+		 * Sender or receiver private key.
+		 *
+		 * @param senderOrReceiverPrivateKey the sender or receiver private key
+		 * @return the i sender
+		 */
+		ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey);
 	}
 
 	/**
 	 * The Interface ISender.
 	 */
 	public interface ISender {
-
+		
 		/**
-		 * Recipient public key.
+		 * Receiver or sender public key.
 		 *
 		 * @param receiverOrSenderPublicKey the receiver or sender public key
+		 * @return the i receiver
+		 */
+		IReceiver receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
+	}
+
+	/**
+	 * The Interface IReceiver.
+	 */
+	public interface IReceiver {
+		
+		/**
+		 * Name.
+		 *
+		 * @param name the name
+		 * @return the i name
+		 */
+		IName name(String name);
+	}
+
+	/**
+	 * The Interface IName.
+	 */
+	public interface IName {
+		
+		/**
+		 * Data.
+		 *
+		 * @param data the data
+		 * @return the i data
+		 */
+		IData data(byte[] data);
+	}
+
+	/**
+	 * The Interface IData.
+	 */
+	public interface IData {
+		
+		/**
+		 * Content type.
+		 *
+		 * @param contentType the content type
+		 * @return the i encoding
+		 */
+		IEncoding contentType(String contentType);
+		
+		/**
+		 * Encoding.
+		 *
+		 * @param encoding the encoding
+		 * @return the i encoding
+		 */
+		IEncoding encoding(String encoding);
+	}
+
+
+	/**
+	 * The Interface IEncoding.
+	 */
+	public interface IEncoding {
+		
+		/**
+		 * Keywords.
+		 *
+		 * @param keywords the keywords
+		 * @return the i keywords
+		 */
+		IKeywords keywords(String keywords);
+	}
+
+	/**
+	 * The Interface IKeywords.
+	 */
+	public interface IKeywords {
+		
+		/**
+		 * Metadata.
+		 *
+		 * @param metadata the metadata
 		 * @return the i build
 		 */
-		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
-
+		IBuild metadata(String metadata);
 	}
 
 	/**
 	 * The Interface IBuild.
 	 */
 	public interface IBuild {
-
-		/**
-		 * Message type.
-		 *
-		 * @param messageType the message type
-		 * @return the i build
-		 */
-		IBuild messageType(int messageType);
-
-		/**
-		 * Data.
-		 *
-		 * @param data the data
-		 * @return the i build
-		 */
-		IBuild data(byte[] data);
-
-		/**
-		 * Content type.
-		 *
-		 * @param contentType the content type
-		 * @return the i build
-		 */
-		IBuild contentType(String contentType);
-		/**
-		 * Name.
-		 *
-		 * @param name the name
-		 * @return the i build
-		 */
-		IBuild name(String name);
-
-		/**
-		 * Keywords.
-		 *
-		 * @param keywords the keywords
-		 * @return the i build
-		 */
-		IBuild keywords(String keywords);
-
-		/**
-		 * Meta data.
-		 *
-		 * @param metaData the meta data
-		 * @return the i build
-		 */
-		IBuild metaData(String metaData);
-
+		
 		/**
 		 * Mosaics.
 		 *
@@ -104,77 +191,72 @@ public class UploadBinaryParameterBuilder {
 		/**
 		 * Builds the.
 		 *
-		 * @return the upload file parameter
+		 * @return the upload binary parameter
 		 * @throws ApiException the api exception
 		 */
 		UploadBinaryParameter build() throws ApiException;
-
 	}
 
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IBuild {
+	private static class Builder
+			implements IInit,ISender, IReceiver, IMessageType, IData, IEncoding, IKeywords, IName, IBuild {
 
 		/** The instance. */
-		UploadBinaryParameter instance = new UploadBinaryParameter();
+		UploadBinaryParameter instance = null;
+		
+		/**
+		 * Instantiates a new builder.
+		 */
+		public Builder() {
+			instance = new UploadBinaryParameter();
+		}
 
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param senderOrReceiverPrivateKey the sender or receiver private key
+		 * @param messageType the message type
 		 */
-		public Builder(String senderOrReceiverPrivateKey) {
-			instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#messageType(int)
-		 */
-		@Override
-		public IBuild messageType(int messageType) {
+		public Builder(int messageType) {
+			instance = new UploadBinaryParameter();
 			instance.setMessageType(messageType);
-			return this;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#data(java.io.File)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IInit#plainContent()
 		 */
 		@Override
-		public IBuild data(byte[] data) {
-			instance.setData(data);
+		public IMessageType plainContent() {
+			this.instance.setMessageType(MessageTypes.PLAIN);
 			return this;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#name(java.lang.String)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IInit#plainContent(io.nem.xpx.adapters.cipher.CustomEncryption)
 		 */
 		@Override
-		public IBuild name(String name) {
-			instance.setName(name);
+		public IMessageType plainContent(CustomEncryption customEncryption) {
+			this.instance.setMessageType(MessageTypes.PLAIN);
+			this.instance.setCustomEncryption(customEncryption);
 			return this;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#keywords(java.lang.String)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IInit#secureContent()
 		 */
 		@Override
-		public IBuild keywords(String keywords) {
-			instance.setKeywords(keywords);
+		public IMessageType secureContent() {
+			this.instance.setMessageType(MessageTypes.SECURE);
 			return this;
 		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#metaData(java.lang.String)
-		 */
-		@Override
-		public IBuild metaData(String metaData) {
-			instance.setMetaData(metaData);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#mosaics(org.nem.core.model.mosaic.Mosaic[])
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#mosaics(org.nem.core.
+		 * model.mosaic.Mosaic[])
 		 */
 		@Override
 		public IBuild mosaics(Mosaic... mosaics) {
@@ -182,32 +264,86 @@ public class UploadBinaryParameterBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#build()
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#build()
 		 */
 		@Override
 		public UploadBinaryParameter build() throws ApiException {
-			
 			return instance;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#recipientPublicKey(java.lang.String)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IEncoding#keywords(java.lang.String)
 		 */
 		@Override
-		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-			instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+		public IKeywords keywords(String keywords) {
+			this.instance.setKeywords(keywords);
 			return this;
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IBuild#contentType(java.lang.String)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IKeywords#metadata(java.lang.String)
 		 */
 		@Override
-		public IBuild contentType(String contentType) {
-			instance.setContentType(contentType);
+		public IBuild metadata(String metadata) {
+			this.instance.setMetaData(metadata);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IData#encoding(java.lang.String)
+		 */
+		@Override
+		public IEncoding encoding(String encoding) {
+			this.instance.setEncoding(encoding);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IData#contentType(java.lang.String)
+		 */
+		@Override
+		public IEncoding contentType(String contentType) {
+			this.instance.setContentType(contentType);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IMessageType#senderOrReceiverPrivateKey(java.lang.String)
+		 */
+		@Override
+		public ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IName#data(byte[])
+		 */
+		@Override
+		public IData data(byte[] data) {
+			this.instance.setData(data);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.ISender#receiverOrSenderPublicKey(java.lang.String)
+		 */
+		@Override
+		public IReceiver receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.UploadBinaryParameterBuilder.IReceiver#name(java.lang.String)
+		 */
+		@Override
+		public IName name(String name) {
+			this.instance.setName(name);
+			return this;
+		}
 	}
 }

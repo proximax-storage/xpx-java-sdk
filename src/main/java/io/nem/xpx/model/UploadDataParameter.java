@@ -5,6 +5,7 @@ import org.nem.core.model.mosaic.Mosaic;
 
 
 
+
 /**
  * The Class UploadDataParameter.
  */

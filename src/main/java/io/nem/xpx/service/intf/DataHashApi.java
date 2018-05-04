@@ -3,8 +3,9 @@ package io.nem.xpx.service.intf;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+
 
 
 

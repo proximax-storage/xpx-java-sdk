@@ -23,6 +23,7 @@
 			<url>http://13.228.214.237:8081/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -31,14 +32,42 @@
 		</license>
 	</licenses>
 
+
 	<developers>
 		<developer>
-			<name>Alvin Reyes</name>
-			<email>alvin.reyes@botmill.io</email>
+			<name>avanaur</name>
+			<email>tyrone.villaluna@proximax.io</email>
+			<organization>proximax.io</organization>
+			<organizationUrl>https://proximax.io</organizationUrl>
+		</developer>
+		<developer>
+			<name>carlocayos</name>
+			<email>carlo.cayos@proximax.io</email>
+			<organization>proximax.io</organization>
+			<organizationUrl>https://proximax.io</organizationUrl>
+		</developer>
+		<developer>
+			<name>brambear</name>
+			<email>alvin.reyes@proximax.io</email>
 			<organization>proximax.io</organization>
 			<organizationUrl>https://proximax.io</organizationUrl>
 		</developer>
 	</developers>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<repositories>
 		<repository>
@@ -46,15 +75,41 @@
 			<name>bintray</name>
 			<url>http://jcenter.bintray.com</url>
 		</repository>
-
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
-
+		<repository>
+			<id>nexus</id>
+			<url>http://13.228.214.237:8081/repository/maven-public</url>
+		</repository>
 	</repositories>
+
+
+	<!-- https://www.eclemma.org/jacoco/trunk/doc/maven.html -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>{$jacoco-maven-plugin}</version>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
@@ -79,6 +134,51 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.12</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<includes>
+						<include>**/*.class</include>
+					</includes>
+					<excludedgroups>io.nem.xpx.integration.tests.IntegrationTest</excludedgroups>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.12</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<skipITs>true</skipITs>
+					<groups>io.nem.xpx.integration.tests.IntegrationTest</groups>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/*.class</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -147,13 +247,11 @@
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multiaddr</artifactId>
 			<version>${java-multiaddr.version}</version>
-
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
 			<artifactId>java-multihash</artifactId>
 			<version>${java-multihash.version}</version>
-
 		</dependency>
 		<dependency>
 			<groupId>com.github.multiformats</groupId>
@@ -185,7 +283,18 @@
 			<artifactId>tika-core</artifactId>
 			<version>${tika-core.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.tinylog</groupId>
+			<artifactId>tinylog</artifactId>
+			<version>${tinylog.version}</version>
+		</dependency>
 		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-junit47</artifactId>
+			<version>${surefire-junit47.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -197,20 +306,23 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<tinylog.version>1.3.4</tinylog.version>
 		<swagger-core-version>1.5.15</swagger-core-version>
 		<okhttp-version>2.7.5</okhttp-version>
 		<gson-version>2.8.1</gson-version>
 		<jodatime-version>2.9.9</jodatime-version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>
 		<junit-version>4.12</junit-version>
+		<surefire-junit47.version>2.12</surefire-junit47.version>
+		<jacoco-maven-plugin>0.8.1</jacoco-maven-plugin>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<nem.core.version>0.6.95-BETA</nem.core.version>
 		<ipfs.java.api.version>v1.2.0</ipfs.java.api.version>
 		<jnr.fuse.version>0.5.1</jnr.fuse.version>
 		<java-cid.version>v1.1.0</java-cid.version>
-		<java-multibase.version>v1.1.0</java-multibase.version>
-		<java-multiaddr.version>v1.1.1</java-multiaddr.version>
-		<java-multihash.version>v1.1.1</java-multihash.version>
+		<java-multibase.version>v1.1.0-ipfs</java-multibase.version>
+		<java-multiaddr.version>v1.1.1-ipfs</java-multiaddr.version>
+		<java-multihash.version>v1.1.1-ipfs</java-multihash.version>
 		<tika-core.version>1.17</tika-core.version>
 		<flatbuffers-java.version>1.8.0</flatbuffers-java.version>
 		<Java-WebSocket.version>1.3.8</Java-WebSocket.version>

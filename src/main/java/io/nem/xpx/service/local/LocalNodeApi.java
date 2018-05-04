@@ -1,8 +1,9 @@
 package io.nem.xpx.service.local;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
+
 
 
 /**

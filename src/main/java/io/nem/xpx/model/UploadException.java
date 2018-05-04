@@ -2,6 +2,7 @@ package io.nem.xpx.model;
 
 
 
+
 /**
  * The Class UploadException.
  */

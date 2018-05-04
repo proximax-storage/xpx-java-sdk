@@ -12,14 +12,13 @@
 
 package io.nem.xpx.service.remote;
 
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.service.intf.DataHashApi;
 
 import com.google.gson.reflect.TypeToken;
@@ -31,20 +30,14 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * The Class RemoteDataHashApi.
  */
 public class RemoteDataHashApi implements DataHashApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-	/**
-	 * Instantiates a new remote data hash api.
-	 */
-	public RemoteDataHashApi() {
-		this(Configuration.getDefaultApiClient());
-	}
+	private final ApiClient apiClient;
 
 	/**
 	 * Instantiates a new remote data hash api.
@@ -62,15 +55,6 @@ public class RemoteDataHashApi implements DataHashApi {
 	 */
 	public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**

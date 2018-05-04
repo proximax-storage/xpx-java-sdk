@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 
 
+
 /**
  * The Class UploadFileParameter.
  */

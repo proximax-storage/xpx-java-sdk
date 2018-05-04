@@ -8,6 +8,9 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import io.nem.xpx.adapters.cipher.BinaryPBKDF2CipherEncryption;
+
+
 
 
 /**
@@ -32,7 +35,7 @@ public class CryptoUtils {
 	public static byte[] encrypt(byte[] binary, char[] password)
 			throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-		BinaryPBKDF2Cipher basicBinaryEncryptor = new BinaryPBKDF2Cipher();
+		BinaryPBKDF2CipherEncryption basicBinaryEncryptor = new BinaryPBKDF2CipherEncryption();
 		return basicBinaryEncryptor.encrypt(binary, password);
 	}
 
@@ -53,7 +56,7 @@ public class CryptoUtils {
 	public static String encryptToBase64String(byte[] binary, char[] password)
 			throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-		BinaryPBKDF2Cipher basicBinaryEncryptor = new BinaryPBKDF2Cipher();
+		BinaryPBKDF2CipherEncryption basicBinaryEncryptor = new BinaryPBKDF2CipherEncryption();
 		return basicBinaryEncryptor.encryptToBase64String(binary, password);
 	}
 
@@ -74,7 +77,7 @@ public class CryptoUtils {
 	public static byte[] decrypt(byte[] binary, char[] password)
 			throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
 			BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
-		BinaryPBKDF2Cipher basicBinaryEncryptor = new BinaryPBKDF2Cipher();
+		BinaryPBKDF2CipherEncryption basicBinaryEncryptor = new BinaryPBKDF2CipherEncryption();
 
 		return basicBinaryEncryptor.decrypt(binary, password);
 	}
@@ -96,7 +99,7 @@ public class CryptoUtils {
 	public static String decryptToBase64String(byte[] binary, char[] password)
 			throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
 			BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
-		BinaryPBKDF2Cipher basicBinaryEncryptor = new BinaryPBKDF2Cipher();
+		BinaryPBKDF2CipherEncryption basicBinaryEncryptor = new BinaryPBKDF2CipherEncryption();
 
 		return basicBinaryEncryptor.decryptToBase64String(binary, password);
 	}
@@ -118,7 +121,7 @@ public class CryptoUtils {
 	public static String decryptToBase64String(String cipherEncryptedText, char[] password)
 			throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
 			BadPaddingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException {
-		BinaryPBKDF2Cipher basicBinaryEncryptor = new BinaryPBKDF2Cipher();
+		BinaryPBKDF2CipherEncryption basicBinaryEncryptor = new BinaryPBKDF2CipherEncryption();
 
 		return basicBinaryEncryptor.decryptToBase64String(cipherEncryptedText, password);
 	}
