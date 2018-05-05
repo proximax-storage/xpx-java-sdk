@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
@@ -124,6 +125,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	 * Upload plain binary with mosaic test.
 	 */
 	@Test
+	@Ignore
 	public void uploadPlainBinaryWithMosaicTest() {
 		try {
 

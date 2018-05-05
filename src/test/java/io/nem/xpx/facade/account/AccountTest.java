@@ -10,8 +10,14 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.remote.AbstractApiTest;
 
+/**
+ * The Class AccountTest.
+ */
 public class AccountTest extends AbstractApiTest {
 
+	/**
+	 * Test get incoming transactions.
+	 */
 	@Test
 	public void testGetIncomingTransactions() {
 
@@ -28,6 +34,9 @@ public class AccountTest extends AbstractApiTest {
 
 	}
 	
+	/**
+	 * Test get all transactions.
+	 */
 	@Test
 	public void testGetAllTransactions() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
@@ -43,6 +52,9 @@ public class AccountTest extends AbstractApiTest {
 
 	}
 
+	/**
+	 * Test get outgoing transactions.
+	 */
 	@Test
 	public void testGetOutgoingTransactions() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
@@ -59,6 +71,9 @@ public class AccountTest extends AbstractApiTest {
 
 	}
 
+	/**
+	 * Test get unconfirmed transactions.
+	 */
 	@Test
 	@Ignore
 	public void testGetUnconfirmedTransactions() {
