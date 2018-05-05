@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -13,7 +14,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
@@ -21,7 +22,8 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
+@Ignore
 public class DownloadRemoteDataTest extends AbstractApiTest {
 
 	/**
@@ -41,7 +43,7 @@ public class DownloadRemoteDataTest extends AbstractApiTest {
 			Assert.assertNotNull(message.getData());
 			
 			// validate the content.
-			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "plain-data",
+			Assert.assertEquals("Assertion failed: Decryted data is not equal to expected", "test plain - new 1",
 					new String(message.getData()));
 
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException

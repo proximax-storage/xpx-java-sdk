@@ -232,13 +232,11 @@ public class Upload extends AbstractFacadeService {
 				publishedData = JsonUtils.fromJson(transactionAndAnnounceApi
 						.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
 			}
-
+			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
 			Logger.error("Error on uploading text data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		} finally {
-			safeAsyncToGateways(resourceMessageHash);
 		}
 		return new UploadResult(resourceMessageHash, publishedData);
 	}
@@ -410,6 +408,7 @@ public class Upload extends AbstractFacadeService {
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Logger.error("Error on uploading binary data: " + e.getMessage());
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);

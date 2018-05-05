@@ -29,7 +29,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -40,7 +40,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadLocalDataTest extends AbstractApiTest {
 
 	/**

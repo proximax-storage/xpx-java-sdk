@@ -26,7 +26,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -35,7 +35,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 
 	/**
@@ -91,9 +91,9 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 			combinedFuture.get();
+			assertTrue(true);
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
@@ -143,11 +143,11 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			});
 
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
-
 			combinedFuture.get();
-			Assert.assertTrue(true);
+			assertTrue(true);
+
+			
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 
@@ -206,27 +206,12 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3);
 
 			combinedFuture.get();
+			assertTrue(true);
 
 		} catch (ApiException | PeerConnectionNotFoundException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-	}
-
-	/**
-	 * Mosaic info lookup.
-	 *
-	 * @return the mosaic fee information lookup
-	 */
-	private MosaicFeeInformationLookup mosaicInfoLookup() {
-		return id -> {
-			if (id.getName().equals("xpx")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 4);
-			}
-			final int multiplier = Integer.parseInt(id.getName().substring(4));
-			final int divisibilityChange = multiplier - 1;
-			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
-		};
 	}
 
 }

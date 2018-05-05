@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.node.NodeEndpoint;
@@ -17,7 +18,8 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
@@ -25,7 +27,8 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
-@Category(IntegrationTest.class)
+@Category(LocalIntegrationTest.class)
+@Ignore
 public class DownloadLocalFileTest extends AbstractApiTest {
 
 

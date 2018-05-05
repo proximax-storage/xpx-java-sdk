@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -16,7 +17,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
@@ -24,7 +25,8 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
+@Ignore
 public class DownloadRemoteFileTest extends AbstractApiTest {
 
 
@@ -146,17 +148,18 @@ public class DownloadRemoteFileTest extends AbstractApiTest {
 			FileUtils
 					.writeByteArrayToFile(
 							new File("src//test//resources//downloadPlainPublicFileTest_"
-									+ message.getDataMessage().name() + timeStamp + ".txt"),
+									+ message.getDataMessage().name() + timeStamp + ".pdf"),
 							message.getData());
 
-			String fileContentExpected = this.extractExpectedSmallTxtFileContent();
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
+			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//test_pdf_file_v2.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//downloadPlainPublicFileTest_"
+					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
 			FileUtils.forceDelete(new File("src//test//resources//downloadPlainPublicFileTest_"
-					+ message.getDataMessage().name() + timeStamp + ".txt"));
+					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();

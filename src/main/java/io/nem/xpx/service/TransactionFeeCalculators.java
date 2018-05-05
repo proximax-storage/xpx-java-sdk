@@ -23,10 +23,10 @@ public final class TransactionFeeCalculators {
     }
 
     public TransactionFeeCalculator getFeeCalculatorMultiSig() {
-        if (feeCalculator == null)
-            feeCalculator =  new FeeUnitAwareTransactionFeeCalculator(
+        if (feeCalculatorMultiSig == null)
+        	feeCalculatorMultiSig =  new FeeUnitAwareTransactionFeeCalculator(
                     Amount.fromMicroNem(50_000L), mosaicInfoLookup());
-        return feeCalculator;
+        return feeCalculatorMultiSig;
     }
 
     /**

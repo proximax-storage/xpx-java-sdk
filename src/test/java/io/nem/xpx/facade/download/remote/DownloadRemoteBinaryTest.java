@@ -17,7 +17,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
@@ -25,7 +25,7 @@ import io.nem.xpx.remote.AbstractApiTest;
 /**
  * The Class DownloadTest.
  */
-@Category(IntegrationTest.class)
+@Category(RemoteIntegrationTest.class)
 public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 
@@ -42,20 +42,20 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 			DownloadResult message = download.downloadBinaryOrFile("e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
 			
-			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadPlainFileTest_"
+			FileUtils.writeByteArrayToFile(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + ".pdf"),
 					message.getData());
 			
-			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//downloadPlainFileTest_"
+			String fileContentExpected = FileUtils.readFileToString(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + ".pdf"));
 			
 			
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//pdf_file_version1.pdf"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//test_pdf_file_v1.pdf"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
-			FileUtils.forceDelete(new File("src//test//resources//downloadPlainFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + ".pdf"));
 			
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
@@ -79,19 +79,19 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 			FileUtils
 					.writeByteArrayToFile(
-							new File("src//test//resources//downloadPlainLargeFileTest_"
+							new File("src//test//resources//test_large_file_temp"
 									+ message.getDataMessage().name() + timeStamp + ".zip"),
 							message.getData());
 
-			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadPlainLargeFileTest_"
+			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//test_large_file_temp"
 					+ message.getDataMessage().name() + timeStamp + ".zip"));
 			
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_large_file.zip"));
 
 			Assert.assertEquals(expectedFileSize, actualFileSize);
 
 			// Remove file after.
-			FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_large_file_temp"
 					+ message.getDataMessage().name() + timeStamp + ".zip"));
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();
@@ -115,16 +115,16 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 			FileUtils
 					.writeByteArrayToFile(
-							new File("src//test//resources//downloadPlainLargeFileTest_"
+							new File("src//test//resources//test_large_file_temp"
 									+ message.getDataMessage().name() + timeStamp + ".zip"),
 							message.getData());
 
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_large_file.zip"));
 
 			Assert.assertEquals(expectedFileSize, actualFileSize);
 
 			// Remove file after.
-			FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_large_file_temp"
 					+ message.getDataMessage().name() + timeStamp + ".zip"));
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();
@@ -149,17 +149,17 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 
 			FileUtils
 					.writeByteArrayToFile(
-							new File("src//test//resources//downloadPlainPublicFileTest_"
+							new File("src//test//resources//test_small_file_temp"
 									+ message.getDataMessage().name() + timeStamp + ".txt"),
 							message.getData());
 
 			String fileContentExpected = this.extractExpectedSmallTxtFileContent();
-			String fileActual = FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
+			String fileActual = FileUtils.readFileToString(new File("src//test//resources//test_small_file.txt"));
 
 			Assert.assertEquals(fileContentExpected, fileActual);
 
 			// Remove file after.
-			FileUtils.forceDelete(new File("src//test//resources//downloadPlainPublicFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_small_file_temp"
 					+ message.getDataMessage().name() + timeStamp + ".txt"));
 
 		} catch (ApiException | InterruptedException | ExecutionException | IOException | PeerConnectionNotFoundException e) {
@@ -182,14 +182,14 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 			
 			DownloadResult message = download.downloadBinaryOrFile("bc5dd2f86007dcbcf2fbe2be75460db866e7294f9c5f0ba7b1e8f63c12664a02");
 
-			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureFileTest_"
+			FileUtils.writeByteArrayToFile(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"), message.getData());
 
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file_version1.pdf"));
-			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadSecureFileTest_"
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v1.pdf"));
+			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 			Assert.assertEquals(expectedFileSize, actualFileSize);
-			FileUtils.forceDelete(new File("src//test//resources//downloadSecureFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 			
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
@@ -208,16 +208,16 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 		try {
 			Download download = new Download(remotePeerConnection);
 			String timeStamp = System.currentTimeMillis() + "";
-			DownloadResult message = download.downloadBinaryOrFile("bc5dd2f86007dcbcf2fbe2be75460db866e7294f9c5f0ba7b1e8f63c12664a02");
+			DownloadResult message = download.downloadSecureBinaryOrFile("99f48fa4d9c77c3946c364b3ada5fd497b03535de676d17f8bc7ca3dcce20f2a",this.xPvkey,this.xPubkey);
 
-			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureFileTest_"
+			FileUtils.writeByteArrayToFile(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"), message.getData());
 
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file_version1.pdf"));
-			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadSecureFileTest_"
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v1.pdf"));
+			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 			Assert.assertEquals(expectedFileSize, actualFileSize);
-			FileUtils.forceDelete(new File("src//test//resources//downloadSecureFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_pdf_file_v1_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
@@ -242,16 +242,16 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 			DownloadResult message = download.downloadSecureBinaryOrFile(
 					"1fce4dda18a865484f9f9c2b6a15e8c64756a89c5e903adbf76ec62eab1d41c7",this.xPvkey,this.xPubkey);
 
-			FileUtils.writeByteArrayToFile(new File("src//test//resources//downloadSecureLargeFileTest_"
+			FileUtils.writeByteArrayToFile(new File("src//test//resources//test_pdf_file_v2_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"), message.getData());
 
-			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//downloadSecureLargeFileTest_"
+			long expectedFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v2_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 			
-			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//pdf_file_version2.pdf"));
+			long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_pdf_file_v2.pdf"));
 
 			Assert.assertEquals(expectedFileSize, actualFileSize);
-			FileUtils.forceDelete(new File("src//test//resources//downloadSecureLargeFileTest_"
+			FileUtils.forceDelete(new File("src//test//resources//test_pdf_file_v2_temp"
 					+ message.getDataMessage().name() + timeStamp + ".pdf"));
 		} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 

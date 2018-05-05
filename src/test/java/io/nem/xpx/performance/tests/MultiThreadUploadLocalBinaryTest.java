@@ -1,4 +1,4 @@
-package io.nem.xpx.facade.upload.local;
+package io.nem.xpx.performance.tests;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -34,7 +34,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 	//	Simple Multithreading test.
 	public MultiThreadUploadLocalBinaryTest() {
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 250; i++) {
 			Runnable task = () -> {
 
 				LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

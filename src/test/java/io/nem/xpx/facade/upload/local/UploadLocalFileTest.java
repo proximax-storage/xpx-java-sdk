@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
@@ -25,7 +26,8 @@ import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.IntegrationTest;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.model.UploadFileParameter;
@@ -38,7 +40,8 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(IntegrationTest.class)
+@Category(LocalIntegrationTest.class)
+@Ignore
 public class UploadLocalFileTest extends AbstractApiTest {
 
 	
@@ -57,7 +60,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version1.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -87,8 +90,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
-					.keywords("plain,file")
+					.data(new File("src//test//resources//test_large_file.zip"))
+					.keywords("plain,large,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -117,8 +120,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.SECURE)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//small_file.txt"))
-					.keywords("secure,file")
+					.data(new File("src//test//resources//test_small_file.txt"))
+					.keywords("secure,small,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -145,8 +148,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			UploadFileParameter parameter = UploadFileParameterBuilder.messageType(MessageTypes.SECURE)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
-					.keywords("")
+					.data(new File("src//test//resources//test_large_file.zip"))
+					.keywords("secure,large,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 			
@@ -162,6 +165,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	 * Upload plain file with mosaic test.
 	 */
 	@Test
+	@Ignore
 	public void uploadPlainFileWithMosaicTest() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
@@ -174,7 +178,7 @@ public class UploadLocalFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,data,wmosaics")
 					.metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
