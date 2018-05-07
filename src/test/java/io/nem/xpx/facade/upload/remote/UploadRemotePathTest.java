@@ -61,7 +61,7 @@ public class UploadRemotePathTest extends AbstractApiTest {
 			String nemhash = upload.uploadPath(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}

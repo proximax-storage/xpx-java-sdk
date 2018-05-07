@@ -37,7 +37,8 @@ public class DataParameter {
 	
 	/** The meta data. */
 	private String metaData;
-	
+
+	// TODO use List
 	/** The mosaics. */
 	private Mosaic[] mosaics;
 	
@@ -220,7 +221,7 @@ public class DataParameter {
 	 * @return the mosaics
 	 */
 	public Mosaic[] getMosaics() {
-		return mosaics;
+		return mosaics == null ? new Mosaic[0] : mosaics;
 	}
 	
 	/**

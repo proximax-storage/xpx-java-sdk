@@ -196,7 +196,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
