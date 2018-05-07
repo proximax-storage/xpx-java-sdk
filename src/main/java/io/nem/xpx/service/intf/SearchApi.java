@@ -51,6 +51,9 @@ public interface SearchApi {
     public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey,String xPubkey,String keywords)
 			throws ApiException, InterruptedException, ExecutionException;
     
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey,String xPubkey,String name)
+			throws ApiException, InterruptedException, ExecutionException;
+    
     /**
      * Search all public transaction with metadata key value pair.
      *

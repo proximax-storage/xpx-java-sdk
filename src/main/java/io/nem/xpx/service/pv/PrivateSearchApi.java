@@ -19,7 +19,6 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.pmw.tinylog.Logger;
-
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
@@ -30,15 +29,24 @@ public abstract class PrivateSearchApi {
 
 	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
-	
+
 	/**
 	 * Instantiates a new local search api.
 	 *
 	 * @param nemTransactionApi
+	 * 
 	 *            the nem transaction api
 	 */
 	public PrivateSearchApi(NemTransactionApi nemTransactionApi) {
 		this.nemTransactionApi = nemTransactionApi;
+	}
+
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithName(String xPvKey, String xPubkey, String name)
+			throws ApiException, InterruptedException, ExecutionException {
+
+		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
+		encryptedMessage.addAll(getNextForNameSearch(xPvKey, xPubkey, name, ""));
+		return encryptedMessage;
 	}
 
 	/*
@@ -51,91 +59,8 @@ public abstract class PrivateSearchApi {
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {
 
-		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
-		KeyPair keyPair = new KeyPair(pvKey);
-		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
-
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
-				.getAllTransactionsWithPageSize(privateKeyAddress, "100");
-
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
-		// loop thru and search for any keyword.
-
-		String currentHash = "";
-		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
-			currentHash = tmp.getMetaData().getHash().toString();
-			
-			if (tmp.getEntity() instanceof TransferTransaction) {
-				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
-				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
-
-					boolean found = false;
-					try {
-
-						if (transferTransaction.getMessage().getType() == 1) {
-
-							ResourceHashMessage resourceMessage = ResourceHashMessage
-									.getRootAsResourceHashMessage(ByteBuffer.wrap(
-											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
-
-							if (resourceMessage.metaData() != null) {
-								@SuppressWarnings("unchecked")
-								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(),
-										Map.class);
-								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
-									found = true;
-								}
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
-
-						} else if (transferTransaction.getMessage().getType() == 2) {
-
-							SecureMessage secureMessage = null;
-							if (transferTransaction.getSigner().getAddress().getEncoded().equals(privateKeyAddress)) {
-								secureMessage = SecureMessage.fromEncodedPayload(
-										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-										transferTransaction.getMessage().getEncodedPayload());
-
-							} else if (transferTransaction.getRecipient().getAddress().getEncoded()
-									.equals(privateKeyAddress)) {
-								secureMessage = SecureMessage.fromEncodedPayload(
-										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-										transferTransaction.getMessage().getEncodedPayload());
-							}
-
-							ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
-									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
-
-							if (resourceMessage.metaData() != null) {
-								@SuppressWarnings("unchecked")
-								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(),
-										Map.class);
-								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
-									found = true;
-								}
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
-
-						}
-
-					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
-						continue;
-					}
-				}
-			}
-		}
-		if(!currentHash.equals("")) {
-			encryptedMessage.addAll(getNextForMetadataSearch(xPvKey, xPubkey, key,value, currentHash));
-		}
+		encryptedMessage.addAll(getNextForMetadataSearch(xPvKey, xPubkey, key, value, ""));
 		return encryptedMessage;
 	}
 
@@ -148,22 +73,122 @@ public abstract class PrivateSearchApi {
 	 */
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeyword(String xPvKey, String xPubkey,
 			String keywords) throws ApiException, InterruptedException, ExecutionException {
+		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
+		encryptedMessage.addAll(getNextForKeywordSearch(xPvKey, xPubkey, keywords, ""));
+		return encryptedMessage;
+	}
+
+	private List<ResourceHashMessageJsonEntity> getNextForNameSearch(String xPvKey, String xPubkey, String name,
+			String hash) throws ApiException, InterruptedException, ExecutionException {
 
 		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
-				.getAllTransactions(privateKeyAddress);
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = null;
+		if (hash.equals("")) {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress);
+		} else {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress, hash);
+		}
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
 		// loop thru and search for any keyword.
 		String currentHash = "";
 		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
-			currentHash = tmp.getMetaData().getHash().toString();
-			
+
 			if (tmp.getEntity() instanceof TransferTransaction) {
+				currentHash = tmp.getMetaData().getHash().toString();
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+
+				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
+
+					boolean found = false;
+					try {
+
+						if (transferTransaction.getMessage().getType() == 1) {
+
+							ResourceHashMessage resourceMessage = ResourceHashMessage
+									.getRootAsResourceHashMessage(ByteBuffer.wrap(
+											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
+
+							if (resourceMessage.name().toLowerCase().contains(name.toLowerCase())) {
+								found = true;
+								break;
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
+						} else if (transferTransaction.getMessage().getType() == 2) {
+
+							SecureMessage secureMessage = null;
+							if (transferTransaction.getSigner().getAddress().getEncoded().equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										transferTransaction.getMessage().getEncodedPayload());
+
+							} else if (transferTransaction.getRecipient().getAddress().getEncoded()
+									.equals(privateKeyAddress)) {
+								secureMessage = SecureMessage.fromEncodedPayload(
+										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
+										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
+										transferTransaction.getMessage().getEncodedPayload());
+							}
+
+							ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
+									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
+
+							if (resourceMessage.name().toLowerCase().contains(name.toLowerCase())) {
+								found = true;
+								break;
+							}
+
+							if (found) {
+								encryptedMessage.add(toEntity(resourceMessage));
+							}
+
+						}
+
+					} catch (Exception e) {
+						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						continue;
+					}
+				}
+			}
+
+		}
+		if (!currentHash.equals("")) {
+			encryptedMessage.addAll(getNextForNameSearch(xPvKey, xPubkey, name, currentHash));
+		}
+		return encryptedMessage;
+	}
+
+	private List<ResourceHashMessageJsonEntity> getNextForKeywordSearch(String xPvKey, String xPubkey, String keywords,
+			String hash) throws ApiException, InterruptedException, ExecutionException {
+
+		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
+		KeyPair keyPair = new KeyPair(pvKey);
+		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
+
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = null;
+		if (hash.equals("")) {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress);
+		} else {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress, hash);
+		}
+
+		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
+		// loop thru and search for any keyword.
+		String currentHash = "";
+		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
+
+			if (tmp.getEntity() instanceof TransferTransaction) {
+				currentHash = tmp.getMetaData().getHash().toString();
+				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+
 				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 
 					boolean found = false;
@@ -227,121 +252,35 @@ public abstract class PrivateSearchApi {
 					}
 				}
 			}
-			
+
 		}
-		if(!currentHash.equals("")) {
+		if (!currentHash.equals("")) {
 			encryptedMessage.addAll(getNextForKeywordSearch(xPvKey, xPubkey, keywords, currentHash));
 		}
 		return encryptedMessage;
 	}
-	
-	public List<ResourceHashMessageJsonEntity> getNextForKeywordSearch(String xPvKey, String xPubkey,
-			String keywords, String hash) throws ApiException, InterruptedException, ExecutionException {
+
+	private List<ResourceHashMessageJsonEntity> getNextForMetadataSearch(String xPvKey, String xPubkey, String key,
+			String value, String hash) throws ApiException, InterruptedException, ExecutionException {
 
 		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
 		KeyPair keyPair = new KeyPair(pvKey);
 		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
 
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
-				.getAllTransactions(privateKeyAddress, hash);
+		List<TransactionMetaDataPair> listOfTransactionMetadataPair = null;
+		if (hash.equals("")) {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress);
+		} else {
+			listOfTransactionMetadataPair = nemTransactionApi.getAllTransactions(privateKeyAddress, hash);
+		}
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
 		// loop thru and search for any keyword.
 		String currentHash = "";
 		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
-			currentHash = tmp.getMetaData().getHash().toString();
-			
+
 			if (tmp.getEntity() instanceof TransferTransaction) {
-				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
-				
-				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
-
-					boolean found = false;
-					try {
-
-						if (transferTransaction.getMessage().getType() == 1) {
-
-							ResourceHashMessage resourceMessage = ResourceHashMessage
-									.getRootAsResourceHashMessage(ByteBuffer.wrap(
-											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
-
-							String[] commaSeparatedkeywordsSplit = keywords.split(",");
-							for (String keyword : commaSeparatedkeywordsSplit) {
-								if (resourceMessage.keywords().contains(keyword)) {
-									found = true;
-									break;
-								}
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
-
-						} else if (transferTransaction.getMessage().getType() == 2) {
-
-							SecureMessage secureMessage = null;
-							if (transferTransaction.getSigner().getAddress().getEncoded().equals(privateKeyAddress)) {
-								secureMessage = SecureMessage.fromEncodedPayload(
-										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-										transferTransaction.getMessage().getEncodedPayload());
-
-							} else if (transferTransaction.getRecipient().getAddress().getEncoded()
-									.equals(privateKeyAddress)) {
-								secureMessage = SecureMessage.fromEncodedPayload(
-										new Account(new KeyPair(PublicKey.fromHexString(xPubkey))),
-										new Account(new KeyPair(PrivateKey.fromHexString(xPvKey))),
-										transferTransaction.getMessage().getEncodedPayload());
-							}
-
-							ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
-									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
-
-							String[] commaSeparatedkeywordsSplit = keywords.split(",");
-							for (String keyword : commaSeparatedkeywordsSplit) {
-								if (resourceMessage.keywords().contains(keyword)) {
-									found = true;
-									break;
-								}
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
-
-						}
-
-					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
-						continue;
-					}
-				}
-			}
-			
-		}
-		if(!currentHash.equals("")) {
-			encryptedMessage.addAll(getNextForKeywordSearch(xPvKey, xPubkey, keywords, currentHash));
-		}
-		return encryptedMessage;
-	}
-	
-	public List<ResourceHashMessageJsonEntity> getNextForMetadataSearch(String xPvKey, String xPubkey,
-			String key, String value, String hash) throws ApiException, InterruptedException, ExecutionException {
-
-		PrivateKey pvKey = PrivateKey.fromHexString(xPvKey);
-		KeyPair keyPair = new KeyPair(pvKey);
-		String privateKeyAddress = Address.fromPublicKey(keyPair.getPublicKey()).toString();
-
-		List<TransactionMetaDataPair> listOfTransactionMetadataPair = nemTransactionApi
-				.getAllTransactions(privateKeyAddress, hash);
-
-		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
-		// loop thru and search for any keyword.
-		String currentHash = "";
-		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
-			currentHash = tmp.getMetaData().getHash().toString();
-			
-			if (tmp.getEntity() instanceof TransferTransaction) {
+				currentHash = tmp.getMetaData().getHash().toString();
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
 				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 
@@ -409,8 +348,8 @@ public abstract class PrivateSearchApi {
 				}
 			}
 		}
-		if(!currentHash.equals("")) {
-			encryptedMessage.addAll(getNextForMetadataSearch(xPvKey, xPubkey, key,value, currentHash));
+		if (!currentHash.equals("")) {
+			encryptedMessage.addAll(getNextForMetadataSearch(xPvKey, xPubkey, key, value, currentHash));
 		}
 		return encryptedMessage;
 	}

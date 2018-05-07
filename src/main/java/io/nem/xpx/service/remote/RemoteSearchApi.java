@@ -381,4 +381,10 @@ public class RemoteSearchApi extends PrivateSearchApi implements SearchApi {
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {
 		return super.searchTransactionWithMetadataKeyValuePair(xPvKey, xPubkey, key, value);
 	}
+	
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey, String xPubkey,
+			String name) throws ApiException, InterruptedException, ExecutionException {
+		return super.searchTransactionWithName(xPvKey, xPubkey, name);
+	}
 }

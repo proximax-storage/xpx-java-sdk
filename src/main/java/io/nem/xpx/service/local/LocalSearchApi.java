@@ -187,7 +187,11 @@ public class LocalSearchApi extends PrivateSearchApi implements SearchApi {
 	}
 
 
-	
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey, String xPubkey,
+			String name) throws ApiException, InterruptedException, ExecutionException {
+		return super.searchTransactionWithKeyword(xPvKey, xPubkey, name);
+	}
 
 
 

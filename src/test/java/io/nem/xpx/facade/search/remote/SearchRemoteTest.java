@@ -1,5 +1,6 @@
 package io.nem.xpx.facade.search.remote;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.pmw.tinylog.Logger;
 import io.nem.xpx.facade.search.Search;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
@@ -32,7 +34,7 @@ public class SearchRemoteTest extends AbstractApiTest {
 
 		try {
  			Search search = new Search(remotePeerConnection);
-			String result = search.searchByKeyword(this.xPubkey, "plain");
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey,this.xPubkey, "plain");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();
@@ -50,7 +52,7 @@ public class SearchRemoteTest extends AbstractApiTest {
 
 		try {
  			Search search = new Search(remotePeerConnection);
-			String result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());
@@ -67,7 +69,7 @@ public class SearchRemoteTest extends AbstractApiTest {
 
 		try {
  			Search search = new Search(remotePeerConnection);
-			String result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());
