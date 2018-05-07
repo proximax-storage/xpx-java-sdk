@@ -14,8 +14,6 @@ import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
-import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;

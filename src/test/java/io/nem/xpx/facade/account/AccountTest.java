@@ -5,14 +5,17 @@ import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.node.NodeEndpoint;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 
 /**
  * The Class AccountTest.
  */
+@Category(LocalIntegrationTest.class)
 public class AccountTest extends AbstractApiTest {
 
 	/**

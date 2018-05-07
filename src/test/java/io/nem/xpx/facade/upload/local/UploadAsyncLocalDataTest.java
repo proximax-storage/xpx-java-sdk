@@ -28,6 +28,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -51,7 +52,9 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 	@Test
 	public void uploadAsyncPlainDataTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			UploadAsync upload = new UploadAsync(localPeerConnection);
@@ -111,7 +114,9 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 	@Test
 	public void uploadAsyncSecureDataTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			UploadAsync upload = new UploadAsync(localPeerConnection);
@@ -171,9 +176,10 @@ public class UploadAsyncLocalDataTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainDataWithMosaicTest() {
 
-		
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			UploadAsync upload = new UploadAsync(localPeerConnection);

@@ -24,6 +24,7 @@ import io.nem.xpx.builder.UploadPathParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.UploadException;
@@ -48,7 +49,9 @@ public class UploadLocalPathTest extends AbstractApiTest {
 	public void uploadPath() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
+					ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+					ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+					);
 			Upload upload = new Upload(localPeerConnection);
 
 			UploadPathParameter parameter = UploadPathParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)

@@ -26,6 +26,7 @@ import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
@@ -51,7 +52,9 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 		try {
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
@@ -80,7 +83,9 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void uploadPlainLargeFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
@@ -110,7 +115,9 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
@@ -139,7 +146,9 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void uploadSecureLargeFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
@@ -169,7 +178,10 @@ public class UploadLocalFileTest extends AbstractApiTest {
 	public void uploadPlainFileWithMosaicTest() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
+					ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+					ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+					);
+			
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");

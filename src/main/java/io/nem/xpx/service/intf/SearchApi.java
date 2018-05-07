@@ -62,7 +62,7 @@ public interface SearchApi {
      * @throws InterruptedException the interrupted exception
      * @throws ExecutionException the execution exception
      */
-    public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataUsingGET(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
     
     /**
      * Search transaction with metadata key value pair.

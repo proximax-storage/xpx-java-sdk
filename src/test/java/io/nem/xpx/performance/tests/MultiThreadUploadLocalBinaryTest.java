@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.node.NodeEndpoint;
+import org.pmw.tinylog.Logger;
 
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
@@ -18,6 +19,7 @@ import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.model.UploadBinaryParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -38,7 +40,9 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 			Runnable task = () -> {
 
 				LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-						new NodeEndpoint("http", "104.128.226.60", 7890));
+						ConnectionFactory.createNemNodeConnection("http", "23.228.67.85", 7890),
+						ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+						);
 				try {
 					UploadAsync upload = new UploadAsync(localPeerConnection);
 					Map<String, String> metaData = new HashMap<String, String>();
@@ -49,7 +53,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 								.senderOrReceiverPrivateKey(this.xPvkey)
 								.receiverOrSenderPublicKey(this.xPubkey)
 								.name("pdf_file_version2.pdf")
-								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 								.contentType("application/pdf")
 								.keywords("pdf_file_version1")
 								.metadata(JsonUtils.toJson(metaData))
@@ -60,7 +64,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 								.senderOrReceiverPrivateKey(this.xPvkey)
 								.receiverOrSenderPublicKey(this.xPubkey)
 								.name("pdf_file_version2.pdf")
-								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version2.pdf")))
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 								.contentType("application/pdf")
 								.keywords("pdf_file_version2")
 								.metadata(JsonUtils.toJson(metaData))
@@ -71,7 +75,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 								.senderOrReceiverPrivateKey(this.xPvkey)
 								.receiverOrSenderPublicKey(this.xPubkey)
 								.name("pdf_file_version1.pdf")
-								.data(FileUtils.readFileToByteArray(new File("src//test//resources//pdf_file_version1.pdf")))
+								.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 								.contentType("application/pdf")
 								.keywords("pdf_file_version1")
 								.metadata(JsonUtils.toJson(metaData))
@@ -80,14 +84,17 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 					// 	Run the computation on another thread and wait for it to finish.
 					//	Callbacks are then handled.
 					CompletableFuture<UploadResult> future1 = upload.uploadBinary(parameter1, (n) -> {
+						Logger.info(n.getNemHash());
 						assertNotNull(n.getNemHash());
 					});
 					
 					CompletableFuture<UploadResult> future2 = upload.uploadBinary(parameter2, (n) -> {
+						Logger.info(n.getNemHash());
 						assertNotNull(n.getNemHash());
 					});
 					
 					CompletableFuture<UploadResult> future3 = upload.uploadBinary(parameter3, (n) -> {
+						Logger.info(n.getNemHash());
 						assertNotNull(n.getNemHash());
 					});
 

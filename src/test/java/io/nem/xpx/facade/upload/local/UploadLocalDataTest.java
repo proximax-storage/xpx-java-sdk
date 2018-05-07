@@ -29,6 +29,8 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
@@ -40,7 +42,7 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(RemoteIntegrationTest.class)
+@Category(LocalIntegrationTest.class)
 public class UploadLocalDataTest extends AbstractApiTest {
 
 	/**
@@ -51,9 +53,11 @@ public class UploadLocalDataTest extends AbstractApiTest {
 	 * Upload plain data test.
 	 */
 	@Test
-	public void uploadPlainDataTest() {
+	public void testUploadPlainDataTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
@@ -85,9 +89,9 @@ public class UploadLocalDataTest extends AbstractApiTest {
 	 * Upload plain data test async.
 	 */
 	@Test
-	public void uploadPlainDataTestAsync() {
+	public void testUploadPlainDataTestAsync() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				new NodeEndpoint("http", "104.128.226.60", 7890),"/ip4/127.0.0.1/tcp/5001");
 
 		try {
 			
@@ -120,9 +124,9 @@ public class UploadLocalDataTest extends AbstractApiTest {
 	 * Upload secure data test.
 	 */
 	@Test
-	public void uploadSecureDataTest() {
+	public void testUploadSecureDataTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				new NodeEndpoint("http", "104.128.226.60", 7890),"/ip4/127.0.0.1/tcp/5001");
 
 		try {
 			Upload upload = new Upload(localPeerConnection);
@@ -157,10 +161,11 @@ public class UploadLocalDataTest extends AbstractApiTest {
 	 * Upload plain data with mosaic test.
 	 */
 	@Test
-	public void uploadPlainDataWithMosaicTest() {
+	public void testUploadPlainDataWithMosaicTest() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
+					new NodeEndpoint("http", "104.128.226.60", 7890),
+					"/ip4/127.0.0.1/tcp/5001");
 
 			Upload upload = new Upload(localPeerConnection);
 			Map<String,String> metaData = new HashMap<String,String>();

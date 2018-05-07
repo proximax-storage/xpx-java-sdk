@@ -20,9 +20,11 @@ import java.util.concurrent.ExecutionException;
 /**
  * The Class Account.
  */
+@SuppressWarnings("unused")
 public class Account extends AbstractFacadeService {
 
 	/** The peer connection. */
+	
 	private final PeerConnection peerConnection;
 
 	/** The engine. */

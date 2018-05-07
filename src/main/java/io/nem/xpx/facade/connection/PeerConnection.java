@@ -7,8 +7,8 @@ import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.intf.*;
+import io.nem.xpx.service.pv.PrivateSearchApi;
 import io.nem.xpx.service.TransactionSender;
-import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.node.NodeEndpoint;
 
 
@@ -79,6 +79,7 @@ public interface PeerConnection {
      * @return the search api
      */
     SearchApi getSearchApi();
+    
 
     /**
      * Gets the transaction and announce api.
@@ -116,6 +117,7 @@ public interface PeerConnection {
     TransactionSender getTransactionSender();
 
     TransactionFeeCalculators getTransactionFeeCalculators();
+    
 
 
 }

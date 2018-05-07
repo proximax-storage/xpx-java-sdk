@@ -5,13 +5,14 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.factory.ConnectorFactory;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
+import io.nem.xpx.service.pv.PrivateSearchApi;
 import io.nem.xpx.service.remote.*;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
@@ -69,6 +70,7 @@ public final class RemotePeerConnection implements PeerConnection {
 	private TransactionSender transactionSender;
 
 	private TransactionFeeCalculators transactionFeeCalculators;
+
 
 	/**
 	 * Instantiates a new remote peer connection.
@@ -183,7 +185,7 @@ public final class RemotePeerConnection implements PeerConnection {
 	@Override
 	public SearchApi getSearchApi() {
 		if (searchApi == null)
-			searchApi = new RemoteSearchApi(apiClient);
+			searchApi = new RemoteSearchApi(apiClient,getNemTransactionApi());
 		return searchApi;
 	}
 
@@ -246,7 +248,8 @@ public final class RemotePeerConnection implements PeerConnection {
 
     private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
         if (asyncNemConnector == null)
-            asyncNemConnector = ConnectorFactory.createConnector();
+            asyncNemConnector = ConnectionFactory.createConnector();
         return asyncNemConnector;
     }
+   
 }

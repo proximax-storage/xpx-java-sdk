@@ -1,17 +1,19 @@
 package io.nem.xpx.facade.publishandsubscribe;
 
 import org.nem.core.crypto.CryptoEngine;
+import org.nem.core.crypto.CryptoEngines;
 
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.service.intf.PublishAndSubscribeApi;
+import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 
 
 
 /**
  * The Class PublishAndSubscribe.
  */
-// TODO can I delete this? no reference from anywhere
+
 public class PublishAndSubscribe {
 
 	/** The peer connection. */
@@ -22,6 +24,8 @@ public class PublishAndSubscribe {
 	
 	/** The publish and subscribe api. */
 	private PublishAndSubscribeApi publishAndSubscribeApi;
+	
+	private final TransactionAndAnnounceApi transactionAndAnnounceApi;
 	
 	/** The is local peer connection. */
 	private boolean isLocalPeerConnection = false;
@@ -34,19 +38,42 @@ public class PublishAndSubscribe {
 	 */
 	public PublishAndSubscribe(PeerConnection peerConnection) throws PeerConnectionNotFoundException {
 
-//		if (peerConnection == null) {
-//			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
-//		}
-//
-//		if (peerConnection instanceof RemotePeerConnection) {
-//			this.publishAndSubscribeApi = new RemoteSearchApi();
-//		} else {
-//			this.isLocalPeerConnection = true;
-//			this.publishAndSubscribeApi = new LocalSearchApi();
-//		}
-//
-//		this.peerConnection = peerConnection;
-//		this.engine = CryptoEngines.ed25519Engine();
+		if (peerConnection == null) {
+			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
+		}
+
+		this.peerConnection = peerConnection;
+		this.publishAndSubscribeApi = peerConnection.getPublishAndSubscribeApi();
+		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
+		this.isLocalPeerConnection = peerConnection.isLocal();
+		this.engine = CryptoEngines.ed25519Engine();
+		
+		
+	}
+	
+	//	Local and Remote.
+	//	Remote needs a listener.
+	public void subscribeAndListenToTopic(String topic) {
+	}
+	
+	public void publishTopic(String topic, String initialMessage) throws Exception {
+		//	Create a NEM Txn first, store the topic name.
+		
+		//	Create the topic and then send the message.
+		publishAndSubscribeApi.publishTopicUsingGET(topic, initialMessage);
+		
+	}
+	
+	
+	//	Send to existing topic
+	
+	public void sendToTopic(String topic, String message) throws Exception {
+		publishAndSubscribeApi.sendToTopicUsingGET(topic, message);
+	}
+	
+	public void sendToTopicByNemHash(String nemHash, String message) throws Exception {
+		
+		publishAndSubscribeApi.sendToTopicUsingGET(nemHash, message);
 	}
 
 }

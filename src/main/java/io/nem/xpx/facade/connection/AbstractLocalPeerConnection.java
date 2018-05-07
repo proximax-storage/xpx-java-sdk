@@ -2,17 +2,18 @@ package io.nem.xpx.facade.connection;
 
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
-import io.nem.xpx.factory.ConnectorFactory;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.TransactionSender;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.local.*;
+import io.nem.xpx.service.pv.PrivateSearchApi;
+
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
-
 
 /**
  * The Class AbstractLocalPeerConnection.
@@ -23,29 +24,29 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	private final NodeEndpoint nodeEndpoint;
 
 	/** The Ipfs **/
-	private final IPFS proximaxIpfsConnection;
+	private IPFS proximaxIpfsConnection;
 
 	/** The account api. */
 	private AccountApi accountApi;
-	
+
 	/** The data hash api. */
 	private DataHashApi dataHashApi;
-	
+
 	/** The download api. */
 	private DownloadApi downloadApi;
-	
+
 	/** The node api. */
 	private NodeApi nodeApi;
-	
+
 	/** The publish and subscribe api. */
 	private PublishAndSubscribeApi publishAndSubscribeApi;
-	
+
 	/** The search api. */
 	private SearchApi searchApi;
-	
+
 	/** The transaction and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
-	
+
 	/** The upload api. */
 	private UploadApi uploadApi;
 
@@ -53,10 +54,10 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 
 	/** The nem transaction api. */
 	private NemTransactionApi nemTransactionApi;
-	
+
 	/** The nem account api. */
 	private NemAccountApi nemAccountApi;
-	
+
 	/** The transaction sender. */
 	private TransactionSender transactionSender;
 
@@ -65,15 +66,30 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	/**
 	 * Instantiates a new abstract local peer connection.
 	 *
-	 * @param nodeEndpoint the node endpoint
-	 * @param multiAddress the multi address
+	 * @param nodeEndpoint
+	 *            the node endpoint
+	 * @param multiAddress
+	 *            the multi address
 	 */
 	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
 		this.nodeEndpoint = nodeEndpoint;
 		this.proximaxIpfsConnection = new IPFS(new MultiAddress(multiAddress));
 	}
+	
+	//	For local connections that doesn't need IPFS (Some modules doesn't required IPFS but uses local connection).
+	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint) {
+		this.nodeEndpoint = nodeEndpoint;
+	}
+	
+	
+	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, IPFS ipfsConnection) {
+		this.nodeEndpoint = nodeEndpoint;
+		this.proximaxIpfsConnection = ipfsConnection;
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getNodeEndpoint()
 	 */
 	@Override
@@ -91,7 +107,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getAccountApi()
 	 */
 	@Override
@@ -101,7 +119,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return accountApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getDataHashApi()
 	 */
 	@Override
@@ -111,7 +131,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return dataHashApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getDirectoryLoadApi()
 	 */
 	@Override
@@ -119,7 +141,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		throw new RuntimeException("not supported");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getDownloadApi()
 	 */
 	@Override
@@ -129,17 +153,21 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return downloadApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getNodeApi()
 	 */
 	@Override
 	public NodeApi getNodeApi() {
 		if (nodeApi == null)
-			nodeApi = new LocalNodeApi();
+			nodeApi = new LocalNodeApi(proximaxIpfsConnection);
 		return nodeApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getPublishAndSubscribeApi()
 	 */
 	@Override
@@ -149,7 +177,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return publishAndSubscribeApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getSearchApi()
 	 */
 	@Override
@@ -159,8 +189,11 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return searchApi;
 	}
 
-	/* (non-Javadoc)
-	 * @see io.nem.xpx.facade.connection.PeerConnection#getTransactionAndAnnounceApi()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.nem.xpx.facade.connection.PeerConnection#getTransactionAndAnnounceApi()
 	 */
 	@Override
 	public TransactionAndAnnounceApi getTransactionAndAnnounceApi() {
@@ -169,7 +202,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return transactionAndAnnounceApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getUploadApi()
 	 */
 	@Override
@@ -179,7 +214,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return uploadApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getNemTransactionApi()
 	 */
 	@Override
@@ -189,7 +226,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return nemTransactionApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getNemAccountApi()
 	 */
 	@Override
@@ -199,7 +238,9 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 		return nemAccountApi;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getTransactionSender()
 	 */
 	@Override
@@ -218,7 +259,8 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 
 	private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
 		if (asyncNemConnector == null)
-			asyncNemConnector = ConnectorFactory.createConnector();
+			asyncNemConnector = ConnectionFactory.createConnector();
 		return asyncNemConnector;
 	}
+
 }
