@@ -79,7 +79,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -149,7 +149,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			String nemhash = data.getNemHash();
 			LOGGER.info(nemhash);
 			LOGGER.info(hash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -187,7 +187,7 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
