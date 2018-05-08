@@ -23,6 +23,8 @@ import io.nem.xpx.remote.AbstractApiTest;
 public class SearchAsyncLocalTest extends AbstractApiTest {
 
 	
+	
+	
 	@Test
 	public void testSearchByName() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
