@@ -58,7 +58,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version1.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -87,7 +87,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version1.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -118,7 +118,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version2.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v2.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -146,7 +146,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.SECURE)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//pdf_file_version1.pdf"))
+					.data(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
@@ -177,7 +177,7 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 					.messageType(MessageTypes.PLAIN)
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.data(new File("src//test//resources//large_file.zip"))
+					.data(new File("src//test//resources//test_large_file.zip"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
