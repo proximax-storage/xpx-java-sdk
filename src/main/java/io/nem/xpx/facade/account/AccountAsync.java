@@ -16,8 +16,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class AccountAsync extends Account {
 
-	public AccountAsync(PeerConnection peerConnection) {
-		super(peerConnection);
+	public AccountAsync(PeerConnection peerConnection, String publicKey) {
+		super(peerConnection,publicKey);
 
 	}
 
@@ -34,8 +34,7 @@ public class AccountAsync extends Account {
 	 * @throws ExecutionException
 	 *             the execution exception
 	 */
-	public CompletableFuture<List<TransactionMetaDataPair>> getIncomingTransactions(String publicKey,
-			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
+	public CompletableFuture<List<TransactionMetaDataPair>> getIncomingTransactions(ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
 			throws ApiException, InterruptedException, ExecutionException {
 
 		CompletableFuture<List<TransactionMetaDataPair>> returnListOfTxnMetaDataPairAsync = CompletableFuture
@@ -45,7 +44,7 @@ public class AccountAsync extends Account {
 					List<TransactionMetaDataPair> listOfTxnMetaDataPair;
 					try {
 						listOfTxnMetaDataPair = nemTransactionApi.getIncomingTransactions(
-								Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+								Address.fromPublicKey(PublicKey.fromHexString(this.publicKey)).getEncoded());
 						
 						for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
 							if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
@@ -79,7 +78,7 @@ public class AccountAsync extends Account {
 	 * @throws ExecutionException
 	 *             the execution exception
 	 */
-	public CompletableFuture<List<TransactionMetaDataPair>> getAllTransactions(String publicKey,
+	public CompletableFuture<List<TransactionMetaDataPair>> getAllTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
 			throws ApiException, InterruptedException, ExecutionException {
 
@@ -125,7 +124,7 @@ public class AccountAsync extends Account {
 	 * @throws ExecutionException
 	 *             the execution exception
 	 */
-	public CompletableFuture<List<TransactionMetaDataPair>> getOutgoingTransactions(String publicKey,
+	public CompletableFuture<List<TransactionMetaDataPair>> getOutgoingTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
 			throws ApiException, InterruptedException, ExecutionException {
 
@@ -171,7 +170,7 @@ public class AccountAsync extends Account {
 	 * @throws ExecutionException
 	 *             the execution exception
 	 */
-	public CompletableFuture<List<TransactionMetaDataPair>> getUnconfirmedTransactions(String publicKey,
+	public CompletableFuture<List<TransactionMetaDataPair>> getUnconfirmedTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
 			throws ApiException, InterruptedException, ExecutionException {
 

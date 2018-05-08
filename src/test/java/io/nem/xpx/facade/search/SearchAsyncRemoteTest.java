@@ -1,4 +1,4 @@
-package io.nem.xpx.facade.search.remote;
+package io.nem.xpx.facade.search;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,7 +23,7 @@ import io.nem.xpx.remote.AbstractApiTest;
  * The Class SearchTest.
  */
 @Category(RemoteIntegrationTest.class)
-public class SearchRemoteTest extends AbstractApiTest {
+public class SearchAsyncRemoteTest extends AbstractApiTest {
 
 	/**
 	 * Search P key search sample.

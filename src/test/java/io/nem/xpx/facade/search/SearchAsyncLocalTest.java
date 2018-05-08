@@ -1,4 +1,4 @@
-package io.nem.xpx.facade.search.local;
+package io.nem.xpx.facade.search;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -20,7 +20,7 @@ import io.nem.xpx.remote.AbstractApiTest;
  * The Class SearchTest.
  */
 @Category(LocalIntegrationTest.class)
-public class SearchLocalTest extends AbstractApiTest {
+public class SearchAsyncLocalTest extends AbstractApiTest {
 
 	
 	@Test
