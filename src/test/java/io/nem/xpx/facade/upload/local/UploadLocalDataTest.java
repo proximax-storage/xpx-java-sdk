@@ -2,12 +2,9 @@ package io.nem.xpx.facade.upload.local;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -20,7 +17,6 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
-
 import io.nem.xpx.builder.UploadDataParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
@@ -31,13 +27,10 @@ import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
-
-
 
 /**
  * The Class UploadTest.
