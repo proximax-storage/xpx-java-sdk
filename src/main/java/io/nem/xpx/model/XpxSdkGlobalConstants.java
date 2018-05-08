@@ -1,6 +1,6 @@
 package io.nem.xpx.model;
 
-import io.nem.xpx.factory.ConnectorFactory;
+import io.nem.xpx.factory.ConnectionFactory;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
 import org.nem.core.time.SystemTimeProvider;

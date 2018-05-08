@@ -2,6 +2,8 @@ package io.nem.xpx.facade.connection;
 
 import org.nem.core.node.NodeEndpoint;
 
+import io.ipfs.api.IPFS;
+
 
 
 
@@ -16,8 +18,13 @@ public final class LocalHttpPeerConnection extends AbstractLocalPeerConnection {
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint) {
-		this(nodeEndpoint, "/ip4/127.0.0.1/tcp/5001");
+		super(nodeEndpoint);
 	}
+	
+	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint, IPFS ipfsConnection) {
+		super(nodeEndpoint,ipfsConnection);
+	}
+	
 	
 	/**
 	 * Instantiates a new local http peer connection.

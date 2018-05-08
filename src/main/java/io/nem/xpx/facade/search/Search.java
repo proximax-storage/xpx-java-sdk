@@ -4,6 +4,7 @@
 package io.nem.xpx.facade.search;
 
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.nem.xpx.exceptions.ApiException;
@@ -15,11 +16,11 @@ import org.nem.core.crypto.CryptoEngines;
 
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.local.LocalSearchApi;
 import io.nem.xpx.service.remote.RemoteSearchApi;
 import io.nem.xpx.utils.JsonUtils;
-
 
 
 /**
@@ -55,37 +56,42 @@ public class Search extends AbstractFacadeService {
 		this.peerConnection = peerConnection;
 		this.engine = CryptoEngines.ed25519Engine();
 	}
-
+	
+	
+	/**
+	 * Search by name.
+	 *
+	 * @param xPvkey the x pvkey
+	 * @param xPubkey the x pubkey
+	 * @param name the name
+	 * @return the list
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
+	public List<ResourceHashMessageJsonEntity> searchByName(String xPvkey, String xPubkey, String name)
+			throws ApiException, InterruptedException, ExecutionException {
+		return searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, name);
+	}
+	
 	/**
 	 * Search by keyword.
 	 *
 	 * @param xPvkey the x pvkey
 	 * @param xPubkey the x pubkey
 	 * @param keywords the keywords
-	 * @return the string
+	 * @return the list
 	 * @throws ApiException the api exception
 	 * @throws InterruptedException the interrupted exception
 	 * @throws ExecutionException the execution exception
 	 */
-	public String searchByKeyword(String xPvkey, String xPubkey, String keywords)
+	public List<ResourceHashMessageJsonEntity> searchByKeyword(String xPvkey, String xPubkey, String keywords)
 			throws ApiException, InterruptedException, ExecutionException {
-		return JsonUtils.toJson(searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, keywords));
+		return searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, keywords);
 	}
+	
+	
 
-	/**
-	 * Search by keyword.
-	 *
-	 * @param xPubkey the x pubkey
-	 * @param keywords the keywords
-	 * @return the string
-	 * @throws ApiException the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
-	 */
-	public String searchByKeyword(String xPubkey, String keywords)
-			throws io.nem.xpx.exceptions.ApiException, InterruptedException, ExecutionException {
-		return JsonUtils.toJson(searchApi.searchTransactionWithKeywordUsingGET(xPubkey, keywords));
-	}
 
 	/**
 	 * Search by meta data key value.
@@ -99,9 +105,9 @@ public class Search extends AbstractFacadeService {
 	 * @throws InterruptedException the interrupted exception
 	 * @throws ExecutionException the execution exception
 	 */
-	public String searchByMetaDataKeyValue(String xPvkey, String xPubkey, String key, String value)
+	public List<ResourceHashMessageJsonEntity> searchByMetaDataKeyValue(String xPvkey, String xPubkey, String key, String value)
 			throws ApiException, InterruptedException, ExecutionException {
-		return JsonUtils.toJson(searchApi.searchTransactionWithMetadataKeyValuePair(xPvkey, xPubkey, key, value));
+		return searchApi.searchTransactionWithMetadataKeyValuePair(xPvkey, xPubkey, key, value);
 	}
 
 }

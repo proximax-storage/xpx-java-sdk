@@ -18,6 +18,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -35,9 +36,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download plain file test.
 	 */
 	@Test
-	public void downloadPlainBinaryTest() {
+	public void testDownloadPlainBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			
@@ -72,9 +75,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download plain large file test.
 	 */
 	@Test
-	public void downloadPlainLargeBinaryTest() {
+	public void testDownloadPlainLargeBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -105,9 +110,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download plain large binary media test.
 	 */
 	@Test
-	public void downloadPlainLargeBinaryMediaTest() {
+	public void testDownloadPlainLargeBinaryMediaTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -139,9 +146,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download plain public file test.
 	 */
 	@Test
-	public void downloadPlainPublicBinaryTest() {
+	public void testDownloadPlainPublicBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -176,9 +185,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download plain public large file test.
 	 */
 	@Test
-	public void downloadPlainPublicLargeBinaryTest() {
+	public void testDownloadPlainPublicLargeBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -207,9 +218,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download secure file test.
 	 */
 	@Test
-	public void downloadSecureBinaryTest() {
+	public void testDownloadSecureBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -239,9 +252,11 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	 * Download secure large file test.
 	 */
 	@Test
-	public void downloadSecureLargeBinaryTest() {
+	public void testDownloadSecureLargeBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);

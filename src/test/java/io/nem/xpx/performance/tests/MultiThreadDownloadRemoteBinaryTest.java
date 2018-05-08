@@ -44,7 +44,7 @@ public class MultiThreadDownloadRemoteBinaryTest extends AbstractApiTest {
 											+ message.getDataMessage().name() + timeStamp + ".zip"),
 									message.getData());
 
-					long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+					long actualFileSize = FileUtils.sizeOf(new File("src//test//resources//test_large_file.zip"));
 
 					//Assert.assertEquals(expectedFileSize, actualFileSize);
 

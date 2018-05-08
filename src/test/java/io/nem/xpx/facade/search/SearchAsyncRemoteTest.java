@@ -1,5 +1,6 @@
-package io.nem.xpx.facade.search.local;
+package io.nem.xpx.facade.search;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,10 +9,13 @@ import org.nem.core.node.NodeEndpoint;
 import org.pmw.tinylog.Logger;
 
 import io.nem.xpx.facade.search.Search;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.remote.AbstractApiTest;
 
 
@@ -19,19 +23,18 @@ import io.nem.xpx.remote.AbstractApiTest;
  * The Class SearchTest.
  */
 @Category(RemoteIntegrationTest.class)
-public class SearchLocalTest extends AbstractApiTest {
+public class SearchAsyncRemoteTest extends AbstractApiTest {
 
 	/**
 	 * Search P key search sample.
 	 */
 	@Test
 	public void testSearchByKeyword() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "23.228.67.85", 7890));
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
- 			Search search = new Search(localPeerConnection);
-			String result = search.searchByKeyword(this.xPubkey, "plain");
+ 			Search search = new Search(remotePeerConnection);
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey,this.xPubkey, "plain");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			e.printStackTrace();
@@ -45,12 +48,11 @@ public class SearchLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void testSearchByMetaDataWithSecure() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
-			Search search = new Search(localPeerConnection);
-			String result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
+ 			Search search = new Search(remotePeerConnection);
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());
@@ -62,12 +64,12 @@ public class SearchLocalTest extends AbstractApiTest {
 	 */
 	@Test
 	public void testSearchByKeywordWithSecure() {
-		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+		
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
 
 		try {
-			Search search = new Search(localPeerConnection);
-			String result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
+ 			Search search = new Search(remotePeerConnection);
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());

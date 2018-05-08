@@ -18,6 +18,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.download.DownloadResult;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
@@ -38,7 +39,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -75,7 +78,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainLargeFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -108,7 +113,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainLargeFileMediaTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -142,7 +149,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainPublicFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -179,7 +188,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainPublicLargeFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -210,7 +221,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadSecureFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);
@@ -242,7 +255,9 @@ public class DownloadLocalFileTest extends AbstractApiTest {
 	@Test
 	public void downloadSecureLargeFileTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Download download = new Download(localPeerConnection);

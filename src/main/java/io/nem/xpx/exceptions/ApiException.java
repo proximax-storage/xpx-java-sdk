@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * The Class ApiException.
  */
+@SuppressWarnings("serial")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-04-25T23:45:59.064-04:00")
 public class ApiException extends Exception {
     

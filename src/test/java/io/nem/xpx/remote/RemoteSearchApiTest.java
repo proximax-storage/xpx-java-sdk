@@ -24,7 +24,7 @@ import org.junit.Ignore;
 public class RemoteSearchApiTest extends AbstractApiTest {
 
 	/** The api. */
-	private final RemoteSearchApi api = new RemoteSearchApi(apiClient);
+	//private final RemoteSearchApi api = new RemoteSearchApi(apiClient);
 
 	
 

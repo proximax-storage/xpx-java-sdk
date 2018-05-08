@@ -81,7 +81,7 @@
 		</repository>
 		<repository>
 			<id>nexus</id>
-			<url>http://13.228.214.237:8081/repository/maven-public</url>
+			<url>https://nexus.internal.proximax.io/repository/maven-public</url>
 		</repository>
 	</repositories>
 
@@ -150,7 +150,8 @@
 					<includes>
 						<include>**/*.class</include>
 					</includes>
-					<excludedgroups>io.nem.xpx.integration.tests.IntegrationTest</excludedgroups>
+					<excludedgroups>io.nem.xpx.integration.tests.LocalIntegrationTest</excludedgroups>
+					<excludedgroups>io.nem.xpx.integration.tests.RemoteIntegrationTest</excludedgroups>
 				</configuration>
 			</plugin>
 			<plugin>

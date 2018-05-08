@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.xpx.facade.transaction;
 
 import io.nem.xpx.exceptions.ApiException;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-
+// TODO: Auto-generated Javadoc
 /**
  * The Class Account.
  */
@@ -58,19 +61,39 @@ public class Transaction extends AbstractFacadeService {
 		this.engine = CryptoEngines.ed25519Engine();
 	}
 
-
 	/**
-	 * Gets the incoming transactions.
+	 * Gets the transaction.
 	 *
-	 * @param publicKey the public key
-	 * @return the incoming transactions
+	 * @param hash the hash
+	 * @return the transaction
 	 * @throws ApiException the api exception
 	 * @throws InterruptedException the interrupted exception
 	 * @throws ExecutionException the execution exception
 	 */
+	public TransactionMetaDataPair getTransaction(String hash)
+			throws ApiException, InterruptedException, ExecutionException {
+
+		TransactionMetaDataPair transaction = nemTransactionApi.getTransaction(hash);
+
+		return transaction;
+	}
+
+	/**
+	 * Gets the incoming transactions.
+	 *
+	 * @param publicKey
+	 *            the public key
+	 * @return the incoming transactions
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
+	 */
 	public List<TransactionMetaDataPair> getIncomingTransactions(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
-		
+
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getIncomingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
@@ -86,13 +109,18 @@ public class Transaction extends AbstractFacadeService {
 	/**
 	 * Gets the all transactions.
 	 *
-	 * @param publicKey            the public key
+	 * @param publicKey
+	 *            the public key
 	 * @return the all transactions
-	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws ApiException
+	 *             the api exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getAllTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
+	public List<TransactionMetaDataPair> getAllTransactions(String publicKey)
+			throws ApiException, InterruptedException, ExecutionException {
 
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
@@ -110,13 +138,13 @@ public class Transaction extends AbstractFacadeService {
 	 * Gets the outgoing transactions.
 	 *
 	 * @param publicKey            the public key
-	 * @param privateKey            the private key
 	 * @return the outgoing transactions
 	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getOutgoingTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
+	public List<TransactionMetaDataPair> getOutgoingTransactions(String publicKey)
+			throws ApiException, InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getOutgoingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
@@ -133,13 +161,13 @@ public class Transaction extends AbstractFacadeService {
 	 * Gets the unconfirmed transactions.
 	 *
 	 * @param publicKey            the public key
-	 * @param privateKey            the private key
 	 * @return the unconfirmed transactions
 	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getUnconfirmedTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
+	public List<TransactionMetaDataPair> getUnconfirmedTransactions(String publicKey)
+			throws ApiException, InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
 		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getUnconfirmedTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());

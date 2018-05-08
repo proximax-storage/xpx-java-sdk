@@ -4,8 +4,6 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 
 import io.nem.xpx.adapters.cipher.CustomEncryption;
-import io.nem.xpx.builder.UploadDataParameterBuilder.IInit;
-import io.nem.xpx.builder.UploadDataParameterBuilder.IMessageType;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadBinaryParameter;
 

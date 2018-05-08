@@ -1,159 +1,211 @@
+/*
+ * 
+ */
 package io.nem.xpx.facade.transaction;
 
+import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
-import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.service.NemTransactionApi;
-import io.nem.xpx.service.intf.AccountApi;
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Address;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 
-
+// TODO: Auto-generated Javadoc
 /**
  * The Class Account.
  */
-public class TransactionAsync extends AbstractFacadeService {
-
-	/** The peer connection. */
-	private final PeerConnection peerConnection;
-
-	/** The engine. */
-	private final CryptoEngine engine;
-
-	/** The account api. */
-	private final AccountApi accountApi;
-
-	/** The nem transaction api. */
-	protected final NemTransactionApi nemTransactionApi;
-
-	/** The is local peer connection. */
-	private final boolean isLocalPeerConnection;
+public class TransactionAsync extends Transaction {
 
 	/**
-	 * Instantiates a new search.
+	 * Instantiates a new transaction async.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
+	 * @param peerConnection the peer connection
 	 */
 	public TransactionAsync(PeerConnection peerConnection) {
-
-		if (peerConnection == null) {
-			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
-		}
-
-		this.accountApi = peerConnection.getAccountApi();
-		this.isLocalPeerConnection = peerConnection.isLocal();
-		this.peerConnection = peerConnection;
-		this.nemTransactionApi = peerConnection.getNemTransactionApi();
-		this.engine = CryptoEngines.ed25519Engine();
+		super(peerConnection);
 	}
 
-
 	/**
-	 * Gets the incoming transactions.
+	 * Gets the transaction.
 	 *
-	 * @param publicKey the public key
-	 * @return the incoming transactions
+	 * @param hash the hash
+	 * @param callback the callback
+	 * @return the transaction
 	 * @throws ApiException the api exception
 	 * @throws InterruptedException the interrupted exception
 	 * @throws ExecutionException the execution exception
 	 */
-	public List<TransactionMetaDataPair> getIncomingTransactions(String publicKey)
+	public CompletableFuture<TransactionMetaDataPair> getTransaction(String hash,
+			ServiceAsyncCallback<TransactionMetaDataPair> callback)
 			throws ApiException, InterruptedException, ExecutionException {
-		
-		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
-				.getIncomingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
-		List<String> transactionString = new ArrayList<String>();
-		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
-			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
-				returnListOfTxnMetaDataPair.add(metaDataPair);
-			}
-		}
 
-		return returnListOfTxnMetaDataPair;
+		CompletableFuture<TransactionMetaDataPair> transactionAsync = CompletableFuture.supplyAsync(() -> {
+			try {
+				TransactionMetaDataPair transaction = nemTransactionApi.getTransaction(hash);
+				return transaction;
+			} catch (ApiException | InterruptedException | ExecutionException e) {
+				throw new CompletionException(e);
+			}
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return transactionAsync;
 	}
 
 	/**
 	 * Gets the all transactions.
 	 *
 	 * @param publicKey            the public key
+	 * @param callback the callback
 	 * @return the all transactions
 	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getAllTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
+	public CompletableFuture<List<TransactionMetaDataPair>> getAllTransactions(String publicKey,
+			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
+			throws ApiException, InterruptedException, ExecutionException {
 
-		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
-				.getAllTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
-		List<String> transactionString = new ArrayList<String>();
-		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
-			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
-				returnListOfTxnMetaDataPair.add(metaDataPair);
+		CompletableFuture<List<TransactionMetaDataPair>> transactionAsync = CompletableFuture.supplyAsync(() -> {
+			try {
+				List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
+				List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
+						.getAllTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+				for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
+					if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
+						returnListOfTxnMetaDataPair.add(metaDataPair);
+					}
+				}
+				return returnListOfTxnMetaDataPair;
+			} catch (ApiException | InterruptedException | ExecutionException e) {
+				throw new CompletionException(e);
 			}
-		}
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
 
-		return returnListOfTxnMetaDataPair;
+		return transactionAsync;
+	}
+
+	/**
+	 * Gets the incoming transactions.
+	 *
+	 * @param publicKey            the public key
+	 * @param callback the callback
+	 * @return the incoming transactions
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
+	 */
+	public CompletableFuture<List<TransactionMetaDataPair>> getIncomingTransactions(String publicKey,
+			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
+			throws ApiException, InterruptedException, ExecutionException {
+
+		CompletableFuture<List<TransactionMetaDataPair>> transactionAsync = CompletableFuture.supplyAsync(() -> {
+			try {
+				List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
+				List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi.getIncomingTransactions(
+						Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+				for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
+					if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
+						returnListOfTxnMetaDataPair.add(metaDataPair);
+					}
+				}
+				return returnListOfTxnMetaDataPair;
+			} catch (ApiException | InterruptedException | ExecutionException e) {
+				throw new CompletionException(e);
+			}
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return transactionAsync;
 	}
 
 	/**
 	 * Gets the outgoing transactions.
 	 *
 	 * @param publicKey            the public key
-	 * @param privateKey            the private key
+	 * @param callback the callback
 	 * @return the outgoing transactions
 	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getOutgoingTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
-				.getOutgoingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
-		List<String> transactionString = new ArrayList<String>();
-		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
-			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
-				returnListOfTxnMetaDataPair.add(metaDataPair);
-			}
-		}
+	public CompletableFuture<List<TransactionMetaDataPair>> getOutgoingTransactions(String publicKey,
+			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
+			throws ApiException, InterruptedException, ExecutionException {
 
-		return returnListOfTxnMetaDataPair;
+		CompletableFuture<List<TransactionMetaDataPair>> transactionAsync = CompletableFuture.supplyAsync(() -> {
+			try {
+				List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
+				List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi.getOutgoingTransactions(
+						Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+				for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
+					if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
+						returnListOfTxnMetaDataPair.add(metaDataPair);
+					}
+				}
+				return returnListOfTxnMetaDataPair;
+			} catch (ApiException | InterruptedException | ExecutionException e) {
+				throw new CompletionException(e);
+			}
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return transactionAsync;
 	}
 
 	/**
 	 * Gets the unconfirmed transactions.
 	 *
 	 * @param publicKey            the public key
-	 * @param privateKey            the private key
+	 * @param callback the callback
 	 * @return the unconfirmed transactions
 	 * @throws ApiException             the api exception
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
-	public List<TransactionMetaDataPair> getUnconfirmedTransactions(String publicKey) throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
-				.getUnconfirmedTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
-		List<String> transactionString = new ArrayList<String>();
-		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
-			if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
-				returnListOfTxnMetaDataPair.add(metaDataPair);
-			}
-		}
+	public CompletableFuture<List<TransactionMetaDataPair>> getUnconfirmedTransactions(String publicKey,
+			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback)
+			throws ApiException, InterruptedException, ExecutionException {
 
-		return returnListOfTxnMetaDataPair;
+		CompletableFuture<List<TransactionMetaDataPair>> transactionAsync = CompletableFuture.supplyAsync(() -> {
+			try {
+				List<TransactionMetaDataPair> returnListOfTxnMetaDataPair = new ArrayList<TransactionMetaDataPair>();
+				List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi.getUnconfirmedTransactions(
+						Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
+				for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
+					if (checkIfTxnHaveXPXMosaic(metaDataPair.getEntity())) {
+						returnListOfTxnMetaDataPair.add(metaDataPair);
+					}
+				}
+				return returnListOfTxnMetaDataPair;
+			} catch (ApiException | InterruptedException | ExecutionException e) {
+				throw new CompletionException(e);
+			}
+		}).thenApply(n -> {
+			// call the callback?
+			callback.process(n);
+			return n;
+		});
+
+		return transactionAsync;
 	}
 
 }

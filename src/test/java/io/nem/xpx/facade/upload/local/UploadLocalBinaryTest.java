@@ -24,6 +24,8 @@ import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.model.UploadBinaryParameter;
@@ -35,16 +37,18 @@ import io.nem.xpx.utils.JsonUtils;
 /**
  * The Class UploadTest.
  */
-@Category(RemoteIntegrationTest.class)
+@Category(LocalIntegrationTest.class)
 public class UploadLocalBinaryTest extends AbstractApiTest {
 
 	/**
 	 * Upload plain file test.
 	 */
 	@Test
-	public void uploadPlainBinaryTest() {
+	public void testUploadPlainBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "23.228.67.85", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 		try {
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
@@ -76,9 +80,11 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 	 * Upload secure file test.
 	 */
 	@Test
-	public void uploadSecureBinaryTest() {
+	public void testUploadSecureBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Map<String, String> metaData = new HashMap<String, String>();
@@ -107,9 +113,11 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 	 * Upload secure large file test.
 	 */
 	@Test
-	public void uploadSecureLargeBinaryTest() {
+	public void testUploadSecureLargeBinaryTest() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-				new NodeEndpoint("http", "104.128.226.60", 7890));
+				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
 
 		try {
 			Map<String, String> metaData = new HashMap<String, String>();
@@ -139,11 +147,14 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 	 */
 	@Test
 	@Ignore
-	public void uploadPlainBinaryWithMosaicTest() {
+	public void testUploadPlainBinaryWithMosaicTest() {
 		try {
 			
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
+					ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+					ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+					);
+			
 			Upload upload = new Upload(localPeerConnection);
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
