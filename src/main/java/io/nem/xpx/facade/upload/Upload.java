@@ -26,11 +26,17 @@ import org.nem.core.model.Account;
 import org.nem.core.model.Address;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
-import org.pmw.tinylog.Logger;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import static java.lang.String.format;
 
 
 /**
@@ -78,16 +84,16 @@ public class Upload extends AbstractFacadeService {
 	 * @return the upload data
 	 * @throws UploadException
 	 *             the upload exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
 	 */
 	public UploadResult uploadFile(UploadFileParameter uploadParameter)
 			throws UploadException {
-		UploadResult uploadData = handleFileUpload(uploadParameter);
-		return uploadData;
 
+		try {
+			byte[] data = FileUtils.readFileToByteArray(uploadParameter.getData());
+			return handleBinaryUpload(uploadParameter, data);
+		} catch (Exception e) {
+			throw new UploadException(format("Error on uploading file data: %s", uploadParameter.getData().getAbsolutePath()), e);
+		}
 	}
 
 	/**
@@ -98,69 +104,9 @@ public class Upload extends AbstractFacadeService {
 	 * @return the upload data
 	 * @throws UploadException
 	 *             the upload exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
 	 */
 	public UploadResult uploadTextData(UploadDataParameter uploadParameter)
 			throws UploadException {
-		UploadResult uploadData = handleTextDataUpload(uploadParameter);
-		return uploadData;
-	}
-
-	/**
-	 * Upload a binary file.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
-	public UploadResult uploadBinary(UploadBinaryParameter uploadParameter)
-			throws UploadException {
-		UploadResult uploadData = handleBinaryUpload(uploadParameter);
-		return uploadData;
-	}
-
-	/**
-	 * Upload path.
-	 *
-	 * @param uploadParameter
-	 *            the upload parameter
-	 * @return the upload data
-	 * @throws UploadException
-	 *             the upload exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
-	 */
-	public UploadResult uploadPath(UploadPathParameter uploadParameter)
-			throws UploadException, PeerConnectionNotFoundException {
-		UploadResult uploadData = handlePathUpload(uploadParameter);
-		return uploadData;
-	}
-
-	/**
-	 * Handle data upload.
-	 *
-	 * @param uploadParameter
-	 *            the upload parameter
-	 * @return the upload data
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws UploadException
-	 *             the upload exception
-	 */
-	protected UploadResult handleTextDataUpload(UploadDataParameter uploadParameter)
-			throws UploadException {
-
 		try {
 			byte[] data = uploadParameter.getData().getBytes(uploadParameter.getEncoding());
 			String encryptedData = encryptToString(uploadParameter, data);
@@ -178,13 +124,27 @@ public class Upload extends AbstractFacadeService {
 			return handlePostUpload(uploadParameter, response);
 
 		} catch (Exception e) {
-			Logger.error("Error on uploading text data: " + e.getMessage());
-			throw new UploadException(e);
+			throw new UploadException(format("Error on uploading text data: %s", uploadParameter.getData()), e);
+		}	}
+
+	/**
+	 * Upload a binary file.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @return the upload data
+	 * @throws UploadException the upload exception
+	 */
+	public UploadResult uploadBinary(UploadBinaryParameter uploadParameter)
+			throws UploadException {
+		try {
+			return handleBinaryUpload(uploadParameter, uploadParameter.getData());
+		} catch (Exception e) {
+			throw new UploadException("Error on uploading binary data", e);
 		}
 	}
 
 	/**
-	 * Handle file upload.
+	 * Upload path.
 	 *
 	 * @param uploadParameter
 	 *            the upload parameter
@@ -196,12 +156,37 @@ public class Upload extends AbstractFacadeService {
 	 * @throws ApiException
 	 *             the api exception
 	 */
-	protected UploadResult handleFileUpload(UploadFileParameter uploadParameter)
+	public UploadResult uploadPath(UploadPathParameter uploadParameter)
+			throws UploadException {
+		if (peerConnection instanceof RemotePeerConnection) {
+			throw new PathUploadNotSupportedException("Path upload is not supported for remote peer connection");
+		}
+
+		try {
+			byte[] response = (byte[])((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
+					uploadParameter.getKeywords(), uploadParameter.getMetaData());
+
+			return handlePostUpload(uploadParameter, response);
+		} catch (Exception e) {
+			throw new UploadException(format("Error on uploading path: %s", uploadParameter.getPath()), e);
+		}
+	}
+
+	public UploadResult uploadFilesAsZip(UploadMultiFilesParameter uploadParameter)
 			throws UploadException {
 
 		try {
+			byte[] data = zipFiles(uploadParameter.getFiles());
+			return handleBinaryUpload(uploadParameter, data);
+		} catch (Exception e) {
+			throw new UploadException("Error on uploading files as zip", e);
+		}
+	}
 
-			byte[] data = FileUtils.readFileToByteArray(uploadParameter.getData());
+
+	private UploadResult handleBinaryUpload(DataParameter uploadParameter, byte[] data)
+			throws UploadException {
+		try {
 			byte[] encryptedData = encryptToByte(uploadParameter, data);
 
 			UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
@@ -216,74 +201,41 @@ public class Upload extends AbstractFacadeService {
 			return handlePostUpload(uploadParameter, response);
 
 		} catch (Exception e) {
-			Logger.error("Error on uploading file data: " + e.getMessage());
-			throw new UploadException(e);
+			throw new UploadException("Error on uploading binary data", e);
 		}
 	}
 
-	/**
-	 * Handle binary upload.
-	 *
-	 * @param uploadParameter the upload parameter
-	 * @return the upload data
-	 * @throws UploadException the upload exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 */
-	protected UploadResult handleBinaryUpload(UploadBinaryParameter uploadParameter)
-			throws UploadException {
 
-		try {
-			byte[] encryptedData = encryptToByte(uploadParameter, uploadParameter.getData());
+	private byte[] zipFiles(List<File> files) throws UploadException {
 
-			UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
-					.contentType(uploadParameter.getContentType())
-					.keywords(uploadParameter.getKeywords())
-					.metadata(uploadParameter.getMetaData())
-					.name(uploadParameter.getName())
-					.data(encryptedData);
+		validateZipFilesArguments(files);
 
-			byte[] response = (byte[]) uploadApi.uploadBytesBinaryUsingPOST(parameter);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ZipOutputStream zos = new ZipOutputStream(baos)) {
 
-			return handlePostUpload(uploadParameter, response);
+			for (File file : files) {
+				ZipEntry entry = new ZipEntry(file.getName());
 
-		} catch (Exception e) {
-			Logger.error("Error on uploading binary data: " + e.getMessage());
-			throw new UploadException(e);
+				zos.putNextEntry(entry);
+				zos.write(FileUtils.readFileToByteArray(file));
+				zos.closeEntry();
+			};
+
+		} catch (IOException e) {
+			throw new UploadException(format("Unable to zip files together: %s", String.join(",",
+					files.stream().map(file -> file.getAbsolutePath()).collect(Collectors.toList()))), e);
 		}
+		return baos.toByteArray();
 	}
 
-	/**
-	 * Handle path upload.
-	 *
-	 * @param uploadParameter
-	 *            the upload parameter
-	 * @return the upload data
-	 * @throws UploadException
-	 *             the upload exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
-	 */
-	// can only be called if the connection is local really.
-	protected UploadResult handlePathUpload(UploadPathParameter uploadParameter) throws UploadException {
+	private void validateZipFilesArguments(List<File> files) throws UploadException {
+		if (files.size() == 0)
+			throw new UploadException("No file to upload");
 
-		if (peerConnection instanceof RemotePeerConnection) {
-			throw new PathUploadNotSupportedException("Path upload is not supported for remote peer connection");
-		}
-
-		try {
-			byte[] response = (byte[])((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
-					uploadParameter.getKeywords(), uploadParameter.getMetaData());
-
-			return handlePostUpload(uploadParameter, response);
-		} catch (Exception e) {
-			Logger.error("Error on uploading path: " + e.getMessage());
-			throw new UploadException(e);
-		}
+		long uniqueFileNameCount = files.stream().map(file -> file.getName()).distinct().count();
+		if (uniqueFileNameCount < files.size())
+			throw new UploadException(format("File names should be unique to zip files together: %s",
+					String.join(",", files.stream().map(file -> file.getName()).collect(Collectors.toList()))));
 	}
 
 	private UploadResult handlePostUpload(DataParameter parameter, byte[] response) throws Exception {
@@ -304,12 +256,12 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
-	private String encryptToString(DataParameter parameter, byte[] messageData) throws UnsupportedEncodingException {
+	private String encryptToString(DataParameter parameter, byte[] messageData) {
 		return MessageEncryptUtils.encryptToString(parameter.getMessageType(), messageData,
 				parameter.getSenderOrReceiverPrivateKey(), parameter.getSenderOrReceiverPrivateKey());
 	}
 
-	private byte[] encryptToByte(DataParameter parameter, byte[] messageData) throws UnsupportedEncodingException {
+	private byte[] encryptToByte(DataParameter parameter, byte[] messageData) {
 		return MessageEncryptUtils.encryptToByte(parameter.getMessageType(), messageData,
 				parameter.getSenderOrReceiverPrivateKey(), parameter.getSenderOrReceiverPrivateKey());
 	}

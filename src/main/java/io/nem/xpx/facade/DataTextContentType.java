@@ -20,8 +20,10 @@ public enum DataTextContentType {
 	APPLICATION_JSON("application/json"),
 	
 	/** The application xml. */
-	APPLICATION_XML("application/xml");
-	
+	APPLICATION_XML("application/xml"),
+
+	APPLICATION_ZIP("application/zip");
+
 	/** The value. */
 	private String value;
 
