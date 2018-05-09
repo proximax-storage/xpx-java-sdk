@@ -11,6 +11,7 @@ import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
 import io.nem.xpx.model.*;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
@@ -183,6 +184,21 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	public MultiFileUploadResult uploadMultipleFiles(UploadMultiFilesParameter uploadParameter)
+			throws UploadException {
+
+        List<FileUploadResult> fileUploadResults = uploadParameter.getFiles()
+                .parallelStream()
+                .map(file -> {
+                    try {
+                        byte[] data = FileUtils.readFileToByteArray(file);
+                        return new FileUploadResult(file, handleBinaryUpload(uploadParameter, data));
+                    } catch (Exception e) {
+                        return new FileUploadResult(file, new UploadException(format("Error on uploading file data: %s", file.getAbsolutePath()), e));
+                    }
+                }).collect(Collectors.toList());
+        return new MultiFileUploadResult(fileUploadResults);
+	}
 
 	private UploadResult handleBinaryUpload(DataParameter uploadParameter, byte[] data)
 			throws UploadException {

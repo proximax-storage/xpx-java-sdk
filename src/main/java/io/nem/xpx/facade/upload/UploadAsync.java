@@ -4,18 +4,18 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.facade.AbstractAsyncFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.model.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.function.Function;
 
 
 /**
  * The Class Upload.
  */
-public class UploadAsync {
+public class UploadAsync extends AbstractAsyncFacadeService {
 
 	private Upload upload;
 
@@ -118,14 +118,15 @@ public class UploadAsync {
 				}, uploadParameter, callback);
 	}
 
-	private <T> CompletableFuture<UploadResult> runAsync(final Function<T, UploadResult> uploadFunction, final T uploadParameter,
-														 final ServiceAsyncCallback<UploadResult> callback) {
-		return CompletableFuture
-				.supplyAsync(() -> uploadFunction.apply(uploadParameter))
-				.thenApply(uploadResult -> {
-					callback.process(uploadResult);
-					return uploadResult;
-				});
-	}
+	public CompletableFuture<MultiFileUploadResult> uploadMultipleFiles(UploadMultiFilesParameter uploadParameter, ServiceAsyncCallback<MultiFileUploadResult> callback) {
 
+		return runAsync(
+				parameter -> {
+					try {
+						return upload.uploadMultipleFiles(parameter);
+					} catch (UploadException e) {
+						throw new CompletionException(e);
+					}
+				}, uploadParameter, callback);
+	}
 }
