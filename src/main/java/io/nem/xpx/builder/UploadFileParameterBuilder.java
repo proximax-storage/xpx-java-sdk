@@ -1,14 +1,16 @@
 package io.nem.xpx.builder;
 
-import java.io.File;
-import java.io.IOException;
-import org.apache.commons.io.FileUtils;
-import org.apache.tika.Tika;
-import org.nem.core.model.MessageTypes;
-import org.nem.core.model.mosaic.Mosaic;
 import io.nem.xpx.adapters.cipher.CustomEncryption;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadFileParameter;
+import io.nem.xpx.utils.ContentTypeUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.surefire.shade.org.codehaus.plexus.util.StringUtils;
+import org.nem.core.model.MessageTypes;
+import org.nem.core.model.mosaic.Mosaic;
+
+import java.io.File;
+import java.io.IOException;
 
 
 
@@ -184,9 +186,6 @@ public class UploadFileParameterBuilder {
 		/** The instance. */
 		UploadFileParameter instance = null;
 		
-		/** The tika. */
-		Tika tika = new Tika();
-
 		/**
 		 * Instantiates a new builder.
 		 */
@@ -287,11 +286,8 @@ public class UploadFileParameterBuilder {
 		 */
 		@Override
 		public IName contentType(String contentType) {
-			if(contentType == null || contentType.equals("")) {
-				Tika tika = new Tika();
-				contentType = tika.detect(contentType);
-			}
-			this.instance.setContentType(contentType);
+			if (StringUtils.isNotEmpty(contentType))
+				this.instance.setContentType(contentType);
 			return this;
 		}
 
@@ -311,7 +307,7 @@ public class UploadFileParameterBuilder {
 		public IBuild data(File data) throws IOException {
 			this.instance.setData(data);
 			this.instance.setName(data.getName());
-			this.instance.setContentType(tika.detect(FileUtils.readFileToByteArray(data)));
+			this.instance.setContentType(ContentTypeUtils.detectContentType(FileUtils.readFileToByteArray(data)));
 			return this;
 		}
 

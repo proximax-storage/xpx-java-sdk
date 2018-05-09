@@ -1,32 +1,25 @@
 package io.nem.xpx.facade.upload.local;
 
-import io.nem.xpx.builder.UploadMultiFilesParameterBuilder;
+import io.nem.xpx.builder.UploadFilesAsZipParameterBuilder;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.model.UploadMultiFilesParameter;
+import io.nem.xpx.model.UploadFilesAsZipParameter;
 import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
+import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
 @Category(RemoteIntegrationTest.class)
 public class UploadAsyncLocalZipFileTest extends AbstractApiTest {
-
-	public static final File FILE1 = new File("src//test//resources//test_pdf_file_v1.pdf");
-	public static final File FILE2 = new File("src//test//resources//test_pdf_file_v2.pdf");
 
 	private UploadAsync unitUnderTest;
 
@@ -41,15 +34,15 @@ public class UploadAsyncLocalZipFileTest extends AbstractApiTest {
 	@Test
 	public void shouldUploadFilesAsZipAsync() throws Exception {
 
-		UploadMultiFilesParameter parameter = UploadMultiFilesParameterBuilder
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
 				.messageType(MessageTypes.PLAIN)
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
-				.zipFileName("test.zip")
-				.addFile(FILE1)
-				.addFile(FILE2)
-				.keywords("plain,file")
-				.metadata(JsonUtils.toJson(aSampleMetadata()))
+				.zipFileName(SAMPLE_ZIP_FILE_NAME)
+				.addFile(SAMPLE_PDF_FILE1)
+				.addFile(SAMPLE_PDF_FILE2)
+				.keywords(SAMPLE_KEYWORDS)
+				.metadata(SAMPLE_METADATA)
 				.build();
 
 		UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter,
@@ -57,13 +50,12 @@ public class UploadAsyncLocalZipFileTest extends AbstractApiTest {
 
 		assertNotNull(uploadResult);
 		assertNotNull(uploadResult.getNemHash());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-
-	private Map<String, String> aSampleMetadata() {
-		Map<String,String> metaData = new HashMap<String,String>();
-		metaData.put("key1", "value1");
-		return metaData;
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(SAMPLE_KEYWORDS, uploadResult.getDataMessage().keywords());
+		assertEquals(SAMPLE_ZIP_FILE_NAME, uploadResult.getDataMessage().name());
+		assertEquals(SAMPLE_METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 	}
 }
