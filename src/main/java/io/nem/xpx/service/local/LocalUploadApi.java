@@ -207,7 +207,7 @@ public class LocalUploadApi implements UploadApi {
 				|| (parameter.getContentType() != null && parameter.getContentType().equals(""))) {
 			parameter.setContentType("text/plain");
 		}
-		dataHashByteArrayEntity.setFile(parameter.getText().getBytes(parameter.getEncoding()));
+		dataHashByteArrayEntity.setFile(org.apache.commons.codec.binary.Base64.decodeBase64(parameter.getText()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
 			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
 		} else {
