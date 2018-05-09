@@ -74,7 +74,8 @@ public class LocalUploadApi implements UploadApi {
 
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 		String contentType = parameter.getContentType();
-		dataHashByteArrayEntity.setFile(parameter.getData().getBytes());
+		dataHashByteArrayEntity.setFile(
+				org.apache.commons.codec.binary.Base64.decodeBase64(parameter.getData().getBytes()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
 			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
 		} else {
@@ -136,7 +137,8 @@ public class LocalUploadApi implements UploadApi {
 
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
 		String contentType = parameter.getContentType();
-		dataHashByteArrayEntity.setFile(parameter.getData());
+		dataHashByteArrayEntity.setFile(
+				org.apache.commons.codec.binary.Base64.decodeBase64(parameter.getData()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
 			dataHashByteArrayEntity.setName(Math.abs(System.currentTimeMillis()) + "");
 		} else {

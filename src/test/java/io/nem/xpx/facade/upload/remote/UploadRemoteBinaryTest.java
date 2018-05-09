@@ -49,17 +49,23 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
 					.name("test_pdf_file_v1")
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.contentType("application/pdf").keywords("test_pdf_file_v1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
+					.contentType("video/mp4")
+					.keywords("large_video")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
-
+			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
+			
+			
+			
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);

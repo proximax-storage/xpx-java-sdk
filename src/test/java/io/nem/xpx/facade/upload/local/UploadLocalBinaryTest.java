@@ -20,6 +20,8 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
+import org.pmw.tinylog.Logger;
+
 import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
@@ -62,6 +64,37 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.contentType("application/pdf")
 					.keywords("test_pdf_file_v1")
+					.metadata(JsonUtils.toJson(metaData))
+					.build();
+
+			String nemhash = upload.uploadBinary(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testUploadPlainZipBinaryTest() {
+		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
+				ConnectionFactory.createNemNodeConnection("http", "23.228.67.85", 7890),
+				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+				);
+		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "value1");
+			Upload upload = new Upload(localPeerConnection);
+			
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("test_large_file")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip")))
+					.contentType("application/zip")
+					.keywords("test_large_file")
 					.metadata(JsonUtils.toJson(metaData))
 					.build();
 
@@ -136,6 +169,7 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 					.build();
 			
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
+			Logger.info(nemhash);
 		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);

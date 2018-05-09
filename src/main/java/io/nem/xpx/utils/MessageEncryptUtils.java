@@ -14,7 +14,7 @@ public class MessageEncryptUtils {
     }
 
     public static String encryptToString(int messageType, byte[] data,
-                           String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) throws UnsupportedEncodingException {
+                           String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
         if (messageType == MessageTypes.SECURE) {
             byte[] encrypted = encryptSecure(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
             return Base64.encodeBase64String(encrypted);
@@ -24,7 +24,7 @@ public class MessageEncryptUtils {
     }
 
     public static byte[] encryptToByte(int messageType, byte[] data,
-                           String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) throws UnsupportedEncodingException {
+                           String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
         if (messageType == MessageTypes.SECURE) {
             byte[] encrypted = encryptSecure(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
             return Base64.encodeBase64(encrypted);
