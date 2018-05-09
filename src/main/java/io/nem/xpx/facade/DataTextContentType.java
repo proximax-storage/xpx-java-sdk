@@ -22,7 +22,9 @@ public enum DataTextContentType {
 	/** The application xml. */
 	APPLICATION_XML("application/xml"),
 
-	APPLICATION_ZIP("application/zip");
+	APPLICATION_ZIP("application/zip"),
+
+	APPLICATION_PDF("application/pdf");
 
 	/** The value. */
 	private String value;

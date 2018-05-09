@@ -1,12 +1,15 @@
 package io.nem.xpx.remote;
 
 import io.nem.ApiClient;
+import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -16,7 +19,14 @@ import java.util.logging.Logger;
  */
 
 public abstract class AbstractApiTest {
-	
+
+	public static final File SAMPLE_PDF_FILE1 = new File("src//test//resources//test_pdf_file_v1.pdf");
+	public static final File SAMPLE_PDF_FILE2 = new File("src//test//resources//test_pdf_file_v2.pdf");
+	public static final File SAMPLE_NON_EXISTENT_FILE = new File("src//test//resources//pdf_non_existent.pdf");
+	public static final String SAMPLE_ZIP_FILE_NAME = "test.zip";
+	public static final String SAMPLE_KEYWORDS = "plain,file";
+	public static final String SAMPLE_METADATA = aSampleMetadata();
+
 	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
 
@@ -88,5 +98,11 @@ public abstract class AbstractApiTest {
 	 */
 	public long extractSmallFileSize() throws IOException {
 		return FileUtils.sizeOf(new File("src//test//resources//test_small_file.txt"));
+	}
+
+	private static String aSampleMetadata() {
+		Map<String,String> metaData = new HashMap<String,String>();
+		metaData.put("key1", "value1");
+		return JsonUtils.toJson(metaData);
 	}
 }

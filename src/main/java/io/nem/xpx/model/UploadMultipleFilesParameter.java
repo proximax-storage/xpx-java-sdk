@@ -8,7 +8,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 
-public class UploadMultiFilesParameter extends DataParameter implements Serializable {
+public class UploadMultipleFilesParameter extends DataParameter implements Serializable {
 
 	private List<File> files = new ArrayList<>();
 
@@ -27,4 +27,5 @@ public class UploadMultiFilesParameter extends DataParameter implements Serializ
 	public void addFile(File file) {
 		this.files.add(file);
 	}
+
 }

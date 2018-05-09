@@ -15,7 +15,7 @@ import java.util.function.Function;
 /**
  * The Class Upload.
  */
-public class UploadAsync {
+public class UploadAsync  {
 
 	private Upload upload;
 
@@ -106,7 +106,7 @@ public class UploadAsync {
 				}, uploadParameter, callback);
 	}
 
-	public CompletableFuture<UploadResult> uploadFilesAsZip(UploadMultiFilesParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+	public CompletableFuture<UploadResult> uploadFilesAsZip(UploadFilesAsZipParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
 				parameter -> {
@@ -118,8 +118,20 @@ public class UploadAsync {
 				}, uploadParameter, callback);
 	}
 
-	private <T> CompletableFuture<UploadResult> runAsync(final Function<T, UploadResult> uploadFunction, final T uploadParameter,
-														 final ServiceAsyncCallback<UploadResult> callback) {
+	public CompletableFuture<MultiFileUploadResult> uploadMultipleFiles(UploadMultipleFilesParameter uploadParameter, ServiceAsyncCallback<MultiFileUploadResult> callback) {
+
+		return runAsync(
+				parameter -> {
+					try {
+						return upload.uploadMultipleFiles(parameter);
+					} catch (UploadException e) {
+						throw new CompletionException(e);
+					}
+				}, uploadParameter, callback);
+	}
+
+	private <T, U> CompletableFuture<U> runAsync(final Function<T, U> uploadFunction, final T uploadParameter,
+														 final ServiceAsyncCallback<U> callback) {
 		return CompletableFuture
 				.supplyAsync(() -> uploadFunction.apply(uploadParameter))
 				.thenApply(uploadResult -> {
@@ -127,5 +139,4 @@ public class UploadAsync {
 					return uploadResult;
 				});
 	}
-
 }

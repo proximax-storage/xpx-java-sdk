@@ -1,7 +1,7 @@
 package io.nem.xpx.builder;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.UploadMultiFilesParameter;
+import io.nem.xpx.model.UploadFilesAsZipParameter;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.File;
@@ -13,11 +13,11 @@ import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
 /**
  * The Class UploadFileParameterBuilder.
  */
-public class UploadMultiFilesParameterBuilder {
+public class UploadFilesAsZipParameterBuilder {
 	/**
 	 * Instantiates a new transaction builder.
 	 */
-	private UploadMultiFilesParameterBuilder() {
+	private UploadFilesAsZipParameterBuilder() {
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class UploadMultiFilesParameterBuilder {
 	 * @return the i message type
 	 */
 	public static IMessageType messageType(int messageType) {
-		return new UploadMultiFilesParameterBuilder.Builder(messageType);
+		return new UploadFilesAsZipParameterBuilder.Builder(messageType);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class UploadMultiFilesParameterBuilder {
 		 * @return the i name
 		 */
 		IBuild zipFileName(String name);
-		
+
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class UploadMultiFilesParameterBuilder {
 		 * @return the upload file parameter
 		 * @throws ApiException the api exception
 		 */
-		UploadMultiFilesParameter build();
+		UploadFilesAsZipParameter build();
 	}
 
 	/**
@@ -124,13 +124,13 @@ public class UploadMultiFilesParameterBuilder {
 			implements ISender, IMessageType , IName, IBuild {
 
 		/** The instance. */
-		UploadMultiFilesParameter instance;
+		UploadFilesAsZipParameter instance;
 		
 		/**
 		 * Instantiates a new builder.
 		 */
 		public Builder() {
-			instance = new UploadMultiFilesParameter();
+			instance = new UploadFilesAsZipParameter();
 			instance.setContentType(APPLICATION_ZIP.toString());
 		}
 		
@@ -163,7 +163,7 @@ public class UploadMultiFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#build()
 		 */
 		@Override
-		public UploadMultiFilesParameter build() {
+		public UploadFilesAsZipParameter build() {
 			return instance;
 		}
 

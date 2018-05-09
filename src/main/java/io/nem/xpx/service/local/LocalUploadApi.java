@@ -21,9 +21,9 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.*;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.utils.ContentTypeUtils;
 import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.tika.Tika;
 import org.pmw.tinylog.Logger;
 
 import java.io.File;
@@ -73,7 +73,6 @@ public class LocalUploadApi implements UploadApi {
 			throws ApiException, IOException, NoSuchAlgorithmException {
 
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
-		String contentType = parameter.getContentType();
 		dataHashByteArrayEntity.setFile(
 				org.apache.commons.codec.binary.Base64.decodeBase64(parameter.getData().getBytes()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
@@ -82,12 +81,7 @@ public class LocalUploadApi implements UploadApi {
 			dataHashByteArrayEntity.setName(parameter.getName());
 		}
 
-		if (parameter.getContentType() == null
-				|| (parameter.getContentType() != null && parameter.getContentType().equals(""))) {
-			contentType = new Tika().detect(parameter.getData());
-		}
-
-		dataHashByteArrayEntity.setContentType(contentType);
+		dataHashByteArrayEntity.setContentType(ContentTypeUtils.contentTypeLookup(parameter.getContentType(), parameter.getData()));
 		dataHashByteArrayEntity.setKeywords(parameter.getKeywords());
 		dataHashByteArrayEntity.setMetadata(
 				(parameter.getMetadata() == null) ? null : JsonUtils.fromJson(parameter.getMetadata(), Map.class));
@@ -136,7 +130,6 @@ public class LocalUploadApi implements UploadApi {
 			throws ApiException, IOException, NoSuchAlgorithmException {
 
 		DataHashByteArrayEntity dataHashByteArrayEntity = new DataHashByteArrayEntity();
-		String contentType = parameter.getContentType();
 		dataHashByteArrayEntity.setFile(
 				org.apache.commons.codec.binary.Base64.decodeBase64(parameter.getData()));
 		if (parameter.getName() == null || (parameter.getName() != null && parameter.getName().equals(""))) {
@@ -145,11 +138,7 @@ public class LocalUploadApi implements UploadApi {
 			dataHashByteArrayEntity.setName(parameter.getName());
 		}
 
-		if (contentType == null || (contentType != null && contentType.equals(""))) {
-			contentType = new Tika().detect(parameter.getData());
-		}
-
-		dataHashByteArrayEntity.setContentType(contentType);
+		dataHashByteArrayEntity.setContentType(ContentTypeUtils.contentTypeLookup(parameter.getContentType(), parameter.getData()));
 		dataHashByteArrayEntity.setKeywords(parameter.getKeywords());
 		dataHashByteArrayEntity.setMetadata(
 				(parameter.getMetadata() == null) ? null : JsonUtils.fromJson(parameter.getMetadata(), Map.class));
