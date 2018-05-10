@@ -1,32 +1,19 @@
 package io.nem.xpx.facade.upload.remote;
 
-import io.nem.xpx.builder.UploadFilesAsZipParameterBuilder;
 import io.nem.xpx.builder.UploadMultipleFilesParameterBuilder;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFilesAsZipParameter;
 import io.nem.xpx.model.UploadMultipleFilesParameter;
 import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
-import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Quantity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
-import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
 import static org.junit.Assert.*;
 
 

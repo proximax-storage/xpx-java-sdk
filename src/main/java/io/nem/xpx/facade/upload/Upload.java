@@ -19,7 +19,7 @@ import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.ContentTypeUtils;
 import io.nem.xpx.utils.JsonUtils;
-import io.nem.xpx.utils.MessageEncryptUtils;
+import io.nem.xpx.utils.MessageEncryptionUtils;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -112,7 +112,7 @@ public class Upload extends AbstractFacadeService {
 			throws UploadException {
 		try {
 			byte[] data = uploadParameter.getData().getBytes(uploadParameter.getEncoding());
-			String encryptedData = MessageEncryptUtils.encryptToString(uploadParameter.getMessageType(), data,
+			String encryptedData = MessageEncryptionUtils.encryptToString(uploadParameter.getMessageType(), data,
 					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getSenderOrReceiverPrivateKey());
 
 			UploadTextRequestParameter apiParams = new UploadTextRequestParameter()
@@ -221,7 +221,7 @@ public class Upload extends AbstractFacadeService {
 											byte[] data) throws UploadException {
 		try {
 			byte[] encryptedData =
-					MessageEncryptUtils.encryptToByte(messageType, data, senderOrReceiverPrivateKey, receiverOrSenderPublicKey);
+					MessageEncryptionUtils.encryptToByte(messageType, data, senderOrReceiverPrivateKey, receiverOrSenderPublicKey);
 
 			UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
 					.contentType(contentType)

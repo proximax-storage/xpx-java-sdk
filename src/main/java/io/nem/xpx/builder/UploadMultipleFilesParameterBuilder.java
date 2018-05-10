@@ -1,5 +1,6 @@
 package io.nem.xpx.builder;
 
+import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadMultipleFilesParameter;
 import org.nem.core.model.mosaic.Mosaic;
@@ -26,72 +27,18 @@ public class UploadMultipleFilesParameterBuilder {
 	 * @param messageType the message type
 	 * @return the i message type
 	 */
-	public static IMessageType messageType(int messageType) {
+	public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<FinalSteps>> messageType(int messageType) {
 		return new UploadMultipleFilesParameterBuilder.Builder(messageType);
-	}
-	
-	/**
-	 * The Interface IMessageType.
-	 */
-	public interface IMessageType {
-		
-		/**
-		 * Sender or receiver private key.
-		 *
-		 * @param senderOrReceiverPrivateKey the sender or receiver private key
-		 * @return the i sender
-		 */
-		ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey);
-	}
-
-	/**
-	 * The Interface ISender.
-	 */
-	public interface ISender {
-		
-		/**
-		 * Receiver or sender public key.
-		 *
-		 * @param receiverOrSenderPublicKey the receiver or sender public key
-		 * @return the i name
-		 */
-		IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey);
 	}
 
 	/**
 	 * The Interface IBuild.
 	 */
-	public interface IBuild {
-
-		IBuild addFiles(File... files);
-
-		IBuild addFiles(List<File> files);
-
-		IBuild addFile(File file);
-
-		/**
-		 * Keywords.
-		 *
-		 * @param keywords the keywords
-		 * @return the i build
-		 */
-		IBuild keywords(String keywords);
-		
-		/**
-		 * Metadata.
-		 *
-		 * @param metadata the metadata
-		 * @return the i build
-		 */
-		IBuild metadata(String metadata);
-		
-		/**
-		 * Mosaics.
-		 *
-		 * @param mosaics the mosaics
-		 * @return the i build
-		 */
-		IBuild mosaics(Mosaic... mosaics);
+	public interface FinalSteps
+			extends FilesStep<FinalSteps>,
+			KeywordsStep<FinalSteps>,
+			MetadataStep<FinalSteps>,
+			MosaicsStep<FinalSteps> {
 
 		/**
 		 * Builds the.
@@ -106,7 +53,9 @@ public class UploadMultipleFilesParameterBuilder {
 	 * The Class Builder.
 	 */
 	private static class Builder
-			implements ISender, IMessageType , IBuild {
+			implements SenderOrReceiverPrivateKeyStep,
+			ReceiverOrSenderPublicKeyStep,
+            FinalSteps {
 
 		/** The instance. */
 		UploadMultipleFilesParameter instance;
@@ -137,14 +86,14 @@ public class UploadMultipleFilesParameterBuilder {
 		 * model.mosaic.Mosaic[])
 		 */
 		@Override
-		public IBuild mosaics(Mosaic... mosaics) {
+		public FinalSteps mosaics(Mosaic... mosaics) {
 			instance.setMosaics(mosaics);
 			return this;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see io.nem.xpx.builder.UploadDataParameterBuilder.IBuild#build()
 		 */
 		@Override
@@ -156,7 +105,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#keywords(java.lang.String)
 		 */
 		@Override
-		public IBuild keywords(String keywords) {
+		public FinalSteps keywords(String keywords) {
 			this.instance.setKeywords(keywords);
 			return this;
 		}
@@ -165,7 +114,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#metadata(java.lang.String)
 		 */
 		@Override
-		public IBuild metadata(String metadata) {
+		public FinalSteps metadata(String metadata) {
 			this.instance.setMetaData(metadata);
 			return this;
 		}
@@ -174,7 +123,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IMessageType#senderOrReceiverPrivateKey(java.lang.String)
 		 */
 		@Override
-		public ISender senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
+		public ReceiverOrSenderPublicKeyStep senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
 			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
 			return this;
 		}
@@ -183,7 +132,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
 		 */
 		@Override
-		public IBuild addFiles(File... files) {
+		public FinalSteps addFiles(File... files) {
 			this.instance.addFiles(files);
 			return this;
 		}
@@ -192,7 +141,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
 		 */
 		@Override
-		public IBuild addFiles(List<File> files) {
+		public FinalSteps addFiles(List<File> files) {
 			this.instance.addFiles(files);
 			return this;
 		}
@@ -201,7 +150,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
 		 */
 		@Override
-		public IBuild addFile(File file) {
+		public FinalSteps addFile(File file) {
 			this.instance.addFiles(file);
 			return this;
 		}
@@ -210,7 +159,7 @@ public class UploadMultipleFilesParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#receiverOrSenderPublicKey(java.lang.String)
 		 */
 		@Override
-		public IBuild receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
+		public FinalSteps receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
 			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
 			return this;
 		}
