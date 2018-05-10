@@ -2,9 +2,12 @@ package io.nem.xpx.facade.upload.remote;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -56,8 +59,39 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
 					.name("NAME1")
-					.data(new String("test plain - new 1".getBytes(),"UTF-8"))
+					.data(new String("!\"#$%&'()*+,-.:	 ;<=>?@[\\]^_`{|}~".getBytes(),"UTF-8"))
 					.contentType(DataTextContentType.TEXT_PLAIN)
+					.encoding("UTF-8")
+					.keywords("plain,data")
+					.metadata(JsonUtils.toJson(metaData)) // one level map to json
+					.build();
+
+			String nemhash = upload.uploadTextData(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+			
+		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+			LOGGER.info(e.getCause().getMessage());
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void uploadPlainDataHtmlTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+			Map<String,String> metaData = new HashMap<String,String>();
+			metaData.put("key1", "value1");
+			Upload upload = new Upload(remotePeerConnection);
+
+			UploadDataParameter parameter = UploadDataParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("NAME1")
+					.data(FileUtils.readFileToString(new File("src//test//resources//test_html.html")))
+					.contentType(DataTextContentType.TEXT_HTML)
 					.encoding("UTF-8")
 					.keywords("plain,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json

@@ -54,6 +54,41 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
 					.name("test_pdf_file_v1")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
+					.contentType("application/pdf")
+					.keywords("test_pdf_file_v1")
+					.metadata(JsonUtils.toJson(metaData))
+					.build();
+			
+			String nemhash = upload.uploadBinary(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+			
+			
+			
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	
+	@Test
+	
+	public void uploadPlainLargeVideoBinaryTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "1");
+
+			Upload upload = new Upload(remotePeerConnection);
+
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
 					.contentType("video/mp4")
 					.keywords("large_video")
@@ -71,6 +106,41 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void uploadPlainSmallVideoBinaryTest() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+			Map<String, String> metaData = new HashMap<String, String>();
+			metaData.put("key1", "1");
+
+			Upload upload = new Upload(remotePeerConnection);
+
+			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
+					.messageType(MessageTypes.PLAIN)
+					.senderOrReceiverPrivateKey(this.xPvkey)
+					.receiverOrSenderPublicKey(this.xPubkey)
+					.name("test_file")
+					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_file.mov")))
+					.contentType("video/mp4")
+					.keywords("test_file")
+					.metadata(JsonUtils.toJson(metaData))
+					.build();
+			
+			String nemhash = upload.uploadBinary(parameter).getNemHash();
+			LOGGER.info(nemhash);
+			Assert.assertNotNull(nemhash);
+			
+			
+			
+		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	
 
 	/**
 	 * Upload secure file test.
