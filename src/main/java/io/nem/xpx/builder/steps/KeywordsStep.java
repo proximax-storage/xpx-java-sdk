@@ -2,6 +2,6 @@ package io.nem.xpx.builder.steps;
 
 import io.nem.xpx.builder.UploadFilesAsZipParameterBuilder;
 
-public interface KeywordsStep<T> {
+public interface KeywordsStep<T extends KeywordsStep<T>> {
     T keywords(String keywords);
 }

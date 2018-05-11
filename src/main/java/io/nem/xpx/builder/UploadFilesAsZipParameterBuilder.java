@@ -3,6 +3,7 @@ package io.nem.xpx.builder;
 import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadFilesAsZipParameter;
+import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class UploadFilesAsZipParameterBuilder {
 	 * @param messageType the message type
 	 * @return the i message type
 	 */
-	public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<ZipFileNameStep<FinalSteps>>> messageType(int messageType) {
+	public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<ZipFileNameStep<BuildStep>>> messageType(int messageType) {
 		return new UploadFilesAsZipParameterBuilder.Builder(messageType);
 	}
 	
@@ -35,10 +36,11 @@ public class UploadFilesAsZipParameterBuilder {
 	/**
 	 * The Interface IBuild.
 	 */
-	public interface FinalSteps extends FilesStep<FinalSteps>,
-			KeywordsStep<FinalSteps>,
-			MetadataStep<FinalSteps>,
-			MosaicsStep<FinalSteps> {
+	public interface BuildStep extends FilesStep<BuildStep>,
+			KeywordsStep<BuildStep>,
+			MetadataStep<BuildStep>,
+			MosaicsStep<BuildStep>,
+			PrivacyStrategyStep<BuildStep> {
 
 		/**
 		 * Builds the.
@@ -56,7 +58,7 @@ public class UploadFilesAsZipParameterBuilder {
 			implements SenderOrReceiverPrivateKeyStep,
 			ReceiverOrSenderPublicKeyStep,
 			ZipFileNameStep,
-			FinalSteps {
+			BuildStep {
 
 		/** The instance. */
 		UploadFilesAsZipParameter instance;
@@ -87,7 +89,7 @@ public class UploadFilesAsZipParameterBuilder {
 		 * model.mosaic.Mosaic[])
 		 */
 		@Override
-		public FinalSteps mosaics(Mosaic... mosaics) {
+		public BuildStep mosaics(Mosaic... mosaics) {
 			instance.setMosaics(mosaics);
 			return this;
 		}
@@ -106,7 +108,7 @@ public class UploadFilesAsZipParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#keywords(java.lang.String)
 		 */
 		@Override
-		public FinalSteps keywords(String keywords) {
+		public BuildStep keywords(String keywords) {
 			this.instance.setKeywords(keywords);
 			return this;
 		}
@@ -115,7 +117,7 @@ public class UploadFilesAsZipParameterBuilder {
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IBuild#metadata(java.lang.String)
 		 */
 		@Override
-		public FinalSteps metadata(String metadata) {
+		public BuildStep metadata(String metadata) {
 			this.instance.setMetaData(metadata);
 			return this;
 		}
@@ -130,33 +132,6 @@ public class UploadFilesAsZipParameterBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
-		 */
-		@Override
-		public FinalSteps addFiles(File... files) {
-			this.instance.addFiles(files);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
-		 */
-		@Override
-		public FinalSteps addFiles(List<File> files) {
-			this.instance.addFiles(files);
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#data(java.io.File)
-		 */
-		@Override
-		public FinalSteps addFile(File file) {
-			this.instance.addFiles(file);
-			return this;
-		}
-
-		/* (non-Javadoc)
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.ISender#receiverOrSenderPublicKey(java.lang.String)
 		 */
 		@Override
@@ -165,13 +140,33 @@ public class UploadFilesAsZipParameterBuilder {
 			return this;
 		}
 
+		@Override
+		public String getSenderOrReceiverPrivateKey() {
+			return this.instance.getSenderOrReceiverPrivateKey();
+		}
+
+		@Override
+		public String getReceiverOrSenderPublicKey() {
+			return this.instance.getReceiverOrSenderPublicKey();
+		}
+
 		/* (non-Javadoc)
 		 * @see io.nem.xpx.builder.UploadFileParameterBuilder.IName#name(java.lang.String)
 		 */
 		@Override
-		public FinalSteps zipFileName(String name) {
+		public BuildStep zipFileName(String name) {
 			this.instance.setName(name);
 			return this;
+		}
+
+		@Override
+		public void setPrivacyStrategy(PrivacyStrategy privacyStrategy) {
+			// TODO
+		}
+
+		@Override
+		public List<File> getFiles() {
+			return instance.getFiles();
 		}
 	}
 }

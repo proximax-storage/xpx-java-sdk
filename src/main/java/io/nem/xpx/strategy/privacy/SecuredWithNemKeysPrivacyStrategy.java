@@ -1,32 +1,34 @@
 package io.nem.xpx.strategy.privacy;
 
+import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.MessageEncryptionUtils;
 import org.nem.core.model.TransferTransaction;
 
 import static java.lang.String.format;
 
-public class SecuredWithNemKeysPrivacyStrategy extends AbstractPrivacyStrategy {
+public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
 
     private String senderOrReceiverPrivateKey;
     private String receiverOrSenderPublicKey;
 
     public SecuredWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
+        super(NemMessageType.SECURE);
         this.senderOrReceiverPrivateKey = senderOrReceiverPrivateKey;
         this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
     }
 
+    @Override
     public byte[] encrypt(final byte[] data) {
         return MessageEncryptionUtils.encryptWithNemKeys(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
     }
 
+    @Override
     public byte[] decrypt(final byte[] data, final TransferTransaction transaction, final ResourceHashMessage hashMessage) {
         if (transaction.getSigner().getAddress().getEncoded().equals(senderOrReceiverPrivateKey)) {
-            return MessageEncryptionUtils.decryptWithNemKeys(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
-
+            return MessageEncryptionUtils.decryptWithSenderPrivateNemKey(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
         } else if (transaction.getRecipient().getAddress().getEncoded().equals(senderOrReceiverPrivateKey)) {
-            return MessageEncryptionUtils.decryptWithNemKeys(receiverOrSenderPublicKey, senderOrReceiverPrivateKey, data);
-
+            return MessageEncryptionUtils.decryptWithReceiverPrivateNemKey(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
         } else {
             throw new RuntimeException(format("Decrypt of data is unsuccessful for %s", hashMessage.hash()));
         }
