@@ -22,8 +22,9 @@ public class UploadTextDataParameter extends DataParameter implements Serializab
 	private static final long serialVersionUID = 1L;
 	/** The data. */
 	private String data;
-	
-	
+	/** The encoding. */
+	private String encoding;
+
 	/**
 	 * Gets the data.
 	 *
@@ -40,6 +41,24 @@ public class UploadTextDataParameter extends DataParameter implements Serializab
 	 */
 	public void setData(String data) {
 		this.data = data;
+	}
+
+	/**
+	 * Gets the encoding.
+	 *
+	 * @return the encoding
+	 */
+	public String getEncoding() {
+		return encoding;
+	}
+
+	/**
+	 * Sets the encoding.
+	 *
+	 * @param encoding the new encoding
+	 */
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public static SenderOrReceiverPrivateKeyStep

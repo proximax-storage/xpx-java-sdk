@@ -20,9 +20,6 @@ public class DataParameter {
 	/** The content type. */
 	private String contentType;
 	
-	/** The encoding. */
-	private String encoding;
-	
 	/** The name. */
 	private String name;
 	
@@ -73,25 +70,6 @@ public class DataParameter {
 	public void setReceiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
 		this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
 	}
-
-	/**
-	 * Gets the encoding.
-	 *
-	 * @return the encoding
-	 */
-	public String getEncoding() {
-		return encoding;
-	}
-
-	/**
-	 * Sets the encoding.
-	 *
-	 * @param encoding the new encoding
-	 */
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-
 
 	/**
 	 * Gets the content type.
