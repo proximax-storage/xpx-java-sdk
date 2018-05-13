@@ -57,7 +57,7 @@ public class UploadAsync  {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadResult> uploadTextData(UploadDataParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+	public CompletableFuture<UploadResult> uploadTextData(UploadTextDataParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
 				parameter -> {

@@ -1,39 +1,28 @@
 package io.nem.xpx.facade.upload.remote;
 
-import static org.junit.Assert.assertTrue;
+import io.nem.xpx.facade.DataTextContentType;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
+import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadTextDataParameter;
+import io.nem.xpx.remote.AbstractApiTest;
+import io.nem.xpx.utils.JsonUtils;
+import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
-import org.nem.core.model.MessageTypes;
-import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicFeeInformation;
-import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Amount;
-import org.nem.core.model.primitive.Quantity;
-import org.nem.core.model.primitive.Supply;
-
-import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.DataTextContentType;
-import io.nem.xpx.model.UploadDataParameter;
-import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
+import static org.junit.Assert.assertTrue;
 
 // TODO: Auto-generated Javadoc
 /** 
@@ -54,13 +43,12 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("NAME1")
 					.data(new String("!\"#$%&'()*+,-.:	 ;<=>?@[\\]^_`{|}~".getBytes(),"UTF-8"))
-					.contentType(DataTextContentType.TEXT_PLAIN)
+					.name("NAME1")
+					.contentType(DataTextContentType.TEXT_PLAIN.toString())
 					.encoding("UTF-8")
 					.keywords("plain,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json
@@ -70,7 +58,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 			
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			LOGGER.info(e.getCause().getMessage());
 			assertTrue(false);
 		}
@@ -85,13 +73,12 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("NAME1")
 					.data(FileUtils.readFileToString(new File("src//test//resources//test_html.html")))
-					.contentType(DataTextContentType.TEXT_HTML)
+					.name("NAME1")
+					.contentType(DataTextContentType.TEXT_HTML.toString())
 					.encoding("UTF-8")
 					.keywords("plain,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json
@@ -101,7 +88,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 			
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			LOGGER.info(e.getCause().getMessage());
 			assertTrue(false);
 		}
@@ -119,13 +106,12 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("NAME1")
 					.data(new String("test plain - new 1".getBytes("ASCII")))
-					.contentType(DataTextContentType.TEXT_PLAIN)
+					.name("NAME1")
+					.contentType(DataTextContentType.TEXT_PLAIN.toString())
 					.encoding("UTF-8")
 					.keywords("plain,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json
@@ -135,7 +121,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 			
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			LOGGER.info(e.getCause().getMessage());
 			assertTrue(false);
 		}
@@ -154,21 +140,21 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.messageType(MessageTypes.SECURE)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("NAME1")
 					.data(new String("test secure - new 2".getBytes(),"UTF-8"))
-					.contentType(DataTextContentType.TEXT_PLAIN)
+					.name("NAME1")
+					.contentType(DataTextContentType.TEXT_PLAIN.toString())
 					.encoding("UTF-8")
 					.keywords("secure,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json
+					.securedWithNemKeysPrivacyStrategy()
 					.build();
 			
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -186,20 +172,20 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
-			UploadDataParameter parameter = UploadDataParameterBuilder
-					.messageType(MessageTypes.SECURE)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("NAME1")
 					.data(new String("test secure - new 2".getBytes(),"ASCII"))
-					.contentType(DataTextContentType.TEXT_PLAIN)
+					.name("NAME1")
+					.contentType(DataTextContentType.TEXT_PLAIN.toString())
 					.encoding("UTF-8")
 					.keywords("secure,data")
 					.metadata(JsonUtils.toJson(metaData)) // one level map to json
+					.securedWithNemKeysPrivacyStrategy()
 					.build();
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -217,11 +203,12 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			
-			UploadDataParameter parameter = UploadDataParameterBuilder.messageType(MessageTypes.PLAIN)
+			UploadTextDataParameter parameter = UploadTextDataParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("RandomName1")
 					.data("plain-data - alvin reyes this is a new one yes from local 1")
-					.contentType(DataTextContentType.TEXT_PLAIN).encoding("UTF-8")
+					.name("RandomName1")
+					.contentType(DataTextContentType.TEXT_PLAIN.toString())
+					.encoding("UTF-8")
 					.keywords("plain,data").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 							Quantity.fromValue(0)))
@@ -230,27 +217,9 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			String nemhash = upload.uploadTextData(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | UploadException e) {
+		} catch (UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
-	
-	/**
-	 * Mosaic info lookup.
-	 *
-	 * @return the mosaic fee information lookup
-	 */
-	private MosaicFeeInformationLookup mosaicInfoLookup() {
-		return id -> {
-			if (id.getName().equals("xpx")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
-			}
-			final int multiplier = Integer.parseInt(id.getName().substring(4));
-			final int divisibilityChange = multiplier - 1;
-			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
-		};
-	}
-
-	
 }

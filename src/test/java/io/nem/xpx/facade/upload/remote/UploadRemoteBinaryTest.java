@@ -13,19 +13,15 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicFeeInformationLookup;
 import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
-import org.nem.core.model.primitive.Supply;
-import io.nem.xpx.builder.UploadBinaryParameterBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.model.UploadBinaryParameter;
+import io.nem.xpx.facade.upload.UploadBinaryParameter;
 import io.nem.xpx.model.UploadException;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
@@ -49,12 +45,11 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
+					.name("test_pdf_file_v1")
 					.contentType("application/pdf")
 					.keywords("test_pdf_file_v1")
 					.metadata(JsonUtils.toJson(metaData))
@@ -66,7 +61,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			
 			
 			
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -84,12 +79,11 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
+					.name("test_pdf_file_v1")
 					.contentType("video/mp4")
 					.keywords("large_video")
 					.metadata(JsonUtils.toJson(metaData))
@@ -101,7 +95,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			
 			
 			
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -117,12 +111,11 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
-					.messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_file")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_file.mov")))
+					.name("test_file")
 					.contentType("video/mp4")
 					.keywords("test_file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -132,9 +125,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
 			
-			
-			
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -154,18 +145,18 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "1");
 
 			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder
-					.messageType(MessageTypes.SECURE)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
+					.name("test_pdf_file_v1")
 					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))
+					.securedWithNemKeysPrivacyStrategy()
 					.build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -184,14 +175,16 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.SECURE)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData)).build();
+					.name("test_pdf_file_v1")
+					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
+					.securedWithNemKeysPrivacyStrategy()
+					.build();
 
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
-		} catch (ApiException | IOException | PeerConnectionNotFoundException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
@@ -211,10 +204,10 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Map<String, String> metaData = new HashMap<String, String>();
 			metaData.put("key1", "value1");
 
-			UploadBinaryParameter parameter = UploadBinaryParameterBuilder.messageType(MessageTypes.PLAIN)
+			UploadBinaryParameter parameter = UploadBinaryParameter.create()
 					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
-					.name("test_pdf_file_v1")
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
+					.name("test_pdf_file_v1")
 					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
@@ -223,26 +216,10 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			String nemhash = upload.uploadBinary(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (IOException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
-	}
-
-	/**
-	 * Mosaic info lookup.
-	 *
-	 * @return the mosaic fee information lookup
-	 */
-	private MosaicFeeInformationLookup mosaicInfoLookup() {
-		return id -> {
-			if (id.getName().equals("registry")) {
-				return new MosaicFeeInformation(Supply.fromValue(8_999_999_999L), 6);
-			}
-			final int multiplier = Integer.parseInt(id.getName().substring(4));
-			final int divisibilityChange = multiplier - 1;
-			return new MosaicFeeInformation(Supply.fromValue(100_000_000 * multiplier), 3 + divisibilityChange);
-		};
 	}
 
 }

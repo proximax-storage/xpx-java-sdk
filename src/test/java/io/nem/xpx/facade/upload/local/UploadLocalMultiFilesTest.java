@@ -1,19 +1,16 @@
 package io.nem.xpx.facade.upload.local;
 
-import io.nem.xpx.builder.UploadMultipleFilesParameterBuilder;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadMultipleFilesParameter;
+import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.MessageTypes;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
 import static org.junit.Assert.*;
@@ -35,8 +32,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNoFile() throws Exception {
 
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.keywords(SAMPLE_KEYWORDS)
@@ -49,8 +45,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	@Test
 	public void hasFailureWhenUploadingNonExistentFile() throws Exception {
 
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.addFile(SAMPLE_PDF_FILE1)
@@ -86,8 +81,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	@Test
 	public void shouldUploadMultipleFilesWithPlainMessageType() throws Exception {
 
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.addFile(SAMPLE_PDF_FILE1)
@@ -131,14 +125,14 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	public void shouldUploadMultipleFilesWithSecureMessageType() throws Exception {
 
 
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameterBuilder
-				.messageType(MessageTypes.SECURE)
+		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)
 				.metadata(SAMPLE_METADATA)
+                .securedWithNemKeysPrivacyStrategy()
 				.build();
 
 		final MultiFileUploadResult multiFileUploadResult = unitUnderTest.uploadMultipleFiles(parameter);

@@ -16,9 +16,6 @@ import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.MultisigUploadBinaryParameter;
-import io.nem.xpx.model.MultisigUploadDataParameter;
-import io.nem.xpx.model.MultisigUploadFileParameter;
 import io.nem.xpx.model.UploadException;
 
 
@@ -60,7 +57,7 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UploadException the upload exception
 	 */
-	public CompletableFuture<MultisigUploadResult> uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters,
+	public CompletableFuture<MultisigUploadResult> uploadDataOnMultisigTransaction(MultisigUploadTextDataParameter parameters,
 			ServiceAsyncCallback<MultisigUploadResult> callback) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {

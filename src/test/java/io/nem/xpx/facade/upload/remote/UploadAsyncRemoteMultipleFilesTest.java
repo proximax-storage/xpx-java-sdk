@@ -1,16 +1,14 @@
 package io.nem.xpx.facade.upload.remote;
 
-import io.nem.xpx.builder.UploadMultipleFilesParameterBuilder;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult;
 import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.model.UploadMultipleFilesParameter;
+import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.MessageTypes;
 
 import java.util.stream.Collectors;
 
@@ -31,8 +29,7 @@ public class UploadAsyncRemoteMultipleFilesTest extends AbstractApiTest {
 	@Test
 	public void shouldUploadMultipleFilesAsync() throws Exception {
 
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.addFile(SAMPLE_PDF_FILE1)

@@ -1,11 +1,8 @@
 package io.nem.xpx.model;
 
+import io.nem.xpx.strategy.privacy.PrivacyStrategy;
+import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Quantity;
-
-import io.nem.xpx.adapters.cipher.CustomEncryption;
 
 
 
@@ -14,9 +11,6 @@ import io.nem.xpx.adapters.cipher.CustomEncryption;
  */
 public class DataParameter {
 
-	/** The message type. */
-	private int messageType;
-	
 	/** The sender private key. */
 	private String senderOrReceiverPrivateKey;
 	
@@ -42,50 +36,8 @@ public class DataParameter {
 	/** The mosaics. */
 	private Mosaic[] mosaics;
 	
-	/** The custom encryption. */
-	private CustomEncryption customEncryption;
-	
+	private PrivacyStrategy privacyStrategy = PrivacyStrategyFactory.plainPrivacy();
 
-	
-
-	/**
-	 * Gets the custom encryption.
-	 *
-	 * @return the custom encryption
-	 */
-	public CustomEncryption getCustomEncryption() {
-		return customEncryption;
-	}
-
-	/**
-	 * Sets the custom encryption.
-	 *
-	 * @param customEncryption the new custom encryption
-	 */
-	public void setCustomEncryption(CustomEncryption customEncryption) {
-		this.customEncryption = customEncryption;
-	}
-
-	/**
-	 * Gets the message type.
-	 *
-	 * @return the message type
-	 */
-	public int getMessageType() {
-		return messageType;
-	}
-	
-	/**
-	 * Sets the message type.
-	 *
-	 * @param messageType the new message type
-	 */
-	public void setMessageType(int messageType) {
-		this.messageType = messageType;
-	}
-	
-
-	
 	/**
 	 * Gets the sender or receiver private key.
 	 *
@@ -159,8 +111,8 @@ public class DataParameter {
 		this.contentType = contentType;
 	}
 
-	
-	
+
+
 	/**
 	 * Gets the name.
 	 *
@@ -178,7 +130,7 @@ public class DataParameter {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the keywords.
 	 *
@@ -196,7 +148,7 @@ public class DataParameter {
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
-	
+
 	/**
 	 * Gets the meta data.
 	 *
@@ -214,7 +166,7 @@ public class DataParameter {
 	public void setMetaData(String metaData) {
 		this.metaData = metaData;
 	}
-	
+
 	/**
 	 * Gets the mosaics.
 	 *
@@ -232,7 +184,7 @@ public class DataParameter {
 	public void setMosaics(Mosaic[] mosaics) {
 		this.mosaics = mosaics;
 	}
-	
+
 	/**
 	 * Adds the mosaic.
 	 *
@@ -240,5 +192,13 @@ public class DataParameter {
 	 */
 	public void addMosaic(Mosaic mosaic) {
 		this.mosaics[this.mosaics.length - 1] = mosaic;
+	}
+
+	public PrivacyStrategy getPrivacyStrategy() {
+		return privacyStrategy;
+	}
+
+	public void setPrivacyStrategy(PrivacyStrategy privacyStrategy) {
+		this.privacyStrategy = privacyStrategy;
 	}
 }

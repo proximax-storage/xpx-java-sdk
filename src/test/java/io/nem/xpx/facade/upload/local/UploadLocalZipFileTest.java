@@ -1,19 +1,17 @@
 package io.nem.xpx.facade.upload.local;
 
-import io.nem.xpx.builder.UploadFilesAsZipParameterBuilder;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFilesAsZipParameter;
+import io.nem.xpx.facade.upload.UploadFilesAsZipParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
@@ -40,8 +38,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingSameFileTwice() throws Exception {
 
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
@@ -57,8 +54,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNoFile() throws Exception {
 
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
@@ -72,8 +68,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNonExistentFile() throws Exception {
 
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
@@ -89,8 +84,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test
 	public void shouldUploadFilesAsZipWithPlainMessageType() throws Exception {
 
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.PLAIN)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
@@ -118,8 +112,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test
 	public void shouldUploadFilesAsZipWithSecureMessageType() throws Exception {
 
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.SECURE)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
@@ -127,6 +120,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)
 				.metadata(SAMPLE_METADATA)
+				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter);
@@ -148,8 +142,7 @@ public class UploadLocalZipFileTest extends AbstractApiTest {
 	@Test
 	@Ignore
 	public void uploadPlainFileWithMosaicTest() throws Exception {
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameterBuilder
-				.messageType(MessageTypes.SECURE)
+		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(this.xPvkey)
 				.receiverOrSenderPublicKey(this.xPubkey)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)

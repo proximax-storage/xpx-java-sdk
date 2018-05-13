@@ -6,15 +6,11 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.*;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
-import io.nem.xpx.service.remote.RemoteUploadApi;
 import io.nem.xpx.utils.CryptoUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +20,6 @@ import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
-import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
@@ -94,7 +89,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadResult uploadDataOnMultisigTransaction(MultisigUploadDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
+	public MultisigUploadResult uploadDataOnMultisigTransaction(MultisigUploadTextDataParameter parameters) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
 			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
 
@@ -162,7 +157,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	 * @throws ApiException the api exception
 	 * @throws UploadException the upload exception
 	 */
-	public MultisigUploadResult handleMultisigDataUpload(MultisigUploadDataParameter uploadParameter) throws IOException, ApiException, UploadException {
+	public MultisigUploadResult handleMultisigDataUpload(MultisigUploadTextDataParameter uploadParameter) throws IOException, ApiException, UploadException {
 		byte[] encrypted = null;
 		Object response = null;
 		ResourceHashMessage resourceMessageHash = null;
@@ -178,7 +173,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 			parameter.setMetadata(uploadParameter.getMetaData());
 			parameter.setName(uploadParameter.getName());
 			
-			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+			if (uploadParameter.getPrivacyStrategy().getNemMessageType() == NemMessageType.SECURE) {
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
 				String keyRandom = Base64.encodeBase64String(keyGen.generateKey().getEncoded());
@@ -202,7 +197,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
 						.amount(Amount.fromNem(1l))
 						.version(2)
-						.message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
+						.message((byte[])response, uploadParameter.getPrivacyStrategy().getNemMessageType().getValue()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
@@ -217,7 +212,8 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
-						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response,
+								uploadParameter.getPrivacyStrategy().getNemMessageType().getValue())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
@@ -264,17 +260,17 @@ public class MultisigUpload  extends AbstractFacadeService {
 		parameter.setName(uploadParameter.getName());
 		
 		try {
-			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+			if (uploadParameter.getPrivacyStrategy().getNemMessageType() == NemMessageType.SECURE) {
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
 				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
-				encrypted = CryptoUtils.encrypt(FileUtils.readFileToByteArray(uploadParameter.getData()), keyRandom.toCharArray());
+				encrypted = CryptoUtils.encrypt(FileUtils.readFileToByteArray(uploadParameter.getFile()), keyRandom.toCharArray());
 				parameter.setData(encrypted);
 				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
 				secretKey = keyRandom;
 			} else { // PLAIN
-				parameter.setData(FileUtils.readFileToByteArray(uploadParameter.getData()));
+				parameter.setData(FileUtils.readFileToByteArray(uploadParameter.getFile()));
 				response = uploadApi.uploadBytesBinaryUsingPOST(parameter);
 			}
 			resourceMessageHash = byteToSerialObject((byte[])response);
@@ -284,7 +280,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
-						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
+						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getPrivacyStrategy().getNemMessageType().getValue()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
@@ -299,7 +295,8 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
-						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response,
+								uploadParameter.getPrivacyStrategy().getNemMessageType().getValue())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
@@ -344,7 +341,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 		parameter.setName(uploadParameter.getName());
 		
 		try {
-			if (uploadParameter.getMessageType() == MessageTypes.SECURE) {
+			if (uploadParameter.getPrivacyStrategy().getNemMessageType() == NemMessageType.SECURE) {
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
 				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
@@ -364,7 +361,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
-						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType()).buildTransaction();
+						.amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getPrivacyStrategy().getNemMessageType().getValue()).buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
@@ -379,7 +376,8 @@ public class MultisigUpload  extends AbstractFacadeService {
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
-						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response, uploadParameter.getMessageType())
+						.addMosaics(uploadParameter.getMosaics()).amount(Amount.fromNem(1l)).message((byte[])response,
+								uploadParameter.getPrivacyStrategy().getNemMessageType().getValue())
 						.buildTransaction();
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
