@@ -11,6 +11,7 @@ import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.MessageUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -72,50 +73,51 @@ public class Download extends AbstractFacadeService {
 		this.engine = CryptoEngines.ed25519Engine();
 	}
 
-	public DownloadResult downloadTextData(DownloadParameter downloadParameter) throws DownloadException {
+	public DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
 
 		final TransferTransaction transaction = getNemTransferTransaction(downloadParameter.getNemHash());
 
-		if (transaction.getMessage().getType() == NemMessageType.SECURE.getValue()) {
+		final ResourceHashMessage resourceMessage = getResourceHashMessage(downloadParameter.getPrivacyStrategy(),
+				downloadParameter.getSenderOrReceiverPrivateKey(), downloadParameter.getReceiverOrSenderPublicKey(),
+				transaction);
 
-			if (downloadParameter.getPrivacyStrategy().getNemMessageType() != NemMessageType.SECURE) {
-				throw new DownloadException("Privacy strategy used is not allowed to decrypt a Nem secured message.");
-			}
+		final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
 
-			final SecureMessage secureMessage = decryptNemMessage(downloadParameter.getSenderOrReceiverPrivateKey(),
-					downloadParameter.getReceiverOrSenderPublicKey(), transaction);
+		final byte[] decrypted = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
 
-			final ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
-					ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
-
-			final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
-
-			final byte[] decrypted = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
-
-			return new DownloadResult(resourceMessage, decrypted, transaction.getMessage().getType());
-		} else {
-
-			final ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
-					ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getEncodedPayload())));
-
-			final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
-
-			final byte[] decrypted = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
-
-			return new DownloadResult(resourceMessage, decrypted, transaction.getMessage().getType());
-		}
+		return new DownloadResult(resourceMessage, decrypted, transaction.getMessage().getType());
 	}
 
+	private ResourceHashMessage getResourceHashMessage(final PrivacyStrategy privacyStrategy,
+													   final String senderOrReceiverPrivateKey,
+													   final String receiverOrSenderPublicKey,
+													   final TransferTransaction transaction) throws DownloadException {
+		if (transaction.getMessage().getType() == NemMessageType.SECURE.getValue()) {
+			if (privacyStrategy.getNemMessageType() != NemMessageType.SECURE) {
+				throw new DownloadException("Privacy strategy used is not allowed to decrypt a Nem secured message. " +
+						"Use securedWithNemKeysPrivacyStrategy() to decrypt the message ");
+			}
+			final SecureMessage secureMessage = decryptNemMessage(senderOrReceiverPrivateKey,
+					receiverOrSenderPublicKey, transaction);
+
+			return ResourceHashMessage.getRootAsResourceHashMessage(
+					ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
+		} else {
+
+			return ResourceHashMessage.getRootAsResourceHashMessage(
+					ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getEncodedPayload())));
+		}
+	}
 	private SecureMessage decryptNemMessage(final String senderOrReceiverPrivateKey,
 											final String receiverOrSenderPublicKey,
 											final TransferTransaction transaction) throws DownloadException {
 		final Address nemAddress = MessageUtils.getNemAddressFromPrivateKey(senderOrReceiverPrivateKey);
-		if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress)) {
+		if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress.toString())) {
 			return SecureMessage.fromEncodedPayload(
 					new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
 					new Account(new KeyPair(PublicKey.fromHexString(receiverOrSenderPublicKey), engine)),
 					transaction.getMessage().getEncodedPayload());
-		} else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress)) {
+		} else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.toString())) {
 			return SecureMessage.fromEncodedPayload(
 					new Account(new KeyPair(PrivateKey.fromHexString(receiverOrSenderPublicKey), engine)),
 					new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPrivateKey), engine)),
