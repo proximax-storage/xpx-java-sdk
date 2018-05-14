@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.nem.xpx.utils.ContentTypeUtils;
@@ -16,7 +15,7 @@ import java.io.Serializable;
 /**
  * The Class 
  */
-public class UploadBinaryParameter extends DataParameter implements Serializable {
+public class UploadBinaryParameter extends AbstractUploadParameter implements Serializable {
 
 	
 	/** The data. */
@@ -51,7 +50,7 @@ public class UploadBinaryParameter extends DataParameter implements Serializable
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+			PrivacyStrategyUploadStep<BuildStep> {
 
 		UploadBinaryParameter build();
 	}

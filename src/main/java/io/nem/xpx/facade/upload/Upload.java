@@ -211,7 +211,7 @@ public class Upload extends AbstractFacadeService {
         return new MultiFileUploadResult(fileUploadResults);
 	}
 
-	private UploadResult handleBinaryUpload(DataParameter param, byte[] data)
+	private UploadResult handleBinaryUpload(AbstractUploadParameter param, byte[] data)
 			throws UploadException {
 		return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderOrReceiverPrivateKey(), param.getReceiverOrSenderPublicKey(),
 				param.getContentType(), param.getKeywords(), param.getMetaData(), param.getName(), param.getMosaics(), data);

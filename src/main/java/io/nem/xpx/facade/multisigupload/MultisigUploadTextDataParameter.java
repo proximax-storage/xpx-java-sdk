@@ -50,7 +50,7 @@ public class MultisigUploadTextDataParameter extends UploadTextDataParameter imp
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+            PrivacyStrategyUploadStep<BuildStep> {
 
 		MultisigUploadTextDataParameter build();
 	}

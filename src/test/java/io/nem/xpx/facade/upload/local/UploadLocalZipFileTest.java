@@ -5,7 +5,7 @@ import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadFilesAsZipParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package io.nem.xpx.model;
+package io.nem.xpx.facade.upload;
 
 
 

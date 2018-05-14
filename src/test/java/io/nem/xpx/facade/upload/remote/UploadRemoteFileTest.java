@@ -3,7 +3,7 @@ package io.nem.xpx.facade.upload.remote;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadFileParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;

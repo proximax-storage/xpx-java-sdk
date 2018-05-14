@@ -5,7 +5,6 @@ package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;

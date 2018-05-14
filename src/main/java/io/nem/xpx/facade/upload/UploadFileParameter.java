@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.nem.xpx.utils.ContentTypeUtils;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 
-public class UploadFileParameter extends DataParameter implements Serializable {
+public class UploadFileParameter extends AbstractUploadParameter implements Serializable {
 
 	private File file;
 
@@ -40,7 +39,7 @@ public class UploadFileParameter extends DataParameter implements Serializable {
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+			PrivacyStrategyUploadStep<BuildStep> {
 
 		UploadFileParameter build() throws IOException;
 	}

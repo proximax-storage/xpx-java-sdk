@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.nem.xpx.utils.ContentTypeUtils;
@@ -16,7 +15,7 @@ import java.io.Serializable;
 /**
  * The Class UploadDataParameter.
  */
-public class UploadTextDataParameter extends DataParameter implements Serializable {
+public class UploadTextDataParameter extends AbstractUploadParameter implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -75,7 +74,7 @@ public class UploadTextDataParameter extends DataParameter implements Serializab
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+			PrivacyStrategyUploadStep<BuildStep> {
 
 		UploadTextDataParameter build();
 	}

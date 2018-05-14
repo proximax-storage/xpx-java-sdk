@@ -50,7 +50,7 @@ public class MultisigUploadBinaryParameter extends UploadBinaryParameter impleme
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+            PrivacyStrategyUploadStep<BuildStep> {
 
 		MultisigUploadBinaryParameter build();
 	}

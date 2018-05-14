@@ -2,7 +2,7 @@ package io.nem.xpx.builder.steps;
 
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 
-public interface PrivacyStrategyStep<T> {
+public interface PrivacyStrategyUploadStep<T> {
 
     T privacyStrategy(PrivacyStrategy privacyStrategy);
 

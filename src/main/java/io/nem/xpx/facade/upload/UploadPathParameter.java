@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import org.nem.core.model.mosaic.Mosaic;
@@ -14,7 +13,7 @@ import java.io.Serializable;
 /**
  * The Class UploadPathParameter.
  */
-public class UploadPathParameter extends DataParameter implements Serializable {
+public class UploadPathParameter extends AbstractUploadParameter implements Serializable {
 
 
 	/** The path. */
@@ -47,7 +46,7 @@ public class UploadPathParameter extends DataParameter implements Serializable {
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+			PrivacyStrategyUploadStep<BuildStep> {
 
 		UploadPathParameter build();
 	}

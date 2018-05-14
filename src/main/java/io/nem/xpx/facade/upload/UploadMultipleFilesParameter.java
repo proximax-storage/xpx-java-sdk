@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.model.DataParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import org.nem.core.model.mosaic.Mosaic;
@@ -15,7 +14,7 @@ import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
 import static java.util.Arrays.asList;
 
 
-public class UploadMultipleFilesParameter extends DataParameter implements Serializable {
+public class UploadMultipleFilesParameter extends AbstractUploadParameter implements Serializable {
 
 	private List<File> files = new ArrayList<>();
 
@@ -45,7 +44,7 @@ public class UploadMultipleFilesParameter extends DataParameter implements Seria
 			KeywordsStep<BuildStep>,
 			MetadataStep<BuildStep>,
 			MosaicsStep<BuildStep>,
-			PrivacyStrategyStep<BuildStep> {
+			PrivacyStrategyUploadStep<BuildStep> {
 
 		UploadMultipleFilesParameter build();
 	}

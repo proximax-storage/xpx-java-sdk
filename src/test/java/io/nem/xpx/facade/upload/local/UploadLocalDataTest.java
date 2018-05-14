@@ -7,7 +7,7 @@ import io.nem.xpx.facade.upload.UploadAsync;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
-import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadTextDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;

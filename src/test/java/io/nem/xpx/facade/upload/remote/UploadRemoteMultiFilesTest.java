@@ -4,7 +4,7 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;

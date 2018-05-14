@@ -4,7 +4,7 @@ import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
-import io.nem.xpx.model.UploadException;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadFileParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
