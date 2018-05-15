@@ -1,19 +1,19 @@
 package io.nem.xpx.facade.account;
 
-import java.util.concurrent.ExecutionException;
-
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
+import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.node.NodeEndpoint;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.facade.account.Account;
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.factory.ConnectionFactory;
-import io.nem.xpx.integration.tests.LocalIntegrationTest;
-import io.nem.xpx.remote.AbstractApiTest;
+
+import java.util.concurrent.ExecutionException;
+
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 /**
  * The Class AccountTest.
@@ -30,7 +30,7 @@ public class AccountAsyncLocalTest extends AbstractApiTest {
 				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
 				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001"));
 
-		this.account = new Account(localPeerConnection, this.xPubkey);
+		this.account = new Account(localPeerConnection, TEST_PUBLIC_KEY);
 	}
 
 	/**

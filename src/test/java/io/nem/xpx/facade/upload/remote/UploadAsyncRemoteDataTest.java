@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -47,7 +49,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadTextDataParameter parameter1 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 1")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -56,7 +58,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.build();
 
 			UploadTextDataParameter parameter2 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 2")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -65,7 +67,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.build();
 
 			UploadTextDataParameter parameter3 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -109,7 +111,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadTextDataParameter parameter1 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 1")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -119,7 +121,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.build();
 
 			UploadTextDataParameter parameter2 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 2")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -129,7 +131,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.build();
 
 			UploadTextDataParameter parameter3 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -177,7 +179,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadTextDataParameter parameter1 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -187,7 +189,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.build();
 
 			UploadTextDataParameter parameter2 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -196,7 +198,7 @@ public class UploadAsyncRemoteDataTest extends AbstractApiTest {
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(10000)))
 					.build();
 			UploadTextDataParameter parameter3 = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("Secure Data 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())

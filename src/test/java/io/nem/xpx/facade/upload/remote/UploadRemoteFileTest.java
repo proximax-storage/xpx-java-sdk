@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 
@@ -45,8 +47,8 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -73,8 +75,8 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -103,8 +105,8 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v2.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -130,8 +132,8 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -161,8 +163,8 @@ public class UploadRemoteFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_large_file.zip"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))

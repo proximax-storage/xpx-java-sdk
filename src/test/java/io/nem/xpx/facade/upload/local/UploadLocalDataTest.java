@@ -2,13 +2,9 @@ package io.nem.xpx.facade.upload.local;
 
 import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.facade.upload.UploadAsync;
-import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.facade.upload.*;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
-import io.nem.xpx.facade.upload.UploadException;
-import io.nem.xpx.facade.upload.UploadTextDataParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 import org.junit.Assert;
@@ -24,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -53,8 +51,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.name("RandomName")
 					.contentType(DataTextContentType.APPLICATION_XML.toString())
@@ -86,8 +84,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadTextDataParameter parameter =  UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.name("RandomName")
 					.contentType(DataTextContentType.APPLICATION_XML.toString())
@@ -119,8 +117,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadTextDataParameter parameter =  UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.name("RandomName")
 					.contentType(DataTextContentType.APPLICATION_XML.toString())
@@ -157,8 +155,8 @@ public class UploadLocalDataTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadTextDataParameter parameter =  UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 3")
 					.name("RandomName1")
 					.contentType(DataTextContentType.APPLICATION_XML.toString())

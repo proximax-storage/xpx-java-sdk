@@ -1,22 +1,14 @@
 package io.nem.xpx.performance.tests;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.commons.io.FileUtils;
-
-import io.nem.xpx.facade.download.Download;
-import io.nem.xpx.facade.download.DownloadAsync;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.facade.download.Download;
+import io.nem.xpx.facade.download.DownloadParameter;
 import io.nem.xpx.facade.download.DownloadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.remote.AbstractApiTest;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 
 
 /**
@@ -40,10 +32,11 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 
 				try {
 
-					Download download = new DownloadAsync(localPeerConnection);
+					Download download = new Download(localPeerConnection);
 					String timeStamp = System.currentTimeMillis() + "";
 					long expectedFileSize = this.extractLargeFileSize();
-					DownloadResult message = download.downloadBinaryOrFile("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a");
+					DownloadResult message = download.download(DownloadParameter.create()
+							.nemHash("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a").build());
 
 					FileUtils
 							.writeByteArrayToFile(
@@ -58,7 +51,7 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 					// Remove file after.
 					FileUtils.forceDelete(new File("src//test//resources//downloadPlainLargeFileTest_"
 							+ message.getDataMessage().name() + timeStamp + ".zip"));
-				} catch (IOException | ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					//assertTrue(false);
 				}

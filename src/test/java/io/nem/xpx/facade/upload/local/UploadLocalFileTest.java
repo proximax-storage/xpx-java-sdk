@@ -2,10 +2,10 @@ package io.nem.xpx.facade.upload.local;
 
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.factory.ConnectionFactory;
-import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadFileParameter;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.utils.JsonUtils;
 import org.junit.Assert;
@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 
@@ -48,8 +50,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -79,8 +81,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_large_file.zip"))
 					.keywords("plain,large,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -110,8 +112,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_small_file.txt"))
 					.keywords("secure,small,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -140,8 +142,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			Map<String,String> metaData = new HashMap<String,String>();
 			metaData.put("key1", "value1");
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_large_file.zip"))
 					.keywords("secure,large,file")
 					.metadata(JsonUtils.toJson(metaData))
@@ -173,8 +175,8 @@ public class UploadLocalFileTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadFileParameter parameter = UploadFileParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.file(new File("src//test//resources//test_pdf_file_v1.pdf"))
 					.keywords("plain,data,wmosaics")
 					.metadata(JsonUtils.toJson(metaData))

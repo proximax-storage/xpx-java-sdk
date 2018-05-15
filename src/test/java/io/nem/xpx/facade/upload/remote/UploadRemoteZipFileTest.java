@@ -2,10 +2,10 @@ package io.nem.xpx.facade.upload.remote;
 
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadFilesAsZipParameter;
+import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,6 +17,7 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -36,8 +37,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	public void failWhenUploadingSameFileTwice() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE1)
@@ -52,8 +53,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	public void failWhenUploadingNoFile() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.keywords(SAMPLE_KEYWORDS)
 				.metadata(SAMPLE_METADATA)
@@ -66,8 +67,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	public void failWhenUploadingNonExistentFile() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_NON_EXISTENT_FILE)
 				.keywords(SAMPLE_KEYWORDS)
@@ -82,8 +83,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	public void shouldUploadFilesAsZipWithPlainMessageType() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
@@ -110,8 +111,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	public void shouldUploadFilesAsZipWithSecureMessageType() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
@@ -140,8 +141,8 @@ public class UploadRemoteZipFileTest extends AbstractApiTest {
 	@Ignore
 	public void uploadPlainFileWithMosaicTest() throws Exception {
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)

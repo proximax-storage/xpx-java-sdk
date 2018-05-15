@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 
@@ -48,8 +50,8 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf")
@@ -78,8 +80,8 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip")))
 					.name("test_large_file")
 					.contentType("application/zip")
@@ -113,8 +115,8 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(localPeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf")
@@ -147,8 +149,8 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 			
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
 					.name("test_pdf_file_v1")
 					.contentType("video/mp4")
@@ -183,8 +185,8 @@ public class UploadLocalBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf")

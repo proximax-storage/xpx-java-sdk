@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 // TODO: Auto-generated Javadoc
@@ -44,8 +46,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(new String("!\"#$%&'()*+,-.:	 ;<=>?@[\\]^_`{|}~".getBytes(),"UTF-8"))
 					.name("NAME1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -74,8 +76,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToString(new File("src//test//resources//test_html.html")))
 					.name("NAME1")
 					.contentType(DataTextContentType.TEXT_HTML.toString())
@@ -107,8 +109,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(new String("test plain - new 1".getBytes("ASCII")))
 					.name("NAME1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -141,8 +143,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(new String("test secure - new 2".getBytes(),"UTF-8"))
 					.name("NAME1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -173,8 +175,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			Upload upload = new Upload(remotePeerConnection);
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(new String("test secure - new 2".getBytes(),"ASCII"))
 					.name("NAME1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())
@@ -204,7 +206,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 			
 			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data("plain-data - alvin reyes this is a new one yes from local 1")
 					.name("RandomName1")
 					.contentType(DataTextContentType.TEXT_PLAIN.toString())

@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
 
 
@@ -44,8 +46,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 					metaData.put("key1", "value1");
 
 					UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey)
+							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
@@ -54,8 +56,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.build();
 
 					UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey)
+							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
@@ -64,8 +66,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.build();
 
 					UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(this.xPvkey)
-							.receiverOrSenderPublicKey(this.xPubkey)
+							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version1.pdf")
 							.contentType("application/pdf")

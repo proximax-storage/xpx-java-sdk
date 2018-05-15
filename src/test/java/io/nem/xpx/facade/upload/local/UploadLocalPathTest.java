@@ -16,6 +16,8 @@ import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 
@@ -41,8 +43,8 @@ public class UploadLocalPathTest extends AbstractApiTest {
 			Upload upload = new Upload(localPeerConnection);
 
 			UploadPathParameter parameter = UploadPathParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.path("src/test/resources/")
 					.metadata(null)
 					.keywords(null)

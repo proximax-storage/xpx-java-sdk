@@ -49,7 +49,7 @@ public class DownloadParameter implements Serializable {
 		this.privacyStrategy = privacyStrategy;
 	}
 
-	public static PrivacyStrategyDownloadStep<BuildStep> create() {
+	public static NemHashStep<BuildStep> create() {
 		return new Builder();
 	}
 

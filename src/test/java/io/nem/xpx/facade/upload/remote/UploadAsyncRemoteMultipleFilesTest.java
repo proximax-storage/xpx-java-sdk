@@ -13,6 +13,7 @@ import org.junit.experimental.categories.Category;
 import java.util.stream.Collectors;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
@@ -30,8 +31,8 @@ public class UploadAsyncRemoteMultipleFilesTest extends AbstractApiTest {
 	public void shouldUploadMultipleFilesAsync() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)

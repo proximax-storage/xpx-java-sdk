@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
 /**
@@ -37,7 +38,7 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void getAllIncomingNemAddressTransactionsUsingGETTest() throws ApiException {
-		String publicKey = this.xPubkey;
+		String publicKey = TEST_PUBLIC_KEY;
 		String response = api.getAllIncomingNemAddressTransactionsUsingGET(publicKey);
 		Assert.assertNotNull(response);
 
@@ -51,7 +52,7 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void getAllNemAddressTransactionsUsingGETTest() throws ApiException {
-		String publicKey = this.xPubkey;
+		String publicKey = TEST_PUBLIC_KEY;
 		String response = api.getAllNemAddressTransactionsUsingGET(publicKey);
 
 		Assert.assertNotNull(response);
@@ -65,7 +66,7 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void getAllNemAddressTransactionsWithPageSizeUsingGETTest() throws ApiException {
-		String publicKey = this.xPubkey;
+		String publicKey = TEST_PUBLIC_KEY;
 		String pageSize = "100";
 		String response = api.getAllNemAddressTransactionsWithPageSizeUsingGET(publicKey, pageSize);
 		
@@ -80,7 +81,7 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void getAllOutgoingNemAddressTransactionsUsingGETTest() throws ApiException {
-		String publicKey = this.xPubkey;
+		String publicKey = TEST_PUBLIC_KEY;
 		String response = api.getAllOutgoingNemAddressTransactionsUsingGET(publicKey);
 
 		Assert.assertNotNull(response);
@@ -98,7 +99,7 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 */
 	@Test
 	public void getNemAddressDetailsUsingGETTest() throws ApiException {
-		String publicKey = this.xPubkey;
+		String publicKey = TEST_PUBLIC_KEY;
 		AccountMetaDataPair response = api.getNemAddressDetailsUsingGET(publicKey);
 		
 		Assert.assertNotNull(response);

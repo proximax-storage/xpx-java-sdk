@@ -1,5 +1,7 @@
 package io.nem.xpx.facade.upload.remote;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -43,8 +45,8 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf")
@@ -77,8 +79,8 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
 					.name("test_pdf_file_v1")
 					.contentType("video/mp4")
@@ -109,8 +111,8 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_file.mov")))
 					.name("test_file")
 					.contentType("video/mp4")
@@ -143,8 +145,8 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 			Upload upload = new Upload(remotePeerConnection);
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey)
-					.receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))
@@ -173,7 +175,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			Upload upload = new Upload(remotePeerConnection);
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
@@ -202,7 +204,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 					.name("test_pdf_file_v1")
 					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))

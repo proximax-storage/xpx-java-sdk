@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
@@ -33,8 +34,8 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	public void failWhenUploadingNoFile() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.keywords(SAMPLE_KEYWORDS)
 				.metadata(SAMPLE_METADATA)
 				.build();
@@ -46,8 +47,8 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	public void hasFailureWhenUploadingNonExistentFile() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_NON_EXISTENT_FILE)
 				.keywords(SAMPLE_KEYWORDS)
@@ -82,8 +83,8 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 	public void shouldUploadMultipleFilesWithPlainMessageType() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)
@@ -126,8 +127,8 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)

@@ -3,9 +3,9 @@ package io.nem.xpx.facade.upload.local;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult;
 import io.nem.xpx.facade.upload.UploadAsync;
+import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import org.junit.experimental.categories.Category;
 import java.util.stream.Collectors;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
@@ -33,8 +34,8 @@ public class UploadAsyncLocalMultipleFilesTest extends AbstractApiTest {
 	public void shouldUploadMultipleFilesAsync() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)
 				.keywords(SAMPLE_KEYWORDS)

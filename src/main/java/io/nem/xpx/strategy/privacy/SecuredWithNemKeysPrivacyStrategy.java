@@ -6,8 +6,6 @@ import io.nem.xpx.utils.MessageUtils;
 import org.nem.core.model.Address;
 import org.nem.core.model.TransferTransaction;
 
-import static java.lang.String.format;
-
 public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
 
     private String senderOrReceiverPrivateKey;
@@ -32,7 +30,7 @@ public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
         } else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.toString())) {
             return MessageUtils.decryptDataWithReceiverPrivateNemKey(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
         } else {
-            throw new RuntimeException(format("Decrypt of data is unsuccessful for %s", hashMessage.hash()));
+            throw new RuntimeException("Decrypt of data is unsuccessful");
         }
     }
 }

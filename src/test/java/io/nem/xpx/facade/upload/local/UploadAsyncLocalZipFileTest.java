@@ -2,16 +2,17 @@ package io.nem.xpx.facade.upload.local;
 
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.upload.UploadAsync;
+import io.nem.xpx.facade.upload.UploadFilesAsZipParameter;
 import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.upload.UploadFilesAsZipParameter;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -33,8 +34,8 @@ public class UploadAsyncLocalZipFileTest extends AbstractApiTest {
 	public void shouldUploadFilesAsZipAsync() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(SAMPLE_ZIP_FILE_NAME)
 				.addFile(SAMPLE_PDF_FILE1)
 				.addFile(SAMPLE_PDF_FILE2)

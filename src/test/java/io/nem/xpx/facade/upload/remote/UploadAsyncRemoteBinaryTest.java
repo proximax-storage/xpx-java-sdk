@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -49,19 +51,19 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp2")
 					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp3")
 					.contentType("application/pdf").keywords("pdf").metadata(JsonUtils.toJson(metaData)).build();
@@ -104,19 +106,19 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("application/pdf").keywords("pdf_file").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("application/pdf").keywords("pdf_file").metadata(JsonUtils.toJson(metaData)).build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("application/pdf").keywords("pdf_file").metadata(JsonUtils.toJson(metaData)).build();
@@ -159,7 +161,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 			metaData.put("key1", "value1");
 
 			UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
@@ -167,7 +169,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 					.build();
 
 			UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
@@ -175,7 +177,7 @@ public class UploadAsyncRemoteBinaryTest extends AbstractApiTest {
 					.build();
 
 			UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf")))
 					.name("test_pdf_file_v2_temp1")
 					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
