@@ -25,6 +25,7 @@ public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
     @Override
     public byte[] decrypt(final byte[] data, final TransferTransaction transaction, final ResourceHashMessage hashMessage) {
         final Address nemAddress = MessageUtils.getNemAddressFromPrivateKey(senderOrReceiverPrivateKey);
+
         if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress.toString())) {
             return MessageUtils.decryptDataWithSenderPrivateNemKey(senderOrReceiverPrivateKey, receiverOrSenderPublicKey, data);
         } else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.toString())) {

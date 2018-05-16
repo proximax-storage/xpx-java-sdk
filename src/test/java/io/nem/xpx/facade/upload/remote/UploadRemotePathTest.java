@@ -22,41 +22,8 @@ import static org.junit.Assert.assertTrue;
 
 
 
-/**
- * The Class UploadTest.
- */
 @Category(RemoteIntegrationTest.class)
 @Ignore
 public class UploadRemotePathTest extends AbstractApiTest {
-
-	
-	/**
-	 * Upload path.
-	 */
-	@Test
-	public void uploadPath() {
-		try {
-			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
-			Upload upload = new Upload(localPeerConnection);
-
-			UploadPathParameter parameter = UploadPathParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.path("C:\\Sample")
-					.metadata(null)
-					.keywords(null)
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-							Quantity.fromValue(0)))
-					.build();
-
-			String nemhash = upload.uploadPath(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
 
 }

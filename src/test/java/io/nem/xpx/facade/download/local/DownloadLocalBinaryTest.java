@@ -15,8 +15,8 @@ import org.junit.experimental.categories.Category;
 
 import java.io.File;
 
-import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
-import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
+import static io.nem.xpx.testsupport.Constants.*;
+import static io.nem.xpx.testsupport.Constants.SAMPLE_LARGE_VIDEO_FILE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -35,67 +35,55 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	}
 
 	@Test
-	public void testDownloadPlainBinaryTest() throws Exception {
+	public void downloadPlainBinaryTest() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf"));
+		byte[] expected = FileUtils.readFileToByteArray(SAMPLE_PDF_FILE1);
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997").build());
+				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(SAMPLE_PDF_FILE1)).build());
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
 	}
 
 	@Test
-	public void testDownloadPlainLargeBinaryTest() throws Exception {
+	public void downloadPlainLargeBinaryTest() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip"));
-
-		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a").build());
-
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-	}
-	
-	@Test
-	public void testDownloadPlainLargeBinaryMediaTest() throws Exception {
-
-		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip"));
+		byte[] expected = FileUtils.readFileToByteArray(SAMPLE_LARGE_VIDEO_FILE);
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("f4eab8bb8eb80628b1ba79ee9f9e7d71f3a121051c0c58d9e7b0329a37035bbd").build());
+				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(SAMPLE_LARGE_VIDEO_FILE)).build());
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
 	}
 
+//	@Test
+//	public void downloadPlainPublicBinaryTest() throws Exception {
+//
+//		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_small_file.txt"));
+//
+//		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
+//				.nemHash("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96").build());
+//
+//		assertArrayEquals(expected, message.getData());
+//		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+//	}
+//
+//	@Test
+//	public void downloadPlainPublicLargeBinaryTest() throws Exception {
+//
+//		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip"));
+//
+//		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
+//				.nemHash("9a625840797fbac0e1c4db7f1d68de6e04cbcf325630ebf595ba0e7ee6fb0404").build());
+//
+//		assertArrayEquals(expected, message.getData());
+//		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+//	}
+
 	@Test
-	public void testDownloadPlainPublicBinaryTest() throws Exception {
-
-		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_small_file.txt"));
-
-		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96").build());
-
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-	}
-
-	@Test
-	public void testDownloadPlainPublicLargeBinaryTest() throws Exception {
-
-		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip"));
-
-		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96").build());
-
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-	}
-
-	@Test
-	public void testDownloadSecureBinaryTest()throws Exception {
+	public void downloadSecureBinaryTest()throws Exception {
 
 		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_small_file.txt"));
 
@@ -110,7 +98,7 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 
 	
 	@Test
-	public void testDownloadSecureLargeBinaryTest() throws Exception {
+	public void downloadSecureLargeBinaryTest() throws Exception {
 
 		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v2.pdf"));
 

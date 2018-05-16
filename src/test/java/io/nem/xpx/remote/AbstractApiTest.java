@@ -39,7 +39,7 @@ public abstract class AbstractApiTest {
 	protected String localRemote = "http://localhost:8881";
 	
 	/** The upload node base path. */
-	protected String uploadNodeBasePath = "http://dev.gateway.proximax.io";
+	protected String uploadNodeBasePath = "https://dev.gateway.proximax.io";
 
 	/** The download node base path. */
 	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";

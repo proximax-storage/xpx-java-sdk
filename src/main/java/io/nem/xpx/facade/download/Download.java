@@ -105,6 +105,7 @@ public class Download extends AbstractFacadeService {
 				throw new DownloadException("Privacy strategy used is not allowed to decrypt a Nem secured message. " +
 						"Use securedWithNemKeysPrivacyStrategy() to decrypt the message ");
 			}
+
 			final SecureMessage secureMessage = decryptNemMessage(senderOrReceiverPrivateKey,
 					receiverOrSenderPublicKey, transaction);
 
@@ -113,22 +114,25 @@ public class Download extends AbstractFacadeService {
 		} else {
 
 			return ResourceHashMessage.getRootAsResourceHashMessage(
-					ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getEncodedPayload())));
+					ByteBuffer.wrap(Base64.decodeBase64(transaction.getMessage().getDecodedPayload())));
 		}
 	}
 	private SecureMessage decryptNemMessage(final String senderOrReceiverPrivateKey,
 											final String receiverOrSenderPublicKey,
 											final TransferTransaction transaction) throws DownloadException {
 		final Address nemAddress = MessageUtils.getNemAddressFromPrivateKey(senderOrReceiverPrivateKey);
+
 		if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress.toString())) {
 			return SecureMessage.fromEncodedPayload(
 					new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
 					new Account(new KeyPair(PublicKey.fromHexString(receiverOrSenderPublicKey), engine)),
 					transaction.getMessage().getEncodedPayload());
+
 		} else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.toString())) {
+
 			return SecureMessage.fromEncodedPayload(
-					new Account(new KeyPair(PrivateKey.fromHexString(receiverOrSenderPublicKey), engine)),
-					new Account(new KeyPair(PublicKey.fromHexString(senderOrReceiverPrivateKey), engine)),
+					new Account(new KeyPair(PublicKey.fromHexString(receiverOrSenderPublicKey), engine)),
+					new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
 					transaction.getMessage().getEncodedPayload());
 		} else {
 			throw new DownloadException("Private key cannot be used to decrypt the Nem secured message.");
