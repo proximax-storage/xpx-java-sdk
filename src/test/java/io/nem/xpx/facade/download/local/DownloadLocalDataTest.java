@@ -38,9 +38,9 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 	public void downloadPlainDataTest() throws Exception {
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("2d8db574ef9c438d249d36c55137b315a68bc74ae3215d6bbc5c5e0598e6ff00").build());
+				.nemHash("7f2d1944016f1259e552b34cb5029d7473074856229094acc5ba479549e59411").build());
 
-		assertEquals("Assertion failed: Decryted data is not equal to expected", "test plain - new 1",
+		assertEquals("Assertion failed: Decryted data is not equal to expected", "!\"#$%&'()*+,-.:\t ;<=>?@[\\]^_`{|}~",
 				new String(message.getData(), "UTF-8"));
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
 	}
@@ -48,11 +48,11 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 	@Test
 	public void downloadSecureDataTest() throws Exception {
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("51213456ec5fba0ca89980686ffb09310537dbf975adfb5fa808af2b52474a81")
+				.nemHash("47ef7e2a12ea7413a69ef215e33b1d32f21ccbf743b9358efc9909b869ab7e70")
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertEquals("Assertion failed: Decryted data is not equal to expected", "test plain - new 1",
+		assertEquals("Assertion failed: Decryted data is not equal to expected", "test secure - new 2",
 				new String(message.getData(), "UTF-8"));
 		assertEquals(NemMessageType.SECURE, message.getMessageType());
 	}
@@ -61,11 +61,12 @@ public class DownloadLocalDataTest extends AbstractApiTest {
 	public void downloadSecureAsciiDataTest() throws Exception {
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash("51213456ec5fba0ca89980686ffb09310537dbf975adfb5fa808af2b52474a81")
+				.nemHash("e469a236fe5ac1d0bc07d50fc2e009aaf10b68517bfc81517bf83de87fa80594")
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertEquals("Assertion failed: Decryted data is not equal to expected", "test plain - new 1",
+		assertEquals("Assertion failed: Decryted data is not equal to expected", "test secure - new 2",
 				new String(message.getData(), "ASCII"));
 		assertEquals(NemMessageType.SECURE, message.getMessageType());
-	}}
+	}
+}

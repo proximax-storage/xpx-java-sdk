@@ -122,13 +122,13 @@ public class Download extends AbstractFacadeService {
 											final TransferTransaction transaction) throws DownloadException {
 		final Address nemAddress = MessageUtils.getNemAddressFromPrivateKey(senderOrReceiverPrivateKey);
 
-		if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress.toString())) {
+		if (transaction.getSigner().getAddress().getEncoded().equals(nemAddress.getEncoded())) {
 			return SecureMessage.fromEncodedPayload(
 					new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey), engine)),
 					new Account(new KeyPair(PublicKey.fromHexString(receiverOrSenderPublicKey), engine)),
 					transaction.getMessage().getEncodedPayload());
 
-		} else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.toString())) {
+		} else if (transaction.getRecipient().getAddress().getEncoded().equals(nemAddress.getEncoded())) {
 
 			return SecureMessage.fromEncodedPayload(
 					new Account(new KeyPair(PublicKey.fromHexString(receiverOrSenderPublicKey), engine)),

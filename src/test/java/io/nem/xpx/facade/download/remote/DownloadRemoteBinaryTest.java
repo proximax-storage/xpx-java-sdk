@@ -54,30 +54,6 @@ public class DownloadRemoteBinaryTest extends AbstractApiTest {
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
 	}
 
-//	@Test
-//	public void downloadPlainPublicBinaryTest() throws Exception {
-//
-//		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_small_file.txt"));
-//
-//		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-//				.nemHash("1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96").build());
-//
-//		assertArrayEquals(expected, message.getData());
-//		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-//	}
-//
-//	@Test
-//	public void downloadPlainPublicLargeBinaryTest() throws Exception {
-//
-//		byte[] expected = FileUtils.readFileToByteArray(new File("src//test//resources//test_large_file.zip"));
-//
-//		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-//				.nemHash("bc5dd2f86007dcbcf2fbe2be75460db866e7294f9c5f0ba7b1e8f63c12664a02").build());
-//
-//		assertArrayEquals(expected, message.getData());
-//		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-//	}
-
 	@Test
 	public void downloadSecureBinaryTest()throws Exception {
 

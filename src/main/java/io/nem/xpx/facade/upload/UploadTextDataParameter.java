@@ -174,8 +174,12 @@ public class UploadTextDataParameter extends AbstractUploadParameter implements 
 
 		@Override
 		public UploadTextDataParameter build() {
-			if (StringUtils.isEmpty(this.instance.getContentType()))
-				this.instance.setContentType(ContentTypeUtils.detectContentType(this.instance.data));
+			if (instance.getEncoding() == null) {
+				instance.setEncoding("UTF-8");
+			}
+			if (instance.getContentType() == null) {
+				instance.setContentType("text/plain");
+			}
 			return instance;
 		}
 	}

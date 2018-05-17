@@ -127,7 +127,7 @@ public class Upload extends AbstractFacadeService {
 			byte[] response = (byte[]) uploadApi.uploadPlainTextUsingPOST(apiParams);
 
 			return handlePostUpload(uploadParameter.getPrivacyStrategy().getNemMessageType(), uploadParameter.getSenderOrReceiverPrivateKey(),
-					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getMosaics(), response);
+					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading text data: %s", uploadParameter.getData()), e);
 		}	}
@@ -172,7 +172,7 @@ public class Upload extends AbstractFacadeService {
 					uploadParameter.getKeywords(), uploadParameter.getMetaData());
 
 			return handlePostUpload(uploadParameter.getPrivacyStrategy().getNemMessageType(), uploadParameter.getSenderOrReceiverPrivateKey(),
-					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getMosaics(), response);
+					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading path: %s", uploadParameter.getPath()), e);
 		}
