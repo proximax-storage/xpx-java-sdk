@@ -20,8 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
-import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
+import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 

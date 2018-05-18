@@ -16,7 +16,7 @@ import org.junit.experimental.categories.Category;
 import java.io.File;
 
 import static io.nem.xpx.testsupport.Constants.*;
-import static io.nem.xpx.testsupport.Constants.SAMPLE_LARGE_VIDEO_FILE;
+import static io.nem.xpx.testsupport.Constants.LARGE_VIDEO_MP4_FILE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -37,10 +37,10 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainBinaryTest() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(SAMPLE_PDF_FILE1);
+		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(SAMPLE_PDF_FILE1)).build());
+				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(PDF_FILE1)).build());
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
@@ -49,10 +49,10 @@ public class DownloadLocalBinaryTest extends AbstractApiTest {
 	@Test
 	public void downloadPlainLargeBinaryTest() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(SAMPLE_LARGE_VIDEO_FILE);
+		byte[] expected = FileUtils.readFileToByteArray(LARGE_VIDEO_MP4_FILE);
 
 		final DownloadResult message = unitUnderTest.download(DownloadParameter.create()
-				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(SAMPLE_LARGE_VIDEO_FILE)).build());
+				.nemHash(FILE_TO_PLAIN_NEM_HASH_MAP.get(LARGE_VIDEO_MP4_FILE)).build());
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());

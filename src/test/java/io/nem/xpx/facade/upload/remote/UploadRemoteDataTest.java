@@ -1,15 +1,13 @@
 package io.nem.xpx.facade.upload.remote;
 
-import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.upload.UploadException;
+import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.facade.upload.UploadTextDataParameter;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.nem.core.model.mosaic.Mosaic;
@@ -17,211 +15,202 @@ import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import static io.nem.xpx.facade.DataTextContentType.TEXT_HTML;
+import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
+import static io.nem.xpx.testsupport.Constants.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
-import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
-import static org.junit.Assert.assertTrue;
-
-// TODO: Auto-generated Javadoc
-/** 
- * The Class UploadTest.
- */
 @Category(RemoteIntegrationTest.class)
 public class UploadRemoteDataTest extends AbstractApiTest {
 
-	/**
-	 * Upload plain data test.
-	 */
+	public static final String TEST_NAME_1 = "NAME1";
+	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
+	public static final String KEYWORDS_PLAIN_AND_DATA = "plain,data";
+	public static final String KEYWORDS_SECURE_AND_DATA = "secure,data";
+
+	private Upload unitUnderTest;
+
+	@Before
+	public void setUp() {
+		unitUnderTest = new Upload(new RemotePeerConnection(uploadNodeBasePath));
+	}
+
 	@Test
-	public void uploadPlainDataTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadPlainDataTest() throws Exception {
 
-		try {
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			Upload upload = new Upload(remotePeerConnection);
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(new String("plain - the quick brown fox jumps over the lazy dog UTF-8".getBytes(),ENCODING_UTF_8))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_PLAIN_AND_DATA)
+				.metadata(METADATA)
+				.build();
 
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(new String("!\"#$%&'()*+,-.:	 ;<=>?@[\\]^_`{|}~".getBytes(),"UTF-8"))
-					.name("NAME1")
-					.contentType(DataTextContentType.TEXT_PLAIN.toString())
-					.encoding("UTF-8")
-					.keywords("plain,data")
-					.metadata(JsonUtils.toJson(metaData)) // one level map to json
-					.build();
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
 
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-		} catch (IOException | UploadException e) {
-			LOGGER.info(e.getCause().getMessage());
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 	
 	@Test
-	public void uploadPlainDataHtmlTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadPlainDataHtmlTest() throws Exception {
 
-		try {
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			Upload upload = new Upload(remotePeerConnection);
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToString(HTML_FILE))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_HTML.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_PLAIN_AND_DATA)
+				.metadata(METADATA)
+				.build();
 
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToString(new File("src//test//resources//test_html.html")))
-					.name("NAME1")
-					.contentType(DataTextContentType.TEXT_HTML.toString())
-					.encoding("UTF-8")
-					.keywords("plain,data")
-					.metadata(JsonUtils.toJson(metaData)) // one level map to json
-					.build();
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
 
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-		} catch (IOException | UploadException e) {
-			LOGGER.info(e.getCause().getMessage());
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_HTML.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
-	
-	/**
-	 * Upload plain data ascii test.
-	 */
+
 	@Test
-	public void uploadPlainDataAsciiTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadPlainDataAsciiTest() throws Exception {
 
-		try {
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			Upload upload = new Upload(remotePeerConnection);
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(new String("plain - the quick brown fox jumps over the lazy dog ASCII".getBytes(ENCODING_UTF_ASCII)))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_PLAIN_AND_DATA)
+				.metadata(METADATA)
+				.build();
 
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(new String("test plain - new 1".getBytes("ASCII")))
-					.name("NAME1")
-					.contentType(DataTextContentType.TEXT_PLAIN.toString())
-					.encoding("UTF-8")
-					.keywords("plain,data")
-					.metadata(JsonUtils.toJson(metaData)) // one level map to json
-					.build();
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
 
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-		} catch (IOException | UploadException e) {
-			LOGGER.info(e.getCause().getMessage());
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 
 	
-
-	/**
-	 * Upload secure data test.
-	 */
 	@Test
-	public void uploadSecureDataTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadSecureDataTest() throws Exception {
 
-		try {
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			Upload upload = new Upload(remotePeerConnection);
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(new String("test secure - new 2".getBytes(),"UTF-8"))
-					.name("NAME1")
-					.contentType(DataTextContentType.TEXT_PLAIN.toString())
-					.encoding("UTF-8")
-					.keywords("secure,data")
-					.metadata(JsonUtils.toJson(metaData)) // one level map to json
-					.securedWithNemKeysPrivacyStrategy()
-					.build();
-			
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(new String("secure - the quick brown fox jumps over the lazy dog UFT-8".getBytes(),ENCODING_UTF_8))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_SECURE_AND_DATA)
+				.metadata(METADATA)
+				.securedWithNemKeysPrivacyStrategy()
+				.build();
+
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
+
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 
-	
-	/**
-	 * Upload secure data ascii test.
-	 */
 	@Test
-	public void uploadSecureDataAsciiTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadSecureDataAsciiTest() throws Exception {
 
-		try {
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			Upload upload = new Upload(remotePeerConnection);
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(new String("test secure - new 2".getBytes(),"ASCII"))
-					.name("NAME1")
-					.contentType(DataTextContentType.TEXT_PLAIN.toString())
-					.encoding("UTF-8")
-					.keywords("secure,data")
-					.metadata(JsonUtils.toJson(metaData)) // one level map to json
-					.securedWithNemKeysPrivacyStrategy()
-					.build();
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(new String("secure - the quick brown fox jumps over the lazy dog ASCII".getBytes(),ENCODING_UTF_ASCII))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_SECURE_AND_DATA)
+				.metadata(METADATA) // one level map to json
+				.securedWithNemKeysPrivacyStrategy()
+				.build();
+
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
+
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 	
-	/**
-	 * Upload plain data with mosaic test.
-	 */
 	@Test
-	public void uploadPlainDataWithMosaicTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-		
-		try {
-			Upload upload = new Upload(remotePeerConnection);
-			Map<String,String> metaData = new HashMap<String,String>();
-			metaData.put("key1", "value1");
-			
-			UploadTextDataParameter parameter = UploadTextDataParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data("plain-data - alvin reyes this is a new one yes from local 1")
-					.name("RandomName1")
-					.contentType(DataTextContentType.TEXT_PLAIN.toString())
-					.encoding("UTF-8")
-					.keywords("plain,data").metadata(JsonUtils.toJson(metaData))
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
-							Quantity.fromValue(0)))
-					.build();
+	public void uploadPlainDataWithMosaicTest() throws Exception {
 
-			String nemhash = upload.uploadTextData(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data("mosaic - the quick brown fox jumps over the lazy dog")
+				.name(TEST_NAME_RANDOM_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_PLAIN_AND_DATA)
+				.metadata(METADATA)
+				.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
+						Quantity.fromValue(0)))
+				.build();
+
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
+
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_RANDOM_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 }

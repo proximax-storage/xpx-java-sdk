@@ -19,6 +19,8 @@ import static org.junit.Assert.assertNotNull;
 @Category(RemoteIntegrationTest.class)
 public class UploadAsyncRemoteZipFileTest extends AbstractApiTest {
 
+	public static final String KEYWORDS_PLAIN_AND_ZIP_FILE = "plain,zipfile";
+
 	private UploadAsync unitUnderTest;
 
 	@Before
@@ -32,11 +34,11 @@ public class UploadAsyncRemoteZipFileTest extends AbstractApiTest {
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-				.zipFileName(SAMPLE_ZIP_FILE_NAME)
-				.addFile(SAMPLE_PDF_FILE1)
-				.addFile(SAMPLE_PDF_FILE2)
-				.keywords(SAMPLE_KEYWORDS)
-				.metadata(SAMPLE_METADATA)
+				.zipFileName(ZIP_FILE_NAME)
+				.addFile(PDF_FILE1)
+				.addFile(PDF_FILE2)
+				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
+				.metadata(METADATA)
 				.build();
 
 		UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter,
@@ -47,9 +49,9 @@ public class UploadAsyncRemoteZipFileTest extends AbstractApiTest {
 		assertNotNull(uploadResult.getDataMessage());
 		assertNotNull(uploadResult.getDataMessage().hash());
 		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(SAMPLE_KEYWORDS, uploadResult.getDataMessage().keywords());
-		assertEquals(SAMPLE_ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(SAMPLE_METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(KEYWORDS_PLAIN_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
+		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 	}
 }

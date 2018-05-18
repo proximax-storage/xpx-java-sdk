@@ -1,15 +1,13 @@
 package io.nem.xpx.facade.upload.remote;
 
-import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
-import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.facade.upload.UploadBinaryParameter;
+import io.nem.xpx.facade.upload.UploadResult;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
+import io.nem.xpx.remote.AbstractApiTest;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,208 +15,168 @@ import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.primitive.Quantity;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.upload.UploadBinaryParameter;
-import io.nem.xpx.facade.upload.UploadException;
-import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
 
-/**
- * The Class UploadTest.
- */
+import static io.nem.xpx.facade.DataTextContentType.*;
+import static io.nem.xpx.testsupport.Constants.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 @Category(RemoteIntegrationTest.class)
 public class UploadRemoteBinaryTest extends AbstractApiTest {
 
-	/**
-	 * Upload plain file test.
-	 */
-	@Test
-	public void uploadPlainBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public static final String KEYWORDS_PLAIN_AND_BINARY = "plain,binary";
+	public static final String KEYWORDS_SECURE_AND_BINARY = "secure,binary";
 
-		try {
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "1");
+	private Upload unitUnderTest;
 
-			Upload upload = new Upload(remotePeerConnection);
-
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.name("test_pdf_file_v1")
-					.contentType("application/pdf")
-					.keywords("test_pdf_file_v1")
-					.metadata(JsonUtils.toJson(metaData))
-					.build();
-			
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-			
-			
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+	@Before
+	public void setUp() {
+		unitUnderTest = new Upload(new RemotePeerConnection(uploadNodeBasePath));
 	}
-	
-	
+
 	@Test
-	
-	public void uploadPlainLargeVideoBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadPlainBinaryTest() throws Exception{
 
-		try {
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "1");
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(SMALL_VIDEO_MOV_FILE))
+				.name(SMALL_VIDEO_MOV_FILE.getName())
+				.contentType(VIDEO_QUICKTIME.toString())
+				.keywords(KEYWORDS_PLAIN_AND_BINARY)
+				.metadata(METADATA)
+				.build();
 
-			Upload upload = new Upload(remotePeerConnection);
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
 
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_large_video.mp4")))
-					.name("test_pdf_file_v1")
-					.contentType("video/mp4")
-					.keywords("large_video")
-					.metadata(JsonUtils.toJson(metaData))
-					.build();
-			
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-			
-			
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(SMALL_VIDEO_MOV_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(VIDEO_QUICKTIME.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 	
 	@Test
-	public void uploadPlainSmallVideoBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadPlainLargeBinaryTest() throws Exception {
 
-		try {
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "1");
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(LARGE_VIDEO_MP4_FILE))
+				.name(LARGE_VIDEO_MP4_FILE.getName())
+				.contentType(VIDEO_MP4.toString())
+				.keywords(KEYWORDS_PLAIN_AND_BINARY)
+				.metadata(METADATA)
+				.build();
 
-			Upload upload = new Upload(remotePeerConnection);
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
 
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_file.mov")))
-					.name("test_file")
-					.contentType("video/mp4")
-					.keywords("test_file")
-					.metadata(JsonUtils.toJson(metaData))
-					.build();
-			
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-			
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(LARGE_VIDEO_MP4_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(VIDEO_MP4.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 	
-	
-
-	/**
-	 * Upload secure file test.
-	 */
 	@Test
-	public void uploadSecureBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadSecureBinaryTest() throws Exception {
 
-		try {
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "1");
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(PDF_FILE1))
+				.name(PDF_FILE1.getName())
+				.contentType(APPLICATION_PDF.toString())
+				.keywords(KEYWORDS_SECURE_AND_BINARY)
+				.metadata(METADATA)
+				.securedWithNemKeysPrivacyStrategy()
+				.build();
 
-			Upload upload = new Upload(remotePeerConnection);
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-					.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.name("test_pdf_file_v1")
-					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))
-					.securedWithNemKeysPrivacyStrategy()
-					.build();
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
 
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
 	}
 
-	/**
-	 * Upload secure large file test.
-	 */
 	@Test
-	public void uploadSecureLargeBinaryTest() {
-		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+	public void uploadSecureLargeBinaryTest() throws Exception {
 
-		try {
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "1");
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(LARGE_VIDEO_MP4_FILE))
+				.name(LARGE_VIDEO_MP4_FILE.getName())
+				.contentType(VIDEO_MP4.toString())
+				.keywords(KEYWORDS_SECURE_AND_BINARY)
+				.metadata(METADATA)
+				.securedWithNemKeysPrivacyStrategy()
+				.build();
 
-			Upload upload = new Upload(remotePeerConnection);
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
 
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.name("test_pdf_file_v1")
-					.contentType("video/mp4").keywords("large_video").metadata(JsonUtils.toJson(metaData))
-					.securedWithNemKeysPrivacyStrategy()
-					.build();
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(LARGE_VIDEO_MP4_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(VIDEO_MP4.toString(), uploadResult.getDataMessage().type());
 
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		LOGGER.info(uploadResult.getNemHash());
 	}
 
-	/**
-	 * Upload plain binary with mosaic test.
-	 */
 	@Test
 	@Ignore
-	public void uploadPlainBinaryWithMosaicTest() {
-		try {
+	public void uploadPlainBinaryWithMosaicTest() throws Exception {
 
-			RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
-			Upload upload = new Upload(remotePeerConnection);
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(PDF_FILE1))
+				.name(PDF_FILE1.getName())
+				.contentType(APPLICATION_PDF.toString())
+				.keywords(KEYWORDS_PLAIN_AND_BINARY)
+				.metadata(METADATA)
+				.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
+						Quantity.fromValue(0)))
+				.build();
 
-			Map<String, String> metaData = new HashMap<String, String>();
-			metaData.put("key1", "value1");
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
 
-			UploadBinaryParameter parameter = UploadBinaryParameter.create()
-					.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-					.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
-					.name("test_pdf_file_v1")
-					.contentType("application/pdf").keywords("test_pdf_file_v1").metadata(JsonUtils.toJson(metaData))
-					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-							Quantity.fromValue(0)))
-					.build();
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
-			String nemhash = upload.uploadBinary(parameter).getNemHash();
-			LOGGER.info(nemhash);
-			Assert.assertNotNull(nemhash);
-		} catch (IOException | UploadException e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
+		LOGGER.info(uploadResult.getNemHash());
 	}
 
 }
