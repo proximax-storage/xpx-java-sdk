@@ -27,7 +27,7 @@ public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeInt
 	}
 
 	@Test
-	public void shouldUploadMultipleFilesAsync() throws Exception {
+	public void shouldUploadTextDataAsync() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY_2)
