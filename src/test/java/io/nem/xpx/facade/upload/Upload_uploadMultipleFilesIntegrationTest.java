@@ -1,24 +1,19 @@
-package io.nem.xpx.facade.upload.local;
+package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.upload.MultiFileUploadResult;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.factory.ConnectionFactory;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.facade.upload.UploadException;
-import io.nem.xpx.facade.upload.UploadMultipleFilesParameter;
-import io.nem.xpx.remote.AbstractApiTest;
+import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
-@Category(RemoteIntegrationTest.class)
-public class UploadLocalMultiFilesTest extends AbstractApiTest {
+@Category(IntegrationTest.class)
+public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String KEYWORDS_PLAIN_AND_MULTIFILES = "plain,multifiles";
 	public static final String KEYWORDS_SECURE_AND_MULTIFILES = "secure,multifiles";
@@ -27,23 +22,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 
 	@Before
 	public void setUp() {
-		unitUnderTest = new Upload(new LocalHttpPeerConnection(
-				ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
-				ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
-		));
-	}
-
-	@Test(expected = UploadException.class)
-	public void failWhenUploadingNoFile() throws Exception {
-
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
-				.metadata(METADATA)
-				.build();
-
-		unitUnderTest.uploadMultipleFiles(parameter);
+		unitUnderTest = new Upload(peerConnection);
 	}
 
 	@Test
@@ -79,6 +58,8 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 		assertEquals(NON_EXISTENT_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
 		assertNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadException());
+
+		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
 	}
 
 
@@ -89,7 +70,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
-				.addFile(PDF_FILE2)
+				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
 				.metadata(METADATA)
 				.build();
@@ -112,7 +93,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
-		assertEquals(PDF_FILE2, multiFileUploadResult.getFileUploadResults().get(1).getFile());
+		assertEquals(SMALL_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
 		assertNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadException());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
@@ -120,9 +101,12 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().hash());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
-		assertEquals(PDF_FILE2.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
+		assertEquals(SMALL_FILE.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
 		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
+		assertEquals(TEXT_PLAIN.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
+
+		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
+		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
 	}
 
 	@Test
@@ -133,7 +117,7 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
-				.addFile(PDF_FILE2)
+				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_SECURE_AND_MULTIFILES)
 				.metadata(METADATA)
 				.securedWithNemKeysPrivacyStrategy()
@@ -152,12 +136,12 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().hash());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
-		assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
+		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
 		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
-		assertEquals(PDF_FILE2, multiFileUploadResult.getFileUploadResults().get(1).getFile());
+		assertEquals(SMALL_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
 		assertNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadException());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
@@ -165,8 +149,12 @@ public class UploadLocalMultiFilesTest extends AbstractApiTest {
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().hash());
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
-		assertEquals(PDF_FILE2.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
+		assertEquals(SMALL_FILE.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
 		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
+		assertEquals(TEXT_PLAIN.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
+
+		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
+		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
 	}
+
 }

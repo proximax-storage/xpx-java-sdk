@@ -3,35 +3,20 @@
  */
 package io.nem.xpx.facade.download;
 
+import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
-import java.io.Serializable;
 
+public class DownloadTextDataResult extends DownloadResult {
 
-/**
- * The Class DownloadData.
- */
-public class DownloadTextDataResult implements Serializable {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-
-	/** The data message. */
-	private final ResourceHashMessage dataMessage;
-
-	/** The data. */
-	private final String data;
-
-	public DownloadTextDataResult(ResourceHashMessage dataMessage, String data) {
-		this.dataMessage = dataMessage;
-		this.data = data;
+	private DownloadTextDataResult(final ResourceHashMessage dataMessage, final byte[] data, final NemMessageType messageType) {
+		super(dataMessage, data, messageType);
 	}
 
-	public ResourceHashMessage getDataMessage() {
-		return dataMessage;
-	}
+	public static DownloadTextDataResult fromDownloadResult(DownloadResult downloadResult) {
+		return new DownloadTextDataResult(downloadResult.getDataMessage(),
+				downloadResult.getData(),
+				downloadResult.getMessageType());
 
-	public String getData() {
-		return data;
 	}
 }

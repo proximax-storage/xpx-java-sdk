@@ -3,7 +3,6 @@
  */
 package io.nem.xpx.facade.download;
 
-import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
@@ -12,27 +11,15 @@ import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
-import io.nem.xpx.utils.CryptoUtils;
 import io.nem.xpx.utils.MessageUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.nem.core.crypto.*;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
-import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
-import org.nem.core.model.ncc.TransactionMetaDataPair;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 
@@ -46,13 +33,13 @@ public class Download extends AbstractFacadeService {
 	private final PeerConnection peerConnection;
 
 	/** The download api. */
-	protected final DownloadApi downloadApi;
+	private final DownloadApi downloadApi;
 
 	/** The nem transaction api. */
-	protected final NemTransactionApi nemTransactionApi;
+	private final NemTransactionApi nemTransactionApi;
 
 	/** The engine. */
-	protected final CryptoEngine engine;
+	private final CryptoEngine engine;
 
 
 	/**
@@ -73,7 +60,19 @@ public class Download extends AbstractFacadeService {
 		this.engine = CryptoEngines.ed25519Engine();
 	}
 
-	public DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
+	public DownloadBinaryResult downloadBinary(DownloadParameter downloadParameter) throws DownloadException {
+		return DownloadBinaryResult.fromDownloadResult(download(downloadParameter));
+	}
+
+	public DownloadTextDataResult downloadTextData(DownloadParameter downloadParameter) throws DownloadException {
+		return DownloadTextDataResult.fromDownloadResult(download(downloadParameter));
+	}
+
+	public DownloadFileResult downloadFile(DownloadParameter downloadParameter) throws DownloadException {
+		return DownloadFileResult.fromDownloadResult(download(downloadParameter));
+	}
+
+	private DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
 
 		final TransferTransaction transaction = getNemTransferTransaction(downloadParameter.getNemHash());
 

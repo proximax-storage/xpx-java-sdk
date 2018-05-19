@@ -1,28 +1,20 @@
-package io.nem.xpx.facade.upload.remote;
+package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.facade.upload.UploadBinaryParameter;
-import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.remote.AbstractApiTest;
+import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.*;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@Category(RemoteIntegrationTest.class)
-public class UploadRemoteBinaryTest extends AbstractApiTest {
+@Category(IntegrationTest.class)
+public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String KEYWORDS_PLAIN_AND_BINARY = "plain,binary";
 	public static final String KEYWORDS_SECURE_AND_BINARY = "secure,binary";
@@ -31,11 +23,11 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 
 	@Before
 	public void setUp() {
-		unitUnderTest = new Upload(new RemotePeerConnection(uploadNodeBasePath));
+		unitUnderTest = new Upload(peerConnection);
 	}
 
 	@Test
-	public void uploadPlainBinaryTest() throws Exception{
+	public void shouldUploadPlainBinaryTest() throws Exception{
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -63,14 +55,14 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	}
 	
 	@Test
-	public void uploadPlainLargeBinaryTest() throws Exception {
+	public void shouldUploadPlainLargeBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-				.data(FileUtils.readFileToByteArray(LARGE_VIDEO_MP4_FILE))
-				.name(LARGE_VIDEO_MP4_FILE.getName())
-				.contentType(VIDEO_MP4.toString())
+				.data(FileUtils.readFileToByteArray(PDF_FILE2))
+				.name(PDF_FILE2.getName())
+				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
 				.metadata(METADATA)
 				.build();
@@ -83,15 +75,15 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 		assertNotNull(uploadResult.getDataMessage().hash());
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
-		assertEquals(LARGE_VIDEO_MP4_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
 		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
-		assertEquals(VIDEO_MP4.toString(), uploadResult.getDataMessage().type());
+		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
 	@Test
-	public void uploadSecureBinaryTest() throws Exception {
+	public void shouldUploadSecureBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -120,14 +112,15 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 	}
 
 	@Test
-	public void uploadSecureLargeBinaryTest() throws Exception {
+	@Ignore
+	public void shouldUploadSecureLargeBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
-				.data(FileUtils.readFileToByteArray(LARGE_VIDEO_MP4_FILE))
-				.name(LARGE_VIDEO_MP4_FILE.getName())
-				.contentType(VIDEO_MP4.toString())
+				.data(FileUtils.readFileToByteArray(PDF_FILE2))
+				.name(PDF_FILE2.getName())
+				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_SECURE_AND_BINARY)
 				.metadata(METADATA)
 				.securedWithNemKeysPrivacyStrategy()
@@ -141,16 +134,16 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 		assertNotNull(uploadResult.getDataMessage().hash());
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
-		assertEquals(LARGE_VIDEO_MP4_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
 		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
-		assertEquals(VIDEO_MP4.toString(), uploadResult.getDataMessage().type());
+		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
 	@Test
 	@Ignore
-	public void uploadPlainBinaryWithMosaicTest() throws Exception {
+	public void shouldUploadPlainBinaryWithMosaicTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -160,8 +153,7 @@ public class UploadRemoteBinaryTest extends AbstractApiTest {
 				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
 				.metadata(METADATA)
-				.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
-						Quantity.fromValue(0)))
+				.mosaics(MOSAIC_PRX)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);

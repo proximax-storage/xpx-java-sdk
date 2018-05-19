@@ -1,19 +1,12 @@
-package io.nem.xpx.facade.upload.remote;
+package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.facade.upload.Upload;
-import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.facade.upload.UploadTextDataParameter;
-import io.nem.xpx.integration.tests.RemoteIntegrationTest;
-import io.nem.xpx.remote.AbstractApiTest;
+import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
+import io.nem.xpx.integration.tests.IntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
-import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.TEXT_HTML;
 import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
@@ -21,26 +14,28 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@Category(RemoteIntegrationTest.class)
-public class UploadRemoteDataTest extends AbstractApiTest {
+@Category(IntegrationTest.class)
+public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String TEST_NAME_1 = "NAME1";
 	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
 	public static final String KEYWORDS_PLAIN_AND_DATA = "plain,data";
 	public static final String KEYWORDS_SECURE_AND_DATA = "secure,data";
+    public static final String ENCODING_UTF_8 = "UTF-8";
+    public static final String ENCODING_UTF_ASCII = "ASCII";
 
 	private Upload unitUnderTest;
 
 	@Before
 	public void setUp() {
-		unitUnderTest = new Upload(new RemotePeerConnection(uploadNodeBasePath));
+		unitUnderTest = new Upload(peerConnection);
 	}
 
 	@Test
-	public void uploadPlainDataTest() throws Exception {
+	public void shouldUploadPlainData() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY_2)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("plain - the quick brown fox jumps over the lazy dog UTF-8".getBytes(),ENCODING_UTF_8))
 				.name(TEST_NAME_1)
@@ -66,7 +61,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	}
 	
 	@Test
-	public void uploadPlainDataHtmlTest() throws Exception {
+	public void shouldUploadPlainDataHtml() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -95,7 +90,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	}
 
 	@Test
-	public void uploadPlainDataAsciiTest() throws Exception {
+	public void shouldUploadPlainDataAscii() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -125,7 +120,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 
 	
 	@Test
-	public void uploadSecureDataTest() throws Exception {
+	public void shouldUploadSecureData() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -155,7 +150,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	}
 
 	@Test
-	public void uploadSecureDataAsciiTest() throws Exception {
+	public void shouldUploadSecureDataAscii() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -185,7 +180,8 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 	}
 	
 	@Test
-	public void uploadPlainDataWithMosaicTest() throws Exception {
+	@Ignore
+	public void shouldUploadPlainDataWithMosaic() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
@@ -195,8 +191,7 @@ public class UploadRemoteDataTest extends AbstractApiTest {
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
 				.metadata(METADATA)
-				.mosaics(new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
-						Quantity.fromValue(0)))
+				.mosaics(MOSAIC_PRX)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);

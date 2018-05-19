@@ -1,6 +1,13 @@
 package io.nem.xpx.testsupport;
 
+import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
+import io.nem.xpx.facade.connection.RemotePeerConnection;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.utils.JsonUtils;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 import java.io.File;
 import java.util.HashMap;
@@ -9,6 +16,14 @@ import java.util.Map;
 import static java.util.Collections.singletonMap;
 
 public class Constants {
+
+    public static final RemotePeerConnection REMOTE_PEER_CONNECTION =
+            new RemotePeerConnection("https://dev.gateway.proximax.io");
+    public static final LocalHttpPeerConnection LOCAL_HTTP_PEER_CONNECTION =
+            new LocalHttpPeerConnection(
+                    ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+                    ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+            );
 
     public static final File PDF_FILE1 = new File("src//test//resources//test_pdf_file_v1.pdf");
     public static final File PDF_FILE2 = new File("src//test//resources//test_pdf_file_v2.pdf");
@@ -19,10 +34,10 @@ public class Constants {
     public static final File SMALL_FILE = new File("src//test//resources//test_small_file.txt");
     public static final File HTML_FILE = new File("src//test//resources//test_html.html");
 
-    public static final String ZIP_FILE_NAME = "test.zip";
-
-    public static final String ENCODING_UTF_8 = "UTF-8";
-    public static final String ENCODING_UTF_ASCII = "ASCII";
+    public static final Mosaic MOSAIC_LAND_REGISTRY =
+            new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"), Quantity.fromValue(0));
+    public static final Mosaic MOSAIC_PRX =
+            new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(0));
 
     public static final String METADATA = JsonUtils.toJson(singletonMap("key1", "value1"));
 
@@ -38,14 +53,23 @@ public class Constants {
     public static final String TEST_PRIVATE_KEY_3 = "e079b5587fd841d3ea22b4a7be0ec362f01fc47cb26a8b6146882ab9b5953219";
     public static final String TEST_PUBLIC_KEY_3 = "0a18107148e5e4b2e7eed844e06c7051885eeebb39cc8fcb139edc0380f3d219";
 
-    public static final Map<File, String> FILE_TO_PLAIN_NEM_HASH_MAP = fileToNemHashMap();
+    public static final Map<File, String> FILE_TO_PLAIN_MSG_NEM_HASH_MAP = fileToPlainMessageNemHashMap();
+    public static final Map<File, String> FILE_TO_SECURE_MSG_NEM_HASH_MAP = fileToSecureMessageNemHashMap();
 
-    private static Map<File, String> fileToNemHashMap() {
+    private static Map<File, String> fileToPlainMessageNemHashMap() {
         final HashMap<File, String> map = new HashMap<>();
-        map.put(PDF_FILE1, "e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
+        map.put(PDF_FILE1, "90b901d3fb1cbcac16e93b1033131b3795aa0b821ae18a622d51ae7da4807287");
+        map.put(PDF_FILE2, "b086343531be6d2ae2fe17ce9188f55ee2ccd4466d8c161bfe5858ae5a6c017a");
         map.put(LARGE_VIDEO_MP4_FILE, "ce6f43c3f0c95c96f904a3e97891228c647cb4f7af8628d82cf7eb35aa1a7035");
-//        map.put(SAMPLE_LARGE_FILE, "1c66641e3340ef14d617e327ca8a4c4484d749df7e3400aa65c9d34dd0738d96");
-//        map.put(SAMPLE_SMALL_FILE, "e0ca6d958ba01592ddeaa40e9d810a4314707f6673c2271e5d0eeb018a4be997");
+        map.put(SMALL_FILE, "441a9aad87716bf56f27a1e2adc614a7bcd8077bfa1a7057e662eb14d5615fff");
+        return map;
+    }
+
+    private static Map<File, String> fileToSecureMessageNemHashMap() {
+        final HashMap<File, String> map = new HashMap<>();
+        map.put(PDF_FILE1, "4315c8619422407f5e2b82788429214166307930747f69a2cfb7b6fba420635d");
+        map.put(PDF_FILE2, "436cdb30018d3e23cd016fbde04a80d5747fccac7e8a97f7448afcfe09e600d7");
+        map.put(SMALL_FILE, "f854b60a585a83cf2484bd254380e9bb8240f999cbd78eeb8e9b8792aed4025a");
         return map;
     }
 

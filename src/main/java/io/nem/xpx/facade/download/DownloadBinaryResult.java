@@ -3,35 +3,20 @@
  */
 package io.nem.xpx.facade.download;
 
+import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
-import java.io.Serializable;
 
+public class DownloadBinaryResult extends DownloadResult {
 
-/**
- * The Class DownloadData.
- */
-public class DownloadBinaryResult implements Serializable {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-
-	/** The data message. */
-	private final ResourceHashMessage dataMessage;
-
-	/** The data. */
-	private final byte[] data;
-
-	public DownloadBinaryResult(ResourceHashMessage dataMessage, byte[] data) {
-		this.dataMessage = dataMessage;
-		this.data = data;
+	private DownloadBinaryResult(final ResourceHashMessage dataMessage, final byte[] data, final NemMessageType messageType) {
+		super(dataMessage, data, messageType);
 	}
 
-	public ResourceHashMessage getDataMessage() {
-		return dataMessage;
-	}
+	public static DownloadBinaryResult fromDownloadResult(DownloadResult downloadResult) {
+		return new DownloadBinaryResult(downloadResult.getDataMessage(),
+				downloadResult.getData(),
+				downloadResult.getMessageType());
 
-	public byte[] getData() {
-		return data;
 	}
 }

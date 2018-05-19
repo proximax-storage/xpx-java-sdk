@@ -35,7 +35,7 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 					Download download = new Download(localPeerConnection);
 					String timeStamp = System.currentTimeMillis() + "";
 					long expectedFileSize = this.extractLargeFileSize();
-					DownloadResult message = download.download(DownloadParameter.create()
+					DownloadResult message = download.downloadBinary(DownloadParameter.create()
 							.nemHash("980b78a6927216eeca327749861b6008fcfe24a41784ef80172443ed42556e5a").build());
 
 					FileUtils
