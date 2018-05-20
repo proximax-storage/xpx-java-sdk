@@ -23,6 +23,15 @@ public class SecuredWithNemKeysPrivacyStrategyTest {
     public static final KeyPair RECEIVER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_2), engine);
     public static final KeyPair ANOTHER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_3), engine);
 
+    @Test(expected = IllegalArgumentException.class)
+    public void failInitWithoutPrivateKey() {
+        new SecuredWithNemKeysPrivacyStrategy(null, RECEIVER_KEYPAIR.getPublicKey().toString());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failInitWithoutPublicKey() {
+        new SecuredWithNemKeysPrivacyStrategy(SENDER_KEYPAIR.getPrivateKey().toString(), null);
+    }
 
     @Test
     public void returnEncryptedWithKeys() {

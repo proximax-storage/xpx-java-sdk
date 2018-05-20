@@ -6,6 +6,8 @@ import io.nem.xpx.utils.MessageUtils;
 import org.nem.core.model.Address;
 import org.nem.core.model.TransferTransaction;
 
+import static io.nem.xpx.utils.ParameterValidationUtils.checkParameter;
+
 public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
 
     private String senderOrReceiverPrivateKey;
@@ -13,6 +15,10 @@ public final class SecuredWithNemKeysPrivacyStrategy extends PrivacyStrategy {
 
     public SecuredWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
         super(NemMessageType.SECURE);
+
+        checkParameter(senderOrReceiverPrivateKey != null, "private key is required");
+        checkParameter(receiverOrSenderPublicKey != null, "public key is required");
+
         this.senderOrReceiverPrivateKey = senderOrReceiverPrivateKey;
         this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
     }
