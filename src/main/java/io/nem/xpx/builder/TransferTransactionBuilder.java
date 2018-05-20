@@ -7,8 +7,6 @@ import io.nem.xpx.factory.AttachmentFactory;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
-import org.nem.core.messages.PlainMessage;
-import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.*;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
@@ -148,18 +146,7 @@ public class TransferTransactionBuilder {
 		 *            the message type
 		 * @return the i build
 		 */
-		IBuild message(String message, int messageType);
-
-		/**
-		 * Message.
-		 *
-		 * @param message
-		 *            the message
-		 * @param messageType
-		 *            the message type
-		 * @return the i build
-		 */
-		IBuild message(byte[] message, int messageType);
+		IBuild message(Message message);
 
 		/**
 		 * Adds the mosaic.
@@ -431,42 +418,11 @@ public class TransferTransactionBuilder {
 		 * String, org.nem.core.model.MessageTypes)
 		 */
 		@Override
-		public IBuild message(String message, int messageType) {
-			Message transactionMessage = null;
-			if (messageType == MessageTypes.SECURE) {
-				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message.getBytes());
-			} else {
-				transactionMessage = new PlainMessage(message.getBytes());
-			}
-
+		public IBuild message(Message message) {
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(message));
 			} else {
-				this.attachment.setMessage(transactionMessage);
-			}
-
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.spectro.builders.TransactionBuilder.IBuild#message(byte[],
-		 * org.nem.core.model.MessageTypes)
-		 */
-		@Override
-		public IBuild message(byte[] message, int messageType) {
-			Message transactionMessage = null;
-			if (messageType == MessageTypes.SECURE) {
-				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message);
-			} else {
-				transactionMessage = new PlainMessage(message);
-			}
-
-			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
-			} else {
-				this.attachment.setMessage(transactionMessage);
+				this.attachment.setMessage(message);
 			}
 
 			return this;

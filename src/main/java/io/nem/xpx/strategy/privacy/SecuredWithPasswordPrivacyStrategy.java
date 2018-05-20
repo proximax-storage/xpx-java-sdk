@@ -7,7 +7,7 @@ import org.nem.core.model.TransferTransaction;
 
 import static io.nem.xpx.utils.ParameterValidationUtils.checkParameter;
 
-public final class SecuredWithPasswordPrivacyStrategy extends PlainPrivacyStrategy {
+public final class SecuredWithPasswordPrivacyStrategy extends AbstractPlainMessagePrivacyStrategy {
 
     private static final int MINIMUM_PASSWORD_LENGTH = 50;
     private final BinaryPBKDF2CipherEncryption encryptor;

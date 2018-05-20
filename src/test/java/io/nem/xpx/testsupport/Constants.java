@@ -17,6 +17,8 @@ import static java.util.Collections.singletonMap;
 
 public class Constants {
 
+    private Constants() {}
+
     public static final RemotePeerConnection REMOTE_PEER_CONNECTION =
             new RemotePeerConnection("https://dev.gateway.proximax.io");
     public static final LocalHttpPeerConnection LOCAL_HTTP_PEER_CONNECTION =

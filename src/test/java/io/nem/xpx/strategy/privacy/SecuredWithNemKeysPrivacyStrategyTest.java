@@ -1,8 +1,8 @@
 package io.nem.xpx.strategy.privacy;
 
+import io.nem.xpx.exceptions.DecryptionFailureException;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import org.junit.Test;
-import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -18,10 +18,9 @@ import static org.junit.Assert.assertFalse;
 public class SecuredWithNemKeysPrivacyStrategyTest {
 
     public static final byte[] SAMPLE_DATA = "the quick brown fox jumps over the lazy dog".getBytes();
-    public static final CryptoEngine engine = CryptoEngines.ed25519Engine();
-    public static final KeyPair SENDER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY), engine);
-    public static final KeyPair RECEIVER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_2), engine);
-    public static final KeyPair ANOTHER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_3), engine);
+    public static final KeyPair SENDER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY));
+    public static final KeyPair RECEIVER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_2));
+    public static final KeyPair ANOTHER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_3));
 
     @Test(expected = IllegalArgumentException.class)
     public void failInitWithoutPrivateKey() {
@@ -41,6 +40,14 @@ public class SecuredWithNemKeysPrivacyStrategyTest {
         final byte[] encrypted = unitUnderTest.encrypt(SAMPLE_DATA);
 
         assertFalse(Arrays.equals(SAMPLE_DATA, encrypted));
+    }
+
+    @Test(expected = DecryptionFailureException.class)
+    public void failDecryptWhenPrivateKeyIsNeitherSenderOrReceiver() {
+        final SecuredWithNemKeysPrivacyStrategy unitUnderTest =
+                new SecuredWithNemKeysPrivacyStrategy(ANOTHER_KEYPAIR.getPrivateKey().toString(), RECEIVER_KEYPAIR.getPublicKey().toString());
+
+        unitUnderTest.decrypt(SAMPLE_DATA, aSampleTransaction(), aSampleResourceHashMessage());
     }
 
     @Test
@@ -63,18 +70,10 @@ public class SecuredWithNemKeysPrivacyStrategyTest {
         assertArrayEquals(SAMPLE_DATA, decrypted);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void failWhenPrivateKeyIsNeitherSenderOrReceiver() {
-        final SecuredWithNemKeysPrivacyStrategy unitUnderTest =
-                new SecuredWithNemKeysPrivacyStrategy(ANOTHER_KEYPAIR.getPrivateKey().toString(), RECEIVER_KEYPAIR.getPublicKey().toString());
-
-        unitUnderTest.decrypt(SAMPLE_DATA, aSampleTransaction(), aSampleResourceHashMessage());
-    }
-
     private byte[] sampleEncryptedData() {
-        return engine.createBlockCipher(
-                new KeyPair(SENDER_KEYPAIR.getPrivateKey(), engine),
-                new KeyPair(RECEIVER_KEYPAIR.getPublicKey(), engine)).encrypt(SAMPLE_DATA);
+        return CryptoEngines.defaultEngine().createBlockCipher(
+                new KeyPair(SENDER_KEYPAIR.getPrivateKey()),
+                new KeyPair(RECEIVER_KEYPAIR.getPublicKey())).encrypt(SAMPLE_DATA);
     }
 
     private TransferTransaction aSampleTransaction() {

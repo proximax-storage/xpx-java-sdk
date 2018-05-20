@@ -1,14 +1,9 @@
 package io.nem.xpx.strategy.privacy;
 
-import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import org.nem.core.model.TransferTransaction;
 
-public class PlainPrivacyStrategy extends PrivacyStrategy {
-
-    public PlainPrivacyStrategy() {
-        super(NemMessageType.PLAIN);
-    }
+public class PlainPrivacyStrategy extends AbstractPlainMessagePrivacyStrategy {
 
     @Override
     public byte[] encrypt(final byte[] data) {
