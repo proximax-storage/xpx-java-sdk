@@ -1,5 +1,15 @@
 package io.nem.xpx.facade.multisigupload;
 
+import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
+import io.nem.xpx.facade.AbstractAsyncFacadeService;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.facade.upload.UploadException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -8,22 +18,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
-import io.nem.xpx.callback.ServiceAsyncCallback;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
-import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.upload.UploadException;
+public class MultisigUploadAsync extends AbstractAsyncFacadeService {
 
-
-
-/**
- * The Class MultisigUpload.
- */
-public class MultisigUploadAsync extends MultisigUpload {
+	private MultisigUpload multisigUpload;
 
 	/**
 	 * Instantiates a new upload.
@@ -34,10 +32,7 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 *             the peer connection not found exception
 	 */
 	public MultisigUploadAsync(PeerConnection peerConnection) {
-		super(peerConnection);
-		if (peerConnection == null) {
-			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
-		}
+		this.multisigUpload = new MultisigUpload(peerConnection);
 	}
 
 	/**
@@ -58,25 +53,16 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadDataOnMultisigTransaction(MultisigUploadTextDataParameter parameters,
-			ServiceAsyncCallback<MultisigUploadResult> callback) throws ApiException, NoSuchAlgorithmException, InvalidKeyException,
-			InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-			IllegalBlockSizeException, BadPaddingException, IOException, UploadException {
+			ServiceAsyncCallback<MultisigUploadResult> callback) {
 
-		CompletableFuture<MultisigUploadResult> multisigUploadDataAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadResult multisigUploadData = null;
-			try {
-				multisigUploadData = handleMultisigDataUpload(parameters);
-			} catch (UploadException | IOException | ApiException e) {
-				throw new CompletionException(e);
-			}
-			return multisigUploadData;
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-		return multisigUploadDataAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return multisigUpload.uploadDataOnMultisigTransaction(parameters);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 	}
 
 	/**
@@ -97,25 +83,16 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadFileOnMultisigTransaction(MultisigUploadFileParameter parameters,
-			ServiceAsyncCallback<MultisigUploadResult> callback) throws IOException, ApiException, InvalidKeyException, InvalidKeySpecException,
-			NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-			IllegalBlockSizeException, BadPaddingException, UploadException {
+			ServiceAsyncCallback<MultisigUploadResult> callback) {
 
-		CompletableFuture<MultisigUploadResult> multisigUploadFileAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadResult multisigUploadData = null;
-			try {
-				multisigUploadData = handleMultisigFileUpload(parameters);
-			} catch (UploadException | IOException | ApiException e) {
-				throw new CompletionException(e);
-			}
-			return multisigUploadData;
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-		return multisigUploadFileAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return multisigUpload.uploadFileOnMultisigTransaction(parameters);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 	}
 
 	/**
@@ -136,25 +113,16 @@ public class MultisigUploadAsync extends MultisigUpload {
 	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadBinaryOnMultisigTransaction(
-			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadResult> callback) throws IOException, ApiException,
-			InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException,
-			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UploadException {
+			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadResult> callback) {
 
-		CompletableFuture<MultisigUploadResult> multisigUploadBinaryAsync = CompletableFuture.supplyAsync(() -> {
-			MultisigUploadResult multisigUploadData = null;
-			try {
-				multisigUploadData = handleMultisigBinaryUpload(parameters);
-			} catch (UploadException | IOException | ApiException e) {
-				throw new CompletionException(e);
-			}
-			return multisigUploadData;
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-		return multisigUploadBinaryAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return multisigUpload.uploadBinaryOnMultisigTransaction(parameters);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 
 	}
 

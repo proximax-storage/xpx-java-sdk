@@ -3,27 +3,21 @@
  */
 package io.nem.xpx.facade.multisigcosign;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import org.nem.core.crypto.Hash;
-import org.nem.core.crypto.KeyPair;
-import org.nem.core.crypto.PublicKey;
+import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.facade.AbstractAsyncFacadeService;
+import io.nem.xpx.facade.connection.PeerConnection;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
 
-import io.nem.xpx.builder.MultisigSignatureTransactionBuilder;
-import io.nem.xpx.callback.ServiceAsyncCallback;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.facade.connection.PeerConnection;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 
+public class MultisigCoSignAsync extends AbstractAsyncFacadeService {
 
-/**
- * The Class MultisigCoSign.
- */
-public class MultisigCoSignAsync extends MultisigCoSign {
-
+	private MultisigCoSign multisigCoSign;
 	/**
 	 * Instantiates a new multisig co sign.
 	 *
@@ -31,7 +25,7 @@ public class MultisigCoSignAsync extends MultisigCoSign {
 	 *            the peer connection
 	 */
 	public MultisigCoSignAsync(PeerConnection peerConnection) {
-		super(peerConnection);
+		this.multisigCoSign = new MultisigCoSign(peerConnection);
 	}
 
 	/**
@@ -45,31 +39,16 @@ public class MultisigCoSignAsync extends MultisigCoSign {
 	 * @throws ApiException             the api exception
 	 */
 	public CompletableFuture<MultisigSignatureTransaction> coSign(String nemHash, String multisigAccount, List<Account> signers, 
-			ServiceAsyncCallback<MultisigSignatureTransaction> callback)
-			throws ApiException {
+			ServiceAsyncCallback<MultisigSignatureTransaction> callback) {
 
-		
-		CompletableFuture<MultisigSignatureTransaction> multisigSignatureTransactionAsync = CompletableFuture
-				.supplyAsync(() -> {
-					MultisigSignatureTransaction multisigSignatureTransaction = null;
+		return runAsync(
+				() -> {
 					try {
-						multisigSignatureTransaction = MultisigSignatureTransactionBuilder
-								.peerConnection(peerConnection)
-								.multisig(new Account(new KeyPair(PublicKey.fromHexString(multisigAccount)))) // multisig
-								.addSigners(signers).otherTransaction(Hash.fromHexString(nemHash)).coSign();
+						return multisigCoSign.coSign(nemHash, multisigAccount, signers);
 					} catch (ApiException e) {
 						throw new CompletionException(e);
 					}
-					return multisigSignatureTransaction;
-				}).thenApply(n -> {
-					// call the callback?
-					callback.process(n);
-					return n;
-				});
-
-		return multisigSignatureTransactionAsync;
-
-
+				}, callback);
 	}
 
 }

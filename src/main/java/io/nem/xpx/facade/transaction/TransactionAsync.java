@@ -26,65 +26,65 @@ public class TransactionAsync extends AbstractAsyncFacadeService {
 			ServiceAsyncCallback<TransactionMetaDataPair> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return transaction.getTransaction(hash);
 					} catch (ApiException | InterruptedException | ExecutionException e) {
 						throw new CompletionException(e);
 					}
-				}, hash,  callback);
+				}, callback);
 	}
 
 	public CompletableFuture<List<TransactionMetaDataPair>> getAllTransactions(String publicKey,
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return transaction.getAllTransactions(publicKey);
 					} catch (ApiException | InterruptedException | ExecutionException e) {
 						throw new CompletionException(e);
 					}
-				}, publicKey,  callback);
+				}, callback);
 	}
 
 	public CompletableFuture<List<TransactionMetaDataPair>> getIncomingTransactions(String publicKey,
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return transaction.getIncomingTransactions(publicKey);
 					} catch (ApiException | InterruptedException | ExecutionException e) {
 						throw new CompletionException(e);
 					}
-				}, publicKey,  callback);
+				}, callback);
 	}
 
 	public CompletableFuture<List<TransactionMetaDataPair>> getOutgoingTransactions(String publicKey,
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return transaction.getOutgoingTransactions(publicKey);
 					} catch (ApiException | InterruptedException | ExecutionException e) {
 						throw new CompletionException(e);
 					}
-				}, publicKey,  callback);
+				}, callback);
 	}
 
 	public CompletableFuture<List<TransactionMetaDataPair>> getUnconfirmedTransactions(String publicKey,
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return transaction.getUnconfirmedTransactions(publicKey);
 					} catch (ApiException | InterruptedException | ExecutionException e) {
 						throw new CompletionException(e);
 					}
-				}, publicKey,  callback);
+				}, callback);
 	}
 
 }
