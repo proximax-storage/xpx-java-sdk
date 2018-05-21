@@ -12,20 +12,25 @@ import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
-import io.nem.xpx.model.*;
+import io.nem.xpx.model.DataResponse;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import io.nem.xpx.utils.JsonUtils;
-import io.nem.xpx.utils.MessageEncryptUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
+import org.nem.core.model.Message;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
@@ -92,10 +97,10 @@ public class Upload extends AbstractFacadeService {
 			throws UploadException {
 
 		try {
-			byte[] data = FileUtils.readFileToByteArray(uploadParameter.getData());
+			byte[] data = FileUtils.readFileToByteArray(uploadParameter.getFile());
 			return handleBinaryUpload(uploadParameter, data);
 		} catch (Exception e) {
-			throw new UploadException(format("Error on uploading file data: %s", uploadParameter.getData().getAbsolutePath()), e);
+			throw new UploadException(format("Error on uploading file data: %s", uploadParameter.getFile().getAbsolutePath()), e);
 		}
 	}
 
@@ -108,12 +113,12 @@ public class Upload extends AbstractFacadeService {
 	 * @throws UploadException
 	 *             the upload exception
 	 */
-	public UploadResult uploadTextData(UploadDataParameter uploadParameter)
+	public UploadResult uploadTextData(UploadTextDataParameter uploadParameter)
 			throws UploadException {
 		try {
-			byte[] data = uploadParameter.getData().getBytes(uploadParameter.getEncoding());
-			String encryptedData = MessageEncryptUtils.encryptToString(uploadParameter.getMessageType(), data,
-					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getSenderOrReceiverPrivateKey());
+			final byte[] data = uploadParameter.getData().getBytes(uploadParameter.getEncoding());
+			final byte[] dataWithPrivacy = uploadParameter.getPrivacyStrategy().encrypt(data);
+			final String encryptedData = Base64.encodeBase64String(dataWithPrivacy);
 
 			UploadTextRequestParameter apiParams = new UploadTextRequestParameter()
 					.contentType(uploadParameter.getContentType())
@@ -123,10 +128,10 @@ public class Upload extends AbstractFacadeService {
 					.name(uploadParameter.getName())
 					.text(encryptedData);
 
-			byte[] response = (byte[]) uploadApi.uploadPlainTextUsingPOST(apiParams);
+			final byte[] response = (byte[]) uploadApi.uploadPlainTextUsingPOST(apiParams);
 
-			return handlePostUpload(uploadParameter.getMessageType(), uploadParameter.getSenderOrReceiverPrivateKey(),
-					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getMosaics(), response);
+			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderOrReceiverPrivateKey(),
+					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading text data: %s", uploadParameter.getData()), e);
 		}	}
@@ -170,8 +175,8 @@ public class Upload extends AbstractFacadeService {
 			byte[] response = (byte[])((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
 					uploadParameter.getKeywords(), uploadParameter.getMetaData());
 
-			return handlePostUpload(uploadParameter.getMessageType(), uploadParameter.getSenderOrReceiverPrivateKey(),
-					uploadParameter.getSenderOrReceiverPrivateKey(), uploadParameter.getMosaics(), response);
+			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderOrReceiverPrivateKey(),
+					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading path: %s", uploadParameter.getPath()), e);
 		}
@@ -200,7 +205,7 @@ public class Upload extends AbstractFacadeService {
                     try {
                         byte[] data = FileUtils.readFileToByteArray(file);
                         return new FileUploadResult(file,
-								handleBinaryUpload(param.getMessageType(), param.getSenderOrReceiverPrivateKey(),
+								handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderOrReceiverPrivateKey(),
 										param.getReceiverOrSenderPublicKey(), ContentTypeUtils.detectContentType(data),
 										param.getKeywords(), param.getMetaData(), file.getName(), param.getMosaics(), data));
                     } catch (Exception e) {
@@ -210,18 +215,18 @@ public class Upload extends AbstractFacadeService {
         return new MultiFileUploadResult(fileUploadResults);
 	}
 
-	private UploadResult handleBinaryUpload(DataParameter param, byte[] data)
+	private UploadResult handleBinaryUpload(AbstractUploadParameter param, byte[] data)
 			throws UploadException {
-		return handleBinaryUpload(param.getMessageType(), param.getSenderOrReceiverPrivateKey(), param.getReceiverOrSenderPublicKey(),
+		return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderOrReceiverPrivateKey(), param.getReceiverOrSenderPublicKey(),
 				param.getContentType(), param.getKeywords(), param.getMetaData(), param.getName(), param.getMosaics(), data);
 	}
 
-	private UploadResult handleBinaryUpload(int messageType, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
+	private UploadResult handleBinaryUpload(PrivacyStrategy privacyStrategy, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
 											String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
 											byte[] data) throws UploadException {
 		try {
-			byte[] encryptedData =
-					MessageEncryptUtils.encryptToByte(messageType, data, senderOrReceiverPrivateKey, receiverOrSenderPublicKey);
+			byte[] dataWithPrivacy = privacyStrategy.encrypt(data);
+			byte[] encryptedData = Base64.encodeBase64(dataWithPrivacy);
 
 			UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
 					.contentType(contentType)
@@ -232,7 +237,7 @@ public class Upload extends AbstractFacadeService {
 
 			byte[] response = (byte[]) uploadApi.uploadBytesBinaryUsingPOST(parameter);
 
-			return handlePostUpload(messageType, senderOrReceiverPrivateKey, senderOrReceiverPrivateKey, mosaics, response);
+			return handlePostUpload(privacyStrategy, senderOrReceiverPrivateKey, receiverOrSenderPublicKey, mosaics, response);
 
 		} catch (Exception e) {
 			throw new UploadException("Error on uploading binary data", e);
@@ -272,13 +277,16 @@ public class Upload extends AbstractFacadeService {
 					String.join(",", files.stream().map(file -> file.getName()).collect(Collectors.toList()))));
 	}
 
-	private UploadResult handlePostUpload(int messageType, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
+	private UploadResult handlePostUpload(PrivacyStrategy privacyStrategy, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
 										  Mosaic[] mosaics, byte[] response) throws Exception {
 
 		ResourceHashMessage resourceMessageHash = null;
 		try {
 			resourceMessageHash = byteToSerialObject(response);
-			String publishedData = publish(messageType, senderOrReceiverPrivateKey, receiverOrSenderPublicKey, mosaics, response);
+
+			final Message nemMessage = privacyStrategy.encodeToMessage(response);
+			String publishedData = publish(nemMessage, senderOrReceiverPrivateKey, receiverOrSenderPublicKey, mosaics);
+
 
 			// Safe Sync if no errors.
 			safeAsyncToGateways(resourceMessageHash);
@@ -291,8 +299,8 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
-	private String publish(int messageType, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
-						   Mosaic[] mosaics, byte[] response)
+	private String publish(Message nemMessage, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
+						   Mosaic[] mosaics)
 			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 
 		if (this.isLocalPeerConnection) {
@@ -303,8 +311,9 @@ public class Upload extends AbstractFacadeService {
 							new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
 					.recipient(new Account(Address.fromPublicKey(
 							PublicKey.fromHexString(receiverOrSenderPublicKey))))
-					.version(2).amount(Amount.fromNem(1l))
-					.message(response, messageType)
+					.version(2)
+					.amount(Amount.fromNem(1l))
+					.message(nemMessage)
 					.addMosaics(mosaics).buildAndSendTransaction();
 
 			return announceResult.getTransactionHash().toString();
@@ -318,8 +327,9 @@ public class Upload extends AbstractFacadeService {
 							new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
 					.recipient(new Account(Address.fromPublicKey(
 							PublicKey.fromHexString(receiverOrSenderPublicKey))))
-					.version(2).amount(Amount.fromNem(1l))
-					.message(response, messageType)
+					.version(2)
+					.amount(Amount.fromNem(1l))
+					.message(nemMessage)
 					.addMosaics(mosaics).buildAndSignTransaction();
 
 			// Return the NEM Txn Hash

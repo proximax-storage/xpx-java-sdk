@@ -1,7 +1,5 @@
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.model.UploadException;
-
 import java.io.File;
 import java.util.List;
 

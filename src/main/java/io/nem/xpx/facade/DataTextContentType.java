@@ -24,7 +24,11 @@ public enum DataTextContentType {
 
 	APPLICATION_ZIP("application/zip"),
 
-	APPLICATION_PDF("application/pdf");
+	APPLICATION_PDF("application/pdf"),
+
+	VIDEO_MP4("video/mp4"),
+
+	VIDEO_QUICKTIME("video/quicktime");
 
 	/** The value. */
 	private String value;

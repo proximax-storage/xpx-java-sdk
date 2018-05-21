@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.pmw.tinylog.Logger;
-import io.nem.xpx.facade.search.Search;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
@@ -14,6 +13,9 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.remote.AbstractApiTest;
+
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 
 
 /**
@@ -32,7 +34,7 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
  			Search search = new Search(localPeerConnection);
- 			List<ResourceHashMessageJsonEntity> result = search.searchByName(this.xPvkey,this.xPubkey, "alvin");
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByName(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY, "alvin");
  			Logger.info(result.size());
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
@@ -54,7 +56,7 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
  			Search search = new Search(localPeerConnection);
- 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey,this.xPubkey, "plain");
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY, "plain");
  			Logger.info(result.size());
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
@@ -76,7 +78,7 @@ public class SearchLocalTest extends AbstractApiTest {
 
 		try {
 			Search search = new Search(localPeerConnection);
-			List<ResourceHashMessageJsonEntity> result = search.searchByMetaDataKeyValue(this.xPvkey, this.xPubkey, "key1","value1");
+			List<ResourceHashMessageJsonEntity> result = search.searchByMetaDataKeyValue(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY, "key1","value1");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());
@@ -95,7 +97,7 @@ public class SearchLocalTest extends AbstractApiTest {
 				);
 		try {
 			Search search = new Search(localPeerConnection);
-			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(this.xPvkey, this.xPubkey, "secure");
+			List<ResourceHashMessageJsonEntity> result = search.searchByKeyword(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY, "secure");
 			Assert.assertNotNull(result);
 		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
 			Logger.error("Exception: " + e.getMessage());

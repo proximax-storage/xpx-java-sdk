@@ -3,16 +3,14 @@
  */
 package io.nem.xpx.facade.download;
 
-import java.io.Serializable;
-
+import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
+import java.io.Serializable;
 
 
 
-/**
- * The Class DownloadData.
- */
+
 public class DownloadResult implements Serializable {
 
 	/** The Constant serialVersionUID. */
@@ -25,7 +23,7 @@ public class DownloadResult implements Serializable {
 	private final byte[] data;
 	
 	/** The message type. */
-	private final int messageType;
+	private final NemMessageType messageType;
 
     /**
      * Instantiate class.
@@ -34,7 +32,7 @@ public class DownloadResult implements Serializable {
      * @param data the data
      * @param messageType the message type
      */
-	public DownloadResult(final ResourceHashMessage dataMessage, final byte[] data, final int messageType) {
+	public DownloadResult(final ResourceHashMessage dataMessage, final byte[] data, final NemMessageType messageType) {
 		this.dataMessage = dataMessage;
 		this.data = data;
 		this.messageType = messageType;
@@ -63,7 +61,7 @@ public class DownloadResult implements Serializable {
 	 *
 	 * @return the message type
 	 */
-	public int getMessageType() {
+	public NemMessageType getMessageType() {
 		return messageType;
 	}
 	

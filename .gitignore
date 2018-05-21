@@ -25,3 +25,6 @@ build
 .classpath
 .project
 .gitlab-ci.yml
+
+# Intellij
+.idea/
