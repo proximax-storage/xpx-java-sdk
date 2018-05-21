@@ -15,12 +15,12 @@
 		<repository>
 			<id>nexus</id>
 			<name>Releases</name>
-			<url>http://13.228.214.237:8081/repository/maven-releases</url>
+			<url>https://nexus.internal.proximax.io/repository/maven-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>nexus</id>
 			<name>Snapshot</name>
-			<url>http://13.228.214.237:8081/repository/maven-snapshots</url>
+			<url>https://nexus.internal.proximax.io/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -85,8 +85,6 @@
 		</repository>
 	</repositories>
 
-
-	<!-- https://www.eclemma.org/jacoco/trunk/doc/maven.html -->
 	<reporting>
 		<plugins>
 			<plugin>
@@ -138,34 +136,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>2.12</version>
-					</dependency>
-				</dependencies>
+				<version>${maven-plugin-version}</version>
 				<configuration>
 					<includes>
-						<include>**/*.class</include>
+						<include>**/*Test.java</include>
 					</includes>
-					<excludedgroups>io.nem.xpx.integration.tests.IntegrationTest</excludedgroups>
+					<excludes>
+						<include>**/*IntegrationTest.java</include>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>2.12</version>
-					</dependency>
-				</dependencies>
+				<version>${maven-plugin-version}</version>
 				<configuration>
-					<skipITs>true</skipITs>
-					<groups>io.nem.xpx.integration.tests.IntegrationTest</groups>
+					<skipITs>${skip.integration.tests}</skipITs>
 				</configuration>
 				<executions>
 					<execution>
@@ -174,7 +159,7 @@
 						</goals>
 						<configuration>
 							<includes>
-								<include>**/*.class</include>
+								<include>**/*IntegrationTest.java</include>
 							</includes>
 						</configuration>
 					</execution>
@@ -204,6 +189,12 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>integration-test</id>
+			<properties>
+				<skip.integration.tests>false</skip.integration.tests>
+			</properties>
 		</profile>
 	</profiles>
 
@@ -290,11 +281,6 @@
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>
-			<groupId>org.apache.maven.surefire</groupId>
-			<artifactId>surefire-junit47</artifactId>
-			<version>${surefire-junit47.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit-version}</version>
@@ -316,9 +302,8 @@
 		<okhttp-version>2.7.5</okhttp-version>
 		<gson-version>2.8.1</gson-version>
 		<jodatime-version>2.9.9</jodatime-version>
-		<maven-plugin-version>1.0.0</maven-plugin-version>
+		<maven-plugin-version>2.12</maven-plugin-version>
 		<junit-version>4.12</junit-version>
-		<surefire-junit47.version>2.12</surefire-junit47.version>
 		<jacoco-maven-plugin>0.8.1</jacoco-maven-plugin>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<nem.core.version>0.6.95-BETA</nem.core.version>
@@ -333,5 +318,7 @@
 		<Java-WebSocket.version>1.3.8</Java-WebSocket.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
 		<tyrus-standalone-client.version>1.9</tyrus-standalone-client.version>
+
+		<skip.integration.tests>true</skip.integration.tests>
 	</properties>
 </project>

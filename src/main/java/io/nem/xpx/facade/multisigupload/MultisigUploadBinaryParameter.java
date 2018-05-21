@@ -5,7 +5,7 @@ import io.nem.xpx.facade.upload.UploadBinaryParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.nem.xpx.utils.ContentTypeUtils;
-import org.apache.maven.surefire.shade.org.codehaus.plexus.util.StringUtils;
+import io.nem.xpx.utils.StringUtils;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.Serializable;

@@ -1,12 +1,10 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
-import io.nem.xpx.integration.tests.IntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.facade.DataTextContentType.TEXT_HTML;
 import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
@@ -14,7 +12,6 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@Category(IntegrationTest.class)
 public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String TEST_NAME_1 = "NAME1";

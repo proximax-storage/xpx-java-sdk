@@ -3,8 +3,9 @@
  */
 package io.nem.xpx.facade.upload;
 
-import java.io.Serializable;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
+
+import java.io.Serializable;
 
 
 
