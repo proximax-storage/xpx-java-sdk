@@ -23,35 +23,35 @@ public class DownloadAsync extends AbstractAsyncFacadeService {
 	public CompletableFuture<DownloadBinaryResult> downloadBinary(DownloadParameter downloadParameter, ServiceAsyncCallback<DownloadBinaryResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return download.downloadBinary(downloadParameter);
 					} catch (DownloadException e) {
 						throw new CompletionException(e);
 					}
-				}, downloadParameter, callback);
+				}, callback);
 	}
 	public CompletableFuture<DownloadTextDataResult> downloadTextData(DownloadParameter downloadParameter, ServiceAsyncCallback<DownloadTextDataResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return download.downloadTextData(downloadParameter);
 					} catch (DownloadException e) {
 						throw new CompletionException(e);
 					}
-				}, downloadParameter, callback);
+				}, callback);
 	}
 	public CompletableFuture<DownloadFileResult> downloadFile(DownloadParameter downloadParameter, ServiceAsyncCallback<DownloadFileResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
 						return download.downloadFile(downloadParameter);
 					} catch (DownloadException e) {
 						throw new CompletionException(e);
 					}
-				}, downloadParameter, callback);
+				}, callback);
 	}
 
 

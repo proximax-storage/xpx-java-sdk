@@ -3,8 +3,6 @@ package io.nem.xpx.facade.upload;
 import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
-import io.nem.xpx.utils.ContentTypeUtils;
-import org.apache.maven.surefire.shade.org.codehaus.plexus.util.StringUtils;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.Serializable;

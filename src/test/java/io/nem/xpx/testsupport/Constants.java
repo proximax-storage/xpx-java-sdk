@@ -19,13 +19,9 @@ public class Constants {
 
     private Constants() {}
 
-    public static final RemotePeerConnection REMOTE_PEER_CONNECTION =
-            new RemotePeerConnection("https://dev.gateway.proximax.io");
-    public static final LocalHttpPeerConnection LOCAL_HTTP_PEER_CONNECTION =
-            new LocalHttpPeerConnection(
-                    ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
-                    ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
-            );
+    public static final RemotePeerConnection REMOTE_PEER_CONNECTION = getDevRemotePeerConnection();
+
+    public static final LocalHttpPeerConnection LOCAL_HTTP_PEER_CONNECTION = getDevLocalHttpPeerConnection();
 
     public static final File PDF_FILE1 = new File("src//test//resources//test_pdf_file_v1.pdf");
     public static final File PDF_FILE2 = new File("src//test//resources//test_pdf_file_v2.pdf");
@@ -74,5 +70,25 @@ public class Constants {
         map.put(SMALL_FILE, "f854b60a585a83cf2484bd254380e9bb8240f999cbd78eeb8e9b8792aed4025a");
         return map;
     }
+
+    private static RemotePeerConnection getDevRemotePeerConnection() {
+        try {
+            return new RemotePeerConnection("https://dev.gateway.proximax.io");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static LocalHttpPeerConnection getDevLocalHttpPeerConnection() {
+        try {
+            return new LocalHttpPeerConnection(
+                    ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+                    ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+            );
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
 }

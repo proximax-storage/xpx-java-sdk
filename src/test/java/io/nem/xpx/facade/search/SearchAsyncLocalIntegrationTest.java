@@ -4,30 +4,21 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.factory.ConnectionFactory;
-import io.nem.xpx.integration.tests.LocalIntegrationTest;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.pmw.tinylog.Logger;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
-/**
- * The Class SearchTest.
- */
-@Category(LocalIntegrationTest.class)
-public class SearchAsyncLocalTest extends AbstractApiTest {
+public class SearchAsyncLocalIntegrationTest extends AbstractApiTest {
 
-	
-	
-	
 	@Test
 	public void testSearchByName() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

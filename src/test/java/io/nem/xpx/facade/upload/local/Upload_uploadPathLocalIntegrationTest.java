@@ -4,19 +4,16 @@ import io.nem.xpx.facade.upload.Upload;
 import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadPathParameter;
 import io.nem.xpx.facade.upload.UploadResult;
-import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
-@Category(IntegrationTest.class)
 @Ignore
 public class Upload_uploadPathLocalIntegrationTest extends AbstractApiTest {
 

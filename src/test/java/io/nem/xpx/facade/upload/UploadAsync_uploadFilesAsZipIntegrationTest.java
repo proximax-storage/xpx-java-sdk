@@ -1,10 +1,8 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
-import io.nem.xpx.integration.tests.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
 import static io.nem.xpx.testsupport.Constants.*;
@@ -12,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
-@Category(IntegrationTest.class)
 public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String KEYWORDS_PLAIN_AND_ZIP_FILE = "plain,zipfile";

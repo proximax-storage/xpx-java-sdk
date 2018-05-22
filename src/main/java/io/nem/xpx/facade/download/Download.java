@@ -11,8 +11,6 @@ import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.DownloadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import org.apache.commons.codec.binary.Base64;
-import org.nem.core.crypto.CryptoEngine;
-import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.model.TransferTransaction;
 
 import java.nio.ByteBuffer;
@@ -25,17 +23,11 @@ import static java.lang.String.format;
  */
 public class Download extends AbstractFacadeService {
 
-	/** The peer connection. */
-	private final PeerConnection peerConnection;
-
 	/** The download api. */
 	private final DownloadApi downloadApi;
 
 	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
-
-	/** The engine. */
-	private final CryptoEngine engine;
 
 
 	/**
@@ -50,10 +42,8 @@ public class Download extends AbstractFacadeService {
 			throw new PeerConnectionNotFoundException("PeerConnection can't be null");
 		}
 
-        this.peerConnection = peerConnection;
 		this.downloadApi = peerConnection.getDownloadApi();
         this.nemTransactionApi = peerConnection.getNemTransactionApi();
-		this.engine = CryptoEngines.ed25519Engine();
 	}
 
 	public DownloadBinaryResult downloadBinary(DownloadParameter downloadParameter) throws DownloadException {

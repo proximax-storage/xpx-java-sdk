@@ -5,8 +5,8 @@ import io.nem.xpx.facade.upload.UploadFileParameter;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.nem.xpx.utils.ContentTypeUtils;
+import io.nem.xpx.utils.StringUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.surefire.shade.org.codehaus.plexus.util.StringUtils;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.File;

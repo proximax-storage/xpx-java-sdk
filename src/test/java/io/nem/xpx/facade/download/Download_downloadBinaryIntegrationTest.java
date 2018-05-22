@@ -1,19 +1,16 @@
 package io.nem.xpx.facade.download;
 
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
-import io.nem.xpx.integration.tests.IntegrationTest;
 import io.nem.xpx.model.NemMessageType;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 
-@Category(IntegrationTest.class)
 public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	private Download unitUnderTest;

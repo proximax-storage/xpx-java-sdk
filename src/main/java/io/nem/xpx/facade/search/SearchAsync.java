@@ -2,23 +2,23 @@
  * 
  */
 package io.nem.xpx.facade.search;
+
+import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.facade.AbstractAsyncFacadeService;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
-
-import io.nem.xpx.callback.ServiceAsyncCallback;
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
-import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.ResourceHashMessageJsonEntity;
-import io.nem.xpx.utils.JsonUtils;
 
 
 /**
  * The Class Search.
  */
-public class SearchAsync extends Search {
+public class SearchAsync extends AbstractAsyncFacadeService {
+
+	private Search search;
 
 	/**
 	 * Instantiates a new search.
@@ -26,7 +26,7 @@ public class SearchAsync extends Search {
 	 * @param peerConnection            the peer connection
 	 */
 	public SearchAsync(PeerConnection peerConnection) {
-		super(peerConnection);
+		this.search = new Search(peerConnection);
 	}
 
 	
@@ -42,22 +42,16 @@ public class SearchAsync extends Search {
 	public CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByName(String xPvkey, String xPubkey, String name,
 			ServiceAsyncCallback<List<ResourceHashMessageJsonEntity>> callback) {
 
-		CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByNameAsync = CompletableFuture.supplyAsync(() -> {
-			try {
-				return searchApi.searchTransactionWithNameUsingGET(xPvkey, xPubkey, name);
-			} catch (ApiException | InterruptedException | ExecutionException e) {
-				throw new CompletionException(e);
-			}
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-
-		return searchByNameAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return search.searchByName(xPvkey, xPubkey, name);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 	}
-	
+
 	/**
 	 * Search by keyword.
 	 *
@@ -70,20 +64,14 @@ public class SearchAsync extends Search {
 	public CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByKeyword(String xPvkey, String xPubkey, String keywords,
 			ServiceAsyncCallback<List<ResourceHashMessageJsonEntity>> callback) {
 
-		CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByKeywordAsync = CompletableFuture.supplyAsync(() -> {
-			try {
-				return searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, keywords);
-			} catch (ApiException | InterruptedException | ExecutionException e) {
-				throw new CompletionException(e);
-			}
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-
-		return searchByKeywordAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return search.searchByKeyword(xPvkey, xPubkey, keywords);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 	}
 
 	/**
@@ -94,22 +82,16 @@ public class SearchAsync extends Search {
 	 * @param callback the callback
 	 * @return the completable future
 	 */
-	public CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByKeyword(String xPubkey, String keywords, ServiceAsyncCallback<List<ResourceHashMessageJsonEntity>> callback) {
+	public CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByMetaDataKeyValue(String xPvkey, String xPubkey, String key, String value, ServiceAsyncCallback<List<ResourceHashMessageJsonEntity>> callback) {
 
-		CompletableFuture<List<ResourceHashMessageJsonEntity>> searchByKeywordAsync = CompletableFuture.supplyAsync(() -> {
-			try {
-				return searchApi.searchTransactionWithKeywordUsingGET(xPubkey, keywords);
-			} catch (ApiException | InterruptedException | ExecutionException e) {
-				throw new CompletionException(e);
-			}
-		}).thenApply(n -> {
-			// call the callback?
-			callback.process(n);
-			return n;
-		});
-
-		return searchByKeywordAsync;
-
+		return runAsync(
+				() -> {
+					try {
+						return search.searchByMetaDataKeyValue(xPvkey, xPubkey, key, value);
+					} catch (Exception e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
 	}
 
 }
