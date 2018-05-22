@@ -12,8 +12,6 @@ import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
-import io.nem.xpx.model.DataResponse;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
@@ -22,7 +20,6 @@ import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
-import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.KeyPair;
@@ -303,7 +300,7 @@ public class Upload extends AbstractFacadeService {
 						   Mosaic[] mosaics)
 			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
 
-		if (this.isLocalPeerConnection) {
+//		if (this.isLocalPeerConnection) {
 			// Announce The Signature
 			NemAnnounceResult announceResult = TransferTransactionBuilder
 					.peerConnection(peerConnection)
@@ -318,25 +315,25 @@ public class Upload extends AbstractFacadeService {
 
 			return announceResult.getTransactionHash().toString();
 
-		} else {
-
-			// Announce The Signature
-			RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
-					.peerConnection(peerConnection)
-					.sender(new Account(
-							new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
-					.recipient(new Account(Address.fromPublicKey(
-							PublicKey.fromHexString(receiverOrSenderPublicKey))))
-					.version(2)
-					.amount(Amount.fromNem(1l))
-					.message(nemMessage)
-					.addMosaics(mosaics).buildAndSignTransaction();
-
-			// Return the NEM Txn Hash
-			return JsonUtils.fromJson(transactionAndAnnounceApi
-					.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
-
-		}
+//		} else {
+//
+//			// Announce The Signature
+//			RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
+//					.peerConnection(peerConnection)
+//					.sender(new Account(
+//							new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
+//					.recipient(new Account(Address.fromPublicKey(
+//							PublicKey.fromHexString(receiverOrSenderPublicKey))))
+//					.version(2)
+//					.amount(Amount.fromNem(1l))
+//					.message(nemMessage)
+//					.addMosaics(mosaics).buildAndSignTransaction();
+//
+//			// Return the NEM Txn Hash
+//			return JsonUtils.fromJson(transactionAndAnnounceApi
+//					.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
+//
+//		}
 	}
 }
 

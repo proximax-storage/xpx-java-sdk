@@ -1,135 +1,56 @@
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.strategy.privacy.PrivacyStrategy;
-import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
-import org.nem.core.model.mosaic.Mosaic;
+import io.nem.xpx.builder.steps.CommonUploadBuildSteps;
+import io.nem.xpx.builder.steps.PathStep;
+import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
+import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
 
 import java.io.Serializable;
 
 
-
-
-/**
- * The Class UploadPathParameter.
- */
 public class UploadPathParameter extends AbstractUploadParameter implements Serializable {
 
 
-	/** The path. */
-	private String path;
-	
-	
-	/**
-	 * Gets the path.
-	 *
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
-	}
-	
-	/**
-	 * Sets the path.
-	 *
-	 * @param path the new path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
+    private String path;
 
-	public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<PathStep<BuildStep>>> create() {
-		return new Builder();
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public interface BuildStep extends
-			KeywordsStep<BuildStep>,
-			MetadataStep<BuildStep>,
-			MosaicsStep<BuildStep>,
-			PrivacyStrategyUploadStep<BuildStep> {
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-		UploadPathParameter build();
-	}
+    public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<PathStep<FinalBuildSteps>>> create() {
+        return new Builder();
+    }
 
-	private static class Builder
-			implements SenderOrReceiverPrivateKeyStep,
-			ReceiverOrSenderPublicKeyStep,
-			PathStep,
-			BuildStep {
+    public interface FinalBuildSteps extends CommonUploadBuildSteps<FinalBuildSteps> {
 
-		UploadPathParameter instance;
+        UploadPathParameter build();
+    }
 
-		private Builder() {
-			instance = new UploadPathParameter();
-		}
+    public static class Builder
+            extends AbstractUploadParameterBuilder<PathStep, FinalBuildSteps>
+            implements PathStep, FinalBuildSteps {
 
-		@Override
-		public BuildStep mosaics(Mosaic... mosaics) {
-			instance.setMosaics(mosaics);
-			return this;
-		}
+        UploadPathParameter instance;
 
-		@Override
-		public BuildStep keywords(String keywords) {
-			this.instance.setKeywords(keywords);
-			return this;
-		}
+        private Builder() {
+            super(new UploadPathParameter());
+            this.instance = (UploadPathParameter) super.instance;
+        }
 
-		@Override
-		public BuildStep metadata(String metadata) {
-			this.instance.setMetaData(metadata);
-			return this;
-		}
+        @Override
+        public FinalBuildSteps path(String path) {
+            this.instance.setPath(path);
+            return this;
+        }
 
-		@Override
-		public BuildStep privacyStrategy(PrivacyStrategy privacyStrategy) {
-			this.instance.setPrivacyStrategy(privacyStrategy);
-			return this;
-		}
-
-		@Override
-		public BuildStep plainPrivacy() {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.plainPrivacy());
-			return this;
-		}
-
-		@Override
-		public BuildStep securedWithNemKeysPrivacyStrategy() {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
-					this.instance.getSenderOrReceiverPrivateKey(),
-					this.instance.getReceiverOrSenderPublicKey()));
-			return this;
-		}
-
-		@Override
-		public BuildStep securedWithPasswordPrivacyStrategy(String password) {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithPasswordPrivacyStrategy(password));
-			return this;
-		}
-
-
-		@Override
-		public ReceiverOrSenderPublicKeyStep senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
-			return this;
-		}
-
-		@Override
-		public PathStep receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
-			return this;
-		}
-
-		@Override
-		public BuildStep path(String path) {
-			this.instance.setPath(path);
-			return this;
-		}
-
-		@Override
-		public UploadPathParameter build() {
-			return instance;
-		}
-	}
+        @Override
+        public UploadPathParameter build() {
+            return instance;
+        }
+    }
 
 }
