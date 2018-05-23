@@ -2,8 +2,10 @@ package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
+import io.nem.xpx.utils.JsonUtils;
 import org.nem.core.model.mosaic.Mosaic;
 
+import java.util.Map;
 
 
 /**
@@ -135,14 +137,14 @@ public abstract class AbstractUploadParameter {
 	public String getMetaData() {
 		return metaData;
 	}
-	
+
 	/**
 	 * Sets the meta data.
 	 *
 	 * @param metaData the new meta data
 	 */
-	public void setMetaData(String metaData) {
-		this.metaData = metaData;
+	public void setMetaData(Map<String, String> metaData) {
+		this.metaData = metaData == null ? null : JsonUtils.toJson(metaData);
 	}
 
 	/**

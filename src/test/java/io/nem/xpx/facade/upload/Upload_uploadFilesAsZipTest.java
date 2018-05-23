@@ -27,7 +27,7 @@ public class Upload_uploadFilesAsZipTest {
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE1)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadFilesAsZip(parameter);
@@ -41,7 +41,7 @@ public class Upload_uploadFilesAsZipTest {
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadFilesAsZip(parameter);
@@ -56,7 +56,7 @@ public class Upload_uploadFilesAsZipTest {
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(NON_EXISTENT_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadFilesAsZip(parameter);

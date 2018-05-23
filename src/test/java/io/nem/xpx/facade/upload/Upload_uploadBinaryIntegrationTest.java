@@ -34,7 +34,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 				.name(SMALL_VIDEO_MOV_FILE.getName())
 				.contentType(VIDEO_QUICKTIME.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
@@ -46,7 +46,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
 		assertEquals(SMALL_VIDEO_MOV_FILE.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(VIDEO_QUICKTIME.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -62,7 +62,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 				.name(PDF_FILE2.getName())
 				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
@@ -74,7 +74,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -90,7 +90,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 				.name(PDF_FILE1.getName())
 				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_SECURE_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -103,7 +103,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -120,7 +120,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 				.name(PDF_FILE2.getName())
 				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_SECURE_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -133,7 +133,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -150,7 +150,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 				.name(PDF_FILE1.getName())
 				.contentType(APPLICATION_PDF.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.mosaics(MOSAIC_PRX)
 				.build();
 
@@ -163,7 +163,7 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());

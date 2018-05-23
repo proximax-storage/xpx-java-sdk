@@ -30,7 +30,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.file(PDF_FILE1)
 				.keywords(KEYWORDS_PLAIN_AND_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadFile(parameter);
@@ -42,7 +42,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -56,7 +56,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.file(PDF_FILE2)
 				.keywords(KEYWORDS_PLAIN_AND_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadFile(parameter);
@@ -68,7 +68,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -82,7 +82,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.file(PDF_FILE1)
 				.keywords(KEYWORDS_SECURE_AND_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -95,7 +95,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -110,7 +110,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.file(PDF_FILE1)
 				.keywords(KEYWORDS_PLAIN_AND_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.mosaics(MOSAIC_PRX)
 				.build();
 
@@ -123,7 +123,7 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());

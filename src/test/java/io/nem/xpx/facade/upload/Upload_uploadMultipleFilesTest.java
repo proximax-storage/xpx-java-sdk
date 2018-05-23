@@ -23,7 +23,7 @@ public class Upload_uploadMultipleFilesTest {
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadMultipleFiles(parameter);

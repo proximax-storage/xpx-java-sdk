@@ -32,7 +32,7 @@ public class UploadAsync_uploadBinaryIntegrationTest extends AbstractFacadeInteg
 				.name(SMALL_VIDEO_MOV_FILE.getName())
 				.contentType(VIDEO_QUICKTIME.toString())
 				.keywords(KEYWORDS_PLAIN_AND_BINARY)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadBinary(parameter, uploadResult -> {
@@ -43,7 +43,7 @@ public class UploadAsync_uploadBinaryIntegrationTest extends AbstractFacadeInteg
 			assertNotNull(uploadResult.getDataMessage().digest());
 			assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
 			assertEquals(SMALL_VIDEO_MOV_FILE.getName(), uploadResult.getDataMessage().name());
-			assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+			assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 			assertEquals(VIDEO_QUICKTIME.toString(), uploadResult.getDataMessage().type());
 
 			LOGGER.info(uploadResult.getNemHash());

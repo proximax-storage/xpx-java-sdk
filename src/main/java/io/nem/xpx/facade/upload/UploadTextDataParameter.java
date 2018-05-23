@@ -1,186 +1,99 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.*;
-import io.nem.xpx.strategy.privacy.PrivacyStrategy;
-import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
-import org.nem.core.model.mosaic.Mosaic;
 
 import java.io.Serializable;
 
 
-
-
-/**
- * The Class UploadDataParameter.
- */
 public class UploadTextDataParameter extends AbstractUploadParameter implements Serializable {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	/** The data. */
-	private String data;
-	/** The encoding. */
-	private String encoding;
+    private static final long serialVersionUID = 1L;
+    private String data;
+    private String encoding;
 
-	/**
-	 * Gets the data.
-	 *
-	 * @return the data
-	 */
-	public String getData() {
-		return data;
-	}
-	
-	/**
-	 * Sets the data.
-	 *
-	 * @param data the new data
-	 */
-	public void setData(String data) {
-		this.data = data;
-	}
+    public String getData() {
+        return data;
+    }
 
-	/**
-	 * Gets the encoding.
-	 *
-	 * @return the encoding
-	 */
-	public String getEncoding() {
-		return encoding;
-	}
+    public void setData(String data) {
+        this.data = data;
+    }
 
-	/**
-	 * Sets the encoding.
-	 *
-	 * @param encoding the new encoding
-	 */
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
+    public String getEncoding() {
+        return encoding;
+    }
 
-	public static SenderOrReceiverPrivateKeyStep
-			<ReceiverOrSenderPublicKeyStep
-					<TextDataStep
-							<BuildStep>>> create() {
-		return new Builder();
-	}
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
 
-	public interface BuildStep extends
-			NameStep<BuildStep>,
-			EncodingStep<BuildStep>,
-			ContentTypeStep<BuildStep>,
-			KeywordsStep<BuildStep>,
-			MetadataStep<BuildStep>,
-			MosaicsStep<BuildStep>,
-			PrivacyStrategyUploadStep<BuildStep> {
+    public static SenderOrReceiverPrivateKeyStep
+            <ReceiverOrSenderPublicKeyStep
+                    <TextDataStep
+                            <FinalBuildSteps>>> create() {
+        return new Builder();
+    }
 
-		UploadTextDataParameter build();
-	}
+    public interface FinalBuildSteps extends
+            NameStep<FinalBuildSteps>,
+            EncodingStep<FinalBuildSteps>,
+            ContentTypeStep<FinalBuildSteps>,
+            CommonUploadBuildSteps<FinalBuildSteps> {
 
-	private static class Builder
-			implements SenderOrReceiverPrivateKeyStep,
-			ReceiverOrSenderPublicKeyStep,
-			TextDataStep,
-			BuildStep {
+        UploadTextDataParameter build();
+    }
 
-		UploadTextDataParameter instance;
+    public static class Builder
+            extends AbstractUploadParameterBuilder<TextDataStep, FinalBuildSteps>
+            implements TextDataStep, FinalBuildSteps {
 
-		private Builder() {
-			instance = new UploadTextDataParameter();
-		}
+        protected UploadTextDataParameter instance;
 
-		@Override
-		public BuildStep mosaics(Mosaic... mosaics) {
-			instance.setMosaics(mosaics);
-			return this;
-		}
+        private Builder() {
+            super(new UploadTextDataParameter());
+            this.instance = (UploadTextDataParameter) super.instance;
+        }
 
-		@Override
-		public BuildStep keywords(String keywords) {
-			this.instance.setKeywords(keywords);
-			return this;
-		}
+        protected Builder(UploadTextDataParameter instance) {
+            super(instance);
+            this.instance = instance;
+        }
 
-		@Override
-		public BuildStep metadata(String metadata) {
-			this.instance.setMetaData(metadata);
-			return this;
-		}
+        @Override
+        public FinalBuildSteps data(String data) {
+            this.instance.setData(data);
+            return this;
+        }
 
-		@Override
-		public BuildStep privacyStrategy(PrivacyStrategy privacyStrategy) {
-			this.instance.setPrivacyStrategy(privacyStrategy);
-			return this;
-		}
+        @Override
+        public FinalBuildSteps contentType(String contentType) {
+            this.instance.setContentType(contentType);
+            return this;
+        }
 
-		@Override
-		public BuildStep plainPrivacy() {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.plainPrivacy());
-			return this;
-		}
+        @Override
+        public FinalBuildSteps encoding(String encoding) {
+            this.instance.setEncoding(encoding);
+            return this;
+        }
 
-		@Override
-		public BuildStep securedWithNemKeysPrivacyStrategy() {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
-					this.instance.getSenderOrReceiverPrivateKey(),
-					this.instance.getReceiverOrSenderPublicKey()));
-			return this;
-		}
+        @Override
+        public FinalBuildSteps name(String name) {
+            this.instance.setName(name);
+            return this;
+        }
 
-		@Override
-		public BuildStep securedWithPasswordPrivacyStrategy(String password) {
-			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithPasswordPrivacyStrategy(password));
-			return this;
-		}
-
-
-		@Override
-		public ReceiverOrSenderPublicKeyStep senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
-			return this;
-		}
-
-		@Override
-		public TextDataStep receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
-			return this;
-		}
-
-		@Override
-		public BuildStep data(String data) {
-			this.instance.setData(data);
-			return this;
-		}
-
-		@Override
-		public BuildStep contentType(String contentType) {
-			this.instance.setContentType(contentType);
-			return this;
-		}
-
-		@Override
-		public BuildStep encoding(String encoding) {
-			this.instance.setEncoding(encoding);
-			return this;
-		}
-
-		@Override
-		public BuildStep name(String name) {
-			this.instance.setName(name);
-			return this;
-		}
-
-		@Override
-		public UploadTextDataParameter build() {
-			if (instance.getEncoding() == null) {
-				instance.setEncoding("UTF-8");
-			}
-			if (instance.getContentType() == null) {
-				instance.setContentType("text/plain");
-			}
-			return instance;
-		}
-	}
+        @Override
+        public UploadTextDataParameter build() {
+            if (instance.getEncoding() == null) {
+                instance.setEncoding("UTF-8");
+            }
+            if (instance.getContentType() == null) {
+                instance.setContentType("text/plain");
+            }
+            return instance;
+        }
+    }
 
 
 }

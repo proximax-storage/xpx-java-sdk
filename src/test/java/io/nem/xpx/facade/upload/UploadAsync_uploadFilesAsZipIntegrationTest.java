@@ -32,7 +32,7 @@ public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeI
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE2)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadFilesAsZip(parameter, uploadResult -> {
@@ -43,7 +43,7 @@ public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeI
 			assertNotNull(uploadResult.getDataMessage().digest());
 			assertEquals(KEYWORDS_PLAIN_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
 			assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-			assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+			assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 			assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 
 			LOGGER.info(uploadResult.getNemHash());
