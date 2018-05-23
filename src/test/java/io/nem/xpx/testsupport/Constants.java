@@ -37,7 +37,8 @@ public class Constants {
     public static final Mosaic MOSAIC_PRX =
             new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(0));
 
-    public static final String METADATA = JsonUtils.toJson(singletonMap("key1", "value1"));
+    public static final Map<String, String> METADATA_AS_MAP = singletonMap("key1", "value1");
+    public static final String METADATA_AS_STRING = JsonUtils.toJson(METADATA_AS_MAP);
 
     // testnet keys - first pair
     public static final String TEST_PRIVATE_KEY = "deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763";

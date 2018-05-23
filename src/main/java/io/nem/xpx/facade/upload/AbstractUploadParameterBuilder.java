@@ -7,6 +7,8 @@ import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import org.nem.core.model.mosaic.Mosaic;
 
+import java.util.Map;
+
 
 public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey, FinalBuildSteps>
 		implements
@@ -33,7 +35,7 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 	}
 
 	@Override
-	public FinalBuildSteps metadata(String metadata) {
+	public FinalBuildSteps metadata(Map<String, String> metadata) {
 		this.instance.setMetaData(metadata);
 		return  (FinalBuildSteps) this;
 	}

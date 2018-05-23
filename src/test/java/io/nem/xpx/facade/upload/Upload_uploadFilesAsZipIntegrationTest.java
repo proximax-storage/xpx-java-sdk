@@ -35,7 +35,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter);
@@ -47,7 +47,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -63,7 +63,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_SECURE_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -76,7 +76,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -92,7 +92,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.mosaics(MOSAIC_LAND_REGISTRY)
 				.build();
 
@@ -105,7 +105,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
 		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());

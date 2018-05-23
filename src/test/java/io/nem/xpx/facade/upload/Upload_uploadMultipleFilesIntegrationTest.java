@@ -31,7 +31,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 				.addFile(PDF_FILE1)
 				.addFile(NON_EXISTENT_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final MultiFileUploadResult multiFileUploadResult = unitUnderTest.uploadMultipleFiles(parameter);
@@ -49,7 +49,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
 		assertEquals(NON_EXISTENT_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
@@ -69,7 +69,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final MultiFileUploadResult multiFileUploadResult = unitUnderTest.uploadMultipleFiles(parameter);
@@ -87,7 +87,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
 		assertEquals(SMALL_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
@@ -99,7 +99,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
 		assertEquals(SMALL_FILE.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
 
 		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
@@ -116,7 +116,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_SECURE_AND_MULTIFILES)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -135,7 +135,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
 		assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
 		assertEquals(SMALL_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
@@ -147,7 +147,7 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
 		assertEquals(SMALL_FILE.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
 
 		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());

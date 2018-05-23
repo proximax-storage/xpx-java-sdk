@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static io.nem.xpx.testsupport.Constants.METADATA_AS_MAP;
 import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
@@ -42,8 +43,6 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 						);
 				try {
 					UploadAsync upload = new UploadAsync(localPeerConnection);
-					Map<String, String> metaData = new HashMap<String, String>();
-					metaData.put("key1", "value1");
 
 					UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
 							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
@@ -52,7 +51,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
 							.keywords("pdf_file_version1")
-							.metadata(JsonUtils.toJson(metaData))
+							.metadata(METADATA_AS_MAP)
 							.build();
 
 					UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
@@ -62,7 +61,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
 							.keywords("pdf_file_version2")
-							.metadata(JsonUtils.toJson(metaData))
+							.metadata(METADATA_AS_MAP)
 							.build();
 
 					UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
@@ -72,7 +71,7 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.name("pdf_file_version1.pdf")
 							.contentType("application/pdf")
 							.keywords("pdf_file_version1")
-							.metadata(JsonUtils.toJson(metaData))
+							.metadata(METADATA_AS_MAP)
 							.build();
 
 					// 	Run the computation on another thread and wait for it to finish.

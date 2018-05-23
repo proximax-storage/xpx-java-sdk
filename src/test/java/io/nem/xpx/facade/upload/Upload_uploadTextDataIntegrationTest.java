@@ -39,7 +39,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_PLAIN.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -51,7 +51,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -68,7 +68,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_HTML.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -80,7 +80,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_HTML.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -97,7 +97,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_PLAIN.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -109,7 +109,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -127,7 +127,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_PLAIN.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_SECURE_AND_DATA)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -140,7 +140,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -157,7 +157,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_PLAIN.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_SECURE_AND_DATA)
-				.metadata(METADATA) // one level map to json
+				.metadata(METADATA_AS_MAP) // one level map to json
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -170,7 +170,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_SECURE_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
@@ -187,7 +187,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.contentType(TEXT_PLAIN.toString())
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.mosaics(MOSAIC_PRX)
 				.build();
 
@@ -200,7 +200,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_DATA, uploadResult.getDataMessage().keywords());
 		assertEquals(TEST_NAME_RANDOM_1, uploadResult.getDataMessage().name());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());

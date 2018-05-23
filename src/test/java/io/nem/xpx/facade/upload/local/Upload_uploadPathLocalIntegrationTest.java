@@ -35,7 +35,7 @@ public class Upload_uploadPathLocalIntegrationTest extends AbstractApiTest {
 				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.path("src/test/resources/")
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.keywords(KEYWORDS_PLAIN_AND_PATH)
 				.mosaics(MOSAIC_LAND_REGISTRY)
 				.build();
@@ -48,7 +48,7 @@ public class Upload_uploadPathLocalIntegrationTest extends AbstractApiTest {
 		assertNotNull(uploadResult.getDataMessage().hash());
 		assertNotNull(uploadResult.getDataMessage().digest());
 		assertEquals(KEYWORDS_PLAIN_AND_PATH, uploadResult.getDataMessage().keywords());
-		assertEquals(METADATA, uploadResult.getDataMessage().metaData());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 
 		LOGGER.info(uploadResult.getNemHash());
 	}

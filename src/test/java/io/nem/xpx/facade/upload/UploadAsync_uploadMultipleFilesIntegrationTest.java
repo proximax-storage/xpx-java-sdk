@@ -29,7 +29,7 @@ public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFaca
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE2)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
-				.metadata(METADATA)
+				.metadata(METADATA_AS_MAP)
 				.build();
 
 		unitUnderTest.uploadMultipleFiles(parameter, multiFileUploadResult -> {
@@ -46,7 +46,7 @@ public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFaca
 			assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
 			assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
 			assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
-			assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
+			assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
 			assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
 
 			assertEquals(PDF_FILE2, multiFileUploadResult.getFileUploadResults().get(1).getFile());
@@ -58,7 +58,7 @@ public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFaca
 			assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
 			assertEquals(KEYWORDS_PLAIN_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
 			assertEquals(PDF_FILE2.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
-			assertEquals(METADATA, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
+			assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
 			assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
 
 			LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
