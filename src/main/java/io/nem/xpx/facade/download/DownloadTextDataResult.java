@@ -6,6 +6,8 @@ package io.nem.xpx.facade.download;
 import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
+import java.nio.charset.Charset;
+
 
 public class DownloadTextDataResult extends DownloadResult {
 
@@ -19,4 +21,13 @@ public class DownloadTextDataResult extends DownloadResult {
 				downloadResult.getMessageType());
 
 	}
+
+	public String getString(String encoding) {
+		return new String(getData(), Charset.forName(encoding));
+	}
+
+	public String getString() {
+		return new String(getData(), Charset.forName("UTF-8"));
+	}
+
 }

@@ -6,6 +6,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -30,6 +32,8 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+		assertEquals(PDF_FILE1.getName(), message.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
 	}
 
 	@Test
@@ -42,6 +46,8 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+		assertEquals(PDF_FILE2.getName(), message.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
 	}
 
 	@Test
@@ -56,6 +62,8 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.SECURE, message.getMessageType());
+		assertEquals(SMALL_FILE.getName(), message.getFileName());
+		assertEquals(TEXT_PLAIN.toString(), message.getContentType());
 	}
 
 
@@ -71,5 +79,7 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		assertArrayEquals(expected, message.getData());
 		assertEquals(NemMessageType.SECURE, message.getMessageType());
+		assertEquals(PDF_FILE2.getName(), message.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
 	}
 }
