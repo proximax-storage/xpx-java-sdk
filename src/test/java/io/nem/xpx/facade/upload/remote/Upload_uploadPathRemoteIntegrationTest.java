@@ -22,7 +22,7 @@ public class Upload_uploadPathRemoteIntegrationTest {
     @Test(expected = PathUploadNotSupportedException.class)
     public void failBecauseNotSupported() throws Exception{
         UploadPathParameter parameter = UploadPathParameter.create()
-                .senderOrReceiverPrivateKey(TEST_PRIVATE_KEY_2)
+                .senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
                 .receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
                 .path("src//test//resources//")
                 .build();

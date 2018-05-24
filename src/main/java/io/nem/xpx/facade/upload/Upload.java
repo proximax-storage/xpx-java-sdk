@@ -5,7 +5,6 @@ package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.InsufficientAmountException;
 import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
@@ -36,8 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -97,6 +95,8 @@ public class Upload extends AbstractFacadeService {
 		try {
 			byte[] data = FileUtils.readFileToByteArray(uploadParameter.getFile());
 			return handleBinaryUpload(uploadParameter, data);
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading file data: %s", uploadParameter.getFile().getAbsolutePath()), e);
 		}
@@ -130,9 +130,12 @@ public class Upload extends AbstractFacadeService {
 
 			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderOrReceiverPrivateKey(),
 					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading text data: %s", uploadParameter.getData()), e);
-		}	}
+		}
+	}
 
 	/**
 	 * Upload a binary file.
@@ -145,6 +148,8 @@ public class Upload extends AbstractFacadeService {
 			throws UploadException {
 		try {
 			return handleBinaryUpload(uploadParameter, uploadParameter.getData());
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException("Error on uploading binary data", e);
 		}
@@ -175,6 +180,8 @@ public class Upload extends AbstractFacadeService {
 
 			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderOrReceiverPrivateKey(),
 					uploadParameter.getReceiverOrSenderPublicKey(), uploadParameter.getMosaics(), response);
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException(format("Error on uploading path: %s", uploadParameter.getPath()), e);
 		}
@@ -186,6 +193,8 @@ public class Upload extends AbstractFacadeService {
 		try {
 			byte[] data = zipFiles(uploadParameter.getFiles());
 			return handleBinaryUpload(uploadParameter, data);
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException("Error on uploading files as zip", e);
 		}
@@ -237,8 +246,11 @@ public class Upload extends AbstractFacadeService {
 
 			return handlePostUpload(privacyStrategy, senderOrReceiverPrivateKey, receiverOrSenderPublicKey, mosaics, response);
 
+		} catch (UploadException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new UploadException("Error on uploading binary data", e);
+
 		}
 	}
 
@@ -291,30 +303,38 @@ public class Upload extends AbstractFacadeService {
 
 			return new UploadResult(resourceMessageHash, publishedData);
 		} catch (Exception e) {
-			if (resourceMessageHash != null)
-				uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
+			if (resourceMessageHash != null) {
+				final String resourceHash = resourceMessageHash.hash();
+				Executors.newSingleThreadExecutor().submit(() -> uploadApi.cleanupPinnedContentUsingPOST(resourceHash));
+			}
 			throw e;
 		}
 	}
 
+	private void Future(Object o) {
+	}
+
 	private String publish(Message nemMessage, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
-						   Mosaic[] mosaics)
-			throws ApiException, InterruptedException, ExecutionException, InsufficientAmountException {
+						   Mosaic[] mosaics) throws Exception {
 
 //		if (this.isLocalPeerConnection) {
 			// Announce The Signature
-			NemAnnounceResult announceResult = TransferTransactionBuilder
-					.peerConnection(peerConnection)
-					.sender(new Account(
-							new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
-					.recipient(new Account(Address.fromPublicKey(
-							PublicKey.fromHexString(receiverOrSenderPublicKey))))
-					.version(2)
-					.amount(Amount.fromNem(1l))
-					.message(nemMessage)
-					.addMosaics(mosaics).buildAndSendTransaction();
+		NemAnnounceResult announceResult = TransferTransactionBuilder
+				.peerConnection(peerConnection)
+				.sender(new Account(
+						new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
+				.recipient(new Account(Address.fromPublicKey(
+						PublicKey.fromHexString(receiverOrSenderPublicKey))))
+				.version(2)
+				.amount(Amount.fromNem(1l))
+				.message(nemMessage)
+				.addMosaics(mosaics).buildAndSendTransaction();
 
+		if (announceResult.getCode() == NemAnnounceResult.CODE_SUCCESS)
 			return announceResult.getTransactionHash().toString();
+		else
+			throw new UploadException(
+					format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
 
 //		} else {
 //

@@ -32,7 +32,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadPlainData() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY_2)
+				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
 				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("plain - the quick brown fox jumps over the lazy dog UTF-8".getBytes(),ENCODING_UTF_8))
 				.name(TEST_NAME_1)

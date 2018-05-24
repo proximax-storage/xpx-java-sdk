@@ -1,12 +1,12 @@
 package io.nem.xpx.exceptions;
 
 
-
+import io.nem.xpx.facade.upload.UploadException;
 
 /**
  * The Class InsufficientAmountException.
  */
-public class InsufficientAmountException extends Exception {
+public class InsufficientAmountException extends UploadException {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
