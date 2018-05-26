@@ -53,8 +53,8 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 	@Override
 	public FinalBuildSteps securedWithNemKeysPrivacyStrategy() {
 		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
-				this.instance.getSenderOrReceiverPrivateKey(),
-				this.instance.getReceiverOrSenderPublicKey()));
+				this.instance.getSenderPrivateKey(),
+				this.instance.getReceiverPublicKey()));
 		return  (FinalBuildSteps) this;
 	}
 
@@ -67,13 +67,13 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 
 	@Override
 	public ReceiverPublicKeyStep senderPrivateKey(String senderPrivateKeyStep) {
-		this.instance.setSenderOrReceiverPrivateKey(senderPrivateKeyStep);
+		this.instance.setSenderPrivateKey(senderPrivateKeyStep);
 		return this;
 	}
 
 	@Override
 	public NextBuildStepAfterPublicKey receiverPublicKey(String receiverPublicKey) {
-		this.instance.setReceiverOrSenderPublicKey(receiverPublicKey);
+		this.instance.setReceiverPublicKey(receiverPublicKey);
 		return (NextBuildStepAfterPublicKey) this;
 	}
 

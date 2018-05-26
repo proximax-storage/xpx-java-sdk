@@ -60,21 +60,20 @@ public class Download extends AbstractFacadeService {
 
 	private DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
 
-		final TransferTransaction transaction = getNemTransferTransaction(downloadParameter.getNemHash());
+		final TransferTransaction transaction = getNemTransaction(downloadParameter.getNemHash());
 
 		final byte[] decodedDataFromNemMessage = downloadParameter.getPrivacyStrategy().decodeTransaction(transaction);
 
-		final ResourceHashMessage resourceMessage = ResourceHashMessage.getRootAsResourceHashMessage(
-				ByteBuffer.wrap(Base64.decodeBase64(decodedDataFromNemMessage)));
+		final ResourceHashMessage resourceMessage = deserializeResourceMessageHash(decodedDataFromNemMessage);
 
-		final byte[] downloadData = downloadUsingDataHash(resourceMessage.hash());
+		final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
 
-		final byte[] decryptedDownloadData = downloadParameter.getPrivacyStrategy().decrypt(downloadData, transaction, resourceMessage);
+		final byte[] decryptedDownloadedData = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
 
-		return new DownloadResult(resourceMessage, decryptedDownloadData, NemMessageType.fromInt(transaction.getMessage().getType()));
+		return new DownloadResult(resourceMessage, decryptedDownloadedData, NemMessageType.fromInt(transaction.getMessage().getType()));
 	}
 
-	private TransferTransaction getNemTransferTransaction(final String nemHash) throws DownloadException {
+	private TransferTransaction getNemTransaction(final String nemHash) throws DownloadException {
 		try {
 			return (TransferTransaction) nemTransactionApi.getTransaction(nemHash).getEntity();
 		} catch (Exception e) {

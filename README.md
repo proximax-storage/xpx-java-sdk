@@ -57,7 +57,7 @@ metaData.put("key1", "value1");
 
 UploadBinaryParameter parameter = UploadBinaryParameterBuilder
         .messageType(MessageTypes.PLAIN)  // or SECURE
-		.senderOrReceiverPrivateKey(xPvkey).receiverOrSenderPublicKey(xPubkey)
+		.senderPrivateKey(xPvkey).receiverPublicKey(xPubkey)
 		.name("test_pdf_file_v1")
 		.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 		.contentType("application/pdf").keywords("test_pdf_file_v1")
@@ -77,8 +77,8 @@ metaData.put("key1", "value1");
 
 UploadDataParameter parameter = UploadDataParameterBuilder
 				.messageType(MessageTypes.PLAIN) // or SECURE
-				.senderOrReceiverPrivateKey(xPvkey)
-				.receiverOrSenderPublicKey(xPubkey)
+				.senderPrivateKey(xPvkey)
+				.receiverPublicKey(xPubkey)
 				.name("Custom Name")
 				.data(new String("test plain - new 1".getBytes("UTF-8")))
 				.contentType(DataTextContentType.TEXT_PLAIN)

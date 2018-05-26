@@ -29,7 +29,7 @@ public abstract class AbstractFacadeService {
 	 *            the object
 	 * @return the resource hash message
 	 */
-	protected ResourceHashMessage byteToSerialObject(byte[] object) {
+	protected ResourceHashMessage deserializeResourceMessageHash(byte[] object) {
 		ResourceHashMessage resourceMessage = ResourceHashMessage
 				.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(object)));
 		return resourceMessage;
