@@ -19,7 +19,7 @@ public class UploadBinaryParameter extends AbstractUploadParameter implements Se
         this.data = data;
     }
 
-    public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<BinaryDataStep<FinalBuildSteps>>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<BinaryDataStep<FinalBuildSteps>>> create() {
         return new Builder();
     }
 

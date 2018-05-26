@@ -1,8 +1,8 @@
 package io.nem.xpx.facade.multisigupload;
 
 import io.nem.xpx.builder.steps.MultisigPublicKeyStep;
-import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
-import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
+import io.nem.xpx.builder.steps.ReceiverPublicKeyStep;
+import io.nem.xpx.builder.steps.SenderPrivateKeyStep;
 import io.nem.xpx.builder.steps.TextDataStep;
 import io.nem.xpx.facade.upload.UploadTextDataParameter;
 import io.nem.xpx.utils.ContentTypeUtils;
@@ -22,7 +22,7 @@ public class MultisigUploadTextDataParameter extends UploadTextDataParameter imp
         this.multisigPublicKey = multisigPublicKey;
     }
 
-    public static MultisigPublicKeyStep<SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<TextDataStep<FinalBuildSteps>>>> createMultisigParam() {
+    public static MultisigPublicKeyStep<SenderPrivateKeyStep<ReceiverPublicKeyStep<TextDataStep<FinalBuildSteps>>>> createMultisigParam() {
         return new Builder();
     }
 
@@ -38,7 +38,7 @@ public class MultisigUploadTextDataParameter extends UploadTextDataParameter imp
         }
 
         @Override
-        public SenderOrReceiverPrivateKeyStep multisigPublicKeyStep(String multisigPublicKeyStep) {
+        public SenderPrivateKeyStep multisigPublicKeyStep(String multisigPublicKeyStep) {
             this.instance.setMultisigPublicKey(multisigPublicKeyStep);
             return this;
         }

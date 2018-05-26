@@ -21,8 +21,8 @@ public class Upload_uploadFilesAsZipTest {
 	public void failWhenUploadingSameFileTwice() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE1)
@@ -37,8 +37,8 @@ public class Upload_uploadFilesAsZipTest {
 	public void failWhenUploadingNoFile() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
 				.metadata(METADATA_AS_MAP)
@@ -51,8 +51,8 @@ public class Upload_uploadFilesAsZipTest {
 	public void failWhenUploadingNonExistentFile() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(NON_EXISTENT_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)

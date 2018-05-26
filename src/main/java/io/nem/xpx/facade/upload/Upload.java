@@ -311,9 +311,6 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
-	private void Future(Object o) {
-	}
-
 	private String publish(Message nemMessage, String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey,
 						   Mosaic[] mosaics) throws Exception {
 

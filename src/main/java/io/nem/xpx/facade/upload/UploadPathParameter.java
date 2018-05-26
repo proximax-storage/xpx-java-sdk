@@ -1,9 +1,6 @@
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.builder.steps.CommonUploadBuildSteps;
-import io.nem.xpx.builder.steps.PathStep;
-import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
-import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
+import io.nem.xpx.builder.steps.*;
 
 import java.io.Serializable;
 
@@ -21,7 +18,7 @@ public class UploadPathParameter extends AbstractUploadParameter implements Seri
         this.path = path;
     }
 
-    public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<PathStep<FinalBuildSteps>>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<PathStep<FinalBuildSteps>>> create() {
         return new Builder();
     }
 

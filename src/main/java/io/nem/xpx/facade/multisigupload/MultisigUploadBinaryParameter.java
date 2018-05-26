@@ -1,9 +1,6 @@
 package io.nem.xpx.facade.multisigupload;
 
-import io.nem.xpx.builder.steps.BinaryDataStep;
-import io.nem.xpx.builder.steps.MultisigPublicKeyStep;
-import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
-import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
+import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.facade.upload.UploadBinaryParameter;
 import io.nem.xpx.utils.ContentTypeUtils;
 import io.nem.xpx.utils.StringUtils;
@@ -24,7 +21,7 @@ public class MultisigUploadBinaryParameter extends UploadBinaryParameter impleme
     }
 
 
-    public static MultisigPublicKeyStep<SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<BinaryDataStep<FinalBuildSteps>>>> createMultisigParam() {
+    public static MultisigPublicKeyStep<SenderPrivateKeyStep<ReceiverPublicKeyStep<BinaryDataStep<FinalBuildSteps>>>> createMultisigParam() {
         return new Builder();
     }
 
@@ -40,7 +37,7 @@ public class MultisigUploadBinaryParameter extends UploadBinaryParameter impleme
         }
 
         @Override
-        public SenderOrReceiverPrivateKeyStep multisigPublicKeyStep(String multisigPublicKeyStep) {
+        public SenderPrivateKeyStep multisigPublicKeyStep(String multisigPublicKeyStep) {
             this.instance.setMultisigPublicKey(multisigPublicKeyStep);
             return this;
         }

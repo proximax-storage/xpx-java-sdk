@@ -27,10 +27,7 @@ public class UploadTextDataParameter extends AbstractUploadParameter implements 
         this.encoding = encoding;
     }
 
-    public static SenderOrReceiverPrivateKeyStep
-            <ReceiverOrSenderPublicKeyStep
-                    <TextDataStep
-                            <FinalBuildSteps>>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<TextDataStep<FinalBuildSteps>>> create() {
         return new Builder();
     }
 

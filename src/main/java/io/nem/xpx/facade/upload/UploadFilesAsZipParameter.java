@@ -31,7 +31,7 @@ public class UploadFilesAsZipParameter extends AbstractUploadParameter implement
         this.files.add(file);
     }
 
-    public static SenderOrReceiverPrivateKeyStep<ReceiverOrSenderPublicKeyStep<ZipFileNameStep<FinalBuildSteps>>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<ZipFileNameStep<FinalBuildSteps>>> create() {
         return new Builder();
     }
 

@@ -32,8 +32,8 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadPlainData() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("plain - the quick brown fox jumps over the lazy dog UTF-8".getBytes(),ENCODING_UTF_8))
 				.name(TEST_NAME_1)
 				.contentType(TEXT_PLAIN.toString())
@@ -61,8 +61,8 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadPlainDataHtml() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToString(HTML_FILE))
 				.name(TEST_NAME_1)
 				.contentType(TEXT_HTML.toString())
@@ -90,8 +90,8 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadPlainDataAscii() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("plain - the quick brown fox jumps over the lazy dog ASCII".getBytes(ENCODING_UTF_ASCII)))
 				.name(TEST_NAME_1)
 				.contentType(TEXT_PLAIN.toString())
@@ -120,8 +120,8 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadSecureData() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("secure - the quick brown fox jumps over the lazy dog UFT-8".getBytes(),ENCODING_UTF_8))
 				.name(TEST_NAME_1)
 				.contentType(TEXT_PLAIN.toString())
@@ -150,8 +150,8 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadSecureDataAscii() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("secure - the quick brown fox jumps over the lazy dog ASCII".getBytes(),ENCODING_UTF_ASCII))
 				.name(TEST_NAME_1)
 				.contentType(TEXT_PLAIN.toString())
@@ -181,7 +181,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	public void shouldUploadPlainDataWithMosaic() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY).receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY).receiverPublicKey(TEST_PUBLIC_KEY)
 				.data("mosaic - the quick brown fox jumps over the lazy dog")
 				.name(TEST_NAME_RANDOM_1)
 				.contentType(TEXT_PLAIN.toString())

@@ -24,8 +24,8 @@ public class UploadAsync_uploadFileIntegrationTest extends AbstractFacadeIntegra
 	@Test
 	public void shouldUploadPlainFile() throws Exception {
 		UploadFileParameter parameter = UploadFileParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.file(PDF_FILE1)
 				.keywords(KEYWORDS_PLAIN_AND_FILE)
 				.metadata(METADATA_AS_MAP)

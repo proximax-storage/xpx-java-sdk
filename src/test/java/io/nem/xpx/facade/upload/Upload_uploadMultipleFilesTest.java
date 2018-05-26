@@ -20,8 +20,8 @@ public class Upload_uploadMultipleFilesTest {
 	public void failWhenUploadingNoFile() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
 				.metadata(METADATA_AS_MAP)
 				.build();
