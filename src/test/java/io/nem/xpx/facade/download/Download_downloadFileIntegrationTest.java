@@ -27,13 +27,13 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
 
-		final DownloadFileResult message = unitUnderTest.downloadFile(DownloadParameter.create()
+		final DownloadFileResult result = unitUnderTest.downloadFile(DownloadParameter.create()
 				.nemHash(FILE_TO_PLAIN_MSG_NEM_HASH_MAP.get(PDF_FILE1)).build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-		assertEquals(PDF_FILE1.getName(), message.getFileName());
-		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.PLAIN, result.getMessageType());
+		assertEquals(PDF_FILE1.getName(), result.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 
 	@Test
@@ -41,13 +41,13 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE2);
 
-		final DownloadFileResult message = unitUnderTest.downloadFile(DownloadParameter.create()
+		final DownloadFileResult result = unitUnderTest.downloadFile(DownloadParameter.create()
 				.nemHash(FILE_TO_PLAIN_MSG_NEM_HASH_MAP.get(PDF_FILE2)).build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
-		assertEquals(PDF_FILE2.getName(), message.getFileName());
-		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.PLAIN, result.getMessageType());
+		assertEquals(PDF_FILE2.getName(), result.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 
 	@Test
@@ -55,15 +55,15 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		byte[] expected = FileUtils.readFileToByteArray(SMALL_FILE);
 
-		final DownloadFileResult message = unitUnderTest.downloadFile(DownloadParameter.create()
+		final DownloadFileResult result = unitUnderTest.downloadFile(DownloadParameter.create()
 				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(SMALL_FILE))
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.SECURE, message.getMessageType());
-		assertEquals(SMALL_FILE.getName(), message.getFileName());
-		assertEquals(TEXT_PLAIN.toString(), message.getContentType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.SECURE, result.getMessageType());
+		assertEquals(SMALL_FILE.getName(), result.getFileName());
+		assertEquals(TEXT_PLAIN.toString(), result.getContentType());
 	}
 
 
@@ -72,14 +72,14 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE2);
 
-		final DownloadFileResult message = unitUnderTest.downloadFile(DownloadParameter.create()
+		final DownloadFileResult result = unitUnderTest.downloadFile(DownloadParameter.create()
 				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(PDF_FILE2))
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.SECURE, message.getMessageType());
-		assertEquals(PDF_FILE2.getName(), message.getFileName());
-		assertEquals(APPLICATION_PDF.toString(), message.getContentType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.SECURE, result.getMessageType());
+		assertEquals(PDF_FILE2.getName(), result.getFileName());
+		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 }
