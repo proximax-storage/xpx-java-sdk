@@ -3,6 +3,10 @@ package io.nem.xpx.facade.upload;
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
 import static io.nem.xpx.testsupport.Constants.*;
@@ -51,4 +55,6 @@ public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeInt
 			LOGGER.info(uploadResult.getNemHash());
 		}).get();
 	}
+	
+
 }
