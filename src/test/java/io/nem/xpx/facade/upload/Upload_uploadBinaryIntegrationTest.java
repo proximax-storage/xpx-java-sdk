@@ -28,8 +28,8 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	public void shouldUploadPlainBinaryTest() throws Exception{
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(SMALL_VIDEO_MOV_FILE))
 				.name(SMALL_VIDEO_MOV_FILE.getName())
 				.contentType(VIDEO_QUICKTIME.toString())
@@ -56,8 +56,8 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	public void shouldUploadPlainLargeBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(PDF_FILE2))
 				.name(PDF_FILE2.getName())
 				.contentType(APPLICATION_PDF.toString())
@@ -84,8 +84,8 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	public void shouldUploadSecureBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(PDF_FILE1))
 				.name(PDF_FILE1.getName())
 				.contentType(APPLICATION_PDF.toString())
@@ -114,8 +114,8 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	public void shouldUploadSecureLargeBinaryTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(PDF_FILE2))
 				.name(PDF_FILE2.getName())
 				.contentType(APPLICATION_PDF.toString())
@@ -144,8 +144,8 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	public void shouldUploadPlainBinaryWithMosaicTest() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(PDF_FILE1))
 				.name(PDF_FILE1.getName())
 				.contentType(APPLICATION_PDF.toString())

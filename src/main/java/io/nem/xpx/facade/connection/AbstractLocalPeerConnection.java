@@ -253,7 +253,7 @@ public abstract class AbstractLocalPeerConnection implements PeerConnection {
 	@Override
 	public TransactionFeeCalculators getTransactionFeeCalculators() {
 		if (transactionFeeCalculators == null)
-			transactionFeeCalculators = new TransactionFeeCalculators();
+			transactionFeeCalculators = new TransactionFeeCalculators(nodeEndpoint, getAsyncNemConnector());
 		return transactionFeeCalculators;
 	}
 

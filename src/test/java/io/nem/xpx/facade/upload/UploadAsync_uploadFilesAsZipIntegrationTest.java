@@ -26,8 +26,8 @@ public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeI
 	public void shouldUploadFilesAsZipAsync() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE2)

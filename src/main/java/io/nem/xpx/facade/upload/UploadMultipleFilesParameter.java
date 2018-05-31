@@ -2,8 +2,8 @@ package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.builder.steps.CommonUploadBuildSteps;
 import io.nem.xpx.builder.steps.FilesStep;
-import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
-import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
+import io.nem.xpx.builder.steps.ReceiverPublicKeyStep;
+import io.nem.xpx.builder.steps.SenderPrivateKeyStep;
 
 import java.io.File;
 import java.io.Serializable;
@@ -33,9 +33,7 @@ public class UploadMultipleFilesParameter extends AbstractUploadParameter implem
         this.files.add(file);
     }
 
-    public static SenderOrReceiverPrivateKeyStep
-            <ReceiverOrSenderPublicKeyStep
-                    <FinalBuildSteps>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<FinalBuildSteps>> create() {
         return new Builder();
     }
 

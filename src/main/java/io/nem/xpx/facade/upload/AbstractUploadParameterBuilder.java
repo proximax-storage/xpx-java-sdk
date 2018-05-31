@@ -1,8 +1,6 @@
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.builder.steps.CommonUploadBuildSteps;
-import io.nem.xpx.builder.steps.ReceiverOrSenderPublicKeyStep;
-import io.nem.xpx.builder.steps.SenderOrReceiverPrivateKeyStep;
+import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 import org.nem.core.model.mosaic.Mosaic;
@@ -13,8 +11,8 @@ import java.util.Map;
 public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey, FinalBuildSteps>
 		implements
 		CommonUploadBuildSteps<FinalBuildSteps>,
-		SenderOrReceiverPrivateKeyStep,
-		ReceiverOrSenderPublicKeyStep {
+		SenderPrivateKeyStep,
+		ReceiverPublicKeyStep {
 
 	protected AbstractUploadParameter instance;
 
@@ -55,8 +53,8 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 	@Override
 	public FinalBuildSteps securedWithNemKeysPrivacyStrategy() {
 		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
-				this.instance.getSenderOrReceiverPrivateKey(),
-				this.instance.getReceiverOrSenderPublicKey()));
+				this.instance.getSenderPrivateKey(),
+				this.instance.getReceiverPublicKey()));
 		return  (FinalBuildSteps) this;
 	}
 
@@ -68,14 +66,14 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 
 
 	@Override
-	public ReceiverOrSenderPublicKeyStep senderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
+	public ReceiverPublicKeyStep senderPrivateKey(String senderPrivateKeyStep) {
+		this.instance.setSenderPrivateKey(senderPrivateKeyStep);
 		return this;
 	}
 
 	@Override
-	public NextBuildStepAfterPublicKey receiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-		this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+	public NextBuildStepAfterPublicKey receiverPublicKey(String receiverPublicKey) {
+		this.instance.setReceiverPublicKey(receiverPublicKey);
 		return (NextBuildStepAfterPublicKey) this;
 	}
 

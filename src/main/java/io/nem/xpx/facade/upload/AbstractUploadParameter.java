@@ -14,10 +14,10 @@ import java.util.Map;
 public abstract class AbstractUploadParameter {
 
 	/** The sender private key. */
-	private String senderOrReceiverPrivateKey;
+	private String senderPrivateKey;
 	
 	/** The recipient public key. */
-	private String receiverOrSenderPublicKey;
+	private String receiverPublicKey;
 	
 	/** The content type. */
 	private String contentType;
@@ -42,17 +42,17 @@ public abstract class AbstractUploadParameter {
 	 *
 	 * @return the sender or receiver private key
 	 */
-	public String getSenderOrReceiverPrivateKey() {
-		return senderOrReceiverPrivateKey;
+	public String getSenderPrivateKey() {
+		return senderPrivateKey;
 	}
 
 	/**
 	 * Sets the sender or receiver private key.
 	 *
-	 * @param senderOrReceiverPrivateKey the new sender or receiver private key
+	 * @param senderPrivateKey the new sender or receiver private key
 	 */
-	public void setSenderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		this.senderOrReceiverPrivateKey = senderOrReceiverPrivateKey;
+	public void setSenderPrivateKey(String senderPrivateKey) {
+		this.senderPrivateKey = senderPrivateKey;
 	}
 
 	/**
@@ -60,17 +60,17 @@ public abstract class AbstractUploadParameter {
 	 *
 	 * @return the receiver or sender public key
 	 */
-	public String getReceiverOrSenderPublicKey() {
-		return receiverOrSenderPublicKey;
+	public String getReceiverPublicKey() {
+		return receiverPublicKey;
 	}
 
 	/**
 	 * Sets the receiver or sender public key.
 	 *
-	 * @param receiverOrSenderPublicKey the new receiver or sender public key
+	 * @param receiverPublicKey the new receiver or sender public key
 	 */
-	public void setReceiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-		this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
+	public void setReceiverPublicKey(String receiverPublicKey) {
+		this.receiverPublicKey = receiverPublicKey;
 	}
 
 	/**

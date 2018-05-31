@@ -45,8 +45,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 					UploadAsync upload = new UploadAsync(localPeerConnection);
 
 					UploadBinaryParameter parameter1 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+							.senderPrivateKey(TEST_PRIVATE_KEY)
+							.receiverPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
@@ -55,8 +55,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.build();
 
 					UploadBinaryParameter parameter2 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+							.senderPrivateKey(TEST_PRIVATE_KEY)
+							.receiverPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version2.pdf")
 							.contentType("application/pdf")
@@ -65,8 +65,8 @@ public class MultiThreadUploadLocalBinaryTest extends AbstractApiTest {
 							.build();
 
 					UploadBinaryParameter parameter3 = UploadBinaryParameter.create()
-							.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-							.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+							.senderPrivateKey(TEST_PRIVATE_KEY)
+							.receiverPublicKey(TEST_PUBLIC_KEY)
 							.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 							.name("pdf_file_version1.pdf")
 							.contentType("application/pdf")

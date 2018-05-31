@@ -26,8 +26,8 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 	public void hasFailureWhenUploadingNonExistentFile() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
 				.addFile(NON_EXISTENT_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
@@ -64,8 +64,8 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 	public void shouldUploadMultipleFilesWithPlainMessageType() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)
@@ -111,8 +111,8 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_SECURE_AND_MULTIFILES)

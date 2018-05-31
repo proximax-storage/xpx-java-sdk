@@ -29,8 +29,8 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 	public void shouldUploadFilesAsZipWithPlainMessageType() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
@@ -57,8 +57,8 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 	public void shouldUploadFilesAsZipWithSecureMessageType() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)
@@ -86,8 +86,8 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 	@Ignore
 	public void uploadPlainFileWithMosaicTest() throws Exception {
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.zipFileName(ZIP_FILE_NAME)
 				.addFile(PDF_FILE1)
 				.addFile(SMALL_FILE)

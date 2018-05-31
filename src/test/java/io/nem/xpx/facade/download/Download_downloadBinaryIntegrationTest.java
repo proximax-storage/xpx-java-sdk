@@ -25,11 +25,11 @@ public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegr
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
 
-		final DownloadBinaryResult message = unitUnderTest.downloadBinary(DownloadParameter.create()
+		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
 				.nemHash(FILE_TO_PLAIN_MSG_NEM_HASH_MAP.get(PDF_FILE1)).build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.PLAIN, result.getMessageType());
 	}
 
 	@Test
@@ -37,11 +37,11 @@ public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegr
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE2);
 
-		final DownloadBinaryResult message = unitUnderTest.downloadBinary(DownloadParameter.create()
+		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
 				.nemHash(FILE_TO_PLAIN_MSG_NEM_HASH_MAP.get(PDF_FILE2)).build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.PLAIN, message.getMessageType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.PLAIN, result.getMessageType());
 	}
 
 	@Test
@@ -49,13 +49,13 @@ public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegr
 
 		byte[] expected = FileUtils.readFileToByteArray(SMALL_FILE);
 
-		final DownloadBinaryResult message = unitUnderTest.downloadBinary(DownloadParameter.create()
+		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
 				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(SMALL_FILE))
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertArrayEquals(expected, message.getData());
-		assertEquals(NemMessageType.SECURE, message.getMessageType());
+		assertArrayEquals(expected, result.getData());
+		assertEquals(NemMessageType.SECURE, result.getMessageType());
 	}
 
 

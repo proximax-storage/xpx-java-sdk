@@ -3,6 +3,10 @@ package io.nem.xpx.facade.upload;
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
 import static io.nem.xpx.testsupport.Constants.*;
@@ -27,8 +31,8 @@ public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeInt
 	public void shouldUploadTextDataAsync() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY_2)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(new String("plain - the quick brown fox jumps over the lazy dog UTF-8".getBytes(),ENCODING_UTF_8))
 				.name(TEST_NAME_RANDOM_1)
 				.contentType(TEXT_PLAIN.toString())
@@ -51,4 +55,6 @@ public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeInt
 			LOGGER.info(uploadResult.getNemHash());
 		}).get();
 	}
+	
+
 }

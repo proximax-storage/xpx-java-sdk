@@ -23,10 +23,7 @@ public class UploadFileParameter extends AbstractUploadParameter implements Seri
     }
 
 
-    public static SenderOrReceiverPrivateKeyStep
-            <ReceiverOrSenderPublicKeyStep
-                    <FileStep
-                            <FinalBuildSteps>>> create() {
+    public static SenderPrivateKeyStep<ReceiverPublicKeyStep<FileStep<FinalBuildSteps>>> create() {
         return new Builder();
     }
 

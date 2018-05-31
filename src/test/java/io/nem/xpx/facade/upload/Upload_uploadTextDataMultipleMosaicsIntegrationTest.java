@@ -5,6 +5,10 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.primitive.Quantity;
 
 import static io.nem.xpx.facade.DataTextContentType.TEXT_HTML;
 import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
@@ -12,7 +16,7 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
+public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends AbstractFacadeIntegrationTest {
 
 	public static final String TEST_NAME_1 = "NAME1";
 	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
@@ -29,8 +33,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	}
 
 	@Test
-	public void shouldUploadPlainData() throws Exception {
-
+	public void shouldUploadPlainDataWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
+		
+	
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)
@@ -40,6 +47,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
 				.metadata(METADATA_AS_MAP)
+				.mosaics(blueNumberAsset)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -58,8 +66,9 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	}
 	
 	@Test
-	public void shouldUploadPlainDataHtml() throws Exception {
-
+	public void shouldUploadPlainDataHtmlWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)
@@ -69,6 +78,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
 				.metadata(METADATA_AS_MAP)
+				.mosaics(blueNumberAsset)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -87,8 +97,9 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	}
 
 	@Test
-	public void shouldUploadPlainDataAscii() throws Exception {
-
+	public void shouldUploadPlainDataAsciiWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)
@@ -98,6 +109,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
 				.metadata(METADATA_AS_MAP)
+				.mosaics(blueNumberAsset)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
@@ -117,8 +129,9 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 
 	
 	@Test
-	public void shouldUploadSecureData() throws Exception {
-
+	public void shouldUploadSecureDataWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)
@@ -128,6 +141,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_SECURE_AND_DATA)
 				.metadata(METADATA_AS_MAP)
+				.mosaics(blueNumberAsset)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -147,8 +161,9 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	}
 
 	@Test
-	public void shouldUploadSecureDataAscii() throws Exception {
-
+	public void shouldUploadSecureDataAsciiWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)
@@ -158,6 +173,39 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_SECURE_AND_DATA)
 				.metadata(METADATA_AS_MAP) // one level map to json
+				.mosaics(blueNumberAsset)
+				.securedWithNemKeysPrivacyStrategy()
+				.build();
+
+		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
+
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_DATA, uploadResult.getDataMessage().keywords());
+		assertEquals(TEST_NAME_1, uploadResult.getDataMessage().name());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
+		assertEquals(TEXT_PLAIN.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
+	}
+	
+	@Test(expected=UploadException.class)
+	public void shouldUploadSecureDataAsciiWithInvalidMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("invalid"), "invalid"),
+				Quantity.fromValue(10000));
+		UploadTextDataParameter parameter = UploadTextDataParameter.create()
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
+				.data(new String("secure - the quick brown fox jumps over the lazy dog ASCII".getBytes(),ENCODING_UTF_ASCII))
+				.name(TEST_NAME_1)
+				.contentType(TEXT_PLAIN.toString())
+				.encoding(ENCODING_UTF_8)
+				.keywords(KEYWORDS_SECURE_AND_DATA)
+				.metadata(METADATA_AS_MAP) // one level map to json
+				.mosaics(blueNumberAsset)
 				.securedWithNemKeysPrivacyStrategy()
 				.build();
 
@@ -178,8 +226,9 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	
 	@Test
 	@Ignore
-	public void shouldUploadPlainDataWithMosaic() throws Exception {
-
+	public void shouldUploadPlainDataWithMosaicWithMosaics() throws Exception {
+		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
+				Quantity.fromValue(10000));
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY).receiverPublicKey(TEST_PUBLIC_KEY)
 				.data("mosaic - the quick brown fox jumps over the lazy dog")
@@ -188,7 +237,7 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 				.encoding(ENCODING_UTF_8)
 				.keywords(KEYWORDS_PLAIN_AND_DATA)
 				.metadata(METADATA_AS_MAP)
-				.mosaics(MOSAIC_PRX)
+				.mosaics(MOSAIC_PRX,blueNumberAsset)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);

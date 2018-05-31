@@ -190,7 +190,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				parameter.setText(encryptedData);
 				response = (byte[]) uploadApi.uploadPlainTextUsingPOST(parameter);
 			}
-			resourceMessageHash = byteToSerialObject(response);
+			resourceMessageHash = deserializeResourceMessageHash(response);
 
 			final Message nemMessage = uploadParameter.getPrivacyStrategy().encodeToMessage(response);
 			if (this.isLocalPeerConnection) {
@@ -198,7 +198,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.amount(Amount.fromNem(1l))
 						.version(2)
 						.message(nemMessage)
@@ -206,7 +206,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -216,7 +216,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics())
 						.amount(Amount.fromNem(1l))
 						.message(nemMessage)
@@ -224,7 +224,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -279,7 +279,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				parameter.setData(FileUtils.readFileToByteArray(uploadParameter.getFile()));
 				response = (byte[]) uploadApi.uploadBytesBinaryUsingPOST(parameter);
 			}
-			resourceMessageHash = byteToSerialObject(response);
+			resourceMessageHash = deserializeResourceMessageHash(response);
 
 			final Message nemMessage = uploadParameter.getPrivacyStrategy().encodeToMessage(response);
 
@@ -288,14 +288,14 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.amount(Amount.fromNem(1l))
 						.message(nemMessage)
 						.buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSendMultisigTransaction();
 
 				publishedData = announceResult.getTransactionHash().toString();
@@ -305,7 +305,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics())
 						.amount(Amount.fromNem(1l))
 						.message(nemMessage)
@@ -313,7 +313,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash
@@ -366,7 +366,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				parameter.setData(uploadParameter.getData());
 				response = (byte[]) uploadApi.uploadBytesBinaryUsingPOST(parameter);
 			}
-			resourceMessageHash = byteToSerialObject(response);
+			resourceMessageHash = deserializeResourceMessageHash(response);
 
 			final Message nemMessage = uploadParameter.getPrivacyStrategy().encodeToMessage(response);
 
@@ -375,14 +375,14 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.amount(Amount.fromNem(1l))
 						.message(nemMessage)
 						.buildTransaction();
 
 				NemAnnounceResult announceResult = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction)
 						.buildAndSendMultisigTransaction();
 
@@ -393,7 +393,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 				TransferTransaction transaction = TransferTransactionBuilder
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
-						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverOrSenderPublicKey()))))
+						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
 						.addMosaics(uploadParameter.getMosaics())
 						.amount(Amount.fromNem(1l))
 						.message(nemMessage)
@@ -401,7 +401,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 				RequestAnnounceDataSignature requestAnnounceDataSignature = MultisigTransactionBuilder
 						.peerConnection(peerConnection)
-						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderOrReceiverPrivateKey()))))
+						.sender(new Account(new KeyPair(PrivateKey.fromHexString(uploadParameter.getSenderPrivateKey()))))
 						.otherTransaction(transaction).buildAndSignMultisigTransaction();
 
 				// Return the NEM Txn Hash

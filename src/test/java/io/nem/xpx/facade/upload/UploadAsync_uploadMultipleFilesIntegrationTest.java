@@ -24,8 +24,8 @@ public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFaca
 	public void shouldUploadMultipleFilesAsync() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.addFile(PDF_FILE1)
 				.addFile(PDF_FILE2)
 				.keywords(KEYWORDS_PLAIN_AND_MULTIFILES)

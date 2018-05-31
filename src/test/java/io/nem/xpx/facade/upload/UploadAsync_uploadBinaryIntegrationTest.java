@@ -26,8 +26,8 @@ public class UploadAsync_uploadBinaryIntegrationTest extends AbstractFacadeInteg
 	public void shouldUploadPlainBinaryTest() throws Exception{
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.data(FileUtils.readFileToByteArray(SMALL_VIDEO_MOV_FILE))
 				.name(SMALL_VIDEO_MOV_FILE.getName())
 				.contentType(VIDEO_QUICKTIME.toString())

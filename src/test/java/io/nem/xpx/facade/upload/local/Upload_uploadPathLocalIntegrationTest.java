@@ -32,8 +32,8 @@ public class Upload_uploadPathLocalIntegrationTest extends AbstractApiTest {
 	public void uploadPath() throws UploadException {
 
 		UploadPathParameter parameter = UploadPathParameter.create()
-				.senderOrReceiverPrivateKey(TEST_PRIVATE_KEY)
-				.receiverOrSenderPublicKey(TEST_PUBLIC_KEY)
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
 				.path("src/test/resources/")
 				.metadata(METADATA_AS_MAP)
 				.keywords(KEYWORDS_PLAIN_AND_PATH)
