@@ -540,8 +540,7 @@ public class TransferTransactionBuilder {
 		@Override
 		public TransferTransaction buildTransaction(boolean isForMultisig) {
 			
-			//	attach the xpx mosaic
-			
+			//	attach the xpx mosaic (constant)
 			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 					Quantity.fromValue(10000));
 			
@@ -571,8 +570,8 @@ public class TransferTransactionBuilder {
 				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
 				TransactionFeeCalculator globalFeeCalculator = isForMultisig
-						? peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig()
-						: peerConnection.getTransactionFeeCalculators().getFeeCalculator();
+						? peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig(this.sender.getAddress().getEncoded())
+						: peerConnection.getTransactionFeeCalculators().getFeeCalculator(this.sender.getAddress().getEncoded());
 				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
 			instance.setFee(amountFee);
