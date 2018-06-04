@@ -7,8 +7,9 @@ import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.intf.*;
-import io.nem.xpx.service.pv.PrivateSearchApi;
 import io.nem.xpx.service.TransactionSender;
+import io.nem.xpx.service.common.PrivateSearchApi;
+
 import org.nem.core.node.NodeEndpoint;
 
 

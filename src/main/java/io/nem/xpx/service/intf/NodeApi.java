@@ -25,4 +25,7 @@ public interface NodeApi {
 	 * @throws ApiException the api exception
 	 */
 	public NodeInfo getNodeInfoUsingGET() throws ApiException;
+	
+	
+	
 }
