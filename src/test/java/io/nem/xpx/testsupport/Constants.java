@@ -74,7 +74,7 @@ public class Constants {
 
     private static RemotePeerConnection getDevRemotePeerConnection() {
         try {
-            return new RemotePeerConnection("https://dev.gateway.proximax.io");
+            return new RemotePeerConnection("http://dev-gateway.internal.proximax.io:8881");
         } catch (Exception e) {
             return null;
         }
