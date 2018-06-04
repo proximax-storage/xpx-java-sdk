@@ -45,17 +45,13 @@ public final class TransactionFeeCalculators {
     }
     
     public TransactionFeeCalculator getFeeCalculator(String senderAddress) {
-        if (feeCalculator == null)
-            feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
-                    Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
-        return feeCalculator;
+        return new FeeUnitAwareTransactionFeeCalculator(
+                Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
     }
 
     public TransactionFeeCalculator getFeeCalculatorMultiSig(String senderAddress) {
-        if (feeCalculatorMultiSig == null)
-        	feeCalculatorMultiSig =  new FeeUnitAwareTransactionFeeCalculator(
-                    Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
-        return feeCalculatorMultiSig;
+        return new FeeUnitAwareTransactionFeeCalculator(
+                Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
     }
 
 
@@ -92,7 +88,9 @@ public final class TransactionFeeCalculators {
 
 					if (namespace.equals(namespaceToLookup) && mosaicName.equals(mosaicNameToLookup)) {
 						MosaicDefinition mosaicDefinition = namespaceMosaicApi.getMosaicInformation(namespace,mosaicName);
-						return new MosaicFeeInformation(Supply.fromValue(mosaicDefinition.getProperties().getInitialSupply()), mosaicDefinition.getProperties().getDivisibility());
+						return new MosaicFeeInformation(
+						        Supply.fromValue(mosaicDefinition.getProperties().getInitialSupply()),
+                                mosaicDefinition.getProperties().getDivisibility());
 					}
 				}
                 //	error - meaning the sender doesn't own the mosaics attached.

@@ -195,7 +195,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 			final Message nemMessage = uploadParameter.getPrivacyStrategy().encodeToMessage(response);
 			if (this.isLocalPeerConnection) {
 
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
@@ -213,7 +213,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			} else {
 				// Announce The Signature
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
@@ -285,7 +285,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			if (this.isLocalPeerConnection) {
 
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
@@ -302,7 +302,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			} else {
 				// Announce The Signature
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
@@ -372,7 +372,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			if (this.isLocalPeerConnection) {
 
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
@@ -390,7 +390,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			} else {
 				// Announce The Signature
-				TransferTransaction transaction = TransferTransactionBuilder
+				TransferTransaction transaction = new TransferTransactionBuilder()
 						.peerConnection(peerConnection)
 						.sender(new Account(new KeyPair(PublicKey.fromHexString(uploadParameter.getMultisigPublicKey()))))
 						.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(uploadParameter.getReceiverPublicKey()))))
