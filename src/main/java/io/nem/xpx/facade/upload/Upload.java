@@ -3,7 +3,6 @@
  */
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
@@ -13,23 +12,15 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.service.TransactionSender;
+import io.nem.xpx.service.TransactionAnnouncer;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
-import org.nem.core.crypto.KeyPair;
-import org.nem.core.crypto.PrivateKey;
-import org.nem.core.crypto.PublicKey;
-import org.nem.core.model.Account;
-import org.nem.core.model.Address;
 import org.nem.core.model.Message;
-import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.ncc.NemAnnounceResult;
-import org.nem.core.model.primitive.Amount;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,7 +44,8 @@ public class Upload extends AbstractFacadeService {
 
 	private final UploadApi uploadApi;
 
-	private final TransactionSender transactionSender;
+	private final TransactionAnnouncer transactionAnnouncer;
+
 
 
 	/**
@@ -70,7 +62,7 @@ public class Upload extends AbstractFacadeService {
 		}
 
 		this.uploadApi = peerConnection.getUploadApi();
-		this.transactionSender = peerConnection.getTransactionSender();
+		this.transactionAnnouncer = peerConnection.getTransactionAnnouncer();
 		this.peerConnection = peerConnection;
 	}
 
@@ -316,28 +308,7 @@ public class Upload extends AbstractFacadeService {
 	private String createNemTransaction(PrivacyStrategy privacyStrategy, String senderPrivateKey,
 										String receiverPublicKey, Mosaic[] mosaics, byte[] response) throws Exception {
 		final Message nemMessage = privacyStrategy.encodeToMessage(response);
-		return announceNemTransaction(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
-	}
-
-	private String announceNemTransaction(Message nemMessage, String senderPrivateKey, String receiverPublicKey,
-										  Mosaic[] mosaics) throws Exception {
-
-		final TransferTransaction transferTransaction = new TransferTransactionBuilder()
-				.peerConnection(peerConnection)
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(receiverPublicKey))))
-				.version(2)
-				.amount(Amount.fromNem(1l))
-				.message(nemMessage)
-				.addMosaics(mosaics).buildAndSignTransaction();
-
-		final NemAnnounceResult announceResult = transactionSender.sendTransferTransaction(transferTransaction);
-
-		if (announceResult.getCode() == NemAnnounceResult.CODE_SUCCESS)
-			return announceResult.getTransactionHash().toString();
-		else
-			throw new UploadException(
-					format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
+		return transactionAnnouncer.announceTransactionForUploadedContent(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
 	}
 }
 

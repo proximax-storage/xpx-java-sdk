@@ -1,8 +1,8 @@
 package io.nem.xpx.builder;
 
-import io.nem.xpx.facade.connection.PeerConnection;
 import io.nem.xpx.factory.AttachmentFactory;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
+import io.nem.xpx.service.TransactionFeeCalculators;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.*;
 import org.nem.core.model.mosaic.Mosaic;
@@ -14,9 +14,7 @@ import org.nem.core.time.TimeInstant;
 
 public class TransferTransactionBuilder {
 
-	private TransferTransaction instance;
-
-	private PeerConnection peerConnection;
+	private final TransactionFeeCalculators transactionFeeCalculators;
 
 	private int version;
 
@@ -40,12 +38,8 @@ public class TransferTransactionBuilder {
 
 	private Account signBy;
 
-	public TransferTransactionBuilder() {
-	}
-
-	public TransferTransactionBuilder peerConnection(PeerConnection peerConnection) {
-		this.peerConnection = peerConnection;
-		return this;
+	public TransferTransactionBuilder(TransactionFeeCalculators transactionFeeCalculators) {
+	    this.transactionFeeCalculators = transactionFeeCalculators;
 	}
 
 	public TransferTransactionBuilder sender(Account sender) {
@@ -142,6 +136,8 @@ public class TransferTransactionBuilder {
 
 	public TransferTransaction buildTransaction(boolean isForMultisig) {
 
+	    TransferTransaction instance;
+
 		//	attach the xpx mosaic (constant)
 		Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 				Quantity.fromValue(10000));
@@ -172,8 +168,8 @@ public class TransferTransactionBuilder {
 			amountFee = this.feeCalculator.calculateMinimumFee(instance);
 		} else {
 			TransactionFeeCalculator globalFeeCalculator = isForMultisig
-					? peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig(this.sender.getAddress().getEncoded())
-					: peerConnection.getTransactionFeeCalculators().getFeeCalculator(this.sender.getAddress().getEncoded());
+					? transactionFeeCalculators.getFeeCalculatorMultiSig(this.sender.getAddress().getEncoded())
+					: transactionFeeCalculators.getFeeCalculator(this.sender.getAddress().getEncoded());
 			amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 		}
 		instance.setFee(amountFee);

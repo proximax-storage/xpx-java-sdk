@@ -27,6 +27,8 @@ public abstract class PeerConnection {
 
     private TransactionFeeCalculators transactionFeeCalculators;
 
+    private TransactionAnnouncer transactionAnnouncer;
+
     public abstract boolean isLocal();
 
     public abstract AccountApi getAccountApi();
@@ -77,11 +79,19 @@ public abstract class PeerConnection {
         return transactionFeeCalculators;
     }
 
+    public TransactionAnnouncer getTransactionAnnouncer() {
+        if (transactionAnnouncer == null)
+            transactionAnnouncer = new TransactionAnnouncer(getTransactionFeeCalculators(), getTransactionSender());
+        return transactionAnnouncer;
+    }
+
     private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
         if (asyncNemConnector == null)
             asyncNemConnector = ConnectionFactory.createConnector();
         return asyncNemConnector;
     }
+
+
 
 
 
