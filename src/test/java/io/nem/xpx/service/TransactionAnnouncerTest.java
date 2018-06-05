@@ -19,7 +19,6 @@ import org.nem.core.model.primitive.Amount;
 
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -62,7 +61,6 @@ public class TransactionAnnouncerTest {
                 .willReturn(new NemAnnounceResult(ValidationResult.fromValue(NemAnnounceResult.CODE_SUCCESS),
                         Hash.fromHexString(expectedNemHash), null));
 
-
         final String transactionHash = unitUnderTest.announceTransactionForUploadedContent(mockMessage, Constants.TEST_PRIVATE_KEY,
                 Constants.TEST_PUBLIC_KEY, new Mosaic[]{Constants.MOSAIC_LAND_REGISTRY});
 
@@ -82,7 +80,6 @@ public class TransactionAnnouncerTest {
         given(mockTransactionSender.sendTransferTransaction(any()))
                 .willReturn(new NemAnnounceResult(ValidationResult.fromValue(2),
                         Hash.fromHexString("94f43ffcaf403c0a3f9e72b72c6705bf5f6df09f1cfbed0d21be89b580ed5631"), null));
-
 
         unitUnderTest.announceTransactionForUploadedContent(mockMessage, Constants.TEST_PRIVATE_KEY,
                 Constants.TEST_PUBLIC_KEY, new Mosaic[]{Constants.MOSAIC_LAND_REGISTRY});
