@@ -1,4 +1,4 @@
-package io.nem.xpx.service.pv;
+package io.nem.xpx.service.common;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

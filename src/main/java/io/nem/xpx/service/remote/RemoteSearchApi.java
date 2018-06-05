@@ -27,8 +27,8 @@ import java.io.IOException;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.common.PrivateSearchApi;
 import io.nem.xpx.service.intf.SearchApi;
-import io.nem.xpx.service.pv.PrivateSearchApi;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
