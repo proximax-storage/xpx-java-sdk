@@ -1,7 +1,7 @@
 package io.nem.xpx.service;
 
 import io.nem.xpx.builder.TransferTransactionBuilder;
-import io.nem.xpx.facade.upload.UploadException;
+import io.nem.xpx.exceptions.AnnounceTransactionFailureException;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
@@ -41,7 +41,7 @@ public class TransactionAnnouncer {
         if (announceResult.getCode() == NemAnnounceResult.CODE_SUCCESS)
             return announceResult.getTransactionHash().toString();
         else
-            throw new UploadException(
+            throw new AnnounceTransactionFailureException(
                     format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
     }
 }
