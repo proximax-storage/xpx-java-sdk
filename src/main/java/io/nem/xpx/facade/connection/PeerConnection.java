@@ -3,122 +3,96 @@
  */
 package io.nem.xpx.facade.connection;
 
-import io.nem.xpx.service.NemAccountApi;
-import io.nem.xpx.service.NemTransactionApi;
-import io.nem.xpx.service.TransactionFeeCalculators;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.service.*;
 import io.nem.xpx.service.intf.*;
-import io.nem.xpx.service.TransactionSender;
-import io.nem.xpx.service.common.PrivateSearchApi;
-
+import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
 
-/**
- * The Class PeerConnection.
- */
-public interface PeerConnection {
+public abstract class PeerConnection {
 
-    /**
-     * Gets the node endpoint.
-     *
-     * @return the node endpoint
-     */
-    NodeEndpoint getNodeEndpoint();
+    protected NodeEndpoint nodeEndpoint;
 
-    /**
-     * Checks if is local.
-     *
-     * @return true, if is local
-     */
-    boolean isLocal();
+    private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
 
-    /**
-     * Gets the account api.
-     *
-     * @return the account api
-     */
-    AccountApi getAccountApi();
+    private NemTransactionApi nemTransactionApi;
 
-    /**
-     * Gets the data hash api.
-     *
-     * @return the data hash api
-     */
-    DataHashApi getDataHashApi();
+    private NemAccountApi nemAccountApi;
 
-    /**
-     * Gets the directory load api.
-     *
-     * @return the directory load api
-     */
-    DirectoryLoadApi getDirectoryLoadApi();
+    private NemNamespaceAndMosaicsApi nemNamespaceAndMosaicsApi;
 
-    /**
-     * Gets the download api.
-     *
-     * @return the download api
-     */
-    DownloadApi getDownloadApi();
+    private TransactionSender transactionSender;
 
-    /**
-     * Gets the node api.
-     *
-     * @return the node api
-     */
-    NodeApi getNodeApi();
+    private TransactionFeeCalculators transactionFeeCalculators;
 
-    /**
-     * Gets the publish and subscribe api.
-     *
-     * @return the publish and subscribe api
-     */
-    PublishAndSubscribeApi getPublishAndSubscribeApi();
+    private TransactionAnnouncer transactionAnnouncer;
 
-    /**
-     * Gets the search api.
-     *
-     * @return the search api
-     */
-    SearchApi getSearchApi();
-    
+    public abstract boolean isLocal();
 
-    /**
-     * Gets the transaction and announce api.
-     *
-     * @return the transaction and announce api
-     */
-    TransactionAndAnnounceApi getTransactionAndAnnounceApi();
+    public abstract AccountApi getAccountApi();
 
-    /**
-     * Gets the upload api.
-     *
-     * @return the upload api
-     */
-    UploadApi getUploadApi();
+    public abstract DataHashApi getDataHashApi();
 
-    /**
-     * Gets the nem transaction api.
-     *
-     * @return the nem transaction api
-     */
-    NemTransactionApi getNemTransactionApi();
+    public abstract DirectoryLoadApi getDirectoryLoadApi();
 
-    /**
-     * Gets the nem account api.
-     *
-     * @return the nem account api
-     */
-    NemAccountApi getNemAccountApi();
+    public abstract DownloadApi getDownloadApi();
 
-    /**
-     * Gets the transaction sender.
-     *
-     * @return the transaction sender
-     */
-    TransactionSender getTransactionSender();
+    public abstract NodeApi getNodeApi();
 
-    TransactionFeeCalculators getTransactionFeeCalculators();
-    
+    public abstract PublishAndSubscribeApi getPublishAndSubscribeApi();
+
+    public abstract SearchApi getSearchApi();
+
+    public abstract TransactionAndAnnounceApi getTransactionAndAnnounceApi();
+
+    public abstract UploadApi getUploadApi();
+
+    public NemTransactionApi getNemTransactionApi() {
+        if (nemTransactionApi == null)
+            nemTransactionApi = new NemTransactionApi(nodeEndpoint, getAsyncNemConnector());
+        return nemTransactionApi;
+    }
+
+    public NemAccountApi getNemAccountApi() {
+        if (nemAccountApi == null)
+            nemAccountApi = new NemAccountApi(nodeEndpoint, getAsyncNemConnector());
+        return nemAccountApi;
+    }
+
+    public NemNamespaceAndMosaicsApi getNemNamespaceAndMosaicsApi() {
+        if (nemNamespaceAndMosaicsApi == null)
+            nemNamespaceAndMosaicsApi = new NemNamespaceAndMosaicsApi(nodeEndpoint, getAsyncNemConnector());
+        return nemNamespaceAndMosaicsApi;
+    }
+
+    public TransactionSender getTransactionSender() {
+        if (transactionSender == null)
+            transactionSender = new TransactionSender(getNemTransactionApi(), getNemAccountApi());
+        return transactionSender;
+    }
+
+    public TransactionFeeCalculators getTransactionFeeCalculators() {
+        if (transactionFeeCalculators == null)
+            transactionFeeCalculators = new TransactionFeeCalculators(getNemAccountApi(), getNemNamespaceAndMosaicsApi());
+        return transactionFeeCalculators;
+    }
+
+    public TransactionAnnouncer getTransactionAnnouncer() {
+        if (transactionAnnouncer == null)
+            transactionAnnouncer = new TransactionAnnouncer(getTransactionFeeCalculators(), getTransactionSender());
+        return transactionAnnouncer;
+    }
+
+    private DefaultAsyncNemConnector<ApiId> getAsyncNemConnector() {
+        if (asyncNemConnector == null)
+            asyncNemConnector = ConnectionFactory.createConnector();
+        return asyncNemConnector;
+    }
+
+
+
 
 
 }

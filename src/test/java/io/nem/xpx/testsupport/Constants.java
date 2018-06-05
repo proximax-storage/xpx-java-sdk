@@ -4,6 +4,10 @@ import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.utils.JsonUtils;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
+import org.nem.core.model.Account;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.NamespaceId;
@@ -43,6 +47,10 @@ public class Constants {
     // testnet keys - first pair
     public static final String TEST_PRIVATE_KEY = "deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763";
     public static final String TEST_PUBLIC_KEY = "36e6fbc1cc5c3ef49d313721650b98d7d7d126a4f731d70071f4f3b4798cdc85";
+    public static final KeyPair TEST_PRIVATE_KEY_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY));
+    public static final KeyPair TEST_PUBLIC_KEY_KEYPAIR = new KeyPair(PublicKey.fromHexString(TEST_PUBLIC_KEY));
+    public static final Account TEST_PRIVATE_KEY_ACCOUNT = new Account(TEST_PRIVATE_KEY_KEYPAIR);
+    public static final Account TEST_PUBLIC_KEY_ACCOUNT = new Account(TEST_PUBLIC_KEY_KEYPAIR);
 
     // testnet keys - second pair
     public static final String TEST_PRIVATE_KEY_2 = "545d88f0bd4bb088bda629f09df13acebff9e260330a1ff19a1bcfbc07c7c3d8";
@@ -74,7 +82,7 @@ public class Constants {
 
     private static RemotePeerConnection getDevRemotePeerConnection() {
         try {
-            return new RemotePeerConnection("https://dev.gateway.proximax.io");
+            return new RemotePeerConnection("http://dev-gateway.internal.proximax.io:8881");
         } catch (Exception e) {
             return null;
         }

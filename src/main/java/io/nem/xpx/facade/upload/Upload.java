@@ -3,7 +3,6 @@
  */
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.builder.TransferTransactionBuilder;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
@@ -13,22 +12,15 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
-import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
+import io.nem.xpx.service.TransactionAnnouncer;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
-import org.nem.core.crypto.KeyPair;
-import org.nem.core.crypto.PrivateKey;
-import org.nem.core.crypto.PublicKey;
-import org.nem.core.model.Account;
-import org.nem.core.model.Address;
 import org.nem.core.model.Message;
 import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.ncc.NemAnnounceResult;
-import org.nem.core.model.primitive.Amount;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,17 +40,12 @@ import static java.lang.String.format;
  */
 public class Upload extends AbstractFacadeService {
 
-	/** The peer connection. */
 	private final PeerConnection peerConnection;
 
-	/** The data hash api. */
 	private final UploadApi uploadApi;
 
-	/** The announceNemTransaction and announce api. */
-	private final TransactionAndAnnounceApi transactionAndAnnounceApi;
+	private final TransactionAnnouncer transactionAnnouncer;
 
-	/** The is local peer connection. */
-	private final boolean isLocalPeerConnection;
 
 
 	/**
@@ -75,8 +62,7 @@ public class Upload extends AbstractFacadeService {
 		}
 
 		this.uploadApi = peerConnection.getUploadApi();
-		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
-		this.isLocalPeerConnection = peerConnection.isLocal();
+		this.transactionAnnouncer = peerConnection.getTransactionAnnouncer();
 		this.peerConnection = peerConnection;
 	}
 
@@ -322,46 +308,7 @@ public class Upload extends AbstractFacadeService {
 	private String createNemTransaction(PrivacyStrategy privacyStrategy, String senderPrivateKey,
 										String receiverPublicKey, Mosaic[] mosaics, byte[] response) throws Exception {
 		final Message nemMessage = privacyStrategy.encodeToMessage(response);
-		return announceNemTransaction(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
-	}
-
-	private String announceNemTransaction(Message nemMessage, String senderPrivateKey, String receiverPublicKey,
-										  Mosaic[] mosaics) throws Exception {
-
-//		if (this.isLocalPeerConnection) {
-			// Announce The Signature
-		NemAnnounceResult announceResult = TransferTransactionBuilder
-				.peerConnection(peerConnection)
-				.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
-				.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(receiverPublicKey))))
-				.version(2)
-				.amount(Amount.fromNem(1l))
-				.message(nemMessage)
-				.addMosaics(mosaics).buildAndSendTransaction();
-
-		if (announceResult.getCode() == NemAnnounceResult.CODE_SUCCESS)
-			return announceResult.getTransactionHash().toString();
-		else
-			throw new UploadException(
-					format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
-
-//		} else {
-//
-//			// Announce The Signature
-//			RequestAnnounceDataSignature requestAnnounceDataSignature = TransferTransactionBuilder
-//					.peerConnection(peerConnection)
-//					.sender(new Account(new KeyPair(PrivateKey.fromHexString(senderOrReceiverPrivateKey))))
-//					.recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(receiverOrSenderPublicKey))))
-//					.version(2)
-//					.amount(Amount.fromNem(1l))
-//					.message(nemMessage)
-//					.addMosaics(mosaics).buildAndSignTransaction();
-//
-//			// Return the NEM Txn Hash
-//			return JsonUtils.fromJson(transactionAndAnnounceApi
-//					.announceRequestPublishDataSignatureUsingPOST(requestAnnounceDataSignature),DataResponse.class).getData();
-//
-//		}
+		return transactionAnnouncer.announceTransactionForUploadedContent(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
 	}
 }
 

@@ -1,32 +1,19 @@
 package io.nem.xpx.service;
 
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import org.nem.core.connect.HttpJsonPostRequest;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.connect.client.NisApiId;
-import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicDefinition;
-import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.Namespace;
 import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.NamespaceMetaDataPair;
-import org.nem.core.model.ncc.NemAnnounceResult;
-import org.nem.core.model.ncc.RequestAnnounce;
-import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-
-/**
- * The Class TransactionApi.
- */
 public class NemNamespaceAndMosaicsApi {
 
 	/** The node endpoint. */
