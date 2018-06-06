@@ -172,7 +172,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 			parameter.setContentType(uploadParameter.getContentType());
 			parameter.setEncoding(uploadParameter.getEncoding());
 			parameter.setKeywords(uploadParameter.getKeywords());
-			parameter.setMetadata(uploadParameter.getMetaData());
+			parameter.setMetadata(uploadParameter.getMetaDataAsString());
 			parameter.setName(uploadParameter.getName());
 			
 			if (uploadParameter.getPrivacyStrategy().getNemMessageType() == NemMessageType.SECURE) {
@@ -260,7 +260,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter();
 		parameter.setContentType(uploadParameter.getContentType());
 		parameter.setKeywords(uploadParameter.getKeywords());
-		parameter.setMetadata(uploadParameter.getMetaData());
+		parameter.setMetadata(uploadParameter.getMetaDataAsString());
 		parameter.setName(uploadParameter.getName());
 		
 		try {
@@ -345,7 +345,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter();
 		parameter.setContentType(uploadParameter.getContentType());
 		parameter.setKeywords(uploadParameter.getKeywords());
-		parameter.setMetadata(uploadParameter.getMetaData());
+		parameter.setMetadata(uploadParameter.getMetaDataAsString());
 		parameter.setName(uploadParameter.getName());
 		
 		try {
