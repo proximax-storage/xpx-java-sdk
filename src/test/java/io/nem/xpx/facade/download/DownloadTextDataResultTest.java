@@ -24,8 +24,7 @@ public class DownloadTextDataResultTest {
 
     @Test
     public void shouldEncodeDataToStringAsUtf8ByDefault() throws IOException {
-        final String testString =
-                "Ḽơᶉëᶆ ȋṕšᶙṁ ḍỡḽǭᵳ ʂǐť ӓṁệẗ, ĉṓɲṩḙċťᶒțûɾ ấɖḯƥĭṩčįɳġ ḝłįʈ, șếᶑ ᶁⱺ ẽḭŭŝḿꝋď ṫĕᶆᶈṓɍ ỉñḉīḑȋᵭṵńť ṷŧ ḹẩḇőꝛế éȶ đꝍꞎôꝛȇ ᵯáꞡᶇā ąⱡîɋṹẵ.";
+        final String testString = "The quick brown fox jumps over the lazy dog";
         final DownloadTextDataResult unitUnderTest = DownloadTextDataResult.fromDownloadResult(
                 new DownloadResult(null, testString.getBytes(), NemMessageType.PLAIN));
 

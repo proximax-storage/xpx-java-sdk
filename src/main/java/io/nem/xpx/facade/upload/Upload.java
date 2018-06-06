@@ -81,7 +81,7 @@ public class Upload extends AbstractFacadeService {
 		try {
 			byte[] binaryContent = FileUtils.readFileToByteArray(param.getFile());
 			return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(), param.getReceiverPublicKey(),
-					param.getContentType(), param.getKeywords(), param.getMetaData(), param.getName(), param.getMosaics(), binaryContent);
+					param.getContentType(), param.getKeywords(), param.getMetaDataAsString(), param.getName(), param.getMosaics(), binaryContent);
 		} catch (UploadException e) {
 			throw e;
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public class Upload extends AbstractFacadeService {
 	public UploadResult uploadTextData(UploadTextDataParameter uploadParameter) throws UploadException {
 		return handleTextDataUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderPrivateKey(),
 				uploadParameter.getReceiverPublicKey(), uploadParameter.getContentType(), uploadParameter.getKeywords(),
-				uploadParameter.getMetaData(), uploadParameter.getName(), uploadParameter.getMosaics(),
+				uploadParameter.getMetaDataAsString(), uploadParameter.getName(), uploadParameter.getMosaics(),
 				uploadParameter.getData(), uploadParameter.getEncoding());
 	}
 
@@ -115,7 +115,7 @@ public class Upload extends AbstractFacadeService {
 	public UploadResult uploadBinary(UploadBinaryParameter param) throws UploadException {
 		try {
 			return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(), param.getReceiverPublicKey(),
-					param.getContentType(), param.getKeywords(), param.getMetaData(), param.getName(), param.getMosaics(), param.getData());
+					param.getContentType(), param.getKeywords(), param.getMetaDataAsString(), param.getName(), param.getMosaics(), param.getData());
 		} catch (UploadException e) {
 			throw e;
 		} catch (Exception e) {
@@ -144,7 +144,7 @@ public class Upload extends AbstractFacadeService {
 
 		try {
 			byte[] resourceHashMessageBytes = (byte[])((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
-					uploadParameter.getKeywords(), uploadParameter.getMetaData());
+					uploadParameter.getKeywords(), uploadParameter.getMetaDataAsString());
 
 			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderPrivateKey(),
 					uploadParameter.getReceiverPublicKey(), uploadParameter.getMosaics(), resourceHashMessageBytes);
@@ -160,7 +160,7 @@ public class Upload extends AbstractFacadeService {
 		try {
 			byte[] binaryContent = zipFiles(param.getFiles());
 			return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(), param.getReceiverPublicKey(),
-					param.getContentType(), param.getKeywords(), param.getMetaData(), param.getName(), param.getMosaics(), binaryContent);
+					param.getContentType(), param.getKeywords(), param.getMetaDataAsString(), param.getName(), param.getMosaics(), binaryContent);
 		} catch (UploadException e) {
 			throw e;
 		} catch (Exception e) {
@@ -181,7 +181,7 @@ public class Upload extends AbstractFacadeService {
                         return new FileUploadResult(file,
 								handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(),
 										param.getReceiverPublicKey(), ContentTypeUtils.detectContentType(binaryContent),
-										param.getKeywords(), param.getMetaData(), file.getName(), param.getMosaics(), binaryContent));
+										param.getKeywords(), param.getMetaDataAsString(), file.getName(), param.getMosaics(), binaryContent));
                     } catch (Exception e) {
                         return new FileUploadResult(file, new UploadException(format("Error on uploading file data: %s", file.getAbsolutePath()), e));
                     }
