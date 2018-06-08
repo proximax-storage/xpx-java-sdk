@@ -153,7 +153,7 @@ public abstract class PrivateSearchApi {
 						}
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -247,7 +247,7 @@ public abstract class PrivateSearchApi {
 						}
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -342,7 +342,7 @@ public abstract class PrivateSearchApi {
 						}
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
