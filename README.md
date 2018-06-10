@@ -57,7 +57,7 @@ metaData.put("key1", "value1");
 
 UploadBinaryParameter parameter = UploadBinaryParameterBuilder
         .messageType(MessageTypes.PLAIN)  // or SECURE
-		.senderOrReceiverPrivateKey(this.xPvkey).receiverOrSenderPublicKey(this.xPubkey)
+		.senderPrivateKey(xPvkey).receiverPublicKey(xPubkey)
 		.name("test_pdf_file_v1")
 		.data(FileUtils.readFileToByteArray(new File("src//test//resources//test_pdf_file_v1.pdf")))
 		.contentType("application/pdf").keywords("test_pdf_file_v1")
@@ -77,8 +77,8 @@ metaData.put("key1", "value1");
 
 UploadDataParameter parameter = UploadDataParameterBuilder
 				.messageType(MessageTypes.PLAIN) // or SECURE
-				.senderOrReceiverPrivateKey(this.xPvkey)
-				.receiverOrSenderPublicKey(this.xPubkey)
+				.senderPrivateKey(xPvkey)
+				.receiverPublicKey(xPubkey)
 				.name("Custom Name")
 				.data(new String("test plain - new 1".getBytes("UTF-8")))
 				.contentType(DataTextContentType.TEXT_PLAIN)
@@ -95,7 +95,7 @@ String nemhash = upload.uploadTextData(parameter).getNemHash();
 ## Search using Keywords
 ```java
 Search search = new Search(remotePeerConnection); // or localPeerConnection
-String result = search.searchByKeyword(this.xPubkey, "plain");
+String result = search.searchByKeyword(xPubkey, "plain");
 ```		
 
 ## Download a Binary/File

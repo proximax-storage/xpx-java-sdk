@@ -15,9 +15,9 @@ package io.nem.xpx.service.local;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.common.PrivateSearchApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
-import io.nem.xpx.service.pv.PrivateSearchApi;
 import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.nem.core.crypto.KeyPair;
@@ -75,9 +75,9 @@ public class LocalSearchApi extends PrivateSearchApi implements SearchApi {
 
 		List<ResourceHashMessageJsonEntity> encryptedMessage = new ArrayList<ResourceHashMessageJsonEntity>();
 		// loop thru and search for any keyword.
-
+		String currentHash = "";
 		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
-
+			currentHash = tmp.getMetaData().getHash().toString();
 			// we only process plain. We don't have access to the secure
 			// messages at this point.
 			if (tmp.getEntity() instanceof TransferTransaction) {
@@ -101,7 +101,7 @@ public class LocalSearchApi extends PrivateSearchApi implements SearchApi {
 							}
 
 							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
 						}
@@ -135,8 +135,10 @@ public class LocalSearchApi extends PrivateSearchApi implements SearchApi {
 		for (TransactionMetaDataPair tmp : listOfTransactionMetadataPair) {
 			// we only process plain. We don't have access to the secure
 			// messages at this point.
+			String currentHash = "";
 			if (tmp.getEntity() instanceof TransferTransaction) {
 				TransferTransaction transferTransaction = (TransferTransaction) tmp.getEntity();
+				currentHash = tmp.getMetaData().getHash().toString();
 				if (checkIfTxnHaveXPXMosaic(transferTransaction)) {
 					try {
 						if (transferTransaction.getMessage().getType() == 1) {
@@ -154,7 +156,7 @@ public class LocalSearchApi extends PrivateSearchApi implements SearchApi {
 							}
 
 							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
 						}

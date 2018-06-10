@@ -47,8 +47,6 @@ public class PublishAndSubscribe {
 		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
 		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.engine = CryptoEngines.ed25519Engine();
-		
-		
 	}
 	
 	//	Local and Remote.

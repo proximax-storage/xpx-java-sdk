@@ -4,18 +4,17 @@
 package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.callback.ServiceAsyncCallback;
+import io.nem.xpx.facade.AbstractAsyncFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.model.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.function.Function;
 
 
 /**
  * The Class Upload.
  */
-public class UploadAsync  {
+public class UploadAsync extends AbstractAsyncFacadeService {
 
 	private Upload upload;
 
@@ -41,13 +40,13 @@ public class UploadAsync  {
 	public CompletableFuture<UploadResult> uploadFile(UploadFileParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadFile(parameter);
+						return upload.uploadFile(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
+				}, callback);
 	}
 
 	/**
@@ -57,16 +56,16 @@ public class UploadAsync  {
 	 * @param callback the callback
 	 * @return the future
 	 */
-	public CompletableFuture<UploadResult> uploadTextData(UploadDataParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+	public CompletableFuture<UploadResult> uploadTextData(UploadTextDataParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadTextData(parameter);
+						return upload.uploadTextData(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
+				}, callback);
 	}
 
 	/**
@@ -79,13 +78,13 @@ public class UploadAsync  {
 	public CompletableFuture<UploadResult> uploadBinary(UploadBinaryParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadBinary(parameter);
+						return upload.uploadBinary(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
+				}, callback);
 	}
 
 	/**
@@ -97,46 +96,36 @@ public class UploadAsync  {
 	 */
 	public CompletableFuture<UploadResult> uploadPath(UploadPathParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadPath(parameter);
+						return upload.uploadPath(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
+				}, callback);
 	}
 
 	public CompletableFuture<UploadResult> uploadFilesAsZip(UploadFilesAsZipParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadFilesAsZip(parameter);
+						return upload.uploadFilesAsZip(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
+				}, callback);
 	}
 
 	public CompletableFuture<MultiFileUploadResult> uploadMultipleFiles(UploadMultipleFilesParameter uploadParameter, ServiceAsyncCallback<MultiFileUploadResult> callback) {
 
 		return runAsync(
-				parameter -> {
+				() -> {
 					try {
-						return upload.uploadMultipleFiles(parameter);
+						return upload.uploadMultipleFiles(uploadParameter);
 					} catch (UploadException e) {
 						throw new CompletionException(e);
 					}
-				}, uploadParameter, callback);
-	}
-
-	private <T, U> CompletableFuture<U> runAsync(final Function<T, U> uploadFunction, final T uploadParameter,
-														 final ServiceAsyncCallback<U> callback) {
-		return CompletableFuture
-				.supplyAsync(() -> uploadFunction.apply(uploadParameter))
-				.thenApply(uploadResult -> {
-					callback.process(uploadResult);
-					return uploadResult;
-				});
+				}, callback);
 	}
 }

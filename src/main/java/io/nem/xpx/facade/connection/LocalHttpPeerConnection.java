@@ -1,8 +1,7 @@
 package io.nem.xpx.facade.connection;
 
-import org.nem.core.node.NodeEndpoint;
-
 import io.ipfs.api.IPFS;
+import org.nem.core.node.NodeEndpoint;
 
 
 

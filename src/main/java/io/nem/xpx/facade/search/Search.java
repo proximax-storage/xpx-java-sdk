@@ -71,7 +71,7 @@ public class Search extends AbstractFacadeService {
 	 */
 	public List<ResourceHashMessageJsonEntity> searchByName(String xPvkey, String xPubkey, String name)
 			throws ApiException, InterruptedException, ExecutionException {
-		return searchApi.searchTransactionWithKeywordUsingGET(xPvkey, xPubkey, name);
+		return searchApi.searchTransactionWithNameUsingGET(xPvkey, xPubkey, name);
 	}
 	
 	/**

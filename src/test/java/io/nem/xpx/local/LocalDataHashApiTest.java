@@ -34,6 +34,8 @@ import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.utils.HexEncoder;
 
+import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
+import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 
 
 /**
@@ -65,8 +67,8 @@ public class LocalDataHashApiTest extends AbstractApiTest {
 
 
 		byte[] encrypted = engine
-				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(this.xPvkey), engine),
-						new KeyPair(PublicKey.fromHexString(this.xPubkey), engine))
+				.createBlockCipher(new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY), engine),
+						new KeyPair(PublicKey.fromHexString(TEST_PUBLIC_KEY), engine))
 				.encrypt(FileUtils.readFileToByteArray(new File("src\\test\\resources\\small_file.txt")));
 
 		// pass the hex encoded string of the data.
