@@ -6,24 +6,25 @@
 	<artifactId>xpx-java-sdk</artifactId>
 	<packaging>jar</packaging>
 	<name>xpx-java-sdk</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-beta.1-SNAPSHOT</version>
 	<description>Proximax P2P File Storage Java SDK</description>
 	<prerequisites>
 		<maven>2.2.0</maven>
 	</prerequisites>
 	<distributionManagement>
 		<repository>
+			<uniqueVersion>false</uniqueVersion>
 			<id>nexus</id>
-			<name>Releases</name>
-			<url>http://13.228.214.237:8081/repository/maven-releases</url>
+			<name>proximax nexus release</name>
+			<url>https://nexus.internal.proximax.io/repository/maven-releases/</url>
 		</repository>
 		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
 			<id>nexus</id>
-			<name>Snapshot</name>
-			<url>http://13.228.214.237:8081/repository/maven-snapshots</url>
+			<name>proximax nexus snapshot</name>
+			<url>https://nexus.internal.proximax.io/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-
 	<licenses>
 		<license>
 			<name>MIT License</name>
