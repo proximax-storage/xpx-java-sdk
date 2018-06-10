@@ -18,6 +18,21 @@ import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 public class SearchRemoteIntegrationTest extends AbstractApiTest {
 
+	@Test
+	public void testSearchByName() {
+		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);
+
+		try {
+ 			Search search = new Search(remotePeerConnection);
+ 			List<ResourceHashMessageJsonEntity> result = search.searchByName(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY, "index.jpg");
+			Assert.assertNotNull(result);
+		} catch (ApiException | InterruptedException | ExecutionException | PeerConnectionNotFoundException e) {
+			e.printStackTrace();
+			Logger.error("Exception: " + e.getMessage());
+		}
+
+	}
+	
 	/**
 	 * Search P key search sample.
 	 */

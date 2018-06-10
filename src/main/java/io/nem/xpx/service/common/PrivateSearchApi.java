@@ -113,12 +113,7 @@ public abstract class PrivateSearchApi {
 											Base64.decodeBase64(transferTransaction.getMessage().getDecodedPayload())));
 
 							if (resourceMessage.name().toLowerCase().contains(name.toLowerCase())) {
-								found = true;
-								break;
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
 						} else if (transferTransaction.getMessage().getType() == 2) {
@@ -142,18 +137,16 @@ public abstract class PrivateSearchApi {
 									ByteBuffer.wrap(Base64.decodeBase64(secureMessage.getDecodedPayload())));
 
 							if (resourceMessage.name().toLowerCase().contains(name.toLowerCase())) {
-								found = true;
-								break;
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
 
 						}
+						
+						
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -209,7 +202,7 @@ public abstract class PrivateSearchApi {
 							}
 
 							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
 						} else if (transferTransaction.getMessage().getType() == 2) {
@@ -241,13 +234,13 @@ public abstract class PrivateSearchApi {
 							}
 
 							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
+								encryptedMessage.add(toEntity(currentHash,resourceMessage));
 							}
 
 						}
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -298,13 +291,11 @@ public abstract class PrivateSearchApi {
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(),
 										Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
-									found = true;
+									encryptedMessage.add(toEntity(currentHash,resourceMessage));
 								}
 							}
 
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
-							}
+				
 
 						} else if (transferTransaction.getMessage().getType() == 2) {
 
@@ -331,18 +322,14 @@ public abstract class PrivateSearchApi {
 								Map<String, String> jsonToMap = JsonUtils.fromJson(resourceMessage.metaData(),
 										Map.class);
 								if (jsonToMap.containsKey(key) && jsonToMap.get(key).equals(value)) {
-									found = true;
+									encryptedMessage.add(toEntity(currentHash,resourceMessage));
 								}
-							}
-
-							if (found) {
-								encryptedMessage.add(toEntity(resourceMessage));
 							}
 
 						}
 
 					} catch (Exception e) {
-						Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
+						//Logger.info("Error on decoding NEM Transaction Message." + e.getMessage());
 						continue;
 					}
 				}
@@ -361,8 +348,8 @@ public abstract class PrivateSearchApi {
 	 *            the resource message
 	 * @return the resource hash message json entity
 	 */
-	protected ResourceHashMessageJsonEntity toEntity(ResourceHashMessage resourceMessage) {
-
+	protected ResourceHashMessageJsonEntity toEntity(String nemHash,ResourceHashMessage resourceMessage) {
+		
 		ResourceHashMessageJsonEntity resourceHashMessageJsonEntity = new ResourceHashMessageJsonEntity();
 		resourceHashMessageJsonEntity.setDigest(resourceMessage.digest());
 		resourceHashMessageJsonEntity.setHash(resourceMessage.hash());
@@ -371,6 +358,7 @@ public abstract class PrivateSearchApi {
 		resourceHashMessageJsonEntity.setName(resourceMessage.name());
 		resourceHashMessageJsonEntity.setTimestamp(resourceMessage.timestamp());
 		resourceHashMessageJsonEntity.setType(resourceMessage.type());
+		resourceHashMessageJsonEntity.setNemHash(nemHash);
 		return resourceHashMessageJsonEntity;
 	}
 
