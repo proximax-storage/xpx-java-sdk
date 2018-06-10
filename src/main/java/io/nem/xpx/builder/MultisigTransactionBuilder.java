@@ -1,32 +1,24 @@
 package io.nem.xpx.builder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.facade.connection.PeerConnection;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
-import org.nem.core.model.Account;
-import org.nem.core.model.MultisigSignatureTransaction;
-import org.nem.core.model.MultisigTransaction;
-import org.nem.core.model.Transaction;
-import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.mosaic.Mosaic;
-import org.nem.core.model.mosaic.MosaicId;
-import org.nem.core.model.namespace.NamespaceId;
+import org.nem.core.model.*;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
-import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.serialization.JsonDeserializer;
 import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 
-import io.nem.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import io.nem.xpx.utils.TransactionUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 
 
 
@@ -42,14 +34,29 @@ public class MultisigTransactionBuilder {
 	}
 
 	/**
-	 * Sender.
+	 * PeerConnection.
 	 *
-	 * @param sender
-	 *            the sender
-	 * @return the i sender
+	 * @param peerConnection
+	 *            the peer connection
+	 * @return the i peer connection
 	 */
-	public static ITransaction sender(Account sender) {
-		return new MultisigTransactionBuilder.Builder(sender);
+	public static IPeerConnection peerConnection(PeerConnection peerConnection) {
+		return new MultisigTransactionBuilder.Builder(peerConnection);
+	}
+
+	/**
+	 * The Interface ISender.
+	 */
+	public interface IPeerConnection {
+
+		/**
+		 * Sender.
+		 *
+		 * @param sender
+		 *            the sender
+		 * @return the i sender
+		 */
+		ITransaction sender(Account sender);
 	}
 
 	/**
@@ -170,10 +177,13 @@ public class MultisigTransactionBuilder {
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ITransaction, IBuild {
+	private static class Builder implements IPeerConnection, ITransaction, IBuild {
 
 		/** The instance. */
 		private MultisigTransaction instance;
+
+		/** The peer connection. */
+		private PeerConnection peerConnection;
 
 		/** The time stamp. */
 		// constructor
@@ -207,14 +217,22 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param sender
+		 * @param peerConnection
 		 *            the sender
 		 */
-		public Builder(Account sender) {
-			this.sender = sender;
+		public Builder(PeerConnection peerConnection) {
+			this.peerConnection = peerConnection;
 
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.MultisigTransactionBuilder.IPeerConnection#sender(org.nem.core.model.Account)
+		 */
+		@Override
+		public ITransaction sender(Account sender) {
+			this.sender = sender;
+			return this;
+		}
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -236,7 +254,7 @@ public class MultisigTransactionBuilder {
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 //
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(XpxSdkGlobalConstants.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig().calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
@@ -246,7 +264,7 @@ public class MultisigTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = XpxSdkGlobalConstants.getGlobalMultisigTransactionFee();
+						feeCalculator = peerConnection.getTransactionFeeCalculators().getFeeCalculatorMultiSig();
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
@@ -290,7 +308,7 @@ public class MultisigTransactionBuilder {
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
 			requestAnnounceDataSignature.setSignature(
 					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
-			return TransactionUtils.sendMultisigTransaction(instance);
+			return peerConnection.getTransactionSender().sendMultisigTransaction(instance);
 
 		}
 
@@ -401,7 +419,7 @@ public class MultisigTransactionBuilder {
 		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() throws ApiException {
-			return TransactionUtils.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
+			return peerConnection.getTransactionSender().sendFutureMultiSigTransaction(this.buildMultisigTransaction());
 		}
 
 		/* (non-Javadoc)

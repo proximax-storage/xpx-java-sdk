@@ -15,9 +15,7 @@ package io.nem.xpx.service.remote;
 
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
@@ -26,8 +24,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.SearchApi;
+import io.nem.xpx.service.pv.PrivateSearchApi;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -37,27 +38,22 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class RemoteSearchApi.
  */
-public class RemoteSearchApi implements SearchApi {
+public class RemoteSearchApi extends PrivateSearchApi implements SearchApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote search api.
-     */
-    public RemoteSearchApi() {
-        this(Configuration.getDefaultApiClient());
-    }
-
-    /**
-     * Instantiates a new remote search api.
-     *
+     *s
      * @param apiClient the api client
      */
-    public RemoteSearchApi(ApiClient apiClient) {
+    public RemoteSearchApi(ApiClient apiClient,NemTransactionApi nemTransactionApi) {
+    	super(nemTransactionApi);
         this.apiClient = apiClient;
     }
 
@@ -68,15 +64,6 @@ public class RemoteSearchApi implements SearchApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**
@@ -382,18 +369,9 @@ public class RemoteSearchApi implements SearchApi {
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey, String xPubkey,
 			String keywords) throws ApiException, InterruptedException, ExecutionException {
-		throw new ApiException("Method can't be accessed thru remote connection");
+		return super.searchTransactionWithKeyword(xPvKey, xPubkey, keywords);
 	}
 
-	/* (non-Javadoc)
-	 * @see io.nem.xpx.service.intf.SearchApi#searchAllPublicTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey,
-			String key, String value) throws ApiException, InterruptedException, ExecutionException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithMetadataKeyValuePair(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -401,6 +379,12 @@ public class RemoteSearchApi implements SearchApi {
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataKeyValuePair(String xPvKey, String xPubkey,
 			String key, String value) throws ApiException, InterruptedException, ExecutionException {
-		throw new ApiException("Method can't be accessed thru remote connection");
+		return super.searchTransactionWithMetadataKeyValuePair(xPvKey, xPubkey, key, value);
+	}
+	
+	@Override
+	public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey, String xPubkey,
+			String name) throws ApiException, InterruptedException, ExecutionException {
+		return super.searchTransactionWithName(xPvKey, xPubkey, name);
 	}
 }

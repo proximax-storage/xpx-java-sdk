@@ -2,6 +2,7 @@ package io.nem.xpx.model;
 
 
 
+
 /**
  * The Class UploadException.
  */
@@ -18,6 +19,16 @@ public class UploadException extends Exception {
 	public UploadException(Exception exception) {
 		
 		super(exception);
+	}
+
+	public UploadException(String message, Exception exception) {
+
+		super(message, exception);
+	}
+
+	public UploadException(String message) {
+
+		super(message);
 	}
 
 }

@@ -1,26 +1,34 @@
 package io.nem.xpx.remote;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import io.nem.ApiClient;
+import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.io.FileUtils;
 import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.ed25519.Ed25519CryptoEngine;
 
-import io.nem.Configuration;
-import io.nem.ApiClient;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 
 
 /**
  * The Class AbstractApiTest.
  */
+
 public abstract class AbstractApiTest {
-	
+
+	public static final File SAMPLE_PDF_FILE1 = new File("src//test//resources//test_pdf_file_v1.pdf");
+	public static final File SAMPLE_PDF_FILE2 = new File("src//test//resources//test_pdf_file_v2.pdf");
+	public static final File SAMPLE_NON_EXISTENT_FILE = new File("src//test//resources//pdf_non_existent.pdf");
+	public static final String SAMPLE_ZIP_FILE_NAME = "test.zip";
+	public static final String SAMPLE_KEYWORDS = "plain,file";
+	public static final String SAMPLE_METADATA = aSampleMetadata();
+
 	/** The logger. */
 	protected Logger LOGGER = Logger.getAnonymousLogger();
-	/** The configuration. */
-	protected Configuration configuration;
 
 	/** The x pvkey. */
 	// testnet keys
@@ -43,24 +51,25 @@ public abstract class AbstractApiTest {
 	protected String localNodeBasePath = "http://localhost:8881";
 	
 	/** The upload node base path. */
-	 
 	protected String localRemote = "http://localhost:8881";
-	//protected String uploadNodeBasePath = "http://localhost:8881";//"http://128.199.196.118:8881";
-	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";//"http://128.199.196.118:8881";
 	
+	/** The upload node base path. */
+	protected String uploadNodeBasePath = "https://demo-gateway.proximax.io";
 	/** The download node base path. */
-	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
-	
+	protected String downloadNodeBasePath = "http://p2ptest.smartproof.io:8881";
 	/** The search node base path. */
-	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";//"http://178.62.225.175:8881";
+	protected String searchNodeBasePath = "http://p2ptest.smartproof.io:8881";
+
+	/** The api client. */
+	protected ApiClient apiClient;
 	
 	/**
 	 * Instantiates a new abstract api test.
 	 */
 	public AbstractApiTest() {
-		Configuration.setDefaultApiClient(new ApiClient().setBasePath(uploadNodeBasePath));
+		this.apiClient = new ApiClient().setBasePath(uploadNodeBasePath);
 	}
-	
+
 	/**
 	 * Extract expected small txt file content.
 	 *
@@ -68,7 +77,7 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String extractExpectedSmallTxtFileContent() throws IOException {
-		return FileUtils.readFileToString(new File("src//test//resources//small_file.txt"));
+		return FileUtils.readFileToString(new File("src//test//resources//test_small_file.txt"));
 	}
 	
 	/**sput
@@ -78,7 +87,7 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public long extractLargeFileSize() throws IOException {
-		return FileUtils.sizeOf(new File("src//test//resources//large_file.zip"));
+		return FileUtils.sizeOf(new File("src//test//resources//test_large_file.zip"));
 	}
 
 	/**
@@ -88,6 +97,12 @@ public abstract class AbstractApiTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public long extractSmallFileSize() throws IOException {
-		return FileUtils.sizeOf(new File("src//test//resources//small_file.txt"));
+		return FileUtils.sizeOf(new File("src//test//resources//test_small_file.txt"));
+	}
+
+	private static String aSampleMetadata() {
+		Map<String,String> metaData = new HashMap<String,String>();
+		metaData.put("key1", "value1");
+		return JsonUtils.toJson(metaData);
 	}
 }

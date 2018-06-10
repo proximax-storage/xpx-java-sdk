@@ -73,6 +73,8 @@ import io.nem.auth.Authentication;
 import io.nem.auth.HttpBasicAuth;
 import io.nem.auth.ApiKeyAuth;
 import io.nem.auth.OAuth;
+import io.nem.xpx.exceptions.ApiException;
+
 
 
 /**
@@ -723,7 +725,8 @@ public class ApiClient {
      * @param param Parameter
      * @return String representation of the parameter
      */
-    public String parameterToString(Object param) {
+    @SuppressWarnings("rawtypes")
+	public String parameterToString(Object param) {
         if (param == null) {
             return "";
         } else if (param instanceof Date) {
@@ -750,7 +753,8 @@ public class ApiClient {
      * @param value Value
      * @return A list of Pair objects
      */
-    public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+    @SuppressWarnings("rawtypes")
+	public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
@@ -1374,7 +1378,8 @@ public class ApiClient {
      * Apply SSL related settings to httpClient according to the current values of
      * verifyingSsl and sslCaCert.
      */
-    private void applySslSettings() {
+    @SuppressWarnings("unused")
+	private void applySslSettings() {
         try {
             TrustManager[] trustManagers = null;
             HostnameVerifier hostnameVerifier = null;

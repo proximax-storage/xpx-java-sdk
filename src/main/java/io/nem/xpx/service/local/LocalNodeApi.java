@@ -1,8 +1,12 @@
 package io.nem.xpx.service.local;
 
-import io.nem.ApiException;
+
+
+import io.ipfs.api.IPFS;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
+
 
 
 /**
@@ -10,13 +14,18 @@ import io.nem.xpx.service.intf.NodeApi;
  */
 public class LocalNodeApi implements NodeApi {
 
+	private final IPFS proximaxIfpsConnection;
+	
+	public LocalNodeApi(final IPFS proximaxIfpsConnection) {
+		this.proximaxIfpsConnection = proximaxIfpsConnection;
+	}
+	
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.NodeApi#getNodeInfoPeersUsingGET()
 	 */
 	@Override
 	public NodeInfo getNodeInfoPeersUsingGET() throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new ApiException("Method can't be accessed thru local connection");
 	}
 
 	/* (non-Javadoc)
@@ -24,8 +33,7 @@ public class LocalNodeApi implements NodeApi {
 	 */
 	@Override
 	public NodeInfo getNodeInfoUsingGET() throws ApiException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new ApiException("Method can't be accessed thru local connection");
 	}
 
 }

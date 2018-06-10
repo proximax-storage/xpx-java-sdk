@@ -19,3 +19,9 @@ hs_err_pid*
 target
 .gradle
 build
+
+.settings
+.swagger-codegen
+.classpath
+.project
+.gitlab-ci.yml

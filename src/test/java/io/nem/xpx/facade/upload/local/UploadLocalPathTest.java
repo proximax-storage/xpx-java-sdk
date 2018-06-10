@@ -2,11 +2,12 @@ package io.nem.xpx.facade.upload.local;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
+
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.mosaic.Mosaic;
@@ -19,43 +20,43 @@ import org.nem.core.model.primitive.Quantity;
 import org.nem.core.model.primitive.Supply;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.ApiException;
-import io.nem.xpx.builder.UploadDataParameterBuilder;
-import io.nem.xpx.builder.UploadFileParameterBuilder;
 import io.nem.xpx.builder.UploadPathParameterBuilder;
-import io.nem.xpx.facade.Upload;
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
+import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.factory.ConnectionFactory;
+import io.nem.xpx.integration.tests.RemoteIntegrationTest;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.model.PeerConnectionNotFoundException;
-import io.nem.xpx.model.UploadDataParameter;
 import io.nem.xpx.model.UploadException;
-import io.nem.xpx.model.UploadFileParameter;
 import io.nem.xpx.model.UploadPathParameter;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.remote.AbstractApiTest;
-import io.nem.xpx.utils.JsonUtils;
+
 
 
 /**
  * The Class UploadTest.
  */
+@Category(RemoteIntegrationTest.class)
+@Ignore
 public class UploadLocalPathTest extends AbstractApiTest {
 
 	/**
 	 * Upload path.
 	 */
 	@Test
+	@Ignore
 	public void uploadPath() {
 		try {
 			LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-					new NodeEndpoint("http", "104.128.226.60", 7890));
-			XpxSdkGlobalConstants.setGlobalTransactionFee(
-					new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), mosaicInfoLookup()));
+					ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+					ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
+					);
 			Upload upload = new Upload(localPeerConnection);
 
 			UploadPathParameter parameter = UploadPathParameterBuilder.senderOrReceiverPrivateKey(this.xPvkey)
 					.receiverOrSenderPublicKey(this.xPubkey).messageType(MessageTypes.PLAIN)
-					.path("D:/Projects/eworkspace/proximaxsdks/xpx-java-sdk/src/test/resources/")
+					.path("src/test/resources/")
 					.metaData(null).keywords(null)
 					.mosaics(new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"),
 							Quantity.fromValue(0)))
@@ -64,7 +65,7 @@ public class UploadLocalPathTest extends AbstractApiTest {
 			String nemhash = upload.uploadPath(parameter).getNemHash();
 			LOGGER.info(nemhash);
 			Assert.assertNotNull(nemhash);
-		} catch (ApiException | PeerConnectionNotFoundException | IOException | UploadException e) {
+		} catch (ApiException | UploadException e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}

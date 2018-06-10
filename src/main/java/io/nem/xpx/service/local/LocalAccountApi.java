@@ -1,10 +1,10 @@
 package io.nem.xpx.service.local;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.model.AccountMetaDataPair;
+import io.nem.xpx.service.NemTransactionApi;
+import io.nem.xpx.service.intf.AccountApi;
+import io.nem.xpx.utils.JsonUtils;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Address;
 import org.nem.core.model.Transaction;
@@ -12,10 +12,12 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.JsonSerializer;
-import io.nem.ApiException;
-import io.nem.xpx.model.AccountMetaDataPair;
-import io.nem.xpx.service.intf.AccountApi;
-import io.nem.xpx.utils.JsonUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 
 
 /**
@@ -23,13 +25,25 @@ import io.nem.xpx.utils.JsonUtils;
  */
 public class LocalAccountApi implements AccountApi {
 
+	/** The nem transaction api. */
+	private final NemTransactionApi nemTransactionApi;
+
+	/**
+	 * Instantiates a new local account api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 */
+	public LocalAccountApi(NemTransactionApi nemTransactionApi) {
+		this.nemTransactionApi = nemTransactionApi;
+	}
+
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.service.intf.AccountApi#getAllIncomingNemAddressTransactionsUsingGET(java.lang.String)
 	 */
 	@Override
 	public String getAllIncomingNemAddressTransactionsUsingGET(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.NemTransactionApi
+		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getIncomingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
 		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
@@ -46,7 +60,7 @@ public class LocalAccountApi implements AccountApi {
 	@Override
 	public String getAllNemAddressTransactionsUsingGET(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.NemTransactionApi
+		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getAllTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
 		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
@@ -64,7 +78,7 @@ public class LocalAccountApi implements AccountApi {
 	public String getAllNemAddressTransactionsWithPageSizeUsingGET(String publicKey, String pageSize)
 			throws ApiException, InterruptedException, ExecutionException {
 
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.NemTransactionApi
+		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getAllTransactionsWithPageSize(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded(),
 						pageSize);
 		List<String> transactionString = new ArrayList<String>();
@@ -82,7 +96,7 @@ public class LocalAccountApi implements AccountApi {
 	@Override
 	public String getAllOutgoingNemAddressTransactionsUsingGET(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.NemTransactionApi
+		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getOutgoingTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
 		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {
@@ -100,7 +114,7 @@ public class LocalAccountApi implements AccountApi {
 	@Override
 	public String getAllUnconfirmedNemAddressTransactionsUsingGET(String publicKey)
 			throws ApiException, InterruptedException, ExecutionException {
-		List<TransactionMetaDataPair> listOfTxnMetaDataPair = io.nem.xpx.service.NemTransactionApi
+		List<TransactionMetaDataPair> listOfTxnMetaDataPair = nemTransactionApi
 				.getUnconfirmedTransactions(Address.fromPublicKey(PublicKey.fromHexString(publicKey)).getEncoded());
 		List<String> transactionString = new ArrayList<String>();
 		for (TransactionMetaDataPair metaDataPair : listOfTxnMetaDataPair) {

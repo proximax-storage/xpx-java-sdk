@@ -1,9 +1,11 @@
 package io.nem.xpx.builder;
 
 import org.nem.core.model.mosaic.Mosaic;
-import io.nem.ApiException;
-import io.nem.xpx.facade.model.DataTextContentType;
+
+import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.facade.DataTextContentType;
 import io.nem.xpx.model.MultisigUploadDataParameter;
+
 
 
 /**
@@ -232,7 +234,7 @@ public class MultisigUploadDataParameterBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see io.nem.xpx.builder.MultisigUploadDataParameterBuilder.IBuild#contentType(io.nem.xpx.facade.model.DataTextContentType)
+		 * @see io.nem.xpx.builder.MultisigUploadDataParameterBuilder.IBuild#contentType(io.nem.xpx.facade.DataTextContentType)
 		 */
 		@Override
 		public IBuild contentType(DataTextContentType contentType) {
