@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import io.nem.ApiCallback;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
+
+
 
 
 

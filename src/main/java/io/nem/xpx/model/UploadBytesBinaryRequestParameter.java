@@ -21,7 +21,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.IOException;
+
+
 
 
 /**
@@ -87,7 +91,7 @@ public class UploadBytesBinaryRequestParameter {
    * @return the upload bytes binary request parameter
    */
   public UploadBytesBinaryRequestParameter data(byte[] data) {
-    this.data = data;
+    this.data = Base64.encodeBase64(data);
     return this;
   }
 

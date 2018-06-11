@@ -12,11 +12,13 @@
 
 
 package io.nem.xpx.service.intf;
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+
 
 
 /**
@@ -51,6 +53,20 @@ public interface SearchApi {
 			throws ApiException, InterruptedException, ExecutionException;
     
     /**
+     * Search transaction with name using GET.
+     *
+     * @param xPvKey the x pv key
+     * @param xPubkey the x pubkey
+     * @param name the name
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey,String xPubkey,String name)
+			throws ApiException, InterruptedException, ExecutionException;
+    
+    /**
      * Search all public transaction with metadata key value pair.
      *
      * @param xPubkey the x pubkey
@@ -61,7 +77,7 @@ public interface SearchApi {
      * @throws InterruptedException the interrupted exception
      * @throws ExecutionException the execution exception
      */
-    public List<ResourceHashMessageJsonEntity> searchAllPublicTransactionWithMetadataKeyValuePair(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
+    public List<ResourceHashMessageJsonEntity> searchTransactionWithMetadataUsingGET(String xPubkey, String key, String value) throws ApiException, InterruptedException, ExecutionException;
     
     /**
      * Search transaction with metadata key value pair.

@@ -1,20 +1,19 @@
 
 package io.nem.xpx.service.local;
 
+import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.DataHashByteArrayEntity;
 import io.nem.xpx.model.PublishResult;
-import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.intf.DataHashApi;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+
 
 
 
@@ -23,6 +22,18 @@ import java.util.List;
  * The Class LocalDataHashApi.
  */
 public class LocalDataHashApi implements DataHashApi {
+
+	/** The proximax ifps connection. */
+	private final IPFS proximaxIfpsConnection;
+
+	/**
+	 * Instantiates a new local data hash api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
+	public LocalDataHashApi(final IPFS proximaxIfpsConnection) {
+		this.proximaxIfpsConnection = proximaxIfpsConnection;
+	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.DataHashApiInterface#generateHashAndExposeDataToNetworkUsingPOST(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -62,7 +73,7 @@ public class LocalDataHashApi implements DataHashApi {
 		// store it in ipfs
 		result = new PublishResult();
 		NamedStreamable.ByteArrayWrapper byteArrayWrapper = new NamedStreamable.ByteArrayWrapper(name, binary);
-		List<MerkleNode> node = XpxSdkGlobalConstants.getProximaxConnection().add(byteArrayWrapper,false,true);
+		List<MerkleNode> node = proximaxIfpsConnection.add(byteArrayWrapper,false,true);
 		result.setMerkleNode(node);
 
 		return result;

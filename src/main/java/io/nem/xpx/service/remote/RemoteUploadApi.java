@@ -13,14 +13,13 @@
 
 package io.nem.xpx.service.remote;
 
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
@@ -36,20 +35,15 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 /**
  * The Class RemoteUploadApi.
  */
 public class RemoteUploadApi implements UploadApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote upload api.
-     */
-    public RemoteUploadApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote upload api.
@@ -67,15 +61,6 @@ public class RemoteUploadApi implements UploadApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**
@@ -572,11 +557,9 @@ public class RemoteUploadApi implements UploadApi {
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTValidateBeforeCall(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'uploadBytesBinaryRequestParameter' is set
         if (uploadBytesBinaryRequestParameter == null) {
             throw new ApiException("Missing the required parameter 'uploadBytesBinaryRequestParameter' when calling uploadBytesBinaryUsingPOST(Async)");
         }
-        
         
         com.squareup.okhttp.Call call = uploadBytesBinaryUsingPOSTCall(uploadBytesBinaryRequestParameter, progressListener, progressRequestListener);
         return call;

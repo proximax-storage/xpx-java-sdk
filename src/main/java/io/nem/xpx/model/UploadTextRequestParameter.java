@@ -21,7 +21,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.IOException;
+
+
 
 
 /**
@@ -207,11 +211,22 @@ public class UploadTextRequestParameter {
   /**
    * Text.
    *
-   * @param text the text
+   * @param base64EncodedText the base 64 encoded text
    * @return the upload text request parameter
    */
-  public UploadTextRequestParameter text(String text) {
-    this.text = text;
+  public UploadTextRequestParameter text(String base64EncodedText) {
+    this.text = base64EncodedText;
+    return this;
+  }
+
+  /**
+   * Text.
+   *
+   * @param textInBytes the text in bytes
+   * @return the upload text request parameter
+   */
+  public UploadTextRequestParameter text(byte[] textInBytes) {
+    this.text = Base64.encodeBase64String(textInBytes);
     return this;
   }
 

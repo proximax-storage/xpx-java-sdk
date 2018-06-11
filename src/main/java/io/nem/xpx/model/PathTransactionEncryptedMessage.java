@@ -25,6 +25,8 @@ import java.io.IOException;
 
 
 
+
+
 /**
  * BinaryTransactionEncryptedMessage.
  */

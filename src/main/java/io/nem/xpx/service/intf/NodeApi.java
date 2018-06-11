@@ -1,7 +1,9 @@
 package io.nem.xpx.service.intf;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.NodeInfo;
+
+
 
 
 /**
@@ -24,4 +26,7 @@ public interface NodeApi {
 	 * @throws ApiException the api exception
 	 */
 	public NodeInfo getNodeInfoUsingGET() throws ApiException;
+	
+	
+	
 }

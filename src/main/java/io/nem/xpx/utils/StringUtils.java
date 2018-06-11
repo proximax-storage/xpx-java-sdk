@@ -15,10 +15,11 @@ package io.nem.xpx.utils;
 
 
 
+
+
 /**
  * The Class StringUtils.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-02-24T22:58:22.311-05:00")
 public class StringUtils {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
@@ -57,4 +58,14 @@ public class StringUtils {
     }
     return out.toString();
   }
+
+    /**
+     * Checks if is empty.
+     *
+     * @param str the str
+     * @return true, if is empty
+     */
+    public static boolean isEmpty(String str) {
+        return null == str || str.isEmpty();
+    }
 }

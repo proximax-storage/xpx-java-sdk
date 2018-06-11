@@ -29,6 +29,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 
+
+
 /**
  * AccountInfo.
  */

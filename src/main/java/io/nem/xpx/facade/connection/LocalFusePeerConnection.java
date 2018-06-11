@@ -1,19 +1,15 @@
 package io.nem.xpx.facade.connection;
 
-import java.nio.file.Paths;
-
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.xpx.model.XpxSdkGlobalConstants;
-import jnr.ffi.Platform;
-import ru.serce.jnrfuse.FuseStubFS;
+
 
 
 
 /**
  * The Class LocalFusePeerConnection.
  */
-public class LocalFusePeerConnection implements PeerConnection {
+public final class LocalFusePeerConnection extends AbstractLocalPeerConnection {
 
 	/**
 	 * Instantiates a new local fuse peer connection.
@@ -21,8 +17,7 @@ public class LocalFusePeerConnection implements PeerConnection {
 	 * @param nodeEndpoint the node endpoint
 	 */
 	public LocalFusePeerConnection(NodeEndpoint nodeEndpoint) {
-		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
-		
+		this(nodeEndpoint, "/ip4/127.0.0.1/tcp/5001");
 	}
 
 	/**
@@ -32,8 +27,6 @@ public class LocalFusePeerConnection implements PeerConnection {
 	 * @param multiAddress the multi address
 	 */
 	public LocalFusePeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
-		XpxSdkGlobalConstants.setNodeEndpoint(nodeEndpoint);
+		super(nodeEndpoint, multiAddress);
 	}
-
-
 }

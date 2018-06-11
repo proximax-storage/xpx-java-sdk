@@ -6,6 +6,8 @@ import org.nem.core.model.Account;
 
 
 
+
+
 /**
  * The Class GeneratedAccount.
  */

@@ -16,7 +16,9 @@ package io.nem.xpx.service.intf;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import io.nem.ApiException;
+import io.nem.xpx.exceptions.ApiException;
+
+
 
 
 /**

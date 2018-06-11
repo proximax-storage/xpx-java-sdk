@@ -14,7 +14,12 @@
 package io.nem;
 
 import java.util.Map;
+
+import io.nem.xpx.exceptions.ApiException;
+
 import java.util.List;
+
+
 
 
 /**

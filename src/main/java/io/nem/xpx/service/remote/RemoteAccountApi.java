@@ -9,16 +9,17 @@ import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
 
-import io.nem.Configuration;
 import io.nem.Pair;
 import io.nem.ProgressRequestBody;
 import io.nem.ProgressResponseBody;
 import io.nem.ApiCallback;
 import io.nem.ApiClient;
-import io.nem.ApiException;
 import io.nem.ApiResponse;
+import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.AccountMetaDataPair;
 import io.nem.xpx.service.intf.AccountApi;
+
+
 
 
 /**
@@ -27,14 +28,7 @@ import io.nem.xpx.service.intf.AccountApi;
 public class RemoteAccountApi implements AccountApi {
 	
 	/** The api client. */
-	private ApiClient apiClient;
-
-    /**
-     * Instantiates a new remote account api.
-     */
-    public RemoteAccountApi() {
-        this(Configuration.getDefaultApiClient());
-    }
+	private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote account api.
@@ -52,15 +46,6 @@ public class RemoteAccountApi implements AccountApi {
      */
     public ApiClient getApiClient() {
         return apiClient;
-    }
-
-    /**
-     * Sets the api client.
-     *
-     * @param apiClient the new api client
-     */
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
     }
 
     /**
