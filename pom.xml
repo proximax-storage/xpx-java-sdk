@@ -1,12 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nem.xpx</groupId>
 	<artifactId>xpx-java-sdk</artifactId>
 	<packaging>jar</packaging>
 	<name>xpx-java-sdk</name>
-	<version>0.1.0-beta.1-SNAPSHOT</version>
+	<version>0.1.0-beta.2-SNAPSHOT</version>
 	<description>Proximax P2P File Storage Java SDK</description>
 	<prerequisites>
 		<maven>2.2.0</maven>
@@ -26,8 +24,9 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-      <connection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</connection>
-      <developerConnection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</developerConnection>
+		<connection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</connection>
+		<developerConnection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</developerConnection>
+		<tag>HEAD</tag>
 	</scm>
 	<licenses>
 		<license>
@@ -169,6 +168,14 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
