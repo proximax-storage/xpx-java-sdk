@@ -21,6 +21,7 @@ import io.nem.xpx.service.intf.AccountApi;
 
 
 
+
 /**
  * The Class RemoteAccountApi.
  */

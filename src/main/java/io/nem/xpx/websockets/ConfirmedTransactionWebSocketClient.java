@@ -9,6 +9,7 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 
 
+
 /**
  * The Class ConfirmedTransactionWebSocketClient.
  */

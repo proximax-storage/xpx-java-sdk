@@ -13,14 +13,27 @@ import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY_2;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
+
+/**
+ * The Class AbstractPlainMessagePrivacyStrategyTest.
+ */
 public class AbstractPlainMessagePrivacyStrategyTest {
 
+    /** The Constant INPUT_DATA. */
     public static final byte[] INPUT_DATA = "the quick brown fox jumps over the lazy dog".getBytes();
+    
+    /** The Constant SENDER_KEYPAIR. */
     public static final KeyPair SENDER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY));
+    
+    /** The Constant RECEIVER_KEYPAIR. */
     public static final KeyPair RECEIVER_KEYPAIR = new KeyPair(PrivateKey.fromHexString(TEST_PRIVATE_KEY_2));
 
+    /** The unit under test. */
     public AbstractPlainMessagePrivacyStrategy unitUnderTest;
 
+    /**
+     * Sets the up.
+     */
     @Before
     public void setUp() {
         unitUnderTest = new AbstractPlainMessagePrivacyStrategy() {
@@ -36,11 +49,17 @@ public class AbstractPlainMessagePrivacyStrategyTest {
         };
     }
 
+    /**
+     * Should return message type plain.
+     */
     @Test
     public void shouldReturnMessageTypePlain() {
         assertEquals(NemMessageType.PLAIN, unitUnderTest.getNemMessageType());
     }
 
+    /**
+     * Should return plain message when encoding.
+     */
     @Test
     public void shouldReturnPlainMessageWhenEncoding() {
 
@@ -52,6 +71,9 @@ public class AbstractPlainMessagePrivacyStrategyTest {
 
     }
 
+    /**
+     * Should return decode message.
+     */
     @Test
     public void shouldReturnDecodeMessage() {
 
@@ -61,6 +83,12 @@ public class AbstractPlainMessagePrivacyStrategyTest {
         assertEquals(decodedPayload, INPUT_DATA);
     }
 
+    /**
+     * Encoded message transaction.
+     *
+     * @param message the message
+     * @return the transfer transaction
+     */
     private TransferTransaction encodedMessageTransaction(Message message) {
         return new TransferTransaction(null, new Account(SENDER_KEYPAIR), new Account(RECEIVER_KEYPAIR), null,
                 new TransferTransactionAttachment(message));

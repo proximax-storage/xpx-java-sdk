@@ -10,18 +10,34 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+
+/**
+ * The Class UploadAsync_uploadFilesAsZipIntegrationTest.
+ */
 public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_ZIP_FILE. */
 	public static final String KEYWORDS_PLAIN_AND_ZIP_FILE = "plain,zipfile";
+	
+	/** The Constant ZIP_FILE_NAME. */
 	public static final String ZIP_FILE_NAME = "test.zip";
 
+	/** The unit under test. */
 	private UploadAsync unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new UploadAsync(peerConnection);
 	}
 
+	/**
+	 * Should upload files as zip async.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadFilesAsZipAsync() throws Exception {
 

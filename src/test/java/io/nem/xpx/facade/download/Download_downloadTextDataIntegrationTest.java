@@ -10,15 +10,28 @@ import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 import static org.junit.Assert.assertEquals;
 
 
+
+/**
+ * The Class Download_downloadTextDataIntegrationTest.
+ */
 public class Download_downloadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The unit under test. */
 	private Download unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Download(peerConnection);
 	}
 
+	/**
+	 * Should download plain data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadPlainData() throws Exception {
 
@@ -30,6 +43,11 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 		assertEquals(NemMessageType.PLAIN, result.getMessageType());
 	}
 
+	/**
+	 * Should download secure data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadSecureData() throws Exception {
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
@@ -42,6 +60,11 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 		assertEquals(NemMessageType.SECURE, result.getMessageType());
 	}
 	
+	/**
+	 * Should download secure ascii data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadSecureAsciiData() throws Exception {
 

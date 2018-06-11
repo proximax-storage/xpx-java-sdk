@@ -12,18 +12,34 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
+/**
+ * The Class Upload_uploadBinaryIntegrationTest.
+ */
 public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_BINARY. */
 	public static final String KEYWORDS_PLAIN_AND_BINARY = "plain,binary";
+	
+	/** The Constant KEYWORDS_SECURE_AND_BINARY. */
 	public static final String KEYWORDS_SECURE_AND_BINARY = "secure,binary";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Should upload plain binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainBinaryTest() throws Exception{
 
@@ -52,6 +68,11 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload plain large binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainLargeBinaryTest() throws Exception {
 
@@ -80,6 +101,11 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload secure binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureBinaryTest() throws Exception {
 
@@ -109,6 +135,11 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload secure large binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void shouldUploadSecureLargeBinaryTest() throws Exception {
@@ -139,6 +170,11 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload plain binary with mosaic test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void shouldUploadPlainBinaryWithMosaicTest() throws Exception {

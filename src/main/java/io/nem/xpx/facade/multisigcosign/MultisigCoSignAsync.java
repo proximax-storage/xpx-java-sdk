@@ -15,8 +15,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 
+
+/**
+ * The Class MultisigCoSignAsync.
+ */
 public class MultisigCoSignAsync extends AbstractAsyncFacadeService {
 
+	/** The multisig co sign. */
 	private MultisigCoSign multisigCoSign;
 	/**
 	 * Instantiates a new multisig co sign.
@@ -36,7 +41,6 @@ public class MultisigCoSignAsync extends AbstractAsyncFacadeService {
 	 * @param signers            the signers
 	 * @param callback the callback
 	 * @return the multisig signature transaction
-	 * @throws ApiException             the api exception
 	 */
 	public CompletableFuture<MultisigSignatureTransaction> coSign(String nemHash, String multisigAccount, List<Account> signers, 
 			ServiceAsyncCallback<MultisigSignatureTransaction> callback) {

@@ -17,6 +17,7 @@ import io.nem.xpx.model.XpxSdkGlobalConstants;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
+
 /**
  * The Class AbstractFacadeService.
  */

@@ -19,8 +19,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 
+
+/**
+ * The Class MultisigUploadAsync.
+ */
 public class MultisigUploadAsync extends AbstractAsyncFacadeService {
 
+	/** The multisig upload. */
 	private MultisigUpload multisigUpload;
 
 	/**
@@ -41,16 +46,6 @@ public class MultisigUploadAsync extends AbstractAsyncFacadeService {
 	 * @param parameters the parameters
 	 * @param callback the callback
 	 * @return the completable future
-	 * @throws ApiException the api exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadDataOnMultisigTransaction(MultisigUploadTextDataParameter parameters,
 			ServiceAsyncCallback<MultisigUploadResult> callback) {
@@ -71,16 +66,6 @@ public class MultisigUploadAsync extends AbstractAsyncFacadeService {
 	 * @param parameters the parameters
 	 * @param callback the callback
 	 * @return the completable future
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadFileOnMultisigTransaction(MultisigUploadFileParameter parameters,
 			ServiceAsyncCallback<MultisigUploadResult> callback) {
@@ -101,16 +86,6 @@ public class MultisigUploadAsync extends AbstractAsyncFacadeService {
 	 * @param parameters the parameters
 	 * @param callback the callback
 	 * @return the completable future
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ApiException the api exception
-	 * @throws InvalidKeyException the invalid key exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws NoSuchPaddingException the no such padding exception
-	 * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
-	 * @throws IllegalBlockSizeException the illegal block size exception
-	 * @throws BadPaddingException the bad padding exception
-	 * @throws UploadException the upload exception
 	 */
 	public CompletableFuture<MultisigUploadResult> uploadBinaryOnMultisigTransaction(
 			MultisigUploadBinaryParameter parameters, ServiceAsyncCallback<MultisigUploadResult> callback) {

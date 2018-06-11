@@ -9,16 +9,29 @@ import org.pmw.tinylog.Logger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
+/**
+ * The Class TransactionIntegrationTest.
+ */
 public class TransactionIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The unit under test. */
 	private Transaction unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Transaction(peerConnection);
 	}
 
 
+	/**
+	 * Test get transaction.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testGetTransaction() throws Exception {
 

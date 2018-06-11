@@ -7,80 +7,157 @@ import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
 
 import java.io.Serializable;
 
+
+/**
+ * The Class DownloadParameter.
+ */
 public class DownloadParameter implements Serializable {
 
+	/** The nem hash. */
 	private String nemHash;
 
+	/** The sender or receiver private key. */
 	private String senderOrReceiverPrivateKey;
 
+	/** The receiver or sender public key. */
 	private String receiverOrSenderPublicKey;
 
+	/** The privacy strategy. */
 	private PrivacyStrategy privacyStrategy = PrivacyStrategyFactory.plainPrivacy();
 
+	/**
+	 * Gets the nem hash.
+	 *
+	 * @return the nem hash
+	 */
 	public String getNemHash() {
 		return nemHash;
 	}
 
+	/**
+	 * Sets the nem hash.
+	 *
+	 * @param nemHash the new nem hash
+	 */
 	public void setNemHash(String nemHash) {
 		this.nemHash = nemHash;
 	}
 
+	/**
+	 * Gets the sender or receiver private key.
+	 *
+	 * @return the sender or receiver private key
+	 */
 	public String getSenderOrReceiverPrivateKey() {
 		return senderOrReceiverPrivateKey;
 	}
 
+	/**
+	 * Sets the sender or receiver private key.
+	 *
+	 * @param senderOrReceiverPrivateKey the new sender or receiver private key
+	 */
 	public void setSenderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
 		this.senderOrReceiverPrivateKey = senderOrReceiverPrivateKey;
 	}
 
+	/**
+	 * Gets the receiver or sender public key.
+	 *
+	 * @return the receiver or sender public key
+	 */
 	public String getReceiverOrSenderPublicKey() {
 		return receiverOrSenderPublicKey;
 	}
 
+	/**
+	 * Sets the receiver or sender public key.
+	 *
+	 * @param receiverOrSenderPublicKey the new receiver or sender public key
+	 */
 	public void setReceiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
 		this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
 	}
 
+	/**
+	 * Gets the privacy strategy.
+	 *
+	 * @return the privacy strategy
+	 */
 	public PrivacyStrategy getPrivacyStrategy() {
 		return privacyStrategy;
 	}
 
+	/**
+	 * Sets the privacy strategy.
+	 *
+	 * @param privacyStrategy the new privacy strategy
+	 */
 	public void setPrivacyStrategy(PrivacyStrategy privacyStrategy) {
 		this.privacyStrategy = privacyStrategy;
 	}
 
+	/**
+	 * Creates the.
+	 *
+	 * @return the nem hash step
+	 */
 	public static NemHashStep<BuildStep> create() {
 		return new Builder();
 	}
 
+	/**
+	 * The Interface BuildStep.
+	 */
 	public interface BuildStep extends PrivacyStrategyDownloadStep<BuildStep> {
 
+		/**
+		 * Builds the.
+		 *
+		 * @return the download parameter
+		 */
 		DownloadParameter build();
 	}
 
+	/**
+	 * The Class Builder.
+	 */
 	private static class Builder
 			implements NemHashStep,
 			BuildStep {
 
+		/** The instance. */
 		DownloadParameter instance;
 
+		/**
+		 * Instantiates a new builder.
+		 */
 		private Builder() {
 			instance = new DownloadParameter();
 		}
 
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep#privacyStrategy(io.nem.xpx.strategy.privacy.PrivacyStrategy)
+		 */
 		@Override
 		public BuildStep privacyStrategy(PrivacyStrategy privacyStrategy) {
 			this.instance.setPrivacyStrategy(privacyStrategy);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep#plainPrivacy()
+		 */
 		@Override
 		public BuildStep plainPrivacy() {
 			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.plainPrivacy());
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep#securedWithNemKeysPrivacyStrategy(java.lang.String, java.lang.String)
+		 */
 		@Override
 		public BuildStep securedWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
 			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
@@ -90,18 +167,27 @@ public class DownloadParameter implements Serializable {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep#securedWithPasswordPrivacyStrategy(java.lang.String)
+		 */
 		@Override
 		public BuildStep securedWithPasswordPrivacyStrategy(String password) {
 			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithPasswordPrivacyStrategy(password));
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.NemHashStep#nemHash(java.lang.String)
+		 */
 		@Override
 		public BuildStep nemHash(String nemHash) {
 			this.instance.setNemHash(nemHash);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.facade.download.DownloadParameter.BuildStep#build()
+		 */
 		@Override
 		public DownloadParameter build() {
 			return instance;

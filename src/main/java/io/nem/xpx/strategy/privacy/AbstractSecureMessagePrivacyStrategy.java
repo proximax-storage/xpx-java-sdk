@@ -13,13 +13,30 @@ import org.nem.core.model.TransferTransaction;
 
 import static io.nem.xpx.utils.ParameterValidationUtils.checkParameter;
 
+
+/**
+ * The Class AbstractSecureMessagePrivacyStrategy.
+ */
 public abstract class AbstractSecureMessagePrivacyStrategy extends PrivacyStrategy {
 
+    /** The key pair of private key. */
     public final KeyPair keyPairOfPrivateKey;
+    
+    /** The key pair of public key. */
     public final KeyPair keyPairOfPublicKey;
+    
+    /** The account with private key. */
     public final Account accountWithPrivateKey;
+    
+    /** The account with public key. */
     public final Account accountWithPublicKey;
 
+    /**
+     * Instantiates a new abstract secure message privacy strategy.
+     *
+     * @param privateKey the private key
+     * @param publicKey the public key
+     */
     public AbstractSecureMessagePrivacyStrategy(String privateKey, String publicKey) {
         checkParameter(privateKey != null, "private key is required");
         checkParameter(publicKey != null, "public key is required");
@@ -30,16 +47,25 @@ public abstract class AbstractSecureMessagePrivacyStrategy extends PrivacyStrate
         this.accountWithPublicKey = new Account(keyPairOfPublicKey);
     }
 
+    /* (non-Javadoc)
+     * @see io.nem.xpx.strategy.privacy.PrivacyStrategy#getNemMessageType()
+     */
     @Override
     public NemMessageType getNemMessageType() {
         return NemMessageType.SECURE;
     }
 
+    /* (non-Javadoc)
+     * @see io.nem.xpx.strategy.privacy.PrivacyStrategy#encodeToMessage(byte[])
+     */
     @Override
     public Message encodeToMessage(byte[] data) {
         return SecureMessage.fromDecodedPayload(accountWithPrivateKey, accountWithPublicKey, data);
     }
 
+    /* (non-Javadoc)
+     * @see io.nem.xpx.strategy.privacy.PrivacyStrategy#decodeTransaction(org.nem.core.model.TransferTransaction)
+     */
     @Override
     public byte[] decodeTransaction(TransferTransaction transaction) {
         if (transaction.getMessage().getType() == MessageTypes.PLAIN)

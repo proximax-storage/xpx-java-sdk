@@ -10,6 +10,7 @@ import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 
 
 
+
 /**
  * The Class PublishAndSubscribe.
  */
@@ -25,6 +26,7 @@ public class PublishAndSubscribe {
 	/** The publish and subscribe api. */
 	private PublishAndSubscribeApi publishAndSubscribeApi;
 	
+	/** The transaction and announce api. */
 	private final TransactionAndAnnounceApi transactionAndAnnounceApi;
 	
 	/** The is local peer connection. */
@@ -50,10 +52,22 @@ public class PublishAndSubscribe {
 	}
 	
 	//	Local and Remote.
+	/**
+	 * Subscribe and listen to topic.
+	 *
+	 * @param topic the topic
+	 */
 	//	Remote needs a listener.
 	public void subscribeAndListenToTopic(String topic) {
 	}
 	
+	/**
+	 * Publish topic.
+	 *
+	 * @param topic the topic
+	 * @param initialMessage the initial message
+	 * @throws Exception the exception
+	 */
 	public void publishTopic(String topic, String initialMessage) throws Exception {
 		//	Create a NEM Txn first, store the topic name.
 		
@@ -65,10 +79,24 @@ public class PublishAndSubscribe {
 	
 	//	Send to existing topic
 	
+	/**
+	 * Send to topic.
+	 *
+	 * @param topic the topic
+	 * @param message the message
+	 * @throws Exception the exception
+	 */
 	public void sendToTopic(String topic, String message) throws Exception {
 		publishAndSubscribeApi.sendToTopicUsingGET(topic, message);
 	}
 	
+	/**
+	 * Send to topic by nem hash.
+	 *
+	 * @param nemHash the nem hash
+	 * @param message the message
+	 * @throws Exception the exception
+	 */
 	public void sendToTopicByNemHash(String nemHash, String message) throws Exception {
 		
 		publishAndSubscribeApi.sendToTopicUsingGET(nemHash, message);

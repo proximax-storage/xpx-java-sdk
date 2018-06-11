@@ -23,26 +23,39 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+
+/**
+ * The Class TransactionAnnouncerTest.
+ */
 public class TransactionAnnouncerTest {
 
 
+    /** The unit under test. */
     private TransactionAnnouncer unitUnderTest;
 
+    /** The mock transaction fee calculators. */
     @Mock
     private TransactionFeeCalculators mockTransactionFeeCalculators;
 
+    /** The mock transaction fee calculator. */
     @Mock
     private TransactionFeeCalculator mockTransactionFeeCalculator;
 
+    /** The mock transaction sender. */
     @Mock
     private TransactionSender mockTransactionSender;
 
+    /** The mock message. */
     @Mock
     private Message mockMessage;
 
+    /** The transfer transaction argument captor. */
     @Captor
     private ArgumentCaptor<TransferTransaction> transferTransactionArgumentCaptor;
 
+    /**
+     * Sets the up.
+     */
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -50,6 +63,11 @@ public class TransactionAnnouncerTest {
         unitUnderTest = new TransactionAnnouncer(mockTransactionFeeCalculators, mockTransactionSender);
     }
 
+    /**
+     * Should announce transaction successfully.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void shouldAnnounceTransactionSuccessfully() throws Exception {
         final String expectedNemHash = "94f43ffcaf403c0a3f9e72b72c6705bf5f6df09f1cfbed0d21be89b580ed5631";
@@ -72,6 +90,11 @@ public class TransactionAnnouncerTest {
         assertThat(transferTransactionArgumentCaptor.getValue().getMosaics().stream().anyMatch(mosaic -> mosaic.equals(MOSAIC_LAND_REGISTRY)), is(true));
     }
 
+    /**
+     * Should throw exception on failure.
+     *
+     * @throws Exception the exception
+     */
     @Test(expected = AnnounceTransactionFailureException.class)
     public void shouldThrowExceptionOnFailure() throws Exception {
         given(mockTransactionFeeCalculators.getFeeCalculator(TEST_PRIVATE_KEY_ACCOUNT.getAddress().getEncoded()))

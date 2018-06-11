@@ -10,17 +10,31 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+
+/**
+ * The Class UploadAsync_uploadFileIntegrationTest.
+ */
 public class UploadAsync_uploadFileIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_FILE. */
 	public static final String KEYWORDS_PLAIN_AND_FILE = "plain,file";
 
+	/** The unit under test. */
 	private UploadAsync unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new UploadAsync(peerConnection);
 	}
 
+	/**
+	 * Should upload plain file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainFile() throws Exception {
 		UploadFileParameter parameter = UploadFileParameter.create()

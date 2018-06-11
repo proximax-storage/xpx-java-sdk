@@ -19,6 +19,7 @@ import io.nem.xpx.facade.connection.PeerConnection;
 
 
 
+
 /**
  * The Class MultisigCoSign.
  */

@@ -4,6 +4,7 @@ import io.nem.xpx.facade.download.DownloadResult;
 
 
 
+
 /**
  * The Interface DownloadCallback.
  */

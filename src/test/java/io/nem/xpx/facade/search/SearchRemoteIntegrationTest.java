@@ -16,8 +16,15 @@ import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
+
+/**
+ * The Class SearchRemoteIntegrationTest.
+ */
 public class SearchRemoteIntegrationTest extends AbstractApiTest {
 
+	/**
+	 * Test search by name.
+	 */
 	@Test
 	public void testSearchByName() {
 		RemotePeerConnection remotePeerConnection = new RemotePeerConnection(uploadNodeBasePath);

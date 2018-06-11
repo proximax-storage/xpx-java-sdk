@@ -13,15 +13,28 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 
+
+/**
+ * The Class Download_downloadFileIntegrationTest.
+ */
 public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The unit under test. */
 	private Download unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Download(peerConnection);
 	}
 
+	/**
+	 * Should download plain binary.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadPlainBinary() throws Exception {
 
@@ -36,6 +49,11 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 
+	/**
+	 * Should download plain large binary.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadPlainLargeBinary() throws Exception {
 
@@ -50,6 +68,11 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 
+	/**
+	 * Should download secure binary.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldDownloadSecureBinary()throws Exception {
 
@@ -67,6 +90,11 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 	}
 
 
+	/**
+	 * Download secure large binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void downloadSecureLargeBinaryTest() throws Exception {
 

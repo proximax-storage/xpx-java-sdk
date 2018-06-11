@@ -22,13 +22,20 @@ import java.io.IOException;
 
 
 
+
 /**
  * The Class LocalFuseDownloadApi.
  */
 public class LocalFuseDownloadApi implements DownloadApi {
 
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 
+	/**
+	 * Instantiates a new local fuse download api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalFuseDownloadApi(final IPFS proximaxIfpsConnection) {
 		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}

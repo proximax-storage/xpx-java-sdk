@@ -23,6 +23,7 @@ import io.nem.xpx.model.UploadTextRequestParameter;
 
 
 
+
 /**
  * The Interface UploadApi.
  */

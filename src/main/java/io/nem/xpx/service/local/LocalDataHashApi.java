@@ -17,13 +17,20 @@ import java.util.List;
 
 
 
+
 /**
  * The Class LocalDataHashApi.
  */
 public class LocalDataHashApi implements DataHashApi {
 
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 
+	/**
+	 * Instantiates a new local data hash api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalDataHashApi(final IPFS proximaxIfpsConnection) {
 		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}

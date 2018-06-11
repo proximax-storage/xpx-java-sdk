@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 
 
+
 /**
  * The Class MultisigUploadData.
  */
