@@ -25,6 +25,10 @@
 			<url>https://nexus.internal.proximax.io/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<scm>
+      <connection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</connection>
+      <developerConnection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</developerConnection>
+	</scm>
 	<licenses>
 		<license>
 			<name>MIT License</name>
