@@ -13,11 +13,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 
+
 /**
  * The Class Search.
  */
 public class SearchAsync extends AbstractAsyncFacadeService {
 
+	/** The search. */
 	private Search search;
 
 	/**
@@ -77,8 +79,10 @@ public class SearchAsync extends AbstractAsyncFacadeService {
 	/**
 	 * Search by keyword.
 	 *
+	 * @param xPvkey the x pvkey
 	 * @param xPubkey the x pubkey
-	 * @param keywords the keywords
+	 * @param key the key
+	 * @param value the value
 	 * @param callback the callback
 	 * @return the completable future
 	 */

@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 
+
 /**
  * The Class TransactionApi.
  */
@@ -26,8 +27,15 @@ public class NemTransactionApi {
 	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
+	/** The async nem connector. */
 	private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
 
+	/**
+	 * Instantiates a new nem transaction api.
+	 *
+	 * @param nodeEndpoint the node endpoint
+	 * @param asyncNemConnector the async nem connector
+	 */
 	public NemTransactionApi(NodeEndpoint nodeEndpoint, DefaultAsyncNemConnector<ApiId> asyncNemConnector) {
 		this.nodeEndpoint = nodeEndpoint;
 		this.asyncNemConnector = asyncNemConnector;

@@ -14,11 +14,24 @@ import org.nem.core.model.primitive.Supply;
 
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * The Class TransactionFeeCalculators.
+ */
 public final class TransactionFeeCalculators {
 
+    /** The account api. */
     private final NemAccountApi accountApi;
+    
+    /** The namespace mosaic api. */
     private final NemNamespaceAndMosaicsApi namespaceMosaicApi;
 
+	/**
+	 * Instantiates a new transaction fee calculators.
+	 *
+	 * @param accountApi the account api
+	 * @param namespaceMosaicApi the namespace mosaic api
+	 */
 	public TransactionFeeCalculators(NemAccountApi accountApi, NemNamespaceAndMosaicsApi namespaceMosaicApi) {
 		this.accountApi = accountApi;
 		this.namespaceMosaicApi = namespaceMosaicApi;
@@ -30,6 +43,11 @@ public final class TransactionFeeCalculators {
     /** The fee calculator multi sig. */
     private TransactionFeeCalculator feeCalculatorMultiSig;
 
+    /**
+     * Gets the fee calculator.
+     *
+     * @return the fee calculator
+     */
     public TransactionFeeCalculator getFeeCalculator() {
         if (feeCalculator == null)
             feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
@@ -37,6 +55,11 @@ public final class TransactionFeeCalculators {
         return feeCalculator;
     }
 
+    /**
+     * Gets the fee calculator multi sig.
+     *
+     * @return the fee calculator multi sig
+     */
     public TransactionFeeCalculator getFeeCalculatorMultiSig() {
         if (feeCalculatorMultiSig == null)
         	feeCalculatorMultiSig =  new FeeUnitAwareTransactionFeeCalculator(
@@ -44,11 +67,23 @@ public final class TransactionFeeCalculators {
         return feeCalculatorMultiSig;
     }
     
+    /**
+     * Gets the fee calculator.
+     *
+     * @param senderAddress the sender address
+     * @return the fee calculator
+     */
     public TransactionFeeCalculator getFeeCalculator(String senderAddress) {
         return new FeeUnitAwareTransactionFeeCalculator(
                 Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
     }
 
+    /**
+     * Gets the fee calculator multi sig.
+     *
+     * @param senderAddress the sender address
+     * @return the fee calculator multi sig
+     */
     public TransactionFeeCalculator getFeeCalculatorMultiSig(String senderAddress) {
         return new FeeUnitAwareTransactionFeeCalculator(
                 Amount.fromMicroNem(50_000L), mosaicInfoLookupForSender(senderAddress));
@@ -72,6 +107,12 @@ public final class TransactionFeeCalculators {
         };
     }
     
+    /**
+     * Mosaic info lookup for sender.
+     *
+     * @param sender the sender
+     * @return the mosaic fee information lookup
+     */
     private MosaicFeeInformationLookup mosaicInfoLookupForSender(final String sender) {
 
         return id -> {

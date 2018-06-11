@@ -16,6 +16,7 @@ package io.nem.xpx.utils;
 
 
 
+
 /**
  * The Class StringUtils.
  */
@@ -58,6 +59,12 @@ public class StringUtils {
     return out.toString();
   }
 
+    /**
+     * Checks if is empty.
+     *
+     * @param str the str
+     * @return true, if is empty
+     */
     public static boolean isEmpty(String str) {
         return null == str || str.isEmpty();
     }

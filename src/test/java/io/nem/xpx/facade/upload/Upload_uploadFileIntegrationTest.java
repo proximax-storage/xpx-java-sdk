@@ -10,19 +10,35 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
+/**
+ * The Class Upload_uploadFileIntegrationTest.
+ */
 public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationTest {
 
 
+	/** The Constant KEYWORDS_PLAIN_AND_FILE. */
 	public static final String KEYWORDS_PLAIN_AND_FILE = "plain,file";
+	
+	/** The Constant KEYWORDS_SECURE_AND_FILE. */
 	public static final String KEYWORDS_SECURE_AND_FILE = "secure,file";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 	
+	/**
+	 * Should upload plain file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainFile() throws Exception {
 		UploadFileParameter parameter = UploadFileParameter.create()
@@ -49,6 +65,11 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 	}
 	
 
+	/**
+	 * Should upload plain large file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainLargeFile() throws Exception {
 		UploadFileParameter parameter = UploadFileParameter.create()
@@ -74,6 +95,11 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload secure file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureFile() throws Exception {
 
@@ -101,6 +127,11 @@ public class Upload_uploadFileIntegrationTest extends AbstractFacadeIntegrationT
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload plain file with mosaic.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void shouldUploadPlainFileWithMosaic() throws Exception {

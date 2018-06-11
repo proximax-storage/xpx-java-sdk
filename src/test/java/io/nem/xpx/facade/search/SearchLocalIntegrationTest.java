@@ -17,9 +17,16 @@ import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
+
+/**
+ * The Class SearchLocalIntegrationTest.
+ */
 public class SearchLocalIntegrationTest extends AbstractApiTest {
 
 	
+	/**
+	 * Test search by name.
+	 */
 	@Test
 	public void testSearchByName() {
 		LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(

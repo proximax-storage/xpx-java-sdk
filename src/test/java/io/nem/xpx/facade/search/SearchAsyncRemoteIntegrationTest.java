@@ -16,6 +16,10 @@ import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
+
+/**
+ * The Class SearchAsyncRemoteIntegrationTest.
+ */
 public class SearchAsyncRemoteIntegrationTest extends AbstractApiTest {
 
 	/**

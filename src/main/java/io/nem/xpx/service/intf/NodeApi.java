@@ -5,6 +5,7 @@ import io.nem.xpx.model.NodeInfo;
 
 
 
+
 /**
  * The Interface NodeApi.
  */

@@ -21,6 +21,7 @@ import org.junit.Test;
 import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 
 
+
 /**
  * API tests for AccountApi.
  */
@@ -33,7 +34,6 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	/**
 	 * getAllIncomingNemAddressTransactions.
 	 *
-	 * @return the all incoming nem address transactions using GET test
 	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
@@ -47,7 +47,6 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	/**
 	 * getAllNemAddressTransactions.
 	 *
-	 * @return the all nem address transactions using GET test
 	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
@@ -61,7 +60,6 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	/**
 	 * getAllNemAddressTransactionsWithPageSize.
 	 *
-	 * @return the all nem address transactions with page size using GET test
 	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
@@ -76,7 +74,6 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	/**
 	 * getAllOutgoingNemAddressTransactions.
 	 *
-	 * @return the all outgoing nem address transactions using GET test
 	 * @throws ApiException             if the Api call fails
 	 */
 	@Test
@@ -94,7 +91,6 @@ public class RemoteAccountApiTest extends AbstractApiTest {
 	 * This endpoint returns the NEM Address/Account Information of a given
 	 * address.
 	 *
-	 * @return the nem address details using GET test
 	 * @throws ApiException             if the Api call fails
 	 */
 	@Test

@@ -7,13 +7,20 @@ import io.nem.xpx.service.intf.PublishAndSubscribeApi;
 
 
 
+
 /**
  * The Class LocalPublishAndSubscribeApi.
  */
 public class LocalPublishAndSubscribeApi implements PublishAndSubscribeApi {
 
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 
+	/**
+	 * Instantiates a new local publish and subscribe api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalPublishAndSubscribeApi(final IPFS proximaxIfpsConnection) {
 		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}

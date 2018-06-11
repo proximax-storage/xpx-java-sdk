@@ -9,6 +9,7 @@ import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 
 
 
+
 /**
  * The Interface DataHashApiInterface.
  */

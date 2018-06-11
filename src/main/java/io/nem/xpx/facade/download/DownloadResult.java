@@ -11,6 +11,10 @@ import java.io.Serializable;
 
 
 
+
+/**
+ * The Class DownloadResult.
+ */
 public class DownloadResult implements Serializable {
 
 	/** The Constant serialVersionUID. */

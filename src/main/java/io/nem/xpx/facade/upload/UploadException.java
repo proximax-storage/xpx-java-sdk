@@ -3,6 +3,7 @@ package io.nem.xpx.facade.upload;
 
 
 
+
 /**
  * The Class UploadException.
  */
@@ -21,11 +22,22 @@ public class UploadException extends Exception {
 		super(exception);
 	}
 
+	/**
+	 * Instantiates a new upload exception.
+	 *
+	 * @param message the message
+	 * @param exception the exception
+	 */
 	public UploadException(String message, Exception exception) {
 
 		super(message, exception);
 	}
 
+	/**
+	 * Instantiates a new upload exception.
+	 *
+	 * @param message the message
+	 */
 	public UploadException(String message) {
 
 		super(message);

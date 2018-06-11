@@ -29,6 +29,7 @@ import java.util.Map;
 
 
 
+
 /**
  * API tests for NodeApi.
  */
@@ -59,7 +60,6 @@ public class RemoteNodeApiTest extends AbstractApiTest {
      * 
      * This endpoint returns the information of the P2P Storage Node.
      *
-     * @return the node info using GET test
      * @throws ApiException          if the Api call fails
      */
     @Test

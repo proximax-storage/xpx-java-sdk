@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 
 
+
 /**
  * The Class NemAccountApi.
  */
@@ -28,8 +29,15 @@ public class NemAccountApi {
 	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
+	/** The async nem connector. */
 	private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
 
+	/**
+	 * Instantiates a new nem account api.
+	 *
+	 * @param nodeEndpoint the node endpoint
+	 * @param asyncNemConnector the async nem connector
+	 */
 	public NemAccountApi(NodeEndpoint nodeEndpoint, DefaultAsyncNemConnector<ApiId> asyncNemConnector) {
 		this.nodeEndpoint = nodeEndpoint;
 		this.asyncNemConnector = asyncNemConnector;

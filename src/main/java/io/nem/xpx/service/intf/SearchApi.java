@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 
 
+
 /**
  * The Interface SearchApi.
  */
@@ -51,6 +52,17 @@ public interface SearchApi {
     public List<ResourceHashMessageJsonEntity> searchTransactionWithKeywordUsingGET(String xPvKey,String xPubkey,String keywords)
 			throws ApiException, InterruptedException, ExecutionException;
     
+    /**
+     * Search transaction with name using GET.
+     *
+     * @param xPvKey the x pv key
+     * @param xPubkey the x pubkey
+     * @param name the name
+     * @return the list
+     * @throws ApiException the api exception
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
     public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey,String xPubkey,String name)
 			throws ApiException, InterruptedException, ExecutionException;
     

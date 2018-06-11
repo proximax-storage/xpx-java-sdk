@@ -14,13 +14,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * The Class NemNamespaceAndMosaicsApi.
+ */
 public class NemNamespaceAndMosaicsApi {
 
 	/** The node endpoint. */
 	private final NodeEndpoint nodeEndpoint;
 
+	/** The async nem connector. */
 	private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
 
+	/**
+	 * Instantiates a new nem namespace and mosaics api.
+	 *
+	 * @param nodeEndpoint the node endpoint
+	 * @param asyncNemConnector the async nem connector
+	 */
 	public NemNamespaceAndMosaicsApi(NodeEndpoint nodeEndpoint, DefaultAsyncNemConnector<ApiId> asyncNemConnector) {
 		this.nodeEndpoint = nodeEndpoint;
 		this.asyncNemConnector = asyncNemConnector;
@@ -174,12 +185,13 @@ public class NemNamespaceAndMosaicsApi {
 	}
 	
 	/**
-	 * Gets the mosaic information 
-	 * @param namespace
-	 * @param mosaic
-	 * @return
-	 * @throws InterruptedException
-	 * @throws ExecutionException
+	 * Gets the mosaic information .
+	 *
+	 * @param namespace the namespace
+	 * @param mosaic the mosaic
+	 * @return the mosaic information
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public MosaicDefinition getMosaicInformation(String namespace, String mosaic) throws InterruptedException, ExecutionException{
 		Deserializer des;

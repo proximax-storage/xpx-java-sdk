@@ -16,22 +16,46 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
+/**
+ * The Class Upload_uploadTextDataMultipleMosaicsIntegrationTest.
+ */
 public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant TEST_NAME_1. */
 	public static final String TEST_NAME_1 = "NAME1";
+	
+	/** The Constant TEST_NAME_RANDOM_1. */
 	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
+	
+	/** The Constant KEYWORDS_PLAIN_AND_DATA. */
 	public static final String KEYWORDS_PLAIN_AND_DATA = "plain,data";
+	
+	/** The Constant KEYWORDS_SECURE_AND_DATA. */
 	public static final String KEYWORDS_SECURE_AND_DATA = "secure,data";
+    
+    /** The Constant ENCODING_UTF_8. */
     public static final String ENCODING_UTF_8 = "UTF-8";
+    
+    /** The Constant ENCODING_UTF_ASCII. */
     public static final String ENCODING_UTF_ASCII = "ASCII";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Should upload plain data with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainDataWithMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
@@ -65,6 +89,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload plain data html with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainDataHtmlWithMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
@@ -96,6 +125,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload plain data ascii with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainDataAsciiWithMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
@@ -128,6 +162,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 	}
 
 	
+	/**
+	 * Should upload secure data with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureDataWithMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
@@ -160,6 +199,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload secure data ascii with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureDataAsciiWithMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("bluenumber1"), "product"),
@@ -192,6 +236,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload secure data ascii with invalid mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected=UploadException.class)
 	public void shouldUploadSecureDataAsciiWithInvalidMosaics() throws Exception {
 		Mosaic blueNumberAsset = new Mosaic(new MosaicId(new NamespaceId("invalid"), "invalid"),
@@ -224,6 +273,11 @@ public class Upload_uploadTextDataMultipleMosaicsIntegrationTest extends Abstrac
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload plain data with mosaic with mosaics.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void shouldUploadPlainDataWithMosaicWithMosaics() throws Exception {

@@ -12,22 +12,46 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+
+/**
+ * The Class Upload_uploadTextDataIntegrationTest.
+ */
 public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant TEST_NAME_1. */
 	public static final String TEST_NAME_1 = "NAME1";
+	
+	/** The Constant TEST_NAME_RANDOM_1. */
 	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
+	
+	/** The Constant KEYWORDS_PLAIN_AND_DATA. */
 	public static final String KEYWORDS_PLAIN_AND_DATA = "plain,data";
+	
+	/** The Constant KEYWORDS_SECURE_AND_DATA. */
 	public static final String KEYWORDS_SECURE_AND_DATA = "secure,data";
+    
+    /** The Constant ENCODING_UTF_8. */
     public static final String ENCODING_UTF_8 = "UTF-8";
+    
+    /** The Constant ENCODING_UTF_ASCII. */
     public static final String ENCODING_UTF_ASCII = "ASCII";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Should upload plain data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainData() throws Exception {
 
@@ -57,6 +81,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload plain data html.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainDataHtml() throws Exception {
 
@@ -86,6 +115,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload plain data ascii.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainDataAscii() throws Exception {
 
@@ -116,6 +150,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 	}
 
 	
+	/**
+	 * Should upload secure data.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureData() throws Exception {
 
@@ -146,6 +185,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload secure data ascii.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadSecureDataAscii() throws Exception {
 
@@ -176,6 +220,11 @@ public class Upload_uploadTextDataIntegrationTest extends AbstractFacadeIntegrat
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+	/**
+	 * Should upload plain data with mosaic.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void shouldUploadPlainDataWithMosaic() throws Exception {

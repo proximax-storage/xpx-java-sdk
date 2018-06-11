@@ -16,6 +16,7 @@ import io.ipfs.multiaddr.MultiAddress;
 
 
 
+
 /**
  * A factory for creating Connector objects.
  */
@@ -37,14 +38,37 @@ public class ConnectionFactory {
 		return connector;
 	}
 	
+	/**
+	 * Creates a new Connection object.
+	 *
+	 * @param protocol the protocol
+	 * @param domainOrIp the domain or ip
+	 * @param port the port
+	 * @param wsPort the ws port
+	 * @return the node endpoint
+	 */
 	public static NodeEndpoint createNemNodeConnection(String protocol, String domainOrIp, int port, String wsPort) {
 		return new NodeEndpoint(protocol, domainOrIp, port);
 	}
 	
+	/**
+	 * Creates a new Connection object.
+	 *
+	 * @param protocol the protocol
+	 * @param domainOrIp the domain or ip
+	 * @param port the port
+	 * @return the node endpoint
+	 */
 	public static NodeEndpoint createNemNodeConnection(String protocol, String domainOrIp, int port) {
 		return new NodeEndpoint(protocol, domainOrIp, port);
 	}
 	
+	/**
+	 * Creates a new Connection object.
+	 *
+	 * @param multiAddress the multi address
+	 * @return the ipfs
+	 */
 	public static IPFS createIPFSNodeConnection(String multiAddress) {
 		return new IPFS(new MultiAddress(multiAddress));
 	}

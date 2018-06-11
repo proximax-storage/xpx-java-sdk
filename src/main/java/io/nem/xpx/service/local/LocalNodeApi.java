@@ -12,13 +12,20 @@ import io.nem.xpx.service.intf.NodeApi;
 
 
 
+
 /**
  * The Class LocalNodeApi.
  */
 public class LocalNodeApi implements NodeApi {
 
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 	
+	/**
+	 * Instantiates a new local node api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalNodeApi(final IPFS proximaxIfpsConnection) {
 		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}

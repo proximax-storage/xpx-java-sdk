@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
 /**
  * The Class Account.
  */
 @SuppressWarnings("unused")
 public class Account extends AbstractFacadeService {
 
+	/** The public key. */
 	protected final String publicKey;
 
 	/** The peer connection. */
@@ -40,6 +42,7 @@ public class Account extends AbstractFacadeService {
 	/** The nem transaction api. */
 	protected final NemTransactionApi nemTransactionApi;
 
+	/** The search api. */
 	protected final SearchApi searchApi;
 
 	/** The is local peer connection. */
@@ -48,10 +51,9 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Instantiates a new search.
 	 *
-	 * @param peerConnection
-	 *            the peer connection
-	 * @throws PeerConnectionNotFoundException
-	 *             the peer connection not found exception
+	 * @param peerConnection            the peer connection
+	 * @param publicKey the public key
+	 * @throws PeerConnectionNotFoundException             the peer connection not found exception
 	 */
 	public Account(PeerConnection peerConnection, String publicKey) {
 
@@ -71,15 +73,10 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the incoming transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
 	 * @return the incoming transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<TransactionMetaDataPair> getIncomingTransactions()
 			throws ApiException, InterruptedException, ExecutionException {
@@ -99,15 +96,10 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the all transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
 	 * @return the all transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<TransactionMetaDataPair> getAllTransactions()
 			throws ApiException, InterruptedException, ExecutionException {
@@ -127,17 +119,10 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the outgoing transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
-	 * @param privateKey
-	 *            the private key
 	 * @return the outgoing transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<TransactionMetaDataPair> getOutgoingTransactions()
 			throws ApiException, InterruptedException, ExecutionException {
@@ -156,17 +141,10 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Gets the unconfirmed transactions.
 	 *
-	 * @param publicKey
-	 *            the public key
-	 * @param privateKey
-	 *            the private key
 	 * @return the unconfirmed transactions
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<TransactionMetaDataPair> getUnconfirmedTransactions()
 			throws ApiException, InterruptedException, ExecutionException {
@@ -182,6 +160,16 @@ public class Account extends AbstractFacadeService {
 		return returnListOfTxnMetaDataPair;
 	}
 
+	/**
+	 * Search by name.
+	 *
+	 * @param xPvkey the x pvkey
+	 * @param name the name
+	 * @return the list
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public List<ResourceHashMessageJsonEntity> searchByName(String xPvkey, String name)
 			throws ApiException, InterruptedException, ExecutionException {
 		return searchApi.searchTransactionWithKeywordUsingGET(xPvkey, this.publicKey, name);
@@ -190,19 +178,12 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Search by keyword.
 	 *
-	 * @param xPvkey
-	 *            the x pvkey
-	 * @param xPubkey
-	 *            the x pubkey
-	 * @param keywords
-	 *            the keywords
+	 * @param xPvkey            the x pvkey
+	 * @param keywords            the keywords
 	 * @return the list
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<ResourceHashMessageJsonEntity> searchByKeyword(String xPvkey, String keywords)
 			throws ApiException, InterruptedException, ExecutionException {
@@ -212,21 +193,13 @@ public class Account extends AbstractFacadeService {
 	/**
 	 * Search by meta data key value.
 	 *
-	 * @param xPvkey
-	 *            the x pvkey
-	 * @param xPubkey
-	 *            the x pubkey
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
+	 * @param xPvkey            the x pvkey
+	 * @param key            the key
+	 * @param value            the value
 	 * @return the string
-	 * @throws ApiException
-	 *             the api exception
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 * @throws ExecutionException
-	 *             the execution exception
+	 * @throws ApiException             the api exception
+	 * @throws InterruptedException             the interrupted exception
+	 * @throws ExecutionException             the execution exception
 	 */
 	public List<ResourceHashMessageJsonEntity> searchByMetaDataKeyValue(String xPvkey, String key, String value)
 			throws ApiException, InterruptedException, ExecutionException {

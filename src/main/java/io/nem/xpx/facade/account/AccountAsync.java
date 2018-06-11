@@ -11,14 +11,31 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * The Class AccountAsync.
+ */
 public class AccountAsync extends AbstractAsyncFacadeService {
 
+	/** The account. */
 	private Account account;
 
+	/**
+	 * Instantiates a new account async.
+	 *
+	 * @param peerConnection the peer connection
+	 * @param publicKey the public key
+	 */
 	public AccountAsync(PeerConnection peerConnection, String publicKey) {
 		this.account = new Account(peerConnection, publicKey);
 	}
 
+	/**
+	 * Gets the incoming transactions.
+	 *
+	 * @param callback the callback
+	 * @return the incoming transactions
+	 */
 	public CompletableFuture<List<TransactionMetaDataPair>> getIncomingTransactions(ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
 		return runAsync(
@@ -31,6 +48,12 @@ public class AccountAsync extends AbstractAsyncFacadeService {
 				}, callback);
 	}
 
+	/**
+	 * Gets the all transactions.
+	 *
+	 * @param callback the callback
+	 * @return the all transactions
+	 */
 	public CompletableFuture<List<TransactionMetaDataPair>> getAllTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
@@ -44,6 +67,12 @@ public class AccountAsync extends AbstractAsyncFacadeService {
 				}, callback);
 	}
 
+	/**
+	 * Gets the outgoing transactions.
+	 *
+	 * @param callback the callback
+	 * @return the outgoing transactions
+	 */
 	public CompletableFuture<List<TransactionMetaDataPair>> getOutgoingTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 
@@ -57,6 +86,12 @@ public class AccountAsync extends AbstractAsyncFacadeService {
 				}, callback);
 	}
 
+	/**
+	 * Gets the unconfirmed transactions.
+	 *
+	 * @param callback the callback
+	 * @return the unconfirmed transactions
+	 */
 	public CompletableFuture<List<TransactionMetaDataPair>> getUnconfirmedTransactions(
 			ServiceAsyncCallback<List<TransactionMetaDataPair>> callback) {
 

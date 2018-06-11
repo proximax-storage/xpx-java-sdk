@@ -8,6 +8,7 @@ import io.nem.xpx.model.AccountMetaDataPair;
 
 
 
+
 /**
  * The Interface AccountApi.
  */

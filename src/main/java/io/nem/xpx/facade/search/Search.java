@@ -23,6 +23,7 @@ import io.nem.xpx.service.remote.RemoteSearchApi;
 import io.nem.xpx.utils.JsonUtils;
 
 
+
 /**
  * The Class Search.
  */

@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import static java.lang.String.format;
 
 
+
 /**
  * The Class Download.
  */
@@ -46,18 +47,46 @@ public class Download extends AbstractFacadeService {
         this.nemTransactionApi = peerConnection.getNemTransactionApi();
 	}
 
+	/**
+	 * Download binary.
+	 *
+	 * @param downloadParameter the download parameter
+	 * @return the download binary result
+	 * @throws DownloadException the download exception
+	 */
 	public DownloadBinaryResult downloadBinary(DownloadParameter downloadParameter) throws DownloadException {
 		return DownloadBinaryResult.fromDownloadResult(download(downloadParameter));
 	}
 
+	/**
+	 * Download text data.
+	 *
+	 * @param downloadParameter the download parameter
+	 * @return the download text data result
+	 * @throws DownloadException the download exception
+	 */
 	public DownloadTextDataResult downloadTextData(DownloadParameter downloadParameter) throws DownloadException {
 		return DownloadTextDataResult.fromDownloadResult(download(downloadParameter));
 	}
 
+	/**
+	 * Download file.
+	 *
+	 * @param downloadParameter the download parameter
+	 * @return the download file result
+	 * @throws DownloadException the download exception
+	 */
 	public DownloadFileResult downloadFile(DownloadParameter downloadParameter) throws DownloadException {
 		return DownloadFileResult.fromDownloadResult(download(downloadParameter));
 	}
 
+	/**
+	 * Download.
+	 *
+	 * @param downloadParameter the download parameter
+	 * @return the download result
+	 * @throws DownloadException the download exception
+	 */
 	private DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
 
 		final TransferTransaction transaction = getNemTransaction(downloadParameter.getNemHash());
@@ -73,6 +102,13 @@ public class Download extends AbstractFacadeService {
 		return new DownloadResult(resourceMessage, decryptedDownloadedData, NemMessageType.fromInt(transaction.getMessage().getType()));
 	}
 
+	/**
+	 * Gets the nem transaction.
+	 *
+	 * @param nemHash the nem hash
+	 * @return the nem transaction
+	 * @throws DownloadException the download exception
+	 */
 	private TransferTransaction getNemTransaction(final String nemHash) throws DownloadException {
 		try {
 			return (TransferTransaction) nemTransactionApi.getTransaction(nemHash).getEntity();
@@ -81,6 +117,13 @@ public class Download extends AbstractFacadeService {
 		}
 	}
 
+	/**
+	 * Download using data hash.
+	 *
+	 * @param hash the hash
+	 * @return the byte[]
+	 * @throws DownloadException the download exception
+	 */
 	private byte[] downloadUsingDataHash(String hash) throws DownloadException {
 		try {
 			return downloadApi.downloadUsingDataHashUsingGET(hash);

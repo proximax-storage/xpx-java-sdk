@@ -39,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 
 
 
+
 /**
  * The Class RemoteSearchApi.
  */
@@ -49,8 +50,10 @@ public class RemoteSearchApi extends PrivateSearchApi implements SearchApi {
 
     /**
      * Instantiates a new remote search api.
-     *s
+     * s
+     *
      * @param apiClient the api client
+     * @param nemTransactionApi the nem transaction api
      */
     public RemoteSearchApi(ApiClient apiClient,NemTransactionApi nemTransactionApi) {
     	super(nemTransactionApi);
@@ -382,6 +385,9 @@ public class RemoteSearchApi extends PrivateSearchApi implements SearchApi {
 		return super.searchTransactionWithMetadataKeyValuePair(xPvKey, xPubkey, key, value);
 	}
 	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.SearchApi#searchTransactionWithNameUsingGET(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithNameUsingGET(String xPvKey, String xPubkey,
 			String name) throws ApiException, InterruptedException, ExecutionException {

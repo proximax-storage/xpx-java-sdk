@@ -5,8 +5,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+
+/**
+ * The Class ParameterValidationUtilsTest.
+ */
 public class ParameterValidationUtilsTest {
 
+    /**
+     * Should throw exception when not valid.
+     */
     @Test
     public void shouldThrowExceptionWhenNotValid() {
         try {
@@ -18,6 +25,9 @@ public class ParameterValidationUtilsTest {
         }
     }
 
+    /**
+     * Should do nothing when valid.
+     */
     @Test
     public void shouldDoNothingWhenValid() {
         ParameterValidationUtils.checkParameter(true, "INVALID");

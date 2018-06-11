@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 
 
+
 /**
  * The Class LocalDownloadApi.
  */
@@ -39,8 +40,16 @@ public class LocalDownloadApi implements DownloadApi {
 
 	/** The nem transaction api. */
 	private final NemTransactionApi nemTransactionApi;
+	
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 
+	/**
+	 * Instantiates a new local download api.
+	 *
+	 * @param nemTransactionApi the nem transaction api
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalDownloadApi(NemTransactionApi nemTransactionApi, IPFS proximaxIfpsConnection) {
 		this.nemTransactionApi = nemTransactionApi;
 		this.proximaxIfpsConnection = proximaxIfpsConnection;

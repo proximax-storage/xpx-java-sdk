@@ -6,6 +6,7 @@ import org.nem.core.node.NodeEndpoint;
 
 
 
+
 /**
  * The Class LocalHttpPeerConnection.
  */
@@ -20,6 +21,12 @@ public final class LocalHttpPeerConnection extends AbstractLocalPeerConnection {
 		super(nodeEndpoint);
 	}
 	
+	/**
+	 * Instantiates a new local http peer connection.
+	 *
+	 * @param nodeEndpoint the node endpoint
+	 * @param ipfsConnection the ipfs connection
+	 */
 	public LocalHttpPeerConnection(NodeEndpoint nodeEndpoint, IPFS ipfsConnection) {
 		super(nodeEndpoint,ipfsConnection);
 	}

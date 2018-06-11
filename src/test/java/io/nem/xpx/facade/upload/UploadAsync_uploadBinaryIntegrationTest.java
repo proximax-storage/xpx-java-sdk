@@ -11,17 +11,31 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+
+/**
+ * The Class UploadAsync_uploadBinaryIntegrationTest.
+ */
 public class UploadAsync_uploadBinaryIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_BINARY. */
 	public static final String KEYWORDS_PLAIN_AND_BINARY = "plain,binary";
 
+	/** The unit under test. */
 	private UploadAsync unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new UploadAsync(peerConnection);
 	}
 
+	/**
+	 * Should upload plain binary test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadPlainBinaryTest() throws Exception{
 

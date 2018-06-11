@@ -14,19 +14,37 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+
+/**
+ * The Class UploadAsync_uploadTextDataIntegrationTest.
+ */
 public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant TEST_NAME_RANDOM_1. */
 	public static final String TEST_NAME_RANDOM_1 = "RandomName1";
+	
+	/** The Constant KEYWORDS_PLAIN_AND_DATA. */
 	public static final String KEYWORDS_PLAIN_AND_DATA = "plain,data";
+	
+	/** The Constant ENCODING_UTF_8. */
 	public static final String ENCODING_UTF_8 = "UTF-8";
 
+	/** The unit under test. */
 	private UploadAsync unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new UploadAsync(peerConnection);
 	}
 
+	/**
+	 * Should upload text data async.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadTextDataAsync() throws Exception {
 
