@@ -75,7 +75,7 @@ public class Constants {
     private static Map<File, String> fileToSecureMessageNemHashMap() {
         final HashMap<File, String> map = new HashMap<>();
         map.put(PDF_FILE1, "4315c8619422407f5e2b82788429214166307930747f69a2cfb7b6fba420635d");
-        map.put(PDF_FILE2, "436cdb30018d3e23cd016fbde04a80d5747fccac7e8a97f7448afcfe09e600d7");
+        map.put(PDF_FILE2, "9daed379910221fe5bd45d6f8da3de44956ce40580b123b9344d6284f9187eab");
         map.put(SMALL_FILE, "f854b60a585a83cf2484bd254380e9bb8240f999cbd78eeb8e9b8792aed4025a");
         return map;
     }
