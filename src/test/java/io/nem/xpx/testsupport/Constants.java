@@ -106,6 +106,13 @@ public class Constants {
     
     /** The Constant TEST_PUBLIC_KEY_3. */
     public static final String TEST_PUBLIC_KEY_3 = "0a18107148e5e4b2e7eed844e06c7051885eeebb39cc8fcb139edc0380f3d219";
+    
+
+    // privatenet/mijin keys - first pair
+    public static final String MIJIN_PRIVATE_KEY = "90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec";
+    
+    /** The Constant TEST_PUBLIC_KEY_2. */
+    public static final String MIJIN_PUBLIC_KEY = "d72ebcdf243f9d217f448d937ac9431ba6ee4984b167015abcfc5b22e169ca23";
 
     /** The Constant FILE_TO_PLAIN_MSG_NEM_HASH_MAP. */
     public static final Map<File, String> FILE_TO_PLAIN_MSG_NEM_HASH_MAP = fileToPlainMessageNemHashMap();
@@ -161,7 +168,7 @@ public class Constants {
     private static LocalHttpPeerConnection getDevLocalHttpPeerConnection() {
         try {
             return new LocalHttpPeerConnection(
-                    ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+                    ConnectionFactory.createNemNodeConnection("testnet","http", "104.128.226.60", 7890),
                     ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
             );
         } catch (Exception e) {

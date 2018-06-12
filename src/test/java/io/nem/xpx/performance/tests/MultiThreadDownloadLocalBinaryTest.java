@@ -27,7 +27,7 @@ public class MultiThreadDownloadLocalBinaryTest extends AbstractApiTest {
 			Runnable task = () -> {
 
 				LocalHttpPeerConnection localPeerConnection = new LocalHttpPeerConnection(
-						ConnectionFactory.createNemNodeConnection("http", "104.128.226.60", 7890),
+						ConnectionFactory.createNemNodeConnection("testnet","http", "104.128.226.60", 7890),
 						ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
 						);
 
