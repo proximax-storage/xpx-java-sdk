@@ -4,6 +4,8 @@ import org.nem.core.connect.ErrorResponseDeserializerUnion;
 import org.nem.core.connect.HttpMethodClient;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.Account;
+import org.nem.core.model.NetworkInfo;
+import org.nem.core.model.NetworkInfos;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
@@ -47,7 +49,8 @@ public class ConnectionFactory {
 	 * @param wsPort the ws port
 	 * @return the node endpoint
 	 */
-	public static NodeEndpoint createNemNodeConnection(String protocol, String domainOrIp, int port, String wsPort) {
+	public static NodeEndpoint createNemNodeConnection(String network, String protocol, String domainOrIp, int port, String wsPort) {
+		setNetwork(network);
 		return new NodeEndpoint(protocol, domainOrIp, port);
 	}
 	
@@ -59,7 +62,8 @@ public class ConnectionFactory {
 	 * @param port the port
 	 * @return the node endpoint
 	 */
-	public static NodeEndpoint createNemNodeConnection(String protocol, String domainOrIp, int port) {
+	public static NodeEndpoint createNemNodeConnection(String network, String protocol, String domainOrIp, int port) {
+		setNetwork(network);
 		return new NodeEndpoint(protocol, domainOrIp, port);
 	}
 	
@@ -71,6 +75,16 @@ public class ConnectionFactory {
 	 */
 	public static IPFS createIPFSNodeConnection(String multiAddress) {
 		return new IPFS(new MultiAddress(multiAddress));
+	}
+	
+	public static void setNetwork(String network) {
+		NetworkInfo networkInfo = NetworkInfos.getTestNetworkInfo();
+		if(network.equals("mainnet")) {
+			networkInfo = NetworkInfos.getMainNetworkInfo();
+		}else if(network.equals("mijinnet")) {
+			networkInfo = NetworkInfos.getMijinNetworkInfo();
+		}
+		NetworkInfos.setDefault(networkInfo);
 	}
 
 	/**
@@ -84,6 +98,8 @@ public class ConnectionFactory {
 		final int requestTimeout = 30000;
 		return new HttpMethodClient<>(connectionTimeout, socketTimeout, requestTimeout);
 	}
+	
+
 	
 	
 }
