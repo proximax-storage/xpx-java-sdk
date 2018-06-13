@@ -98,16 +98,16 @@ public class Download_downloadFileIntegrationTest extends AbstractFacadeIntegrat
 	@Test
 	public void downloadSecureLargeBinaryTest() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE2);
+		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
 
 		final DownloadFileResult result = unitUnderTest.downloadFile(DownloadParameter.create()
-				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(PDF_FILE2))
+				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(PDF_FILE1))
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
 		assertArrayEquals(expected, result.getData());
 		assertEquals(NemMessageType.SECURE, result.getMessageType());
-		assertEquals(PDF_FILE2.getName(), result.getFileName());
+		assertEquals(PDF_FILE1.getName(), result.getFileName());
 		assertEquals(APPLICATION_PDF.toString(), result.getContentType());
 	}
 }

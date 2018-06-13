@@ -51,12 +51,12 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 	@Test
 	public void shouldDownloadSecureData() throws Exception {
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
-				.nemHash("47ef7e2a12ea7413a69ef215e33b1d32f21ccbf743b9358efc9909b869ab7e70")
+				.nemHash("8c6a8366462caa5e0f0b106bed7864d54f3fa29eabe797238528db329bbe64cd")
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
-				"test secure - new 2", result.getString());
+				"secure - the quick brown fox jumps over the lazy dog UFT-8", result.getString());
 		assertEquals(NemMessageType.SECURE, result.getMessageType());
 	}
 	
@@ -69,12 +69,12 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 	public void shouldDownloadSecureAsciiData() throws Exception {
 
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
-				.nemHash("e469a236fe5ac1d0bc07d50fc2e009aaf10b68517bfc81517bf83de87fa80594")
+				.nemHash("8fc0a1393a913086895ec784435db74566dd5bf163580e7e87731791530dfffa")
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
-				"test secure - new 2", result.getString());
+				"secure - the quick brown fox jumps over the lazy dog ASCII", result.getString());
 		assertEquals(NemMessageType.SECURE, result.getMessageType());
 	}
 
