@@ -30,6 +30,8 @@ public class XpxSdkGlobalConstants {
 
 	/** The ipns mount point. */
 	private static String ipnsMountPoint = "/ipns";
+	
+	public static String SINK_ACCOUNT = "";
 
 	/** The Constant URL_WS_W_MESSAGES. */
 	// Websockets
@@ -49,6 +51,8 @@ public class XpxSdkGlobalConstants {
 
 	/** The Constant GLOBAL_GATEWAYS. */
 	public static final String[] GLOBAL_GATEWAYS = { "https://ipfs.io", "https://gateway.ipfs.io" };
+	
+	
 
 //	/**
 //	 * Gets the ipfs mount point.

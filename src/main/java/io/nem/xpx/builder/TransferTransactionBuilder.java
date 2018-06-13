@@ -264,6 +264,8 @@ public class TransferTransactionBuilder {
 		//	attach the xpx mosaic (constant)
 		Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 				Quantity.fromValue(1));
+		
+		//this.recipient = new Account(Address.fromEncoded(XpxSdkGlobalConstants.SINK_ACCOUNT));
 
 		this.attachment.addMosaic(xpxMosaic);
 

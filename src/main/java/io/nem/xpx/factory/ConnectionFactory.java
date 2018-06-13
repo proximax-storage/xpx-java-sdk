@@ -11,6 +11,7 @@ import org.nem.core.node.NodeEndpoint;
 
 import io.ipfs.api.IPFS;
 import io.ipfs.multiaddr.MultiAddress;
+import io.nem.xpx.model.XpxSdkGlobalConstants;
 
 
 
@@ -82,7 +83,11 @@ public class ConnectionFactory {
 		if(network.equals("mainnet")) {
 			networkInfo = NetworkInfos.getMainNetworkInfo();
 		}else if(network.equals("mijinnet")) {
+			XpxSdkGlobalConstants.SINK_ACCOUNT = "MC73U5ZULPYL7A7LXLAEHY5O2BPHYBUXBSCH3DU7"; // hardcoded SINK ACCOUNT
 			networkInfo = NetworkInfos.getMijinNetworkInfo();
+		}else if(network.equals("testnet")) {
+			XpxSdkGlobalConstants.SINK_ACCOUNT = "TDNG7MGDQ6JPCIH62SVJZ3Q4E2QCFHJVTREHKKCK"; // hardcoded SINK ACCOUNT
+			networkInfo = NetworkInfos.getTestNetworkInfo();
 		}
 		NetworkInfos.setDefault(networkInfo);
 	}
