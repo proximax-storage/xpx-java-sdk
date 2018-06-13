@@ -10,18 +10,34 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
+
+/**
+ * The Class Upload_uploadMultipleFilesIntegrationTest.
+ */
 public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_MULTIFILES. */
 	public static final String KEYWORDS_PLAIN_AND_MULTIFILES = "plain,multifiles";
+	
+	/** The Constant KEYWORDS_SECURE_AND_MULTIFILES. */
 	public static final String KEYWORDS_SECURE_AND_MULTIFILES = "secure,multifiles";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Checks for failure when uploading non existent file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void hasFailureWhenUploadingNonExistentFile() throws Exception {
 
@@ -60,6 +76,11 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 	}
 
 
+	/**
+	 * Should upload multiple files with plain message type.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadMultipleFilesWithPlainMessageType() throws Exception {
 
@@ -106,6 +127,11 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
 	}
 
+	/**
+	 * Should upload multiple files with secure message type.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadMultipleFilesWithSecureMessageType() throws Exception {
 

@@ -15,16 +15,29 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+
+/**
+ * The Class DownloadFileResultTest.
+ */
 public class DownloadFileResultTest {
 
+    /** The resource hash message. */
     @Mock
     private ResourceHashMessage resourceHashMessage;
 
+    /**
+     * Sets the up.
+     */
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
+    /**
+     * Should save file.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void shouldSaveFile() throws IOException {
         final byte[] testData = "test string data".getBytes();
@@ -39,6 +52,11 @@ public class DownloadFileResultTest {
         assertArrayEquals(testData, downloadedFileData);
     }
 
+    /**
+     * Should return type of resource message hash as content type.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void shouldReturnTypeOfResourceMessageHashAsContentType() throws IOException {
         given(resourceHashMessage.type()).willReturn("application/pdf");
@@ -51,6 +69,11 @@ public class DownloadFileResultTest {
         assertEquals("application/pdf", contentType);
     }
 
+    /**
+     * Should return name of resource message hash as file name.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void shouldReturnNameOfResourceMessageHashAsFileName() throws IOException {
         given(resourceHashMessage.name()).willReturn("johndoe.txt");

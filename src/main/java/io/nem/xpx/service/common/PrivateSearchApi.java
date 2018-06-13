@@ -24,6 +24,10 @@ import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 
+
+/**
+ * The Class PrivateSearchApi.
+ */
 public abstract class PrivateSearchApi {
 
 	/** The nem transaction api. */
@@ -40,6 +44,17 @@ public abstract class PrivateSearchApi {
 		this.nemTransactionApi = nemTransactionApi;
 	}
 
+	/**
+	 * Search transaction with name.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param name the name
+	 * @return the list
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public List<ResourceHashMessageJsonEntity> searchTransactionWithName(String xPvKey, String xPubkey, String name)
 			throws ApiException, InterruptedException, ExecutionException {
 
@@ -48,6 +63,18 @@ public abstract class PrivateSearchApi {
 		return encryptedMessage;
 	}
 
+	/**
+	 * Search transaction with metadata key value pair.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param key the key
+	 * @param value the value
+	 * @return the list
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,6 +90,17 @@ public abstract class PrivateSearchApi {
 		return encryptedMessage;
 	}
 
+	/**
+	 * Search transaction with keyword.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param keywords the keywords
+	 * @return the list
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -77,6 +115,18 @@ public abstract class PrivateSearchApi {
 		return encryptedMessage;
 	}
 
+	/**
+	 * Gets the next for name search.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param name the name
+	 * @param hash the hash
+	 * @return the next for name search
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	private List<ResourceHashMessageJsonEntity> getNextForNameSearch(String xPvKey, String xPubkey, String name,
 			String hash) throws ApiException, InterruptedException, ExecutionException {
 
@@ -158,6 +208,18 @@ public abstract class PrivateSearchApi {
 		return encryptedMessage;
 	}
 
+	/**
+	 * Gets the next for keyword search.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param keywords the keywords
+	 * @param hash the hash
+	 * @return the next for keyword search
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	private List<ResourceHashMessageJsonEntity> getNextForKeywordSearch(String xPvKey, String xPubkey, String keywords,
 			String hash) throws ApiException, InterruptedException, ExecutionException {
 
@@ -252,6 +314,19 @@ public abstract class PrivateSearchApi {
 		return encryptedMessage;
 	}
 
+	/**
+	 * Gets the next for metadata search.
+	 *
+	 * @param xPvKey the x pv key
+	 * @param xPubkey the x pubkey
+	 * @param key the key
+	 * @param value the value
+	 * @param hash the hash
+	 * @return the next for metadata search
+	 * @throws ApiException the api exception
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	private List<ResourceHashMessageJsonEntity> getNextForMetadataSearch(String xPvKey, String xPubkey, String key,
 			String value, String hash) throws ApiException, InterruptedException, ExecutionException {
 
@@ -343,8 +418,8 @@ public abstract class PrivateSearchApi {
 	/**
 	 * To entity.
 	 *
-	 * @param resourceMessage
-	 *            the resource message
+	 * @param nemHash the nem hash
+	 * @param resourceMessage            the resource message
 	 * @return the resource hash message json entity
 	 */
 	protected ResourceHashMessageJsonEntity toEntity(String nemHash,ResourceHashMessage resourceMessage) {

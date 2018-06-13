@@ -35,15 +35,19 @@ import java.util.zip.ZipOutputStream;
 import static java.lang.String.format;
 
 
+
 /**
  * The Class Upload.
  */
 public class Upload extends AbstractFacadeService {
 
+	/** The peer connection. */
 	private final PeerConnection peerConnection;
 
+	/** The upload api. */
 	private final UploadApi uploadApi;
 
+	/** The transaction announcer. */
 	private final TransactionAnnouncer transactionAnnouncer;
 
 
@@ -126,15 +130,9 @@ public class Upload extends AbstractFacadeService {
 	/**
 	 * Upload path.
 	 *
-	 * @param uploadParameter
-	 *            the upload parameter
+	 * @param uploadParameter            the upload parameter
 	 * @return the upload data
-	 * @throws UploadException
-	 *             the upload exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ApiException
-	 *             the api exception
+	 * @throws UploadException             the upload exception
 	 */
 	public UploadResult uploadPath(UploadPathParameter uploadParameter)
 			throws UploadException {
@@ -155,6 +153,13 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	/**
+	 * Upload files as zip.
+	 *
+	 * @param param the param
+	 * @return the upload result
+	 * @throws UploadException the upload exception
+	 */
 	public UploadResult uploadFilesAsZip(UploadFilesAsZipParameter param) throws UploadException {
 
 		try {
@@ -168,6 +173,13 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	/**
+	 * Upload multiple files.
+	 *
+	 * @param param the param
+	 * @return the multi file upload result
+	 * @throws UploadException the upload exception
+	 */
 	public MultiFileUploadResult uploadMultipleFiles(UploadMultipleFilesParameter param) throws UploadException {
 
         if (param.getFiles().size() == 0)
@@ -189,6 +201,22 @@ public class Upload extends AbstractFacadeService {
         return new MultiFileUploadResult(fileUploadResults);
 	}
 
+	/**
+	 * Handle text data upload.
+	 *
+	 * @param privacyStrategy the privacy strategy
+	 * @param senderPrivateKey the sender private key
+	 * @param receiverPublicKey the receiver public key
+	 * @param contentType the content type
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @param name the name
+	 * @param mosaics the mosaics
+	 * @param textData the text data
+	 * @param encoding the encoding
+	 * @return the upload result
+	 * @throws UploadException the upload exception
+	 */
 	private UploadResult handleTextDataUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
 											String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
 											String textData, String encoding) throws UploadException {
@@ -208,6 +236,21 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	/**
+	 * Handle binary upload.
+	 *
+	 * @param privacyStrategy the privacy strategy
+	 * @param senderPrivateKey the sender private key
+	 * @param receiverPublicKey the receiver public key
+	 * @param contentType the content type
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @param name the name
+	 * @param mosaics the mosaics
+	 * @param binaryContent the binary content
+	 * @return the upload result
+	 * @throws UploadException the upload exception
+	 */
 	private UploadResult handleBinaryUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
 											String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
 											byte[] binaryContent) throws UploadException {
@@ -225,6 +268,13 @@ public class Upload extends AbstractFacadeService {
 	}
 
 
+	/**
+	 * Zip files.
+	 *
+	 * @param files the files
+	 * @return the byte[]
+	 * @throws UploadException the upload exception
+	 */
 	private byte[] zipFiles(List<File> files) throws UploadException {
 
 		validateZipFilesArguments(files);
@@ -247,6 +297,12 @@ public class Upload extends AbstractFacadeService {
 		return baos.toByteArray();
 	}
 
+	/**
+	 * Validate zip files arguments.
+	 *
+	 * @param files the files
+	 * @throws UploadException the upload exception
+	 */
 	private void validateZipFilesArguments(List<File> files) throws UploadException {
 		if (files.size() == 0)
 			throw new UploadException("No file to upload");
@@ -257,6 +313,20 @@ public class Upload extends AbstractFacadeService {
 					String.join(",", files.stream().map(file -> file.getName()).collect(Collectors.toList()))));
 	}
 
+	/**
+	 * Store text data.
+	 *
+	 * @param contentType the content type
+	 * @param encoding the encoding
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @param name the name
+	 * @param encryptedTextInBytes the encrypted text in bytes
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
 	private byte[] storeTextData(String contentType, String encoding, String keywords, String metadata, String name,
 								 byte[] encryptedTextInBytes) throws ApiException, IOException, NoSuchAlgorithmException {
 		UploadTextRequestParameter apiParams = new UploadTextRequestParameter()
@@ -270,6 +340,19 @@ public class Upload extends AbstractFacadeService {
 		return (byte[]) uploadApi.uploadPlainTextUsingPOST(apiParams);
 	}
 
+	/**
+	 * Store binary data.
+	 *
+	 * @param contentType the content type
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @param name the name
+	 * @param encryptedContent the encrypted content
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
 	private byte[] storeBinaryData(String contentType, String keywords, String metadata, String name,
 								   byte[] encryptedContent) throws ApiException, IOException, NoSuchAlgorithmException {
 		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
@@ -283,6 +366,17 @@ public class Upload extends AbstractFacadeService {
 	}
 
 
+	/**
+	 * Handle post upload.
+	 *
+	 * @param privacyStrategy the privacy strategy
+	 * @param senderPrivateKey the sender private key
+	 * @param receiverPublicKey the receiver public key
+	 * @param mosaics the mosaics
+	 * @param response the response
+	 * @return the upload result
+	 * @throws Exception the exception
+	 */
 	private UploadResult handlePostUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
 										  Mosaic[] mosaics, byte[] response) throws Exception {
 
@@ -305,6 +399,17 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	/**
+	 * Creates the nem transaction.
+	 *
+	 * @param privacyStrategy the privacy strategy
+	 * @param senderPrivateKey the sender private key
+	 * @param receiverPublicKey the receiver public key
+	 * @param mosaics the mosaics
+	 * @param response the response
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	private String createNemTransaction(PrivacyStrategy privacyStrategy, String senderPrivateKey,
 										String receiverPublicKey, Mosaic[] mosaics, byte[] response) throws Exception {
 		final Message nemMessage = privacyStrategy.encodeToMessage(response);

@@ -77,6 +77,7 @@ import io.nem.xpx.exceptions.ApiException;
 
 
 
+
 /**
  * The Class ApiClient.
  */

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * The Class LocalUploadApi.
  */
@@ -43,8 +44,14 @@ import java.util.Map;
 
 public class LocalUploadApi implements UploadApi {
 
+	/** The proximax ifps connection. */
 	private final IPFS proximaxIfpsConnection;
 
+	/**
+	 * Instantiates a new local upload api.
+	 *
+	 * @param proximaxIfpsConnection the proximax ifps connection
+	 */
 	public LocalUploadApi(final IPFS proximaxIfpsConnection) {
 		this.proximaxIfpsConnection = proximaxIfpsConnection;
 	}

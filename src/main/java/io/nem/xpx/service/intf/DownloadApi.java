@@ -20,6 +20,7 @@ import io.nem.xpx.exceptions.ApiException;
 
 
 
+
 /**
  * The Interface DownloadApi.
  */

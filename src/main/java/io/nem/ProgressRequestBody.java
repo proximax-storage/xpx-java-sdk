@@ -26,6 +26,7 @@ import okio.Sink;
 
 
 
+
 /**
  * The Class ProgressRequestBody.
  */
@@ -36,11 +37,10 @@ public class ProgressRequestBody extends RequestBody {
      * The class that is interested in processing a progressRequest
      * event implements this interface, and the object created
      * with that class is registered with a component using the
-     * component's <code>addProgressRequestListener<code> method. When
+     * component's <code>addProgressRequestListener</code> method. When
      * the progressRequest event occurs, that object's appropriate
      * method is invoked.
      *
-     * @see ProgressRequestEvent
      */
     public interface ProgressRequestListener {
         

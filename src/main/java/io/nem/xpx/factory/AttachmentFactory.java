@@ -7,6 +7,7 @@ import org.nem.core.model.mosaic.Mosaic;
 
 
 
+
 /**
  * A factory for creating Attachment objects.
  */

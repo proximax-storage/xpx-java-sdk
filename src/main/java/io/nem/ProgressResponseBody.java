@@ -26,6 +26,7 @@ import okio.Source;
 
 
 
+
 /**
  * The Class ProgressResponseBody.
  */
@@ -36,11 +37,10 @@ public class ProgressResponseBody extends ResponseBody {
      * The class that is interested in processing a progress
      * event implements this interface, and the object created
      * with that class is registered with a component using the
-     * component's <code>addProgressListener<code> method. When
+     * component's <code>addProgressListener</code> method. When
      * the progress event occurs, that object's appropriate
      * method is invoked.
      *
-     * @see ProgressEvent
      */
     public interface ProgressListener {
         

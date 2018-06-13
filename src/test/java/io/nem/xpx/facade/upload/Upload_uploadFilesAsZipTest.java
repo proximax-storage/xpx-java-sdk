@@ -8,22 +8,38 @@ import org.mockito.MockitoAnnotations;
 
 import static io.nem.xpx.testsupport.Constants.*;
 
+
+/**
+ * The Class Upload_uploadFilesAsZipTest.
+ */
 public class Upload_uploadFilesAsZipTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_ZIP_FILE. */
 	public static final String KEYWORDS_PLAIN_AND_ZIP_FILE = "plain,zipfile";
+
+	/** The Constant ZIP_FILE_NAME. */
 	public static final String ZIP_FILE_NAME = "test.zip";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
 	@Mock
 	private PeerConnection peerConnection;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Fail when uploading same file twice.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingSameFileTwice() throws Exception {
 
@@ -40,6 +56,11 @@ public class Upload_uploadFilesAsZipTest {
 		unitUnderTest.uploadFilesAsZip(parameter);
 	}
 
+	/**
+	 * Fail when uploading no file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNoFile() throws Exception {
 
@@ -54,6 +75,11 @@ public class Upload_uploadFilesAsZipTest {
 		unitUnderTest.uploadFilesAsZip(parameter);
 	}
 
+	/**
+	 * Fail when uploading non existent file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNonExistentFile() throws Exception {
 

@@ -23,6 +23,7 @@ import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static org.junit.Assert.assertNotNull;
 
 
+
 /**
  * The Class UploadTest.
  */

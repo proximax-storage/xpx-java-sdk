@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 
+
 /**
  * UploadBase64BinaryRequestParameter.
  */

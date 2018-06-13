@@ -3,6 +3,7 @@ package io.nem.xpx.exceptions;
 
 import io.nem.xpx.facade.upload.UploadException;
 
+
 /**
  * The Class InsufficientAmountException.
  */

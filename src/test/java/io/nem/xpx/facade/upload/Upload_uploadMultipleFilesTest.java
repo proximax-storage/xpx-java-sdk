@@ -8,21 +8,35 @@ import org.mockito.MockitoAnnotations;
 
 import static io.nem.xpx.testsupport.Constants.*;
 
+
+/**
+ * The Class Upload_uploadMultipleFilesTest.
+ */
 public class Upload_uploadMultipleFilesTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_MULTIFILES. */
 	public static final String KEYWORDS_PLAIN_AND_MULTIFILES = "plain,multifiles";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
 	@Mock
 	private PeerConnection peerConnection;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		unitUnderTest = new Upload(peerConnection);
 	}
 
+	/**
+	 * Fail when uploading no file.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = UploadException.class)
 	public void failWhenUploadingNoFile() throws Exception {
 

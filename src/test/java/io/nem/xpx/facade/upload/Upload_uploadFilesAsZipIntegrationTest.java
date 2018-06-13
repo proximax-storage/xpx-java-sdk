@@ -11,20 +11,38 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+
+/**
+ * The Class Upload_uploadFilesAsZipIntegrationTest.
+ */
 public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_ZIP_FILE. */
 	public static final String KEYWORDS_PLAIN_AND_ZIP_FILE = "plain,zipfile";
+	
+	/** The Constant KEYWORDS_SECURE_AND_ZIP_FILE. */
 	public static final String KEYWORDS_SECURE_AND_ZIP_FILE = "secure,zipfile";
+	
+	/** The Constant ZIP_FILE_NAME. */
 	public static final String ZIP_FILE_NAME = "test.zip";
 
+	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new Upload(peerConnection);
 	}
 
 
+	/**
+	 * Should upload files as zip with plain message type.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadFilesAsZipWithPlainMessageType() throws Exception {
 
@@ -53,6 +71,11 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Should upload files as zip with secure message type.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadFilesAsZipWithSecureMessageType() throws Exception {
 
@@ -82,6 +105,11 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 		LOGGER.info(uploadResult.getNemHash());
 	}
 
+	/**
+	 * Upload plain file with mosaic test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	@Ignore
 	public void uploadPlainFileWithMosaicTest() throws Exception {

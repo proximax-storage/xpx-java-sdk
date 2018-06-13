@@ -15,14 +15,25 @@ import java.util.stream.Stream;
 import static io.nem.xpx.testsupport.Constants.LOCAL_HTTP_PEER_CONNECTION;
 import static io.nem.xpx.testsupport.Constants.REMOTE_PEER_CONNECTION;
 
+
+/**
+ * The Class AbstractFacadeIntegrationTest.
+ */
 @RunWith(Parameterized.class)
 public abstract class AbstractFacadeIntegrationTest {
 
+    /** The Constant LOGGER. */
     public static final Logger LOGGER = Logger.getAnonymousLogger();
 
+    /** The peer connection. */
     @Parameter
     public PeerConnection peerConnection;
 
+    /**
+     * Data.
+     *
+     * @return the {@link Iterable}
+     */
     @Parameters(name = "{index}: {0}")
     public static Iterable<? extends Object> data() {
         return Stream.of(REMOTE_PEER_CONNECTION, LOCAL_HTTP_PEER_CONNECTION)
@@ -30,6 +41,9 @@ public abstract class AbstractFacadeIntegrationTest {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Log peer connection used.
+     */
     @Before
     public void logPeerConnectionUsed() {
         LOGGER.info("Testing with " + peerConnection.getClass());

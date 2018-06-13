@@ -2,6 +2,7 @@ package io.nem.xpx.facade;
 
 
 
+
 /**
  * The Enum DataTextContentType.
  */
@@ -22,12 +23,16 @@ public enum DataTextContentType {
 	/** The application xml. */
 	APPLICATION_XML("application/xml"),
 
+	/** The application zip. */
 	APPLICATION_ZIP("application/zip"),
 
+	/** The application pdf. */
 	APPLICATION_PDF("application/pdf"),
 
+	/** The video mp4. */
 	VIDEO_MP4("video/mp4"),
 
+	/** The video quicktime. */
 	VIDEO_QUICKTIME("video/quicktime");
 
 	/** The value. */

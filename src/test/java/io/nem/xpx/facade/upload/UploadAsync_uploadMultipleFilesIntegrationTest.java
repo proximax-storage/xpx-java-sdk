@@ -9,17 +9,31 @@ import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 
 
+
+/**
+ * The Class UploadAsync_uploadMultipleFilesIntegrationTest.
+ */
 public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFacadeIntegrationTest {
 
+	/** The Constant KEYWORDS_PLAIN_AND_MULTIFILES. */
 	public static final String KEYWORDS_PLAIN_AND_MULTIFILES = "plain,multifiles";
 
+	/** The unit under test. */
 	private UploadAsync unitUnderTest;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		unitUnderTest = new UploadAsync(peerConnection);
 	}
 
+	/**
+	 * Should upload multiple files async.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void shouldUploadMultipleFilesAsync() throws Exception {
 

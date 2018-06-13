@@ -18,6 +18,7 @@ import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.intf.SearchApi;
 
 
+
 /**
  * The Class Search.
  */

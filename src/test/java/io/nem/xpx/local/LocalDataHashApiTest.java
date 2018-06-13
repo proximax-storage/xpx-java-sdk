@@ -38,6 +38,7 @@ import static io.nem.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 import static io.nem.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 
 
+
 /**
  * API tests for DataHashApi.
  */

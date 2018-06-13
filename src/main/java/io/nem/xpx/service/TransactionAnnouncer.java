@@ -15,16 +15,39 @@ import org.nem.core.model.primitive.Amount;
 
 import static java.lang.String.format;
 
+
+/**
+ * The Class TransactionAnnouncer.
+ */
 public class TransactionAnnouncer {
 
+    /** The transaction fee calculators. */
     private final TransactionFeeCalculators transactionFeeCalculators;
+    
+    /** The transaction sender. */
     private final TransactionSender transactionSender;
 
+    /**
+     * Instantiates a new transaction announcer.
+     *
+     * @param transactionFeeCalculators the transaction fee calculators
+     * @param transactionSender the transaction sender
+     */
     public TransactionAnnouncer(TransactionFeeCalculators transactionFeeCalculators, TransactionSender transactionSender) {
         this.transactionFeeCalculators = transactionFeeCalculators;
         this.transactionSender = transactionSender;
     }
 
+    /**
+     * Announce transaction for uploaded content.
+     *
+     * @param nemMessage the nem message
+     * @param senderPrivateKey the sender private key
+     * @param receiverPublicKey the receiver public key
+     * @param mosaics the mosaics
+     * @return the string
+     * @throws Exception the exception
+     */
     public String announceTransactionForUploadedContent(Message nemMessage, String senderPrivateKey, String receiverPublicKey,
                                                         Mosaic[] mosaics) throws Exception {
 

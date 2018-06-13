@@ -20,6 +20,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.util.Objects;
 
 
+
 /**
  * UploadTextRequestParameter.
  */
@@ -203,7 +204,7 @@ public class UploadTextRequestParameter {
   /**
    * Text.
    *
-   * @param text the text
+   * @param base64EncodedText the base 64 encoded text
    * @return the upload text request parameter
    */
   public UploadTextRequestParameter text(String base64EncodedText) {
@@ -214,7 +215,7 @@ public class UploadTextRequestParameter {
   /**
    * Text.
    *
-   * @param text the text
+   * @param textInBytes the text in bytes
    * @return the upload text request parameter
    */
   public UploadTextRequestParameter text(byte[] textInBytes) {
