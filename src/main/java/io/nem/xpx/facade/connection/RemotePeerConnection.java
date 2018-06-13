@@ -5,6 +5,7 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
@@ -59,7 +60,7 @@ public final class RemotePeerConnection extends PeerConnection {
 
 		try {
 			NodeInfo nodeInfo = new RemoteNodeApi(apiClient).getNodeInfoUsingGET();
-			setNetwork(nodeInfo.getNetwork());
+			ConnectionFactory.setNetwork(nodeInfo.getNetwork());
 			super.nodeEndpoint = new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort()));
 		} catch (ApiException e) {
 			// TODO - throw cannot be initialized exception?
@@ -174,13 +175,4 @@ public final class RemotePeerConnection extends PeerConnection {
 		return uploadApi;
 	}
 	
-	private static void setNetwork(String network) {
-		NetworkInfo networkInfo = NetworkInfos.getTestNetworkInfo();
-		if(network.equals("mainnet")) {
-			networkInfo = NetworkInfos.getMainNetworkInfo();
-		}else if(network.equals("mijinnet")) {
-			networkInfo = NetworkInfos.getMijinNetworkInfo();
-		}
-		NetworkInfos.setDefault(networkInfo);
-	}
 }
