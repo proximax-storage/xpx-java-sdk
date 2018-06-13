@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.nem.xpx.model.DataTextContentType.VIDEO_QUICKTIME;
+import static io.nem.xpx.facade.DataTextContentType.VIDEO_QUICKTIME;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

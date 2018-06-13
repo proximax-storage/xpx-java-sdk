@@ -12,7 +12,7 @@ package io.nem.xpx.local;
  */
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.AccountMetaDataPair;
+import io.nem.xpx.model.AccountMetaDataPair;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteAccountApi;
 import org.junit.Assert;

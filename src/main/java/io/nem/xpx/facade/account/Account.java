@@ -4,7 +4,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.AccountApi;
 import io.nem.xpx.service.intf.SearchApi;

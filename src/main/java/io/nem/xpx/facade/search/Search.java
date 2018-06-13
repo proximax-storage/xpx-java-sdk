@@ -14,7 +14,7 @@ import org.nem.core.crypto.CryptoEngine;
 import org.nem.core.crypto.CryptoEngines;
 
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.intf.SearchApi;
 
 

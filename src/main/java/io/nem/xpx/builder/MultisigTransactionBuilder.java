@@ -2,7 +2,7 @@ package io.nem.xpx.builder;
 
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.*;

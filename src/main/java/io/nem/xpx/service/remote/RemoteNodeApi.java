@@ -25,8 +25,8 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.GenericResponseMessage;
-import io.nem.xpx.service.model.NodeInfo;
+import io.nem.xpx.model.GenericResponseMessage;
+import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
 
 import java.lang.reflect.Type;

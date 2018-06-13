@@ -13,7 +13,7 @@ package io.nem.xpx.remote;
 
 import io.nem.xpx.service.remote.RemoteAccountApi;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.AccountMetaDataPair;
+import io.nem.xpx.model.AccountMetaDataPair;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

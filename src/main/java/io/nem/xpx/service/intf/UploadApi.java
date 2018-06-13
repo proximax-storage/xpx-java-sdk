@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.UploadBase64BinaryRequestParameter;
-import io.nem.xpx.service.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.service.model.UploadTextRequestParameter;
+import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
+import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadTextRequestParameter;
 
 
 

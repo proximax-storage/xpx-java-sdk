@@ -14,7 +14,7 @@
 package io.nem.xpx.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.RequestAnnounceDataSignature;
+import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteTransactionAndAnnounceApi;
 import org.junit.Test;

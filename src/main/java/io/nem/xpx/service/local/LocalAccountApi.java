@@ -1,7 +1,7 @@
 package io.nem.xpx.service.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.AccountMetaDataPair;
+import io.nem.xpx.model.AccountMetaDataPair;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.AccountApi;
 import io.nem.xpx.utils.JsonUtils;

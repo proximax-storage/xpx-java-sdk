@@ -3,7 +3,7 @@ package io.nem.xpx.service.local;
 
 import io.ipfs.api.IPFS;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.NodeInfo;
+import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
 
 

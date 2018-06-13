@@ -3,7 +3,7 @@ package io.nem.xpx.facade.search;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Assert;
 import org.junit.Test;

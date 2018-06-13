@@ -6,7 +6,7 @@ package io.nem.xpx.facade.search;
 import io.nem.xpx.callback.ServiceAsyncCallback;
 import io.nem.xpx.facade.AbstractAsyncFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

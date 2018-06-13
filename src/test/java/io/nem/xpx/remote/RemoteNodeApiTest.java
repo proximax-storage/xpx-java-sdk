@@ -14,8 +14,8 @@
 package io.nem.xpx.remote;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.GenericResponseMessage;
-import io.nem.xpx.service.model.NodeInfo;
+import io.nem.xpx.model.GenericResponseMessage;
+import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.remote.RemoteNodeApi;
 
 import org.junit.Test;

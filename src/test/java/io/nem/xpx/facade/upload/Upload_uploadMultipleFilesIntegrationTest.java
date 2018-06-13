@@ -4,8 +4,8 @@ import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.nem.xpx.model.DataTextContentType.APPLICATION_PDF;
-import static io.nem.xpx.model.DataTextContentType.TEXT_PLAIN;
+import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.facade.DataTextContentType.TEXT_PLAIN;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.*;
 

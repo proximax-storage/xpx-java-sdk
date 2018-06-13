@@ -13,7 +13,7 @@
 package io.nem.xpx.service.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.common.PrivateSearchApi;
 import io.nem.xpx.service.intf.SearchApi;

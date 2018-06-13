@@ -20,9 +20,9 @@ import io.nem.ApiCallback;
 import io.nem.ApiClient;
 import io.nem.ApiResponse;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.service.model.UploadBase64BinaryRequestParameter;
-import io.nem.xpx.service.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.service.model.UploadTextRequestParameter;
+import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
+import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
+import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.service.intf.UploadApi;
 
 import com.google.gson.reflect.TypeToken;
