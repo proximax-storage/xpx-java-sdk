@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
+import static io.nem.xpx.model.DataTextContentType.APPLICATION_ZIP;
 import static java.util.Arrays.asList;
 
 

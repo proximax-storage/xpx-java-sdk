@@ -4,7 +4,7 @@ package io.nem.xpx.service.intf;
 import java.util.concurrent.ExecutionException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.AccountMetaDataPair;
+import io.nem.xpx.service.model.AccountMetaDataPair;
 
 
 

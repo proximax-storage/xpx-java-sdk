@@ -5,7 +5,7 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.NodeInfo;
+import io.nem.xpx.service.model.NodeInfo;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
 import org.nem.core.node.NodeEndpoint;

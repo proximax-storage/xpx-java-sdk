@@ -1,7 +1,7 @@
 package io.nem.xpx.service.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.model.RequestAnnounceDataSignature;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import org.nem.core.model.TransferTransaction;

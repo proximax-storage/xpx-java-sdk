@@ -16,10 +16,13 @@ import org.nem.core.model.primitive.Quantity;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static java.util.Collections.singletonMap;
 
 public class Constants {
+
+    public static final Logger LOGGER = Logger.getAnonymousLogger();
 
     private Constants() {}
 
@@ -84,6 +87,8 @@ public class Constants {
         try {
             return new RemotePeerConnection("http://dev-gateway.internal.proximax.io:8881");
         } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -95,6 +100,8 @@ public class Constants {
                     ConnectionFactory.createIPFSNodeConnection("/ip4/127.0.0.1/tcp/5001")
             );
         } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
             return null;
         }
     }

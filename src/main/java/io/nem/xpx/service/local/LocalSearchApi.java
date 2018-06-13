@@ -13,28 +13,21 @@
 package io.nem.xpx.service.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.common.PrivateSearchApi;
 import io.nem.xpx.service.intf.SearchApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.JsonUtils;
 import org.apache.commons.codec.binary.Base64;
-import org.nem.core.crypto.KeyPair;
-import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
-import org.nem.core.messages.SecureMessage;
-import org.nem.core.model.Account;
 import org.nem.core.model.Address;
-import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
-import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.pmw.tinylog.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;

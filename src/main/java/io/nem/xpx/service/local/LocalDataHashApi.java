@@ -5,8 +5,8 @@ import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.DataHashByteArrayEntity;
-import io.nem.xpx.model.PublishResult;
+import io.nem.xpx.service.model.DataHashByteArrayEntity;
+import io.nem.xpx.service.model.PublishResult;
 import io.nem.xpx.service.intf.DataHashApi;
 
 import java.io.IOException;

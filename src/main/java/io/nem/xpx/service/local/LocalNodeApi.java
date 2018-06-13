@@ -1,13 +1,9 @@
 package io.nem.xpx.service.local;
 
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import io.ipfs.api.IPFS;
-import io.ipfs.api.Peer;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.NodeInfo;
+import io.nem.xpx.service.model.NodeInfo;
 import io.nem.xpx.service.intf.NodeApi;
 
 

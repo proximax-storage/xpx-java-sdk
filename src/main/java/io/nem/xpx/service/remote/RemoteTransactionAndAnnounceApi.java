@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.model.RequestAnnounceDataSignature;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 
 import java.lang.reflect.Type;

@@ -4,7 +4,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.factory.ConnectionFactory;
-import io.nem.xpx.model.ResourceHashMessageJsonEntity;
+import io.nem.xpx.service.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.remote.AbstractApiTest;
 import org.junit.Assert;
 import org.junit.Test;

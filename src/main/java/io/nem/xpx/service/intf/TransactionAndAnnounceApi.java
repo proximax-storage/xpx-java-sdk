@@ -3,7 +3,7 @@ package io.nem.xpx.service.intf;
 import java.util.concurrent.ExecutionException;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.RequestAnnounceDataSignature;
+import io.nem.xpx.service.model.RequestAnnounceDataSignature;
 
 
 

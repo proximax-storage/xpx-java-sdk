@@ -165,6 +165,24 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>proguard</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+					<proguardVersion>5.3</proguardVersion>
+					<proguardInclude>${basedir}/proguard.conf</proguardInclude>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jce.jar</lib>
+                    </libs>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

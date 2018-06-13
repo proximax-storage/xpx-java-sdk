@@ -1,7 +1,7 @@
 package io.nem.xpx.service;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.GeneratedAccount;
+import io.nem.xpx.service.model.GeneratedAccount;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.crypto.KeyPair;

@@ -14,20 +14,14 @@
 package io.nem.xpx.local;
 
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.GenericResponseMessage;
-import io.nem.xpx.model.NodeInfo;
+import io.nem.xpx.service.model.GenericResponseMessage;
+import io.nem.xpx.service.model.NodeInfo;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteNodeApi;
 
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 
 /**
