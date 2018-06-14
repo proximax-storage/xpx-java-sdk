@@ -12,22 +12,13 @@ package io.nem.xpx.remote;
  */
 
 
-import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.ResponseEntity;
 import io.nem.xpx.service.remote.RemoteDownloadApi;
-import io.nem.xpx.utils.JsonUtils;
 
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.nem.core.crypto.KeyPair;
-import org.nem.core.crypto.PrivateKey;
-import org.nem.core.crypto.PublicKey;
-import org.nem.core.messages.SecureMessage;
-import org.nem.core.model.Account;
-import org.nem.core.model.TransferTransaction;
-import org.nem.core.utils.HexEncoder;
+
 import java.io.UnsupportedEncodingException;
 
 

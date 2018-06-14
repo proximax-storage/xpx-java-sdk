@@ -50,8 +50,7 @@ public class Constants {
 
     /** The Constant LARGE_FILE. */
     public static final File LARGE_FILE = new File("src//test//resources//test_large_file.zip");
-
-
+  
     /** The Constant ZIP_FILE. */
     public static final File ZIP_FILE = new File("src//test//resources//zip_file.zip");
 

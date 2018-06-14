@@ -12,7 +12,6 @@
 
 package io.nem.xpx.service.intf;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 

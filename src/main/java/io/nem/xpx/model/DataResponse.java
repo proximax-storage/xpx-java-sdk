@@ -1,7 +1,6 @@
 package io.nem.xpx.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import io.nem.xpx.utils.JsonUtils;
 
 

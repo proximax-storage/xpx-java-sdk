@@ -1,12 +1,12 @@
 package io.nem.xpx.model;
 
+import io.ipfs.api.MerkleNode;
+import io.ipfs.multihash.Multihash;
+import org.nem.core.model.ncc.NemAnnounceResult;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import org.nem.core.model.ncc.NemAnnounceResult;
-import io.ipfs.api.MerkleNode;
-import io.ipfs.multihash.Multihash;
 
 
 
