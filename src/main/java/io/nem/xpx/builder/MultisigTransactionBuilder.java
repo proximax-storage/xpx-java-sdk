@@ -6,9 +6,13 @@ import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.XpxSdkGlobalConstants;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.*;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.serialization.JsonDeserializer;
@@ -244,10 +248,10 @@ public class MultisigTransactionBuilder {
 		public MultisigTransaction buildMultisigTransaction() {
 			
 			
-//			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
-//					Quantity.fromValue(10000));
-//			
-//			this.instance.getOtherTransaction().addMosaic(xpxMosaic);
+			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
+					Quantity.fromValue(1));
+			
+			((TransferTransaction)this.instance.getOtherTransaction()).getAttachment().addMosaic(xpxMosaic);
 //			
 			if (this.timeStamp == null) {
 				this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();

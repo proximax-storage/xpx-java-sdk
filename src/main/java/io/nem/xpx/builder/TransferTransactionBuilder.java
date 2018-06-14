@@ -263,7 +263,7 @@ public class TransferTransactionBuilder {
 
 		//	attach the xpx mosaic (constant)
 		Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
-				Quantity.fromValue(10000));
+				Quantity.fromValue(1));
 
 		this.attachment.addMosaic(xpxMosaic);
 
