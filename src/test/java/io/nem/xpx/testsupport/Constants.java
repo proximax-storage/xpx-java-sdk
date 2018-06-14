@@ -51,6 +51,9 @@ public class Constants {
     /** The Constant LARGE_FILE. */
     public static final File LARGE_FILE = new File("src//test//resources//test_large_file.zip");
 
+    /** The Constant ZIP_FILE. */
+    public static final File ZIP_FILE = new File("src//test//resources//zip_file.zip");
+
     /** The Constant LARGE_VIDEO_MP4_FILE. */
     public static final File LARGE_VIDEO_MP4_FILE = new File("src//test//resources//test_large_video.mp4");
 
@@ -109,6 +112,17 @@ public class Constants {
 
     /** The Constant TEST_PUBLIC_KEY_3. */
     public static final String TEST_PUBLIC_KEY_3 = "0a18107148e5e4b2e7eed844e06c7051885eeebb39cc8fcb139edc0380f3d219";
+
+
+    /** The Constant MIJIN_PRIVATE_KEY. */
+    // privatenet/mijin keys - first pair
+    public static final String MIJIN_PRIVATE_KEY = "90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec";
+
+    /** The Constant MIJIN_PUBLIC_KEY_2. */
+    public static final String MIJIN_PUBLIC_KEY = "d72ebcdf243f9d217f448d937ac9431ba6ee4984b167015abcfc5b22e169ca23";
+
+    /** The Constant SECURE_PASSWORD. */
+    public static final String SECURE_PASSWORD	= "hkcymenwcxpzkoyowuagcuhvrhavtdcrxbfqganecoxuirxekq";
 
     /** The Constant FILE_TO_PLAIN_MSG_NEM_HASH_MAP. */
     public static final Map<File, String> FILE_TO_PLAIN_MSG_NEM_HASH_MAP = fileToPlainMessageNemHashMap();
