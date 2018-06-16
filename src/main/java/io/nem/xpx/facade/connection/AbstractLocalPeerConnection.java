@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.connection;
 
 import io.ipfs.api.IPFS;
-import io.ipfs.multiaddr.MultiAddress;
 import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
@@ -11,6 +10,8 @@ import io.nem.xpx.service.local.*;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
+
+import java.util.List;
 
 
 /**
@@ -63,36 +64,14 @@ public abstract class AbstractLocalPeerConnection extends PeerConnection {
 	/**
 	 * Instantiates a new abstract local peer connection.
 	 *
-	 * @param nodeEndpoint
-	 *            the node endpoint
-	 * @param multiAddress
-	 *            the multi address
-	 */
-	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, String multiAddress) {
-		super.nodeEndpoint = nodeEndpoint;
-		this.proximaxIpfsConnection = new IPFS(new MultiAddress(multiAddress));
-	}
-	
-	/**
-	 * Instantiates a new abstract local peer connection.
-	 *
-	 * @param nodeEndpoint the node endpoint
-	 */
-	//	For local connections that doesn't need IPFS (Some modules doesn't required IPFS but uses local connection).
-	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint) {
-		this.nodeEndpoint = nodeEndpoint;
-	}
-	
-	
-	/**
-	 * Instantiates a new abstract local peer connection.
-	 *
 	 * @param nodeEndpoint the node endpoint
 	 * @param ipfsConnection the ipfs connection
+	 * @param syncGateways list of gateway URLs where uploads will be sync
 	 */
-	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, IPFS ipfsConnection) {
+	AbstractLocalPeerConnection(NodeEndpoint nodeEndpoint, IPFS ipfsConnection, List<String> syncGateways) {
 		this.nodeEndpoint = nodeEndpoint;
 		this.proximaxIpfsConnection = ipfsConnection;
+		this.setSyncGateways(syncGateways);
 	}
 
 	/* (non-Javadoc)

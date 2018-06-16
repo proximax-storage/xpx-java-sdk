@@ -16,6 +16,7 @@ package io.nem.xpx.model;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -49,6 +50,10 @@ public class NodeInfo {
   /** The peer id. */
   @SerializedName("peerId")
   private String peerId = null;
+
+  /** Tlist of gateway URLs where uploads will be sync. */
+  @SerializedName("syncGateways")
+  private List<String> syncGateways = null;
 
   /**
    * Context uri.
@@ -230,6 +235,9 @@ public class NodeInfo {
     this.peerId = peerId;
   }
 
+  public List<String> getSyncGateways() {
+    return syncGateways;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)

@@ -12,6 +12,7 @@ import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
+import io.nem.xpx.service.IpfsGatewaySyncService;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
@@ -58,6 +59,8 @@ public class MultisigUpload  extends AbstractFacadeService {
 	/** The is local peer connection. */
 	private final boolean isLocalPeerConnection;
 
+	private final IpfsGatewaySyncService ipfsGatewaySyncService;
+
 	/**
 	 * Instantiates a new upload.
 	 *
@@ -73,6 +76,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
 		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.engine = CryptoEngines.ed25519Engine();
+		this.ipfsGatewaySyncService = new IpfsGatewaySyncService(peerConnection.getSyncGateways());
 	}
 
 	
@@ -235,8 +239,8 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 			uploadApi.cleanupPinnedContentUsingPOST(resourceMessageHash.hash());
 			throw new UploadException(e);
-		}finally {
-			safeAsyncToGateways(resourceMessageHash);
+		} finally {
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(resourceMessageHash.hash());
 		}
 
 		return new MultisigUploadResult(new UploadResult(resourceMessageHash, publishedData), secretKey);
