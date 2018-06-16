@@ -12,6 +12,7 @@ import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
+import io.nem.xpx.service.IpfsGatewaySyncService;
 import io.nem.xpx.service.TransactionAnnouncer;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.local.LocalUploadApi;
@@ -50,7 +51,7 @@ public class Upload extends AbstractFacadeService {
 	/** The transaction announcer. */
 	private final TransactionAnnouncer transactionAnnouncer;
 
-
+	private final IpfsGatewaySyncService ipfsGatewaySyncService;
 
 	/**
 	 * Instantiates a new upload.
@@ -68,6 +69,7 @@ public class Upload extends AbstractFacadeService {
 		this.uploadApi = peerConnection.getUploadApi();
 		this.transactionAnnouncer = peerConnection.getTransactionAnnouncer();
 		this.peerConnection = peerConnection;
+		this.ipfsGatewaySyncService = new IpfsGatewaySyncService(peerConnection.getSyncGateways());
 	}
 
 	/**
@@ -386,8 +388,7 @@ public class Upload extends AbstractFacadeService {
 
 			final String nemHash = createNemTransaction(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics, response);
 
-			// Safe Sync if no errors.
-			safeAsyncToGateways(resourceMessageHash);
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(resourceMessageHash.hash());
 
 			return new UploadResult(resourceMessageHash, nemHash);
 		} catch (Exception e) {
