@@ -12,13 +12,10 @@
 
 package io.nem.xpx.service.intf;
 
+import io.nem.xpx.exceptions.ApiException;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
-import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.model.UploadTextRequestParameter;
 
 /**
  * The Interface UploadApi.
@@ -34,43 +31,32 @@ public interface UploadApi {
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException, IOException;
+	String deletePinnedContent(String multihash) throws ApiException, IOException;
 
-
-	/**
-	 * Upload base 64 string binary using POST.
-	 *
-	 * @param parameter the parameter
-	 * @return the object
-	 * @throws ApiException the api exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 */
-	public Object uploadBase64StringBinaryUsingPOST(UploadBase64BinaryRequestParameter parameter)
-			throws ApiException, IOException, NoSuchAlgorithmException;
-	
 	/**
 	 * Upload binary using POST.
 	 *
-	 * @param parameter the parameter
 	 * @return the object
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public Object uploadBytesBinaryUsingPOST(UploadBytesBinaryRequestParameter parameter)
+	byte[] uploadBytesBinary(byte[] binaryData, String name, String contentType, String keywords, String metadata)
 			throws ApiException, IOException, NoSuchAlgorithmException;
 
 	/**
 	 * Upload plain text using POST.
 	 *
-	 * @param parameter the parameter
 	 * @return the object
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public Object uploadPlainTextUsingPOST(UploadTextRequestParameter parameter)
+	byte[] uploadText(byte[] textInBytes, String name, String contentType, String encoding, String keywords, String metadata)
+			throws ApiException, IOException, NoSuchAlgorithmException;
+
+
+	byte[] uploadPath(String path, String name, String keywords, String metadata)
 			throws ApiException, IOException, NoSuchAlgorithmException;
 	
 }
