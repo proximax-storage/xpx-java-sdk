@@ -50,9 +50,9 @@ public class UploadDelegate {
         }
     }
 
-    public void deletePinnedContent(String multihash) {
+    public String deletePinnedContent(String multihash) {
         try {
-            uploadApi.deletePinnedContent(multihash);
+            return uploadApi.deletePinnedContent(multihash);
         } catch (Exception e) {
             throw new DeletePinnedContentFailureException(format("Failed to delete pinned content for %s", multihash), e);
         }
