@@ -1,6 +1,5 @@
 package io.nem.xpx.service;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import io.nem.xpx.service.UploadDelegate.ResourceHashMessageWrapper;
 import io.nem.xpx.service.intf.UploadApi;
 import org.junit.Before;
@@ -14,6 +13,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+
+import org.bouncycastle.util.encoders.Base64;
 
 public class UploadDelegateTest {
 
