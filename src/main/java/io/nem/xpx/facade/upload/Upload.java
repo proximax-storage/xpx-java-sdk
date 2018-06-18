@@ -3,20 +3,15 @@
  */
 package io.nem.xpx.facade.upload;
 
-import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.exceptions.PeerConnectionNotFoundException;
 import io.nem.xpx.facade.AbstractFacadeService;
 import io.nem.xpx.facade.connection.PeerConnection;
-import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.MultiFileUploadResult.FileUploadResult;
-import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
-import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.service.IpfsGatewaySyncService;
 import io.nem.xpx.service.TransactionAnnouncer;
+import io.nem.xpx.service.UploadDelegate;
+import io.nem.xpx.service.UploadDelegate.ResourceHashMessageWrapper;
 import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.local.LocalUploadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
@@ -26,7 +21,6 @@ import org.nem.core.model.mosaic.Mosaic;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -51,6 +45,9 @@ public class Upload extends AbstractFacadeService {
 	/** The transaction announcer. */
 	private final TransactionAnnouncer transactionAnnouncer;
 
+	private final UploadDelegate uploadDelegate;
+
+
 	private final IpfsGatewaySyncService ipfsGatewaySyncService;
 
 	/**
@@ -69,6 +66,7 @@ public class Upload extends AbstractFacadeService {
 		this.uploadApi = peerConnection.getUploadApi();
 		this.transactionAnnouncer = peerConnection.getTransactionAnnouncer();
 		this.peerConnection = peerConnection;
+		this.uploadDelegate = new UploadDelegate(peerConnection.getUploadApi());
 		this.ipfsGatewaySyncService = new IpfsGatewaySyncService(peerConnection.getSyncGateways());
 	}
 
@@ -98,17 +96,17 @@ public class Upload extends AbstractFacadeService {
 	/**
 	 * Upload data.
 	 *
-	 * @param uploadParameter
+	 * @param param
 	 *            the upload parameter
 	 * @return the upload data
 	 * @throws UploadException
 	 *             the upload exception
 	 */
-	public UploadResult uploadTextData(UploadTextDataParameter uploadParameter) throws UploadException {
-		return handleTextDataUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderPrivateKey(),
-				uploadParameter.getReceiverPublicKey(), uploadParameter.getContentType(), uploadParameter.getKeywords(),
-				uploadParameter.getMetaDataAsString(), uploadParameter.getName(), uploadParameter.getMosaics(),
-				uploadParameter.getData(), uploadParameter.getEncoding());
+	public UploadResult uploadTextData(UploadTextDataParameter param) throws UploadException {
+		return handleTextDataUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(),
+				param.getReceiverPublicKey(), param.getContentType(), param.getKeywords(),
+				param.getMetaDataAsString(), param.getName(), param.getMosaics(),
+				param.getData(), param.getEncoding());
 	}
 
 	/**
@@ -132,26 +130,22 @@ public class Upload extends AbstractFacadeService {
 	/**
 	 * Upload path.
 	 *
-	 * @param uploadParameter            the upload parameter
+	 * @param param            the upload parameter
 	 * @return the upload data
 	 * @throws UploadException             the upload exception
 	 */
-	public UploadResult uploadPath(UploadPathParameter uploadParameter)
+	public UploadResult uploadPath(UploadPathParameter param)
 			throws UploadException {
-		if (peerConnection instanceof RemotePeerConnection) {
-			throw new PathUploadNotSupportedException("Path upload is not supported for remote peer connection");
-		}
-
 		try {
-			byte[] resourceHashMessageBytes = (byte[])((LocalUploadApi) uploadApi).uploadPath(uploadParameter.getPath(), uploadParameter.getName(),
-					uploadParameter.getKeywords(), uploadParameter.getMetaDataAsString());
+			final ResourceHashMessageWrapper resourceHashMessageWrapper = uploadDelegate.uploadPathToIpfs(
+					param.getPath(), param.getName(), param.getKeywords(), param.getMetaDataAsString());
 
-			return handlePostUpload(uploadParameter.getPrivacyStrategy(), uploadParameter.getSenderPrivateKey(),
-					uploadParameter.getReceiverPublicKey(), uploadParameter.getMosaics(), resourceHashMessageBytes);
+			return handlePostUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(),
+					param.getReceiverPublicKey(), param.getMosaics(), resourceHashMessageWrapper);
 		} catch (UploadException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new UploadException(format("Error on uploading path: %s", uploadParameter.getPath()), e);
+			throw new UploadException(format("Error on uploading path: %s", param.getPath()), e);
 		}
 	}
 
@@ -226,11 +220,11 @@ public class Upload extends AbstractFacadeService {
 			final byte[] textInBytes = textData.getBytes(encoding);
 
 			final byte[] encryptedTextInBytes = privacyStrategy.encrypt(textInBytes);
-			final byte[] resourceHashMessageBytes = storeTextData(contentType, encoding, keywords, metadata, name,
-					encryptedTextInBytes);
+			final ResourceHashMessageWrapper hashMessageWrapper = uploadDelegate.uploadTextToIpfs(
+					encryptedTextInBytes, name, contentType, encoding, keywords, metadata);
 
 			return handlePostUpload(privacyStrategy, senderPrivateKey,
-					receiverPublicKey, mosaics, resourceHashMessageBytes);
+					receiverPublicKey, mosaics, hashMessageWrapper);
 		} catch (UploadException e) {
 			throw e;
 		} catch (Exception e) {
@@ -258,8 +252,9 @@ public class Upload extends AbstractFacadeService {
 											byte[] binaryContent) throws UploadException {
 		try {
 			byte[] encryptedContent = privacyStrategy.encrypt(binaryContent);
-			byte[] resourceHashMessageBytes = storeBinaryData(contentType, keywords, metadata, name, encryptedContent);
-			return handlePostUpload(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics, resourceHashMessageBytes);
+			final ResourceHashMessageWrapper hashMessageWrapper =
+					uploadDelegate.uploadBinaryToIpfs(encryptedContent, name, contentType, keywords, metadata);
+			return handlePostUpload(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics, hashMessageWrapper);
 
 		} catch (UploadException e) {
 			throw e;
@@ -316,86 +311,27 @@ public class Upload extends AbstractFacadeService {
 	}
 
 	/**
-	 * Store text data.
-	 *
-	 * @param contentType the content type
-	 * @param encoding the encoding
-	 * @param keywords the keywords
-	 * @param metadata the metadata
-	 * @param name the name
-	 * @param encryptedTextInBytes the encrypted text in bytes
-	 * @return the byte[]
-	 * @throws ApiException the api exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 */
-	private byte[] storeTextData(String contentType, String encoding, String keywords, String metadata, String name,
-								 byte[] encryptedTextInBytes) throws ApiException, IOException, NoSuchAlgorithmException {
-		UploadTextRequestParameter apiParams = new UploadTextRequestParameter()
-				.contentType(contentType)
-				.encoding(encoding)
-				.keywords(keywords)
-				.metadata(metadata)
-				.name(name)
-				.text(encryptedTextInBytes);
-
-		return (byte[]) uploadApi.uploadPlainTextUsingPOST(apiParams);
-	}
-
-	/**
-	 * Store binary data.
-	 *
-	 * @param contentType the content type
-	 * @param keywords the keywords
-	 * @param metadata the metadata
-	 * @param name the name
-	 * @param encryptedContent the encrypted content
-	 * @return the byte[]
-	 * @throws ApiException the api exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 */
-	private byte[] storeBinaryData(String contentType, String keywords, String metadata, String name,
-								   byte[] encryptedContent) throws ApiException, IOException, NoSuchAlgorithmException {
-		UploadBytesBinaryRequestParameter parameter = new UploadBytesBinaryRequestParameter()
-				.contentType(contentType)
-				.keywords(keywords)
-				.metadata(metadata)
-				.name(name)
-				.data(encryptedContent);
-
-		return (byte[]) uploadApi.uploadBytesBinaryUsingPOST(parameter);
-	}
-
-
-	/**
 	 * Handle post upload.
 	 *
 	 * @param privacyStrategy the privacy strategy
 	 * @param senderPrivateKey the sender private key
 	 * @param receiverPublicKey the receiver public key
 	 * @param mosaics the mosaics
-	 * @param response the response
 	 * @return the upload result
 	 * @throws Exception the exception
 	 */
 	private UploadResult handlePostUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
-										  Mosaic[] mosaics, byte[] response) throws Exception {
-
-		ResourceHashMessage resourceMessageHash = null;
+										  Mosaic[] mosaics, ResourceHashMessageWrapper hashMessageWrapper) throws Exception {
 		try {
-			resourceMessageHash = deserializeResourceMessageHash(response);
+			final String nemHash = createNemTransaction(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics,
+					hashMessageWrapper.getData());
 
-			final String nemHash = createNemTransaction(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics, response);
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(hashMessageWrapper.getResourceHashMessage().hash());
 
-			ipfsGatewaySyncService.syncToGatewaysAsynchronously(resourceMessageHash.hash());
-
-			return new UploadResult(resourceMessageHash, nemHash);
+			return new UploadResult(hashMessageWrapper.getResourceHashMessage(), nemHash);
 		} catch (Exception e) {
-			if (resourceMessageHash != null) {
-				final String resourceHash = resourceMessageHash.hash();
-				Executors.newSingleThreadExecutor().submit(() -> uploadApi.cleanupPinnedContentUsingPOST(resourceHash));
-			}
+			Executors.newSingleThreadExecutor().submit(() ->
+					uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash()));
 			throw e;
 		}
 	}

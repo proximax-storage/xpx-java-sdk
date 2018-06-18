@@ -212,17 +212,6 @@ public class UploadTextRequestParameter {
     return this;
   }
 
-  /**
-   * Text.
-   *
-   * @param textInBytes the text in bytes
-   * @return the upload text request parameter
-   */
-  public UploadTextRequestParameter text(byte[] textInBytes) {
-    this.text = Base64.encodeBase64String(textInBytes);
-    return this;
-  }
-
    /**
     * Get text.
     *
