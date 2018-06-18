@@ -11,9 +11,8 @@ import io.nem.xpx.facade.upload.UploadResult;
 import io.nem.xpx.model.NemMessageType;
 import io.nem.xpx.model.RequestAnnounceDataSignature;
 import io.nem.xpx.service.IpfsGatewaySyncService;
+import io.nem.xpx.service.UploadDelegate;
 import io.nem.xpx.service.intf.TransactionAndAnnounceApi;
-import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.utils.CryptoUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -48,8 +47,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	/** The engine. */
 	private final CryptoEngine engine;
 
-	/** The data hash api. */
-	private final UploadApi uploadApi;
+	private final UploadDelegate uploadDelegate;
 
 	/** The publish and announce api. */
 	private final TransactionAndAnnounceApi transactionAndAnnounceApi;
@@ -70,11 +68,11 @@ public class MultisigUpload  extends AbstractFacadeService {
 		}
 
 		this.peerConnection = peerConnection;
-		this.uploadApi = peerConnection.getUploadApi();
 		this.transactionAndAnnounceApi = peerConnection.getTransactionAndAnnounceApi();
 		this.isLocalPeerConnection = peerConnection.isLocal();
 		this.engine = CryptoEngines.ed25519Engine();
 		this.ipfsGatewaySyncService = new IpfsGatewaySyncService(peerConnection.getSyncGateways());
+		this.uploadDelegate = new UploadDelegate(peerConnection.getUploadApi());
 	}
 
 	
@@ -165,7 +163,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	public MultisigUploadResult handleMultisigDataUpload(MultisigUploadTextDataParameter param) throws IOException, ApiException, UploadException {
 		byte[] encrypted = null;
 		byte[] response = null;
-		ResourceHashMessage resourceMessageHash = null;
+		UploadDelegate.ResourceHashMessageWrapper hashMessageWrapper = null;
 		String publishedData = "";
 		String secretKey = null;
 
@@ -176,16 +174,14 @@ public class MultisigUpload  extends AbstractFacadeService {
 				String keyRandom = Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
 				encrypted = CryptoUtils.encrypt(param.getData().getBytes(), keyRandom.toCharArray());
-				response =  uploadApi.uploadText(encrypted, param.getName(), param.getContentType(), param.getEncoding(),
+				hashMessageWrapper =  uploadDelegate.uploadTextToIpfs(encrypted, param.getName(), param.getContentType(), param.getEncoding(),
                         param.getKeywords(), param.getMetaDataAsString());
 				secretKey = keyRandom;
 			} else { // PLAIN
-				response = uploadApi.uploadText(param.getData().getBytes(), param.getName(), param.getContentType(),
+				hashMessageWrapper = uploadDelegate.uploadTextToIpfs(param.getData().getBytes(), param.getName(), param.getContentType(),
                         param.getEncoding(), param.getKeywords(), param.getMetaDataAsString());
 			}
-			resourceMessageHash = deserializeResourceMessageHash(response);
-
-			final Message nemMessage = param.getPrivacyStrategy().encodeToMessage(response);
+			final Message nemMessage = param.getPrivacyStrategy().encodeToMessage(hashMessageWrapper.getData());
 			if (this.isLocalPeerConnection) {
 
 				TransferTransaction transaction = new TransferTransactionBuilder(peerConnection.getTransactionFeeCalculators())
@@ -225,13 +221,13 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 		} catch (Exception e) {
 
-			uploadApi.deletePinnedContent(resourceMessageHash.hash());
+			uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash());
 			throw new UploadException(e);
 		} finally {
-			ipfsGatewaySyncService.syncToGatewaysAsynchronously(resourceMessageHash.hash());
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(hashMessageWrapper.getResourceHashMessage().hash());
 		}
 
-		return new MultisigUploadResult(new UploadResult(resourceMessageHash, publishedData), secretKey);
+		return new MultisigUploadResult(new UploadResult(hashMessageWrapper.getResourceHashMessage(), publishedData), secretKey);
 	}
 
 	/**
@@ -246,7 +242,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	public MultisigUploadResult handleMultisigFileUpload(MultisigUploadFileParameter param) throws IOException, ApiException, UploadException {
 		byte[] encrypted = null;
 		byte[] response = null;
-		ResourceHashMessage resourceMessageHash = null;
+		UploadDelegate.ResourceHashMessageWrapper hashMessageWrapper = null;
 		String publishedData = "";
 		String secretKey = null;
 
@@ -257,14 +253,13 @@ public class MultisigUpload  extends AbstractFacadeService {
 				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
 				encrypted = CryptoUtils.encrypt(FileUtils.readFileToByteArray(param.getFile()), keyRandom.toCharArray());
-				response = uploadApi.uploadBytesBinary(encrypted, param.getName(), param.getContentType(),
+				hashMessageWrapper = uploadDelegate.uploadBinaryToIpfs(encrypted, param.getName(), param.getContentType(),
                         param.getKeywords(), param.getMetaDataAsString());
 				secretKey = keyRandom;
 			} else { // PLAIN
-				response = uploadApi.uploadBytesBinary(FileUtils.readFileToByteArray(param.getFile()), param.getName(),
+				hashMessageWrapper = uploadDelegate.uploadBinaryToIpfs(FileUtils.readFileToByteArray(param.getFile()), param.getName(),
                         param.getContentType(), param.getKeywords(), param.getMetaDataAsString());
 			}
-			resourceMessageHash = deserializeResourceMessageHash(response);
 
 			final Message nemMessage = param.getPrivacyStrategy().encodeToMessage(response);
 
@@ -306,11 +301,11 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 		} catch (Exception e) {
 
-			uploadApi.deletePinnedContent(resourceMessageHash.hash());
+			uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash());
 			throw new UploadException(e);
 		}
 
-		return new MultisigUploadResult(new UploadResult(resourceMessageHash, publishedData), secretKey);
+		return new MultisigUploadResult(new UploadResult(hashMessageWrapper.getResourceHashMessage(), publishedData), secretKey);
 	}
 	
 	/**
@@ -325,7 +320,7 @@ public class MultisigUpload  extends AbstractFacadeService {
 	public MultisigUploadResult handleMultisigBinaryUpload(MultisigUploadBinaryParameter param) throws IOException, ApiException, UploadException {
 		byte[] encrypted = null;
 		byte[] response = null;
-		ResourceHashMessage resourceMessageHash = null;
+		UploadDelegate.ResourceHashMessageWrapper hashMessageWrapper = null;
 		String publishedData = "";
 		String secretKey = null;
 
@@ -336,14 +331,13 @@ public class MultisigUpload  extends AbstractFacadeService {
 				String keyRandom = org.apache.commons.codec.binary.Base64.encodeBase64String(keyGen.generateKey().getEncoded());
 
 				encrypted = CryptoUtils.encrypt(param.getData(), keyRandom.toCharArray());
-				response = uploadApi.uploadBytesBinary(encrypted, param.getName(), param.getContentType(),
+				hashMessageWrapper = uploadDelegate.uploadBinaryToIpfs(encrypted, param.getName(), param.getContentType(),
                         param.getKeywords(), param.getMetaDataAsString());
 				secretKey = keyRandom;
 			} else { // PLAIN
-				response = uploadApi.uploadBytesBinary(param.getData(), param.getName(), param.getContentType(),
+				hashMessageWrapper = uploadDelegate.uploadBinaryToIpfs(param.getData(), param.getName(), param.getContentType(),
                         param.getKeywords(), param.getMetaDataAsString());
 			}
-			resourceMessageHash = deserializeResourceMessageHash(response);
 
 			final Message nemMessage = param.getPrivacyStrategy().encodeToMessage(response);
 
@@ -386,11 +380,11 @@ public class MultisigUpload  extends AbstractFacadeService {
 
 		} catch (Exception e) {
 
-			uploadApi.deletePinnedContent(resourceMessageHash.hash());
+			uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash());
 			throw new UploadException(e);
 		}
 
-		return new MultisigUploadResult(new UploadResult(resourceMessageHash, publishedData), secretKey);
+		return new MultisigUploadResult(new UploadResult(hashMessageWrapper.getResourceHashMessage(), publishedData), secretKey);
 	}
 
 }

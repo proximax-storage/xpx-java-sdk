@@ -12,7 +12,6 @@ import io.nem.xpx.service.TransactionAnnouncer;
 import io.nem.xpx.service.UploadDelegate;
 import io.nem.xpx.service.UploadDelegate.ResourceHashMessageWrapper;
 import io.nem.xpx.service.intf.UploadApi;
-import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
@@ -323,21 +322,16 @@ public class Upload extends AbstractFacadeService {
 	 */
 	private UploadResult handlePostUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
 										  Mosaic[] mosaics, ResourceHashMessageWrapper hashMessageWrapper) throws Exception {
-		ResourceHashMessage resourceHashMessage = null;
 		try {
-			resourceHashMessage = hashMessageWrapper.toResourceHashMessage();
-
 			final String nemHash = createNemTransaction(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics,
 					hashMessageWrapper.getData());
 
-			ipfsGatewaySyncService.syncToGatewaysAsynchronously(resourceHashMessage.hash());
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(hashMessageWrapper.getResourceHashMessage().hash());
 
-			return new UploadResult(resourceHashMessage, nemHash);
+			return new UploadResult(hashMessageWrapper.getResourceHashMessage(), nemHash);
 		} catch (Exception e) {
-			if (resourceHashMessage != null) {
-				final String resourceHash = resourceHashMessage.hash();
-				Executors.newSingleThreadExecutor().submit(() -> uploadApi.deletePinnedContent(resourceHash));
-			}
+			Executors.newSingleThreadExecutor().submit(() ->
+					uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash()));
 			throw e;
 		}
 	}

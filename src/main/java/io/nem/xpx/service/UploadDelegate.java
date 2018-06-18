@@ -1,11 +1,14 @@
 package io.nem.xpx.service;
 
+import io.nem.xpx.exceptions.DeletePinnedContentFailureException;
 import io.nem.xpx.exceptions.UploadContentFailureException;
 import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.service.model.buffers.ResourceHashMessage;
 import org.apache.commons.codec.binary.Base64;
 
 import java.nio.ByteBuffer;
+
+import static java.lang.String.format;
 
 public class UploadDelegate {
 
@@ -47,20 +50,33 @@ public class UploadDelegate {
         }
     }
 
+    public void deletePinnedContent(String multihash) {
+        try {
+            uploadApi.deletePinnedContent(multihash);
+        } catch (Exception e) {
+            throw new DeletePinnedContentFailureException(format("Failed to delete pinned content for %s", multihash), e);
+        }
+    }
 
     public static class ResourceHashMessageWrapper {
 
         private final byte[] data;
+        private final ResourceHashMessage resourceHashMessage;
 
         public ResourceHashMessageWrapper(byte[] data) {
             this.data = data;
+            this.resourceHashMessage = toResourceHashMessage(data);
         }
 
         public byte[] getData() {
             return data;
         }
 
-        public ResourceHashMessage toResourceHashMessage() {
+        public ResourceHashMessage getResourceHashMessage() {
+            return resourceHashMessage;
+        }
+
+        private ResourceHashMessage toResourceHashMessage(byte[] data) {
             return ResourceHashMessage.getRootAsResourceHashMessage(ByteBuffer.wrap(Base64.decodeBase64(data)));
         }
     }
