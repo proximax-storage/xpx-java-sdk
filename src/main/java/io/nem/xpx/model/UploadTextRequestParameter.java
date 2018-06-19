@@ -13,18 +13,11 @@
 
 package io.nem.xpx.model;
 
-import java.util.Objects;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
-
+import java.util.Objects;
 
 
 
@@ -216,17 +209,6 @@ public class UploadTextRequestParameter {
    */
   public UploadTextRequestParameter text(String base64EncodedText) {
     this.text = base64EncodedText;
-    return this;
-  }
-
-  /**
-   * Text.
-   *
-   * @param textInBytes the text in bytes
-   * @return the upload text request parameter
-   */
-  public UploadTextRequestParameter text(byte[] textInBytes) {
-    this.text = Base64.encodeBase64String(textInBytes);
     return this;
   }
 

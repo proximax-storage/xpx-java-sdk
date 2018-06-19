@@ -19,7 +19,7 @@ public class ContentTypeUtils {
      * @return the string
      */
     public static String contentTypeLookup(final String contentType, final String content) {
-        return contentType == null ||  contentType.equals("") ? TIKA.detect(content) : contentType;
+        return StringUtils.isEmpty(contentType) ? TIKA.detect(content) : contentType;
     }
 
     /**
@@ -30,7 +30,7 @@ public class ContentTypeUtils {
      * @return the string
      */
     public static String contentTypeLookup(final String contentType, final byte[] content) {
-        return contentType == null ||  contentType.equals("") ? TIKA.detect(content) : contentType;
+        return StringUtils.isEmpty(contentType)  ? TIKA.detect(content) : contentType;
     }
 
     /**
@@ -40,7 +40,7 @@ public class ContentTypeUtils {
      * @return the string
      */
     public static String detectContentType(final String content) {
-        return content == null || content.equals("") ? null : TIKA.detect(content);
+        return StringUtils.isEmpty(content) ? null : TIKA.detect(content);
     }
 
     /**

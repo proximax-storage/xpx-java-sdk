@@ -5,10 +5,17 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.ApiClient;
 import io.nem.xpx.exceptions.ApiException;
+import io.nem.xpx.exceptions.PeerConnectionInitFailureException;
+import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.model.NodeInfo;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
 import org.nem.core.node.NodeEndpoint;
+
+import java.util.List;
+
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
 
 
 /**
@@ -17,7 +24,7 @@ import org.nem.core.node.NodeEndpoint;
 public final class RemotePeerConnection extends PeerConnection {
 
 	/** The api client. */
-	private final ApiClient apiClient;
+	private ApiClient apiClient;
 	
 	/** The account api. */
 	private AccountApi accountApi;
@@ -50,16 +57,44 @@ public final class RemotePeerConnection extends PeerConnection {
 	 * Instantiates a new remote peer connection.
 	 *
 	 * @param baseUrl the base url
+	 * @param syncGateways list of gateway URLs where uploads will be sync
 	 */
-	public RemotePeerConnection(String baseUrl) {
-		apiClient = new ApiClient().setBasePath(baseUrl);
+	public RemotePeerConnection(String baseUrl, String... syncGateways) {
+		this(baseUrl, asList(syncGateways));
+	}
+
+	/**
+	 * Instantiates a new remote peer connection.
+	 *
+	 * @param baseUrl the base url
+	 * @param syncGateways list of gateway URLs where uploads will be sync
+	 */
+	public RemotePeerConnection(String baseUrl, List<String> syncGateways) {
+		init(baseUrl, syncGateways, null);
+	}
+
+	/**
+	 * Instantiates a new remote peer connection.
+	 *
+	 * @param baseUrl the base url
+	 * @param syncGateways list of gateway URLs where uploads will be sync
+	 * @param remoteNodeApi the remote node api
+	 */
+	RemotePeerConnection(String baseUrl, List<String> syncGateways, RemoteNodeApi remoteNodeApi) {
+		init(baseUrl, syncGateways, remoteNodeApi);
+	}
+
+	private void init(String baseUrl, List<String> syncGateways, RemoteNodeApi remoteNodeApi) {
+		this.apiClient = new ApiClient().setBasePath(baseUrl);
+		this.nodeApi = remoteNodeApi == null ? new RemoteNodeApi(apiClient) : remoteNodeApi;
 
 		try {
-			NodeInfo nodeInfo = new RemoteNodeApi(apiClient).getNodeInfoUsingGET();
+			final NodeInfo nodeInfo = nodeApi.getNodeInfoUsingGET();
+			ConnectionFactory.setNetwork(nodeInfo.getNetwork());
 			super.nodeEndpoint = new NodeEndpoint("http", nodeInfo.getNetworkAddress(), Integer.valueOf(nodeInfo.getNetworkPort()));
+			setSyncGateways(syncGateways, nodeInfo.getSyncGateways());
 		} catch (ApiException e) {
-			// TODO - throw cannot be initialized exception?
-			throw new RuntimeException(e);
+			throw new PeerConnectionInitFailureException(format("Failed it initialise due exception on API: %s", baseUrl), e);
 		}
 	}
 
@@ -125,8 +160,6 @@ public final class RemotePeerConnection extends PeerConnection {
 	 */
 	@Override
 	public NodeApi getNodeApi() {
-		if (nodeApi == null)
-			nodeApi = new RemoteNodeApi(apiClient);
 		return nodeApi;
 	}
 
@@ -169,4 +202,5 @@ public final class RemotePeerConnection extends PeerConnection {
 			uploadApi = new RemoteUploadApi(apiClient);
 		return uploadApi;
 	}
+	
 }

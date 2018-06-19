@@ -90,10 +90,10 @@ public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegr
 	@Test
 	public void shouldDownloadSecureLargeBinary() throws Exception {
 
-		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE2);
+		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
 
 		final DownloadBinaryResult message = unitUnderTest.downloadBinary(DownloadParameter.create()
-				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(PDF_FILE2))
+				.nemHash(FILE_TO_SECURE_MSG_NEM_HASH_MAP.get(PDF_FILE1))
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 

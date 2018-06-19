@@ -1,7 +1,10 @@
 package io.nem.xpx.facade.upload;
 
+import io.nem.xpx.facade.connection.PeerConnection;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static io.nem.xpx.testsupport.Constants.*;
 
@@ -17,12 +20,16 @@ public class Upload_uploadMultipleFilesTest {
 	/** The unit under test. */
 	private Upload unitUnderTest;
 
+	@Mock
+	private PeerConnection peerConnection;
+
 	/**
 	 * Sets the up.
 	 */
 	@Before
 	public void setUp() {
-		unitUnderTest = new Upload(REMOTE_PEER_CONNECTION);
+		MockitoAnnotations.initMocks(this);
+		unitUnderTest = new Upload(peerConnection);
 	}
 
 	/**

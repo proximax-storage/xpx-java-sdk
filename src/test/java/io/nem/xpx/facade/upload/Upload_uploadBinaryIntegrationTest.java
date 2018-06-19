@@ -7,6 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
+import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
 import static io.nem.xpx.facade.DataTextContentType.VIDEO_QUICKTIME;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
@@ -131,6 +132,40 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
 		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
 		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
+
+		LOGGER.info(uploadResult.getNemHash());
+	}
+	
+	/**
+	 * Should upload secure binary test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void shouldUploadSecureBinaryZipTest() throws Exception {
+
+		UploadBinaryParameter parameter = UploadBinaryParameter.create()
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
+				.data(FileUtils.readFileToByteArray(ZIP_FILE))
+				.name(ZIP_FILE.getName())
+				.contentType(APPLICATION_ZIP.toString())
+				.keywords(KEYWORDS_SECURE_AND_BINARY)
+				.metadata(METADATA_AS_MAP)
+				.securedWithPasswordPrivacyStrategy(SECURE_PASSWORD)
+				.build();
+
+		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
+
+		assertNotNull(uploadResult);
+		assertNotNull(uploadResult.getNemHash());
+		assertNotNull(uploadResult.getDataMessage());
+		assertNotNull(uploadResult.getDataMessage().hash());
+		assertNotNull(uploadResult.getDataMessage().digest());
+		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
+		assertEquals(ZIP_FILE.getName(), uploadResult.getDataMessage().name());
+		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
+		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
 
 		LOGGER.info(uploadResult.getNemHash());
 	}

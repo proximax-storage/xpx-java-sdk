@@ -17,15 +17,8 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.remote.AbstractApiTest;
 import io.nem.xpx.service.remote.RemoteUploadApi;
 
-import java.io.File;
 import org.junit.Test;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 
 /**
@@ -49,7 +42,7 @@ public class LocalUploadApiTest extends AbstractApiTest {
     @Test
     public void cleanupPinnedContentUsingPOSTTest() throws ApiException {
         String multihash = null;
-        String response = api.cleanupPinnedContentUsingPOST(multihash);
+        String response = api.deletePinnedContent(multihash);
 
         // TODO: test validations
     }

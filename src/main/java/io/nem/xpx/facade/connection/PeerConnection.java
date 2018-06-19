@@ -10,6 +10,13 @@ import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
 
 /**
@@ -19,6 +26,8 @@ public abstract class PeerConnection {
 
     /** The node endpoint. */
     protected NodeEndpoint nodeEndpoint;
+
+    private List<String> syncGateways;
 
     /** The async nem connector. */
     private DefaultAsyncNemConnector<ApiId> asyncNemConnector;
@@ -40,6 +49,10 @@ public abstract class PeerConnection {
 
     /** The transaction announcer. */
     private TransactionAnnouncer transactionAnnouncer;
+
+    public PeerConnection() {
+        syncGateways = emptyList();
+    }
 
     /**
      * Checks if is local.
@@ -110,6 +123,23 @@ public abstract class PeerConnection {
      * @return the upload api
      */
     public abstract UploadApi getUploadApi();
+
+    protected void setSyncGateways(List<String>... syncGateways) {
+        this.syncGateways = unmodifiableList(
+                Stream.of(syncGateways)
+                        .filter(Objects::nonNull)
+                        .flatMap(list -> list.stream())
+                        .collect(Collectors.toList()));
+    }
+
+    /**
+     * Gets the sync gateways.
+     *
+     * @return list of gateway URLs where uploads will be sync
+     */
+    public List<String> getSyncGateways() {
+        return syncGateways;
+    }
 
     /**
      * Gets the nem transaction api.

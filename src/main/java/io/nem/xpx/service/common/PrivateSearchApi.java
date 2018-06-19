@@ -18,7 +18,6 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
-import org.pmw.tinylog.Logger;
 import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.model.ResourceHashMessageJsonEntity;
 import io.nem.xpx.service.NemTransactionApi;

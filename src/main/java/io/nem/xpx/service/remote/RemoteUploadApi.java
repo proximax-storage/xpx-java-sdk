@@ -13,28 +13,23 @@
 
 package io.nem.xpx.service.remote;
 
-import io.nem.Pair;
-import io.nem.ProgressRequestBody;
-import io.nem.ProgressResponseBody;
-import io.nem.ApiCallback;
-import io.nem.ApiClient;
-import io.nem.ApiResponse;
+import com.google.gson.reflect.TypeToken;
+import io.nem.*;
 import io.nem.xpx.exceptions.ApiException;
-import io.nem.xpx.model.UploadBase64BinaryRequestParameter;
+import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.model.UploadBytesBinaryRequestParameter;
 import io.nem.xpx.model.UploadTextRequestParameter;
 import io.nem.xpx.service.intf.UploadApi;
+import org.apache.commons.codec.binary.Base64;
 
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import static java.util.Collections.emptyMap;
 
 
 /**
@@ -64,450 +59,61 @@ public class RemoteUploadApi implements UploadApi {
     }
 
     /**
-     * Build call for cleanupPinnedContentUsingPOST.
-     *
+     * Calls the garbage clean up and tries to unpin the given hash
+     * This endpoint can be used to generates the datahash and uploads the file in the process.
      * @param multihash The pinned multihash (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public com.squareup.okhttp.Call cleanupPinnedContentUsingPOSTCall(String multihash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public String deletePinnedContent(String multihash) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/upload/cleanup";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (multihash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "multihash", multihash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "multihash", multihash));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+                "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Cleanup pinned content using POST validate before call.
-     *
-     * @param multihash the multihash
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call cleanupPinnedContentUsingPOSTValidateBeforeCall(String multihash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'multihash' is set
-        if (multihash == null) {
-            throw new ApiException("Missing the required parameter 'multihash' when calling cleanupPinnedContentUsingPOST(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = cleanupPinnedContentUsingPOSTCall(multihash, progressListener, progressRequestListener);
-        return call;
+        com.squareup.okhttp.Call call =  apiClient.buildCall(localVarPath, "POST", localVarQueryParams,
+                localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, null);
 
-        
-        
-        
-        
-    }
-
-    /**
-     * Calls the garbage clean up and tries to unpin the given hash
-     * This endpoint can be used to generates the datahash and uploads the file in the process.
-     * @param multihash The pinned multihash (required)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String cleanupPinnedContentUsingPOST(String multihash) throws ApiException {
-        ApiResponse<String> resp = cleanupPinnedContentUsingPOSTWithHttpInfo(multihash);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        ApiResponse<String> resp =  apiClient.execute(call, localVarReturnType);
         return resp.getData();
     }
 
     /**
-     * Calls the garbage clean up and tries to unpin the given hash
-     * This endpoint can be used to generates the datahash and uploads the file in the process.
-     * @param multihash The pinned multihash (required)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> cleanupPinnedContentUsingPOSTWithHttpInfo(String multihash) throws ApiException {
-        com.squareup.okhttp.Call call = cleanupPinnedContentUsingPOSTValidateBeforeCall(multihash, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Calls the garbage clean up and tries to unpin the given hash (asynchronously)
-     * This endpoint can be used to generates the datahash and uploads the file in the process.
-     * @param multihash The pinned multihash (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call cleanupPinnedContentUsingPOSTAsync(String multihash, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = cleanupPinnedContentUsingPOSTValidateBeforeCall(multihash, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for directoryExtractUsingPOST.
-     *
-     * @param file Base64 byte[] representation of the data object to be uploaded (required)
-     * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Additional data in a JSON Format (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call directoryExtractUsingPOSTCall(File file, String name, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/upload/dir/extract";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (name != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "name", name));
-        if (keywords != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "keywords", keywords));
-        if (metadata != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "metadata", metadata));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (file != null)
-        localVarFormParams.put("file", file);
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "multipart/form-data"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Directory extract using POST validate before call.
-     *
-     * @param file the file
-     * @param name the name
-     * @param keywords the keywords
-     * @param metadata the metadata
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call directoryExtractUsingPOSTValidateBeforeCall(File file, String name, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'file' is set
-        if (file == null) {
-            throw new ApiException("Missing the required parameter 'file' when calling directoryExtractUsingPOST(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = directoryExtractUsingPOSTCall(file, name, keywords, metadata, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Grabs a zip file with static content, extract and load directory to the IPFS/P2P Network
-     * Generates the Root hash of your directory.
-     * @param file Base64 byte[] representation of the data object to be uploaded (required)
-     * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Additional data in a JSON Format (optional)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String directoryExtractUsingPOST(File file, String name, String keywords, String metadata) throws ApiException {
-        ApiResponse<String> resp = directoryExtractUsingPOSTWithHttpInfo(file, name, keywords, metadata);
-        return resp.getData();
-    }
-
-    /**
-     * Grabs a zip file with static content, extract and load directory to the IPFS/P2P Network
-     * Generates the Root hash of your directory.
-     * @param file Base64 byte[] representation of the data object to be uploaded (required)
-     * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Additional data in a JSON Format (optional)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> directoryExtractUsingPOSTWithHttpInfo(File file, String name, String keywords, String metadata) throws ApiException {
-        com.squareup.okhttp.Call call = directoryExtractUsingPOSTValidateBeforeCall(file, name, keywords, metadata, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Grabs a zip file with static content, extract and load directory to the IPFS/P2P Network (asynchronously)
-     * Generates the Root hash of your directory.
-     * @param file Base64 byte[] representation of the data object to be uploaded (required)
-     * @param name Custom Name of the data. If none is specified, timestamp will be used. (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Additional data in a JSON Format (optional)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call directoryExtractUsingPOSTAsync(File file, String name, String keywords, String metadata, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = directoryExtractUsingPOSTValidateBeforeCall(file, name, keywords, metadata, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for uploadBase64StringBinaryUsingPOST.
-     *
-     * @param uploadBase64BinaryRequestParameter Base64 String representation of the data object to be uploaded (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call uploadBase64StringBinaryUsingPOSTCall(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = uploadBase64BinaryRequestParameter;
-        
-        // create path and map variables
-        String localVarPath = "/upload/base64/binary";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Upload base 64 string binary using POST validate before call.
-     *
-     * @param uploadBase64BinaryRequestParameter the upload base 64 binary request parameter
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call uploadBase64StringBinaryUsingPOSTValidateBeforeCall(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'uploadBase64BinaryRequestParameter' is set
-        if (uploadBase64BinaryRequestParameter == null) {
-            throw new ApiException("Missing the required parameter 'uploadBase64BinaryRequestParameter' when calling uploadBase64StringBinaryUsingPOST(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = uploadBase64StringBinaryUsingPOSTCall(uploadBase64BinaryRequestParameter, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Uploads a Base64 encoded String binary file to the IPFS/P2P Storage Network
+     * Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network
      * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBase64BinaryRequestParameter Base64 String representation of the data object to be uploaded (required)
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object uploadBase64StringBinaryUsingPOST(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter) throws ApiException {
-        ApiResponse<Object> resp = uploadBase64StringBinaryUsingPOSTWithHttpInfo(uploadBase64BinaryRequestParameter);
-        return resp.getData();
-    }
+    public byte[] uploadBytesBinary(byte[] binaryData, String name, String contentType, String keywords, String metadata) throws ApiException {
+        UploadBytesBinaryRequestParameter localVarPostBody = new UploadBytesBinaryRequestParameter()
+				.contentType(contentType)
+				.keywords(keywords)
+				.metadata(metadata)
+				.name(name)
+				.data(binaryData);
 
-    /**
-     * Uploads a Base64 encoded String binary file to the IPFS/P2P Storage Network
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBase64BinaryRequestParameter Base64 String representation of the data object to be uploaded (required)
-     * @return ApiResponse&lt;Object&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Object> uploadBase64StringBinaryUsingPOSTWithHttpInfo(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter) throws ApiException {
-        com.squareup.okhttp.Call call = uploadBase64StringBinaryUsingPOSTValidateBeforeCall(uploadBase64BinaryRequestParameter, null, null);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Uploads a Base64 encoded String binary file to the IPFS/P2P Storage Network (asynchronously)
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBase64BinaryRequestParameter Base64 String representation of the data object to be uploaded (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call uploadBase64StringBinaryUsingPOSTAsync(UploadBase64BinaryRequestParameter uploadBase64BinaryRequestParameter, final ApiCallback<Object> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = uploadBase64StringBinaryUsingPOSTValidateBeforeCall(uploadBase64BinaryRequestParameter, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for uploadBytesBinaryUsingPOST.
-     *
-     * @param uploadBytesBinaryRequestParameter Base64 byte[] representation of the data object to be uploaded (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTCall(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = uploadBytesBinaryRequestParameter;
-        
         // create path and map variables
         String localVarPath = "/upload/bytes/binary";
 
@@ -515,301 +121,44 @@ public class RemoteUploadApi implements UploadApi {
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Upload bytes binary using POST validate before call.
-     *
-     * @param uploadBytesBinaryRequestParameter the upload bytes binary request parameter
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTValidateBeforeCall(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        if (uploadBytesBinaryRequestParameter == null) {
-            throw new ApiException("Missing the required parameter 'uploadBytesBinaryRequestParameter' when calling uploadBytesBinaryUsingPOST(Async)");
-        }
-        
-        com.squareup.okhttp.Call call = uploadBytesBinaryUsingPOSTCall(uploadBytesBinaryRequestParameter, progressListener, progressRequestListener);
-        return call;
 
-        
-        
-        
-        
+
+        com.squareup.okhttp.Call call = apiClient.buildCall(localVarPath, "POST", localVarQueryParams,
+                localVarPostBody, localVarHeaderParams, emptyMap(), localVarAuthNames, null);
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+//        final ApiResponse<byte[]> response = apiClient.execute(call, byte[].class);
+        ApiResponse<byte[]> response = apiClient.execute(call, localVarReturnType);
+        return response.getData();
     }
 
     /**
-     * Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network
+     * Upload the Text to the IPFS/P2P Storage Network
      * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBytesBinaryRequestParameter Base64 byte[] representation of the data object to be uploaded (required)
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object uploadBytesBinaryUsingPOST(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter) throws ApiException {
-        ApiResponse<Object> resp = uploadBytesBinaryUsingPOSTWithHttpInfo(uploadBytesBinaryRequestParameter);
-        return resp.getData();
-    }
+    public byte[] uploadText(byte[] textInBytes, String name, String contentType, String encoding, String keywords, String metadata) throws ApiException {
+        UploadTextRequestParameter localVarPostBody = new UploadTextRequestParameter()
+				.contentType(contentType)
+				.encoding(encoding)
+				.keywords(keywords)
+				.metadata(metadata)
+				.name(name)
+				.text(Base64.encodeBase64String(textInBytes));
 
-    /**
-     * Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBytesBinaryRequestParameter Base64 byte[] representation of the data object to be uploaded (required)
-     * @return ApiResponse&lt;Object&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Object> uploadBytesBinaryUsingPOSTWithHttpInfo(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter) throws ApiException {
-        com.squareup.okhttp.Call call = uploadBytesBinaryUsingPOSTValidateBeforeCall(uploadBytesBinaryRequestParameter, null, null);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Uploads a Base64 encoded byte[] binary file to the IPFS/P2P Storage Network (asynchronously)
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadBytesBinaryRequestParameter Base64 byte[] representation of the data object to be uploaded (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call uploadBytesBinaryUsingPOSTAsync(UploadBytesBinaryRequestParameter uploadBytesBinaryRequestParameter, final ApiCallback<Object> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = uploadBytesBinaryUsingPOSTValidateBeforeCall(uploadBytesBinaryRequestParameter, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for uploadGenerateAndSignUsingPOST.
-     *
-     * @param xPvkey Sender Private Key (optional)
-     * @param xPubkey Receiver Public Key (optional)
-     * @param messageType Message Type ( PLAIN or SECURE ) (optional)
-     * @param file The Multipart File (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Json Format Data Structure (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call uploadGenerateAndSignUsingPOSTCall(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/upload/generate-sign";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (messageType != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "messageType", messageType));
-        if (keywords != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "keywords", keywords));
-        if (metadata != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "metadata", metadata));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
-        if (xPubkey != null)
-        localVarHeaderParams.put("x-pubkey", apiClient.parameterToString(xPubkey));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (file != null)
-        localVarFormParams.put("file", file);
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "multipart/form-data"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Upload generate and sign using POST validate before call.
-     *
-     * @param xPvkey the x pvkey
-     * @param xPubkey the x pubkey
-     * @param messageType the message type
-     * @param file the file
-     * @param keywords the keywords
-     * @param metadata the metadata
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call uploadGenerateAndSignUsingPOSTValidateBeforeCall(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        
-        com.squareup.okhttp.Call call = uploadGenerateAndSignUsingPOSTCall(xPvkey, xPubkey, messageType, file, keywords, metadata, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * uploadGenerateAndSign.
-     *
-     * @param xPvkey Sender Private Key (optional)
-     * @param xPubkey Receiver Public Key (optional)
-     * @param messageType Message Type ( PLAIN or SECURE ) (optional)
-     * @param file The Multipart File (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Json Format Data Structure (optional)
-     * @return String
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public String uploadGenerateAndSignUsingPOST(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata) throws ApiException {
-        ApiResponse<String> resp = uploadGenerateAndSignUsingPOSTWithHttpInfo(xPvkey, xPubkey, messageType, file, keywords, metadata);
-        return resp.getData();
-    }
-
-    /**
-     * uploadGenerateAndSign.
-     *
-     * @param xPvkey Sender Private Key (optional)
-     * @param xPubkey Receiver Public Key (optional)
-     * @param messageType Message Type ( PLAIN or SECURE ) (optional)
-     * @param file The Multipart File (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Json Format Data Structure (optional)
-     * @return ApiResponse&lt;String&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<String> uploadGenerateAndSignUsingPOSTWithHttpInfo(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata) throws ApiException {
-        com.squareup.okhttp.Call call = uploadGenerateAndSignUsingPOSTValidateBeforeCall(xPvkey, xPubkey, messageType, file, keywords, metadata, null, null);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * uploadGenerateAndSign (asynchronously).
-     *
-     * @param xPvkey Sender Private Key (optional)
-     * @param xPubkey Receiver Public Key (optional)
-     * @param messageType Message Type ( PLAIN or SECURE ) (optional)
-     * @param file The Multipart File (optional)
-     * @param keywords Comma delimited Keyword/Tags (optional)
-     * @param metadata Json Format Data Structure (optional)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call uploadGenerateAndSignUsingPOSTAsync(String xPvkey, String xPubkey, String messageType, File file, String keywords, String metadata, final ApiCallback<String> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = uploadGenerateAndSignUsingPOSTValidateBeforeCall(xPvkey, xPubkey, messageType, file, keywords, metadata, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    
-    /**
-     * Build call for uploadPlainTextUsingPOST.
-     *
-     * @param uploadTextParameter A Free Form Text based data (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call uploadPlainTextUsingPOSTCall(UploadTextRequestParameter uploadTextParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = uploadTextParameter;
-        
         // create path and map variables
         String localVarPath = "/upload/text";
 
@@ -820,117 +169,29 @@ public class RemoteUploadApi implements UploadApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    /**
-     * Upload plain text using POST validate before call.
-     *
-     * @param uploadTextParameter the upload text parameter
-     * @param progressListener the progress listener
-     * @param progressRequestListener the progress request listener
-     * @return the com.squareup.okhttp. call
-     * @throws ApiException the api exception
-     */
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call uploadPlainTextUsingPOSTValidateBeforeCall(UploadTextRequestParameter uploadTextParameter, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'uploadTextParameter' is set
-        if (uploadTextParameter == null) {
-            throw new ApiException("Missing the required parameter 'uploadTextParameter' when calling uploadPlainTextUsingPOST(Async)");
-        }
-        
-        
-        com.squareup.okhttp.Call call = uploadPlainTextUsingPOSTCall(uploadTextParameter, progressListener, progressRequestListener);
-        return call;
 
-        
-        
-        
-        
-    }
-
-    /**
-     * Upload the Text to the IPFS/P2P Storage Network
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadTextParameter A Free Form Text based data (required)
-     * @return Object
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public Object uploadPlainTextUsingPOST(UploadTextRequestParameter uploadTextParameter) throws ApiException {
-        ApiResponse<Object> resp = uploadPlainTextUsingPOSTWithHttpInfo(uploadTextParameter);
-        return resp.getData();
-    }
-
-    /**
-     * Upload the Text to the IPFS/P2P Storage Network
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadTextParameter A Free Form Text based data (required)
-     * @return ApiResponse&lt;Object&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Object> uploadPlainTextUsingPOSTWithHttpInfo(UploadTextRequestParameter uploadTextParameter) throws ApiException {
-        com.squareup.okhttp.Call call = uploadPlainTextUsingPOSTValidateBeforeCall(uploadTextParameter, null, null);
+        com.squareup.okhttp.Call call =  apiClient.buildCall(localVarPath, "POST", localVarQueryParams,
+                localVarPostBody, localVarHeaderParams, emptyMap(), localVarAuthNames, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+//        ApiResponse<byte[]> response = apiClient.execute(call, byte[].class);
+        ApiResponse<byte[]> response = apiClient.execute(call, localVarReturnType);
+        return response.getData();
     }
 
-    /**
-     * Upload the Text to the IPFS/P2P Storage Network (asynchronously)
-     * This endpoint can be used to generate the data that will be injected to the NEM Blockchain.
-     * @param uploadTextParameter A Free Form Text based data (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call uploadPlainTextUsingPOSTAsync(UploadTextRequestParameter uploadTextParameter, final ApiCallback<Object> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = uploadPlainTextUsingPOSTValidateBeforeCall(uploadTextParameter, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+    @Override
+    public byte[] uploadPath(String path, String name, String keywords, String metadata) {
+        throw new PathUploadNotSupportedException("Path upload is not supported for remote upload");
     }
 }
