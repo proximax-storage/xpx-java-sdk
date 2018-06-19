@@ -33,10 +33,17 @@ public interface UploadApi {
 	 */
 	String deletePinnedContent(String multihash) throws ApiException, IOException;
 
+
+
 	/**
-	 * Upload binary using POST.
+	 * Upload bytes binary.
 	 *
-	 * @return the object
+	 * @param binaryData the binary data
+	 * @param name the name
+	 * @param contentType the content type
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @return the byte[]
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
@@ -44,10 +51,17 @@ public interface UploadApi {
 	byte[] uploadBytesBinary(byte[] binaryData, String name, String contentType, String keywords, String metadata)
 			throws ApiException, IOException, NoSuchAlgorithmException;
 
+
 	/**
-	 * Upload plain text using POST.
+	 * Upload text.
 	 *
-	 * @return the object
+	 * @param textInBytes the text in bytes
+	 * @param name the name
+	 * @param contentType the content type
+	 * @param encoding the encoding
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @return the byte[]
 	 * @throws ApiException the api exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
@@ -56,6 +70,18 @@ public interface UploadApi {
 			throws ApiException, IOException, NoSuchAlgorithmException;
 
 
+	/**
+	 * Upload path.
+	 *
+	 * @param path the path
+	 * @param name the name
+	 * @param keywords the keywords
+	 * @param metadata the metadata
+	 * @return the byte[]
+	 * @throws ApiException the api exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
 	byte[] uploadPath(String path, String name, String keywords, String metadata)
 			throws ApiException, IOException, NoSuchAlgorithmException;
 	

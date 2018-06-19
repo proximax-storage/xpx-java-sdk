@@ -156,20 +156,9 @@ public class LocalUploadApi implements UploadApi {
 		return Base64.encodeBase64(builder.sizedByteArray());
 	}
 
-	/**
-	 * Upload path.
-	 *
-	 * @param path
-	 *            the path
-	 * @param name
-	 *            the name
-	 * @param keywords
-	 *            the keywords
-	 * @param metadata
-	 *            the metadata
-	 * @return the object
-	 * @throws Exception
-	 *             the exception
+
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.service.intf.UploadApi#uploadPath(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public byte[] uploadPath(String path, String name, String keywords, String metadata) throws NoSuchAlgorithmException {
 
@@ -255,14 +244,12 @@ public class LocalUploadApi implements UploadApi {
 		return result;
 	}
 
+	
 	/**
 	 * Expose and pin path.
 	 *
-	 * @param path
-	 *            the path
+	 * @param path the path
 	 * @return the publish result
-	 * @throws Exception
-	 *             the exception
 	 */
 	public PublishResult exposeAndPinPath(String path) {
 		PublishResult result = new PublishResult();

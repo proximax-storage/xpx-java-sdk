@@ -43,6 +43,7 @@ public class ConnectionFactory {
 	/**
 	 * Creates a new Connection object.
 	 *
+	 * @param network the nem network
 	 * @param protocol the protocol
 	 * @param domainOrIp the domain or ip
 	 * @param port the port
@@ -54,9 +55,11 @@ public class ConnectionFactory {
 		return new NodeEndpoint(protocol, domainOrIp, port);
 	}
 	
+	
 	/**
 	 * Creates a new Connection object.
 	 *
+	 * @param network the network
 	 * @param protocol the protocol
 	 * @param domainOrIp the domain or ip
 	 * @param port the port
