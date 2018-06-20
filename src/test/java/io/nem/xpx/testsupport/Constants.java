@@ -1,5 +1,6 @@
 package io.nem.xpx.testsupport;
 
+import com.codahale.shamir.Scheme;
 import io.nem.xpx.facade.connection.LocalHttpPeerConnection;
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.factory.ConnectionFactory;
@@ -123,6 +124,26 @@ public class Constants {
 
     /** The Constant SECURE_PASSWORD. */
     public static final String SECURE_PASSWORD	= "hkcymenwcxpzkoyowuagcuhvrhavtdcrxbfqganecoxuirxekq";
+
+    public static final String SHAMIR_COUNT	= "hkcymenwcxpzkoyowuagcuhvrhavtdcrxbfqganecoxuirxekq";
+
+    public static final byte[] SHAMIR_SECRET = ("dhsakdhsauihcxznmneywquidkjsanjcbnxztyduisyaheqkwjncbxzcgyuiagsdiujasodjk" +
+            "wqehqtsyiudhsandmbsamnbcxzygcahgisudhasnmbdmnasbcysagciugxziuhkjsbdamndnmsabfgaduishadshakdnsakdbsajbeh" +
+            "wqyuieyqwiueyqwohdsanlnalsfjkhgkzgmnbcmnxzbhjgdsajgduisayiuyewquehwqkjbeqwnbdmnabsdabjshgdasudhgsuakghk" +
+            "cbxzcbajsbdkasjgkjhwgquegqwbzmcbmzxn").getBytes();
+
+    public static final int SHAMIR_SECRET_TOTAL_PART_COUNT = 10;
+
+    public static final int SHAMIR_SECRET_MINIMUM_PART_COUNT_TO_BUILD = 3;
+
+    public static final Scheme SCHEME = Scheme.of(SHAMIR_SECRET_TOTAL_PART_COUNT, SHAMIR_SECRET_MINIMUM_PART_COUNT_TO_BUILD);
+
+    public static final Map<Integer, byte[]> SHAMIR_SECRET_PARTS = SCHEME.split(SHAMIR_SECRET);
+
+    public static final String NEM_HASH_PDF_FILE1_PLAIN_PRIVACY_STRATEGY = "f50987901e813bff12375161b540bbda3ed7b74511266ee22480c523d89af563";
+    public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "fe218dd90ff938c39103d1c1c1150bdae9434e3e93e3b5e4fd34e7d408071967";
+    public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_PASSWOR_PRIVACY_STRATEGY = "37a49a0ba2e9915c27e55b5600f1550bce5245ad694ad92217c83eaf91063170";
+    public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_SHAMIR_SECRET_SHARING_PRIVACY_STRATEGY = "27cffeec36a1a887d430c3aaaf439dae14c7cb1e8a977c719d3030c30c31b5d5";
 
     /** The Constant FILE_TO_PLAIN_MSG_NEM_HASH_MAP. */
     public static final Map<File, String> FILE_TO_PLAIN_MSG_NEM_HASH_MAP = fileToPlainMessageNemHashMap();

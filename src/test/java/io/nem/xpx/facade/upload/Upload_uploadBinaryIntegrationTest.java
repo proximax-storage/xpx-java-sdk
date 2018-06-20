@@ -3,12 +3,9 @@ package io.nem.xpx.facade.upload;
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static io.nem.xpx.facade.DataTextContentType.APPLICATION_PDF;
-import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
-import static io.nem.xpx.facade.DataTextContentType.VIDEO_QUICKTIME;
+import static io.nem.xpx.facade.DataTextContentType.*;
 import static io.nem.xpx.testsupport.Constants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,12 +34,12 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	}
 
 	/**
-	 * Should upload plain binary test.
+	 * Should upload binary
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadPlainBinaryTest() throws Exception{
+	public void shouldUploadBinary() throws Exception{
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -70,12 +67,12 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 	}
 	
 	/**
-	 * Should upload plain large binary test.
+	 * Should upload large binary
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadPlainLargeBinaryTest() throws Exception {
+	public void shouldUploadLargeBinary() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -102,47 +99,14 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 		LOGGER.info(uploadResult.getNemHash());
 	}
 	
+
 	/**
-	 * Should upload secure binary test.
+	 * Should upload zip binary
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadSecureBinaryTest() throws Exception {
-
-		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.data(FileUtils.readFileToByteArray(PDF_FILE1))
-				.name(PDF_FILE1.getName())
-				.contentType(APPLICATION_PDF.toString())
-				.keywords(KEYWORDS_SECURE_AND_BINARY)
-				.metadata(METADATA_AS_MAP)
-				.securedWithNemKeysPrivacyStrategy()
-				.build();
-
-		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
-
-		assertNotNull(uploadResult);
-		assertNotNull(uploadResult.getNemHash());
-		assertNotNull(uploadResult.getDataMessage());
-		assertNotNull(uploadResult.getDataMessage().hash());
-		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
-		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-	
-	/**
-	 * Should upload secure binary test.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	public void shouldUploadSecureBinaryZipTest() throws Exception {
+	public void shouldUploadZipBinary() throws Exception {
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -169,75 +133,4 @@ public class Upload_uploadBinaryIntegrationTest extends AbstractFacadeIntegratio
 
 		LOGGER.info(uploadResult.getNemHash());
 	}
-
-	/**
-	 * Should upload secure large binary test.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	@Ignore
-	public void shouldUploadSecureLargeBinaryTest() throws Exception {
-
-		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.data(FileUtils.readFileToByteArray(PDF_FILE2))
-				.name(PDF_FILE2.getName())
-				.contentType(APPLICATION_PDF.toString())
-				.keywords(KEYWORDS_SECURE_AND_BINARY)
-				.metadata(METADATA_AS_MAP)
-				.securedWithNemKeysPrivacyStrategy()
-				.build();
-
-		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
-
-		assertNotNull(uploadResult);
-		assertNotNull(uploadResult.getNemHash());
-		assertNotNull(uploadResult.getDataMessage());
-		assertNotNull(uploadResult.getDataMessage().hash());
-		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(KEYWORDS_SECURE_AND_BINARY, uploadResult.getDataMessage().keywords());
-		assertEquals(PDF_FILE2.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-
-	/**
-	 * Should upload plain binary with mosaic test.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	@Ignore
-	public void shouldUploadPlainBinaryWithMosaicTest() throws Exception {
-
-		UploadBinaryParameter parameter = UploadBinaryParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.data(FileUtils.readFileToByteArray(PDF_FILE1))
-				.name(PDF_FILE1.getName())
-				.contentType(APPLICATION_PDF.toString())
-				.keywords(KEYWORDS_PLAIN_AND_BINARY)
-				.metadata(METADATA_AS_MAP)
-				.mosaics(MOSAIC_PRX)
-				.build();
-
-		final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
-
-		assertNotNull(uploadResult);
-		assertNotNull(uploadResult.getNemHash());
-		assertNotNull(uploadResult.getDataMessage());
-		assertNotNull(uploadResult.getDataMessage().hash());
-		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(KEYWORDS_PLAIN_AND_BINARY, uploadResult.getDataMessage().keywords());
-		assertEquals(PDF_FILE1.getName(), uploadResult.getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), uploadResult.getDataMessage().type());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-
 }

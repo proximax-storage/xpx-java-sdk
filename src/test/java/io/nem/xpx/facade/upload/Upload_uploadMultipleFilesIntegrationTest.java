@@ -77,12 +77,12 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 
 
 	/**
-	 * Should upload multiple files with plain message type.
+	 * Should upload multiple files
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadMultipleFilesWithPlainMessageType() throws Exception {
+	public void shouldUploadMultipleFiles() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -126,58 +126,4 @@ public class Upload_uploadMultipleFilesIntegrationTest extends AbstractFacadeInt
 		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
 		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
 	}
-
-	/**
-	 * Should upload multiple files with secure message type.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	public void shouldUploadMultipleFilesWithSecureMessageType() throws Exception {
-
-
-		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.addFile(PDF_FILE1)
-				.addFile(SMALL_FILE)
-				.keywords(KEYWORDS_SECURE_AND_MULTIFILES)
-				.metadata(METADATA_AS_MAP)
-				.securedWithNemKeysPrivacyStrategy()
-				.build();
-
-		final MultiFileUploadResult multiFileUploadResult = unitUnderTest.uploadMultipleFiles(parameter);
-
-		assertNotNull(multiFileUploadResult);
-		assertFalse(multiFileUploadResult.hasFailure());
-		assertEquals(2, multiFileUploadResult.getFileUploadResults().size());
-
-		assertEquals(PDF_FILE1, multiFileUploadResult.getFileUploadResults().get(0).getFile());
-		assertNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadException());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().hash());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().digest());
-		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().keywords());
-		assertEquals(PDF_FILE1.getName(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().metaData());
-		assertEquals(APPLICATION_PDF.toString(), multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getDataMessage().type());
-
-		assertEquals(SMALL_FILE, multiFileUploadResult.getFileUploadResults().get(1).getFile());
-		assertNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadException());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().hash());
-		assertNotNull(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().digest());
-		assertEquals(KEYWORDS_SECURE_AND_MULTIFILES, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().keywords());
-		assertEquals(SMALL_FILE.getName(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().metaData());
-		assertEquals(TEXT_PLAIN.toString(), multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getDataMessage().type());
-
-		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(0).getUploadResult().getNemHash());
-		LOGGER.info(multiFileUploadResult.getFileUploadResults().get(1).getUploadResult().getNemHash());
-	}
-
 }

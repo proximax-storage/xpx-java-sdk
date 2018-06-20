@@ -37,12 +37,12 @@ public class UploadAsync_uploadTextDataIntegrationTest extends AbstractFacadeInt
 	}
 
 	/**
-	 * Should upload text data async.
+	 * Should upload text data asynchronously.
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadTextDataAsync() throws Exception {
+	public void shouldUploadTextDataAsynchronously() throws Exception {
 
 		UploadTextDataParameter parameter = UploadTextDataParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

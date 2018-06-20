@@ -1,6 +1,12 @@
 package io.nem.xpx.builder.steps;
 
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
+import io.nem.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy;
+
+import java.util.List;
+import java.util.Map;
+
+import static io.nem.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy.*;
 
 
 /**
@@ -39,4 +45,15 @@ public interface PrivacyStrategyUploadStep<T> {
      * @return the t
      */
     T securedWithPasswordPrivacyStrategy(String password);
+
+    T securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount, int secretMinimumPartCountToBuild,
+                                                    SecretPart... secretParts);
+
+    T securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount, int secretMinimumPartCountToBuild,
+                                                    List<SecretPart> secretParts);
+
+    T securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount, int secretMinimumPartCountToBuild,
+                                                    Map<Integer, byte[]> secretParts);
+
+
 }

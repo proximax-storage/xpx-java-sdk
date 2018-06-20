@@ -291,6 +291,11 @@
 			<artifactId>tinylog</artifactId>
 			<version>${tinylog.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.codahale</groupId>
+			<artifactId>shamir</artifactId>
+			<version>0.6.0</version>
+		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
