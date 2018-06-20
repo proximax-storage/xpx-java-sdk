@@ -4,8 +4,14 @@ import io.nem.xpx.builder.steps.NemHashStep;
 import io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
+import io.nem.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -175,6 +181,37 @@ public class DownloadParameter implements Serializable {
 			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithPasswordPrivacyStrategy(password));
 			return this;
 		}
+
+		@Override
+		public BuildStep securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																			 int secretMinimumPartCountToBuild,
+																			 SecuredWithShamirSecretSharingPrivacyStrategy.SecretPart... secretParts) {
+			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+					secretTotalPartCount, secretMinimumPartCountToBuild,
+					Stream.of(secretParts).collect(Collectors.toMap(parts -> parts.index, parts -> parts.secretPart))));
+			return (BuildStep) this;
+		}
+
+		@Override
+		public BuildStep securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																			 int secretMinimumPartCountToBuild,
+																			 List<SecuredWithShamirSecretSharingPrivacyStrategy.SecretPart> secretParts) {
+			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+					secretTotalPartCount, secretMinimumPartCountToBuild, secretParts == null ? Collections.emptyMap() :
+							secretParts.stream().collect(Collectors.toMap(parts -> parts.index, parts -> parts.secretPart))));
+			return (BuildStep) this;
+
+		}
+
+		@Override
+		public BuildStep securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																			 int secretMinimumPartCountToBuild,
+																			 Map<Integer, byte[]> secretParts) {
+			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+					secretTotalPartCount, secretMinimumPartCountToBuild, secretParts == null ? Collections.emptyMap() : secretParts));
+			return (BuildStep) this;
+		}
+
 
 		/* (non-Javadoc)
 		 * @see io.nem.xpx.builder.steps.NemHashStep#nemHash(java.lang.String)

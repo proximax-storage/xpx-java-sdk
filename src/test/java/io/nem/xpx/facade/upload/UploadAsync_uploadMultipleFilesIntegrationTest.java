@@ -30,12 +30,12 @@ public class UploadAsync_uploadMultipleFilesIntegrationTest extends AbstractFaca
 	}
 
 	/**
-	 * Should upload multiple files async.
+	 * Should upload multiple files asynchronously.
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadMultipleFilesAsync() throws Exception {
+	public void shouldUploadMultipleFilesAsynchronously() throws Exception {
 
 		UploadMultipleFilesParameter parameter = UploadMultipleFilesParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

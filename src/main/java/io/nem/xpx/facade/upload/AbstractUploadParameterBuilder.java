@@ -3,10 +3,15 @@ package io.nem.xpx.facade.upload;
 import io.nem.xpx.builder.steps.*;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
+import io.nem.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy;
+import io.nem.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy.SecretPart;
 import org.nem.core.model.mosaic.Mosaic;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -98,6 +103,35 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 		return (FinalBuildSteps) this;
 	}
 
+	@Override
+	public FinalBuildSteps securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																		 int secretMinimumPartCountToBuild,
+																		 SecretPart... secretParts) {
+		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+				secretTotalPartCount, secretMinimumPartCountToBuild,
+				Stream.of(secretParts).collect(Collectors.toMap(parts -> parts.index, parts -> parts.secretPart))));
+		return (FinalBuildSteps) this;
+	}
+
+	@Override
+	public FinalBuildSteps securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																		 int secretMinimumPartCountToBuild,
+																		 List<SecretPart> secretParts) {
+		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+				secretTotalPartCount, secretMinimumPartCountToBuild, secretParts == null ? Collections.emptyMap() :
+				secretParts.stream().collect(Collectors.toMap(parts -> parts.index, parts -> parts.secretPart))));
+		return (FinalBuildSteps) this;
+
+	}
+
+	@Override
+	public FinalBuildSteps securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount,
+																		 int secretMinimumPartCountToBuild,
+																		 Map<Integer, byte[]> secretParts) {
+		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithShamirSecretSharingPrivacyStrategy(
+				secretTotalPartCount, secretMinimumPartCountToBuild, secretParts == null ? Collections.emptyMap() : secretParts));
+		return (FinalBuildSteps) this;
+	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.builder.steps.SenderPrivateKeyStep#senderPrivateKey(java.lang.String)

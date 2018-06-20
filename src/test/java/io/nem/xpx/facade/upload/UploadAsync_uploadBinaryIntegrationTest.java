@@ -32,12 +32,12 @@ public class UploadAsync_uploadBinaryIntegrationTest extends AbstractFacadeInteg
 	}
 
 	/**
-	 * Should upload plain binary test.
+	 * Should upload binary asynchronously
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadPlainBinaryTest() throws Exception{
+	public void shouldUploadBinaryAsynchronously() throws Exception{
 
 		UploadBinaryParameter parameter = UploadBinaryParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

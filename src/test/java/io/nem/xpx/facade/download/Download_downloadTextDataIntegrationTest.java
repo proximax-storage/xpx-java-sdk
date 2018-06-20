@@ -1,7 +1,6 @@
 package io.nem.xpx.facade.download;
 
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
-import io.nem.xpx.model.NemMessageType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,45 +27,27 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 	}
 
 	/**
-	 * Should download plain data.
+	 * Should download text data.
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldDownloadPlainData() throws Exception {
+	public void shouldDownloadTextData() throws Exception {
 
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
 				.nemHash("7f2d1944016f1259e552b34cb5029d7473074856229094acc5ba479549e59411").build());
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
 				"!\"#$%&'()*+,-.:\t ;<=>?@[\\]^_`{|}~", result.getString());
-		assertEquals(NemMessageType.PLAIN, result.getMessageType());
 	}
 
-	/**
-	 * Should download secure data.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	public void shouldDownloadSecureData() throws Exception {
-		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
-				.nemHash("8c6a8366462caa5e0f0b106bed7864d54f3fa29eabe797238528db329bbe64cd")
-				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
-				.build());
-
-		assertEquals("Assertion failed: Decryted data is not equal to expected",
-				"secure - the quick brown fox jumps over the lazy dog UFT-8", result.getString());
-		assertEquals(NemMessageType.SECURE, result.getMessageType());
-	}
-	
 	/**
 	 * Should download secure ascii data.
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldDownloadSecureAsciiData() throws Exception {
+	public void shouldDownloadAsciiData() throws Exception {
 
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
 				.nemHash("8fc0a1393a913086895ec784435db74566dd5bf163580e7e87731791530dfffa")
@@ -75,7 +56,6 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
 				"secure - the quick brown fox jumps over the lazy dog ASCII", result.getString());
-		assertEquals(NemMessageType.SECURE, result.getMessageType());
 	}
 
 }
