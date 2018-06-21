@@ -15,6 +15,7 @@ import io.nem.xpx.service.intf.UploadApi;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.nem.core.model.Message;
 import org.nem.core.model.mosaic.Mosaic;
 
@@ -195,6 +196,31 @@ public class Upload extends AbstractFacadeService {
                     }
                 }).collect(Collectors.toList());
         return new MultiFileUploadResult(fileUploadResults);
+	}
+
+	/**
+	 * Upload from URL.
+	 *
+	 * @param param
+	 *            the upload parameter
+	 * @return the upload data
+	 * @throws UploadException
+	 *             the upload exception
+	 */
+	public UploadResult uploadFromUrl(UploadFromUrlParameter param)
+			throws UploadException {
+
+		try {
+			final byte[] downloadedBinary = IOUtils.toByteArray(param.getUrl());
+			final String contentTypeOrDetected = param.getContentType() != null ? param.getContentType() :
+					ContentTypeUtils.detectContentType(downloadedBinary);
+			return handleBinaryUpload(param.getPrivacyStrategy(), param.getSenderPrivateKey(), param.getReceiverPublicKey(),
+					contentTypeOrDetected, param.getKeywords(), param.getMetaDataAsString(), param.getName(), param.getMosaics(), downloadedBinary);
+		} catch (UploadException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new UploadException(format("Error on uploading from URL: %s", param.getUrl().toString()), e);
+		}
 	}
 
 	/**

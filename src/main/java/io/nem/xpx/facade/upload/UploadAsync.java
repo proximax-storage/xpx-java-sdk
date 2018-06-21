@@ -144,4 +144,23 @@ public class UploadAsync extends AbstractAsyncFacadeService {
 					}
 				}, callback);
 	}
+
+	/**
+	 * Upload from URL.
+	 *
+	 * @param uploadParameter the upload parameter
+	 * @param callback the callback
+	 * @return the completable future
+	 */
+	public CompletableFuture<UploadResult> uploadFromUrl(UploadFromUrlParameter uploadParameter, ServiceAsyncCallback<UploadResult> callback) {
+
+		return runAsync(
+				() -> {
+					try {
+						return upload.uploadFromUrl(uploadParameter);
+					} catch (UploadException e) {
+						throw new CompletionException(e);
+					}
+				}, callback);
+	}
 }
