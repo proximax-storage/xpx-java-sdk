@@ -33,7 +33,9 @@ public enum DataTextContentType {
 	VIDEO_MP4("video/mp4"),
 
 	/** The video quicktime. */
-	VIDEO_QUICKTIME("video/quicktime");
+	VIDEO_QUICKTIME("video/quicktime"),
+
+	IMAGE_PNG("image/png");
 
 	/** The value. */
 	private String value;

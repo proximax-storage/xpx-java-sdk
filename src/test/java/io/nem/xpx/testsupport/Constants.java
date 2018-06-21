@@ -67,6 +67,10 @@ public class Constants {
     /** The Constant HTML_FILE. */
     public static final File HTML_FILE = new File("src//test//resources//test_html.html");
 
+    public static final String SAMPLE_URL_HTML = "http://dev-gateway.internal.proximax.io:8881/swagger-ui.html";
+    public static final String SAMPLE_URL_PNG = "http://dev-gateway.internal.proximax.io:8881/webjars/springfox-swagger-ui/images/logo_small.png";
+    public static final String SAMPLE_URL_PDF = "https://proximax.io/ProximaX-Whitepaper-v1.4.pdf";
+
     /** The Constant MOSAIC_LAND_REGISTRY. */
     public static final Mosaic MOSAIC_LAND_REGISTRY =
             new Mosaic(new MosaicId(new NamespaceId("landregistry1"), "registry"), Quantity.fromValue(0));
