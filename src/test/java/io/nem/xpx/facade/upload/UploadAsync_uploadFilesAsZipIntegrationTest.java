@@ -34,12 +34,12 @@ public class UploadAsync_uploadFilesAsZipIntegrationTest extends AbstractFacadeI
 	}
 
 	/**
-	 * Should upload files as zip async.
+	 * Should upload files as zip asynchronously.
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadFilesAsZipAsync() throws Exception {
+	public void shouldUploadFilesAsZipAsynchronously() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

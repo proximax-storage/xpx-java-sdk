@@ -2,7 +2,6 @@ package io.nem.xpx.facade.upload;
 
 import io.nem.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static io.nem.xpx.facade.DataTextContentType.APPLICATION_ZIP;
@@ -44,7 +43,7 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadFilesAsZipWithPlainMessageType() throws Exception {
+	public void shouldUploadFilesAsZip() throws Exception {
 
 		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -54,74 +53,6 @@ public class Upload_uploadFilesAsZipIntegrationTest extends AbstractFacadeIntegr
 				.addFile(SMALL_FILE)
 				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
 				.metadata(METADATA_AS_MAP)
-				.build();
-
-		final UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter);
-
-		assertNotNull(uploadResult);
-		assertNotNull(uploadResult.getNemHash());
-		assertNotNull(uploadResult.getDataMessage());
-		assertNotNull(uploadResult.getDataMessage().hash());
-		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(KEYWORDS_PLAIN_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
-		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
-		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-
-	/**
-	 * Should upload files as zip with secure message type.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	public void shouldUploadFilesAsZipWithSecureMessageType() throws Exception {
-
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.zipFileName(ZIP_FILE_NAME)
-				.addFile(PDF_FILE1)
-				.addFile(SMALL_FILE)
-				.keywords(KEYWORDS_SECURE_AND_ZIP_FILE)
-				.metadata(METADATA_AS_MAP)
-				.securedWithNemKeysPrivacyStrategy()
-				.build();
-
-		final UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter);
-
-		assertNotNull(uploadResult);
-		assertNotNull(uploadResult.getNemHash());
-		assertNotNull(uploadResult.getDataMessage());
-		assertNotNull(uploadResult.getDataMessage().hash());
-		assertNotNull(uploadResult.getDataMessage().digest());
-		assertEquals(KEYWORDS_SECURE_AND_ZIP_FILE, uploadResult.getDataMessage().keywords());
-		assertEquals(ZIP_FILE_NAME, uploadResult.getDataMessage().name());
-		assertEquals(METADATA_AS_STRING, uploadResult.getDataMessage().metaData());
-		assertEquals(APPLICATION_ZIP.toString(), uploadResult.getDataMessage().type());
-
-		LOGGER.info(uploadResult.getNemHash());
-	}
-
-	/**
-	 * Upload plain file with mosaic test.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	@Ignore
-	public void uploadPlainFileWithMosaicTest() throws Exception {
-		UploadFilesAsZipParameter parameter = UploadFilesAsZipParameter.create()
-				.senderPrivateKey(TEST_PRIVATE_KEY)
-				.receiverPublicKey(TEST_PUBLIC_KEY)
-				.zipFileName(ZIP_FILE_NAME)
-				.addFile(PDF_FILE1)
-				.addFile(SMALL_FILE)
-				.keywords(KEYWORDS_PLAIN_AND_ZIP_FILE)
-				.metadata(METADATA_AS_MAP)
-				.mosaics(MOSAIC_LAND_REGISTRY)
 				.build();
 
 		final UploadResult uploadResult = unitUnderTest.uploadFilesAsZip(parameter);

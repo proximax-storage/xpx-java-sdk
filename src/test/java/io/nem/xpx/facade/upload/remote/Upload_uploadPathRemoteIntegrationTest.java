@@ -1,7 +1,7 @@
 package io.nem.xpx.facade.upload.remote;
 
-import io.nem.xpx.exceptions.PathUploadNotSupportedException;
 import io.nem.xpx.facade.upload.Upload;
+import io.nem.xpx.facade.upload.UploadException;
 import io.nem.xpx.facade.upload.UploadPathParameter;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class Upload_uploadPathRemoteIntegrationTest {
      *
      * @throws Exception the exception
      */
-    @Test(expected = PathUploadNotSupportedException.class)
+    @Test(expected = UploadException.class)
     public void failBecauseNotSupported() throws Exception{
         UploadPathParameter parameter = UploadPathParameter.create()
                 .senderPrivateKey(TEST_PRIVATE_KEY)

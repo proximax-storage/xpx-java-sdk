@@ -31,12 +31,12 @@ public class UploadAsync_uploadFileIntegrationTest extends AbstractFacadeIntegra
 	}
 
 	/**
-	 * Should upload plain file.
+	 * Should upload file asynchronously
 	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void shouldUploadPlainFile() throws Exception {
+	public void shouldUploadFileAsynchronously() throws Exception {
 		UploadFileParameter parameter = UploadFileParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
 				.receiverPublicKey(TEST_PUBLIC_KEY)

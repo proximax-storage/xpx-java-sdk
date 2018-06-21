@@ -2,6 +2,8 @@ package io.nem.xpx.strategy.privacy;
 
 import io.nem.xpx.adapters.cipher.BinaryPBKDF2CipherEncryption;
 
+import java.util.Map;
+
 
 /**
  * A factory for creating PrivacyStrategy objects.
@@ -46,5 +48,11 @@ public class PrivacyStrategyFactory {
      */
     public static PrivacyStrategy securedWithPasswordPrivacyStrategy(String password) {
         return new SecuredWithPasswordPrivacyStrategy(new BinaryPBKDF2CipherEncryption(), password);
+    }
+
+    public static PrivacyStrategy securedWithShamirSecretSharingPrivacyStrategy(int secretTotalPartCount, int secretMinimumPartCountToBuild,
+                                                                                Map<Integer, byte[]> secretParts) {
+        return new SecuredWithShamirSecretSharingPrivacyStrategy(new BinaryPBKDF2CipherEncryption(), secretTotalPartCount,
+                secretMinimumPartCountToBuild, secretParts);
     }
 }
