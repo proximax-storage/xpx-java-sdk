@@ -5,6 +5,7 @@ package io.nem.xpx.facade.connection;
 
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.service.*;
+import io.nem.xpx.service.common.FileAndNamingRouteApi;
 import io.nem.xpx.service.intf.*;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.node.ApiId;
@@ -39,7 +40,7 @@ public abstract class PeerConnection {
     private NemAccountApi nemAccountApi;
 
     /** The nem namespace and mosaics api. */
-    private NemNamespaceAndMosaicsApi nemNamespaceAndMosaicsApi;
+    private NemNamespaceAndMosaicsApi nemNamespaceAndMosaicsApi;    
 
     /** The transaction sender. */
     private TransactionSender transactionSender;
@@ -102,6 +103,8 @@ public abstract class PeerConnection {
      * @return the publish and subscribe api
      */
     public abstract PublishAndSubscribeApi getPublishAndSubscribeApi();
+    
+    public abstract FileAndNamingRouteApi getFileAndNamingRouteApi();
 
     /**
      * Gets the search api.
@@ -116,6 +119,8 @@ public abstract class PeerConnection {
      * @return the transaction and announce api
      */
     public abstract TransactionAndAnnounceApi getTransactionAndAnnounceApi();
+    
+
 
     /**
      * Gets the upload api.
@@ -173,6 +178,7 @@ public abstract class PeerConnection {
             nemNamespaceAndMosaicsApi = new NemNamespaceAndMosaicsApi(nodeEndpoint, getAsyncNemConnector());
         return nemNamespaceAndMosaicsApi;
     }
+ 
 
     /**
      * Gets the transaction sender.
