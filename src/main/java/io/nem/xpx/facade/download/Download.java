@@ -88,18 +88,19 @@ public class Download extends AbstractFacadeService {
 	 * @throws DownloadException the download exception
 	 */
 	private DownloadResult download(DownloadParameter downloadParameter) throws DownloadException {
-
-		final TransferTransaction transaction = getNemTransaction(downloadParameter.getNemHash());
-
-		final byte[] decodedDataFromNemMessage = downloadParameter.getPrivacyStrategy().decodeTransaction(transaction);
-
-		final ResourceHashMessage resourceMessage = deserializeResourceMessageHash(decodedDataFromNemMessage);
-
-		final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
-
-		final byte[] decryptedDownloadedData = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
-
-		return new DownloadResult(resourceMessage, decryptedDownloadedData, NemMessageType.fromInt(transaction.getMessage().getType()));
+		
+		if(downloadParameter.getNemHash() != null) {
+			final TransferTransaction transaction = getNemTransaction(downloadParameter.getNemHash());
+			final byte[] decodedDataFromNemMessage = downloadParameter.getPrivacyStrategy().decodeTransaction(transaction);
+			final ResourceHashMessage resourceMessage = deserializeResourceMessageHash(decodedDataFromNemMessage);
+			final byte[] downloadedData = downloadUsingDataHash(resourceMessage.hash());
+			final byte[] decryptedDownloadedData = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, transaction, resourceMessage);
+			return new DownloadResult(resourceMessage, decryptedDownloadedData, NemMessageType.fromInt(transaction.getMessage().getType()));
+		}else {
+			final byte[] downloadedData = downloadUsingDataHash(downloadParameter.getIpfsHash());
+			final byte[] decryptedDownloadedData = downloadParameter.getPrivacyStrategy().decrypt(downloadedData, null, null);
+			return new DownloadResult(null, decryptedDownloadedData, null);
+		}
 	}
 
 	/**

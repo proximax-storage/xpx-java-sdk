@@ -1,6 +1,6 @@
 package io.nem.xpx.facade.download;
 
-import io.nem.xpx.builder.steps.NemHashStep;
+import io.nem.xpx.builder.steps.HashStep;
 import io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep;
 import io.nem.xpx.strategy.privacy.PrivacyStrategy;
 import io.nem.xpx.strategy.privacy.PrivacyStrategyFactory;
@@ -19,6 +19,9 @@ import java.util.stream.Stream;
  */
 public class DownloadParameter implements Serializable {
 
+	
+	private String ipfsHash;
+	
 	/** The nem hash. */
 	private String nemHash;
 
@@ -47,6 +50,16 @@ public class DownloadParameter implements Serializable {
 	 */
 	public void setNemHash(String nemHash) {
 		this.nemHash = nemHash;
+	}
+	
+	
+
+	public String getIpfsHash() {
+		return ipfsHash;
+	}
+
+	public void setIpfsHash(String ipfsHash) {
+		this.ipfsHash = ipfsHash;
 	}
 
 	/**
@@ -108,7 +121,7 @@ public class DownloadParameter implements Serializable {
 	 *
 	 * @return the nem hash step
 	 */
-	public static NemHashStep<BuildStep> create() {
+	public static HashStep<BuildStep> create() {
 		return new Builder();
 	}
 
@@ -129,7 +142,7 @@ public class DownloadParameter implements Serializable {
 	 * The Class Builder.
 	 */
 	private static class Builder
-			implements NemHashStep,
+			implements HashStep,
 			BuildStep {
 
 		/** The instance. */
@@ -222,6 +235,12 @@ public class DownloadParameter implements Serializable {
 			return this;
 		}
 
+		@Override
+		public BuildStep ipfsHash(String ipfsHash) {
+			this.instance.setIpfsHash(ipfsHash);
+			return this;
+		}
+		
 		/* (non-Javadoc)
 		 * @see io.nem.xpx.facade.download.DownloadParameter.BuildStep#build()
 		 */

@@ -6,7 +6,7 @@ package io.nem.xpx.builder.steps;
  *
  * @param <T> the generic type
  */
-public interface NemHashStep<T> {
+public interface HashStep<T> {
 
     /**
      * Nem hash.
@@ -15,4 +15,7 @@ public interface NemHashStep<T> {
      * @return the t
      */
     T nemHash(String nemHash);
+    
+    
+    T ipfsHash(String ipfsHash);
 }
