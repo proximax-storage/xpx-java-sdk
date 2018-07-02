@@ -37,10 +37,10 @@ public class Download_downloadBinaryIntegrationTest extends AbstractFacadeIntegr
 	public void shouldDownloadBinary() throws Exception {
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
-
+		
 		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
 				.nemHash(FILE_TO_PLAIN_MSG_NEM_HASH_MAP.get(PDF_FILE1)).build());
-
+		
 		assertArrayEquals(expected, result.getData());
 		assertEquals(NemMessageType.PLAIN, result.getMessageType());
 	}

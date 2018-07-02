@@ -8,6 +8,7 @@ import io.nem.xpx.exceptions.ApiException;
 import io.nem.xpx.exceptions.PeerConnectionInitFailureException;
 import io.nem.xpx.factory.ConnectionFactory;
 import io.nem.xpx.model.NodeInfo;
+import io.nem.xpx.service.common.FileAndNamingRouteApi;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.remote.*;
 import org.nem.core.node.NodeEndpoint;
@@ -49,6 +50,8 @@ public final class RemotePeerConnection extends PeerConnection {
 	
 	/** The transaction and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
+	
+	private FileAndNamingRouteApi fileAndNamingRouteApi;
 	
 	/** The upload api. */
 	private UploadApi uploadApi;
@@ -172,6 +175,16 @@ public final class RemotePeerConnection extends PeerConnection {
 			publishAndSubscribeApi = new RemotePublishAndSubscribeApi(apiClient);
 		return publishAndSubscribeApi;
 	}
+	
+	/* (non-Javadoc)
+	 * @see io.nem.xpx.facade.connection.PeerConnection#getFileAndNamingRouteApi()
+	 */
+	@Override
+	public FileAndNamingRouteApi getFileAndNamingRouteApi() {
+		if (fileAndNamingRouteApi == null)
+			fileAndNamingRouteApi = new FileAndNamingRouteApi(apiClient);
+		return fileAndNamingRouteApi;
+	}
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getSearchApi()
@@ -192,6 +205,9 @@ public final class RemotePeerConnection extends PeerConnection {
 			transactionAndAnnounceApi = new RemoteTransactionAndAnnounceApi(apiClient);
 		return transactionAndAnnounceApi;
 	}
+	
+	
+	
 
 	/* (non-Javadoc)
 	 * @see io.nem.xpx.facade.connection.PeerConnection#getUploadApi()

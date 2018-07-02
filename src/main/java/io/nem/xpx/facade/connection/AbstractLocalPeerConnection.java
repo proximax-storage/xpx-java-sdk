@@ -5,6 +5,7 @@ import io.nem.xpx.service.NemAccountApi;
 import io.nem.xpx.service.NemTransactionApi;
 import io.nem.xpx.service.TransactionFeeCalculators;
 import io.nem.xpx.service.TransactionSender;
+import io.nem.xpx.service.common.FileAndNamingRouteApi;
 import io.nem.xpx.service.intf.*;
 import io.nem.xpx.service.local.*;
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
@@ -42,6 +43,8 @@ public abstract class AbstractLocalPeerConnection extends PeerConnection {
 
 	/** The transaction and announce api. */
 	private TransactionAndAnnounceApi transactionAndAnnounceApi;
+
+    private FileAndNamingRouteApi fileAndNamingRouteApi;
 
 	/** The upload api. */
 	private UploadApi uploadApi;
@@ -107,6 +110,11 @@ public abstract class AbstractLocalPeerConnection extends PeerConnection {
 	 */
 	@Override
 	public DirectoryLoadApi getDirectoryLoadApi() {
+		throw new RuntimeException("not supported");
+	}
+	
+	@Override
+	public FileAndNamingRouteApi getFileAndNamingRouteApi() {
 		throw new RuntimeException("not supported");
 	}
 

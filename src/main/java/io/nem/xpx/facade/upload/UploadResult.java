@@ -53,4 +53,8 @@ public class UploadResult implements Serializable{
 	public String getNemHash() {
 		return nemHash;
 	}
+
+	public String getIpfsHash() {
+		return dataMessage.hash();
+	}
 }

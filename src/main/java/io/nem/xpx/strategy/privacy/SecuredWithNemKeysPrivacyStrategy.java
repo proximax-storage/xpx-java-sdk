@@ -36,7 +36,7 @@ public final class SecuredWithNemKeysPrivacyStrategy extends AbstractSecureMessa
     @Override
     public byte[] decrypt(final byte[] data, final TransferTransaction transaction, final ResourceHashMessage hashMessage) {
 
-        if (!transaction.getSigner().getAddress().getEncoded().equals(accountWithPrivateKey.getAddress().getEncoded()) &&
+        if (transaction != null && !transaction.getSigner().getAddress().getEncoded().equals(accountWithPrivateKey.getAddress().getEncoded()) &&
                 !transaction.getRecipient().getAddress().getEncoded().equals(accountWithPrivateKey.getAddress().getEncoded())) {
             throw new DecryptionFailureException("Decrypt of data is unsuccessful");
         }
