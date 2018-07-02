@@ -149,11 +149,13 @@ public class Constants {
     public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_PASSWOR_PRIVACY_STRATEGY = "37a49a0ba2e9915c27e55b5600f1550bce5245ad694ad92217c83eaf91063170";
     public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_SHAMIR_SECRET_SHARING_PRIVACY_STRATEGY = "27cffeec36a1a887d430c3aaaf439dae14c7cb1e8a977c719d3030c30c31b5d5";
 
+    public static final String IPFS_HASH_PDF_FILE1_PLAIN_PRIVACY_STRATEGY = "QmUmoLj45TGXhggwEYAMa9vLHwSRmAayNwtSuRVs7recbd";
+    public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "QmRNbrXXYydkwTSNwVbCvgjkxNVGzwN7PqNsi76rhKd867";
+    public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_PASSWOR_PRIVACY_STRATEGY = "QmYr8YfHZebZzas9LWrNSLX6o9Nbp94XdHgVXkuzvsaEbE";
+    public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_SHAMIR_SECRET_SHARING_PRIVACY_STRATEGY = "QmaoPXD92YUkdnaUDGuqGnGabpm15dxzhADr8Gy124rXqe";
+
     /** The Constant FILE_TO_PLAIN_MSG_NEM_HASH_MAP. */
     public static final Map<File, String> FILE_TO_PLAIN_MSG_NEM_HASH_MAP = fileToPlainMessageNemHashMap();
-
-    /** The Constant FILE_TO_SECURE_MSG_NEM_HASH_MAP. */
-    public static final Map<File, String> FILE_TO_SECURE_MSG_NEM_HASH_MAP = fileToSecureMessageNemHashMap();
 
     /**
      * File to plain message nem hash map.

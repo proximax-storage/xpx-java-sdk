@@ -58,7 +58,7 @@ public class DownloadFileResult extends DownloadResult {
 	 * @return the file name
 	 */
 	public String getFileName() {
-		return getDataMessage().name();
+		return getDataMessage() != null ? getDataMessage().name() : null;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class DownloadFileResult extends DownloadResult {
 	 * @return the content type
 	 */
 	public String getContentType() {
-		return getDataMessage().type();
+		return getDataMessage() != null ? getDataMessage().type() : null;
 	}
 
 }
