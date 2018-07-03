@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.nem.xpx.testsupport.Constants.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -33,8 +37,9 @@ public class Download_privacyStrategyIntegrationTest extends AbstractFacadeInteg
 				.plainPrivacy()
 				.build());
 
-		assertArrayEquals(expected, result.getData());
-		assertEquals(NemMessageType.PLAIN, result.getMessageType());
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(NemMessageType.PLAIN));
+		assertThat(result.getDataMessage(), is(notNullValue()));
 	}
 
 	@Test
@@ -47,8 +52,24 @@ public class Download_privacyStrategyIntegrationTest extends AbstractFacadeInteg
 				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
 				.build());
 
-		assertArrayEquals(expected, result.getData());
-		assertEquals(NemMessageType.SECURE, result.getMessageType());
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(NemMessageType.SECURE));
+		assertThat(result.getDataMessage(), is(notNullValue()));
+	}
+
+	@Test
+	public void shouldDownloadWithSecuredWithSenderNemKeysPrivacyStrategy()throws Exception {
+
+		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
+
+		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
+				.nemHash(NEM_HASH_PDF_FILE1_SECURED_WITH_SENDER_NEM_KEYS_PRIVACY_STRATEGY)
+				.securedWithSenderNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY_2)
+				.build());
+
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(NemMessageType.SECURE));
+		assertThat(result.getDataMessage(), is(notNullValue()));
 	}
 
 	@Test
@@ -61,8 +82,9 @@ public class Download_privacyStrategyIntegrationTest extends AbstractFacadeInteg
 				.securedWithPasswordPrivacyStrategy(SECURE_PASSWORD)
 				.build());
 
-		assertArrayEquals(expected, result.getData());
-		assertEquals(NemMessageType.PLAIN, result.getMessageType());
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(NemMessageType.PLAIN));
+		assertThat(result.getDataMessage(), is(notNullValue()));
 	}
 
 	@Test
@@ -79,7 +101,8 @@ public class Download_privacyStrategyIntegrationTest extends AbstractFacadeInteg
 						minimumSecretParts)
 				.build());
 
-		assertArrayEquals(expected, result.getData());
-		assertEquals(NemMessageType.PLAIN, result.getMessageType());
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(NemMessageType.PLAIN));
+		assertThat(result.getDataMessage(), is(notNullValue()));
 	}
 }

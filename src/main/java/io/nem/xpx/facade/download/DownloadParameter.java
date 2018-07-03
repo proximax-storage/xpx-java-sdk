@@ -25,12 +25,6 @@ public class DownloadParameter implements Serializable {
 	/** The nem hash. */
 	private String nemHash;
 
-	/** The sender or receiver private key. */
-	private String senderOrReceiverPrivateKey;
-
-	/** The receiver or sender public key. */
-	private String receiverOrSenderPublicKey;
-
 	/** The privacy strategy. */
 	private PrivacyStrategy privacyStrategy = PrivacyStrategyFactory.plainPrivacy();
 
@@ -52,50 +46,12 @@ public class DownloadParameter implements Serializable {
 		this.nemHash = nemHash;
 	}
 	
-	
-
 	public String getIpfsHash() {
 		return ipfsHash;
 	}
 
 	public void setIpfsHash(String ipfsHash) {
 		this.ipfsHash = ipfsHash;
-	}
-
-	/**
-	 * Gets the sender or receiver private key.
-	 *
-	 * @return the sender or receiver private key
-	 */
-	public String getSenderOrReceiverPrivateKey() {
-		return senderOrReceiverPrivateKey;
-	}
-
-	/**
-	 * Sets the sender or receiver private key.
-	 *
-	 * @param senderOrReceiverPrivateKey the new sender or receiver private key
-	 */
-	public void setSenderOrReceiverPrivateKey(String senderOrReceiverPrivateKey) {
-		this.senderOrReceiverPrivateKey = senderOrReceiverPrivateKey;
-	}
-
-	/**
-	 * Gets the receiver or sender public key.
-	 *
-	 * @return the receiver or sender public key
-	 */
-	public String getReceiverOrSenderPublicKey() {
-		return receiverOrSenderPublicKey;
-	}
-
-	/**
-	 * Sets the receiver or sender public key.
-	 *
-	 * @param receiverOrSenderPublicKey the new receiver or sender public key
-	 */
-	public void setReceiverOrSenderPublicKey(String receiverOrSenderPublicKey) {
-		this.receiverOrSenderPublicKey = receiverOrSenderPublicKey;
 	}
 
 	/**
@@ -181,8 +137,16 @@ public class DownloadParameter implements Serializable {
 		public BuildStep securedWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey) {
 			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithNemKeysPrivacyStrategy(
 					senderOrReceiverPrivateKey, receiverOrSenderPublicKey));
-			this.instance.setSenderOrReceiverPrivateKey(senderOrReceiverPrivateKey);
-			this.instance.setReceiverOrSenderPublicKey(receiverOrSenderPublicKey);
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.xpx.builder.steps.PrivacyStrategyDownloadStep#securedWithSenderNemKeysPrivacyStrategy(java.lang.String, java.lang.String)
+		 */
+		@Override
+		public BuildStep securedWithSenderNemKeysPrivacyStrategy(String senderPrivateKey, String receiverPublicKey) {
+			this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithSenderNemKeysPrivacyStrategy(
+					senderPrivateKey, receiverPublicKey));
 			return this;
 		}
 

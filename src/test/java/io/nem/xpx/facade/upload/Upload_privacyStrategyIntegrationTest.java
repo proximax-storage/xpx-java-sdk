@@ -65,6 +65,27 @@ public class Upload_privacyStrategyIntegrationTest extends AbstractFacadeIntegra
     }
 
     @Test
+    public void shouldUploadWithSecuredWithSenderNemKeysPrivacyStrategy() throws Exception{
+
+        UploadBinaryParameter parameter = UploadBinaryParameter.create()
+                .senderPrivateKey(TEST_PRIVATE_KEY)
+                .receiverPublicKey(TEST_PUBLIC_KEY_2)
+                .data(FileUtils.readFileToByteArray(PDF_FILE1))
+                .securedWithSenderNemKeysPrivacyStrategy()
+                .build();
+
+        final UploadResult uploadResult = unitUnderTest.uploadBinary(parameter);
+
+        assertThat(uploadResult, is(notNullValue()));
+        assertThat(uploadResult.getNemHash(), is(notNullValue()));
+        assertThat(uploadResult.getDataMessage(), is(notNullValue()));
+        assertThat(uploadResult.getDataMessage().hash(), is(notNullValue()));
+        assertThat(uploadResult.getDataMessage().digest(), is(notNullValue()));
+
+        LOGGER.info("Secured With Sender NEM Keys Privacy Strategy uploaded nem hash: " + uploadResult.getNemHash());
+    }
+
+    @Test
     public void shouldUploadWithSecuredWithPasswordPrivacyStrategy() throws Exception{
 
         UploadBinaryParameter parameter = UploadBinaryParameter.create()

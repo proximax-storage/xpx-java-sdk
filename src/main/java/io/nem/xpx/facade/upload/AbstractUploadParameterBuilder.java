@@ -95,6 +95,17 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 	}
 
 	/* (non-Javadoc)
+	 * @see io.nem.xpx.builder.steps.PrivacyStrategyUploadStep#securedWithNemKeysPrivacyStrategy()
+	 */
+	@Override
+	public FinalBuildSteps securedWithSenderNemKeysPrivacyStrategy() {
+		this.instance.setPrivacyStrategy(PrivacyStrategyFactory.securedWithSenderNemKeysPrivacyStrategy(
+				this.instance.getSenderPrivateKey(),
+				this.instance.getReceiverPublicKey()));
+		return  (FinalBuildSteps) this;
+	}
+
+	/* (non-Javadoc)
 	 * @see io.nem.xpx.builder.steps.PrivacyStrategyUploadStep#securedWithPasswordPrivacyStrategy(java.lang.String)
 	 */
 	@Override

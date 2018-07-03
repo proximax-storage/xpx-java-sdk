@@ -40,6 +40,18 @@ public class PrivacyStrategyFactory {
         return new SecuredWithNemKeysPrivacyStrategy(senderOrReceiverPrivateKey, receiverOrSenderPublicKey);
     }
 
+
+    /**
+     * Secured with sender nem keys privacy strategy.
+     *
+     * @param senderPrivateKey the sender private key
+     * @param receiverPublicKey the receiver public key
+     * @return the privacy strategy
+     */
+    public static PrivacyStrategy securedWithSenderNemKeysPrivacyStrategy(String senderPrivateKey, String receiverPublicKey) {
+        return new SecuredWithSenderNemKeysPrivacyStrategy(senderPrivateKey, receiverPublicKey);
+    }
+
     /**
      * Secured with password privacy strategy.
      *

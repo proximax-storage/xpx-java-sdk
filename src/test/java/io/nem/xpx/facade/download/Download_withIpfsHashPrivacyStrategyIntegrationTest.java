@@ -61,6 +61,21 @@ public class Download_withIpfsHashPrivacyStrategyIntegrationTest extends Abstrac
 	}
 
 	@Test
+	public void shouldDownloadWithSecuredWithSenderNemKeysPrivacyStrategy()throws Exception {
+
+		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);
+
+		final DownloadBinaryResult result = unitUnderTest.downloadBinary(DownloadParameter.create()
+				.ipfsHash(IPFS_HASH_PDF_FILE1_SECURED_WITH_SENDER_NEM_KEYS_PRIVACY_STRATEGY)
+				.securedWithSenderNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY_2)
+				.build());
+
+		assertThat(result.getData(), is(expected));
+		assertThat(result.getMessageType(), is(nullValue()));
+		assertThat(result.getDataMessage(), is(nullValue()));
+	}
+
+	@Test
 	public void shouldDownloadWithSecuredWithNemPasswordPrivacyStrategy()throws Exception {
 
 		byte[] expected = FileUtils.readFileToByteArray(PDF_FILE1);

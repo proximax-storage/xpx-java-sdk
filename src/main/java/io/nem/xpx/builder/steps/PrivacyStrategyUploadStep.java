@@ -38,6 +38,15 @@ public interface PrivacyStrategyUploadStep<T> {
      */
     T securedWithNemKeysPrivacyStrategy();
 
+
+    /**
+     * Secured with nem keys of sender only
+     *
+     * @return the t
+     */
+    T securedWithSenderNemKeysPrivacyStrategy();
+
+
     /**
      * Secured with password privacy strategy.
      *

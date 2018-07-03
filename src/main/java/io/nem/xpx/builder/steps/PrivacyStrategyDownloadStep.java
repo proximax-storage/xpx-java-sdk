@@ -40,6 +40,15 @@ public interface PrivacyStrategyDownloadStep<T> {
     T securedWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey);
 
     /**
+     * Secured with sender nem keys privacy strategy.
+     *
+     * @param senderPrivateKey the sender private key
+     * @param receiverPublicKey the receiver public key
+     * @return the t
+     */
+    T securedWithSenderNemKeysPrivacyStrategy(String senderPrivateKey, String receiverPublicKey);
+
+    /**
      * Secured with password privacy strategy.
      *
      * @param password the password
