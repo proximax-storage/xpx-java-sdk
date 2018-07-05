@@ -45,23 +45,19 @@ public class LocalNodeApi implements NodeApi {
 	 */
 	@Override
 	public NodeInfo getNodeInfoUsingGET() throws ApiException {
-//		NodeInfo nodeInfo = new NodeInfo();
-//		try {
-//			nodeInfo.setContextUri(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getContextUri());
-//			nodeInfo.setNemAddress(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getAccountPrivateKey());
-//			nodeInfo.setNetwork(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getDefaultNetwork());
-//			nodeInfo.setNetworkPort(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getPort());
-//			nodeInfo.setNetworkAddress(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getDefaultHost());
-//			nodeInfo.setPeerId(XpxEnvironment.env.getSpfsStoreInstance().config.show().get("Identity").toString());
-//			nodeInfo.setNamespace(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getNamespace());
-//			nodeInfo.setMosaic(ProximaxCoreConstants.NODE_ENV_PROPERTIES.getNem().getMosaic());
-//			return nodeInfo;
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return nodeInfo;
-		throw new ApiException("Method can't be accessed thru local connection");
+		NodeInfo nodeInfo = new NodeInfo();
+		try {
+			nodeInfo.setPeerId(proximaxIfpsConnection.config.show().get("Identity").toString());
+			return nodeInfo;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return nodeInfo;
+	}
+	
+	public IPFS getLocalProximaXIpfsConnection() {
+		return proximaxIfpsConnection;
 	}
 	
 	
