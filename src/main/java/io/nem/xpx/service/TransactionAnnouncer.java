@@ -10,8 +10,11 @@ import org.nem.core.model.Address;
 import org.nem.core.model.Message;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
+import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
 
 import static java.lang.String.format;
 
@@ -51,13 +54,17 @@ public class TransactionAnnouncer {
     public String announceTransactionForUploadedContent(Message nemMessage, String senderPrivateKey, String receiverPublicKey,
                                                         Mosaic[] mosaics) throws Exception {
 
+		Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(1));
+		
         final TransferTransaction transferTransaction = new TransferTransactionBuilder(transactionFeeCalculators)
                 .sender(new Account(new KeyPair(PrivateKey.fromHexString(senderPrivateKey))))
                 .recipient(new Account(Address.fromPublicKey(PublicKey.fromHexString(receiverPublicKey))))
                 .version(2)
                 .amount(Amount.fromNem(1l))
                 .message(nemMessage)
-                .addMosaics(mosaics).buildAndSignTransaction();
+                .addMosaics(mosaics)
+                .addMosaic(xpxMosaic) // XPX Mosaic
+                .buildAndSignTransaction();
 
         final NemAnnounceResult announceResult = transactionSender.sendTransferTransaction(transferTransaction);
 

@@ -247,7 +247,6 @@ public class MultisigTransactionBuilder {
 		@Override
 		public MultisigTransaction buildMultisigTransaction() {
 			
-			
 			Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
 					Quantity.fromValue(1));
 			

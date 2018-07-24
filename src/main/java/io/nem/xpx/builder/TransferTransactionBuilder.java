@@ -12,7 +12,6 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.time.TimeInstant;
 
-
 /**
  * The Class TransferTransactionBuilder.
  */
@@ -57,16 +56,18 @@ public class TransferTransactionBuilder {
 	/**
 	 * Instantiates a new transfer transaction builder.
 	 *
-	 * @param transactionFeeCalculators the transaction fee calculators
+	 * @param transactionFeeCalculators
+	 *            the transaction fee calculators
 	 */
 	public TransferTransactionBuilder(TransactionFeeCalculators transactionFeeCalculators) {
-	    this.transactionFeeCalculators = transactionFeeCalculators;
+		this.transactionFeeCalculators = transactionFeeCalculators;
 	}
 
 	/**
 	 * Sender.
 	 *
-	 * @param sender the sender
+	 * @param sender
+	 *            the sender
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder sender(Account sender) {
@@ -77,7 +78,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Recipient.
 	 *
-	 * @param recipient the recipient
+	 * @param recipient
+	 *            the recipient
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder recipient(Account recipient) {
@@ -88,7 +90,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Amount.
 	 *
-	 * @param amount the amount
+	 * @param amount
+	 *            the amount
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder amount(Amount amount) {
@@ -99,7 +102,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Attachment.
 	 *
-	 * @param attachment the attachment
+	 * @param attachment
+	 *            the attachment
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder attachment(TransferTransactionAttachment attachment) {
@@ -119,7 +123,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Fee.
 	 *
-	 * @param amount the amount
+	 * @param amount
+	 *            the amount
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder fee(Amount amount) {
@@ -130,7 +135,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Deadline.
 	 *
-	 * @param deadline the deadline
+	 * @param deadline
+	 *            the deadline
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder deadline(TimeInstant deadline) {
@@ -141,7 +147,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Signature.
 	 *
-	 * @param signature the signature
+	 * @param signature
+	 *            the signature
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder signature(Signature signature) {
@@ -152,7 +159,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Message.
 	 *
-	 * @param message the message
+	 * @param message
+	 *            the message
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder message(Message message) {
@@ -168,7 +176,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Fee calculator.
 	 *
-	 * @param feeCalculator the fee calculator
+	 * @param feeCalculator
+	 *            the fee calculator
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder feeCalculator(TransactionFeeCalculator feeCalculator) {
@@ -179,7 +188,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Version.
 	 *
-	 * @param version the version
+	 * @param version
+	 *            the version
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder version(int version) {
@@ -190,7 +200,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Time stamp.
 	 *
-	 * @param timeInstance the time instance
+	 * @param timeInstance
+	 *            the time instance
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder timeStamp(TimeInstant timeInstance) {
@@ -201,7 +212,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Sign by.
 	 *
-	 * @param account the account
+	 * @param account
+	 *            the account
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder signBy(Account account) {
@@ -212,7 +224,8 @@ public class TransferTransactionBuilder {
 	/**
 	 * Adds the mosaic.
 	 *
-	 * @param mosaic the mosaic
+	 * @param mosaic
+	 *            the mosaic
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder addMosaic(Mosaic mosaic) {
@@ -227,45 +240,50 @@ public class TransferTransactionBuilder {
 	/**
 	 * Adds the mosaic.
 	 *
-	 * @param mosaic the mosaic
-	 * @param quantity the quantity
+	 * @param mosaic
+	 *            the mosaic
+	 * @param quantity
+	 *            the quantity
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder addMosaic(MosaicId mosaic, Quantity quantity) {
-		this.attachment.addMosaic(mosaic, quantity);
+		if (this.attachment == null) {
+			this.attachment = (AttachmentFactory.createTransferTransactionAttachment());
+		} else {
+			this.attachment.addMosaic(mosaic, quantity);
+		}
 		return this;
 	}
 
 	/**
 	 * Adds the mosaics.
 	 *
-	 * @param mosaics the mosaics
+	 * @param mosaics
+	 *            the mosaics
 	 * @return the transfer transaction builder
 	 */
 	public TransferTransactionBuilder addMosaics(Mosaic... mosaics) {
-		for (Mosaic mosaic : mosaics) {
-			this.attachment.addMosaic(mosaic);
+		if (this.attachment == null) {
+			this.attachment = (AttachmentFactory.createTransferTransactionAttachment());
+		} else {
+			for (Mosaic mosaic : mosaics) {
+				this.attachment.addMosaic(mosaic);
+			}
 		}
 
 		return this;
 	}
 
-
 	/**
 	 * Builds the transaction.
 	 *
-	 * @param isForMultisig the is for multisig
+	 * @param isForMultisig
+	 *            the is for multisig
 	 * @return the transfer transaction
 	 */
 	public TransferTransaction buildTransaction(boolean isForMultisig) {
 
-	    TransferTransaction instance;
-
-		//	attach the xpx mosaic (constant)
-		Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"),
-				Quantity.fromValue(1));
-
-		this.attachment.addMosaic(xpxMosaic);
+		TransferTransaction instance;
 
 		if (this.timeStamp == null) {
 			this.timeStamp = XpxSdkGlobalConstants.TIME_PROVIDER.getCurrentTime();
@@ -279,8 +297,8 @@ public class TransferTransactionBuilder {
 			instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
 					this.attachment);
 		} else {
-			instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
-					this.amount, this.attachment);
+			instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient, this.amount,
+					this.attachment);
 		}
 
 		// fee
