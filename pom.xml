@@ -335,7 +335,7 @@
 		<junit-version>4.12</junit-version>
 		<jacoco-maven-plugin>0.8.1</jacoco-maven-plugin>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nem.core.version>0.6.95-BETA</nem.core.version>
+		<nem.core.version>0.6.96-proximax</nem.core.version>
 		<ipfs.java.api.version>v1.2.0</ipfs.java.api.version>
 		<jnr.fuse.version>0.5.1</jnr.fuse.version>
 		<java-cid.version>v1.1.0</java-cid.version>
