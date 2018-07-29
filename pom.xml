@@ -38,6 +38,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</connection>
 		<developerConnection>scm:git:https://github.com/proximax-storage/xpx-java-sdk.git</developerConnection>
+		<url>https://github.com/proximax-storage/xpx-java-sdk</url>
 		<tag>HEAD</tag>
 	</scm>
 	<licenses>
@@ -130,6 +131,20 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
