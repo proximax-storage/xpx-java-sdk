@@ -20,7 +20,7 @@
 	<artifactId>xpx-java-sdk</artifactId>
 	<packaging>jar</packaging>
 	<name>xpx-java-sdk</name>
-	<version>0.1.0-beta.8-SNAPSHOT</version>
+	<version>0.1.0-beta.7-SNAPSHOT</version>
 	<description>Proximax P2P File Storage Java SDK</description>
 	<prerequisites>
 		<maven>2.2.0</maven>
