@@ -28,16 +28,8 @@ compile 'io.proximax:xpx-java-sdk:0.1.0-beta.7'
 
 ### Get your XPX Test Tokens
 
-Send an email to ***alvin.reyes@proximax.io*** or ***carlo.cayos@proximax.io*** with subject - `Request for XPX Tokens` with your TESTNET NEM Address to get XPX tokens
+Visit the XEM/XPX Testnet faucet at [https://proximaxfaucet20180730014353.azurewebsites.net/](https://proximaxfaucet20180730014353.azurewebsites.net/ "Testnet Faucet")
 
-***Faucets will be available soon.***
-
-It is required that you at least have `2 XEMs` and `1 XPX` to upload a resource to ProximaX Storage. 
-
-+ `2 XEM` - to pay the network
-+ `0.000001 (mainnet) / 0.0001 (testnet)` - ensure the user is holding XPX.
-
-There is no fee for downloading content.
 
 ### Establishing a connection
 We support 2 types of connection. 
@@ -119,7 +111,9 @@ To generate a new account, use the `peerConnection` to call the `NemAccountApi()
 peerConnection.getNemAccountApi().generateAccount()
 ```
 
-***Grab the public key and ask for XEMs and XPX.***  Send an email to alvin.reyes@proximax.io with subject - Request for XPX Tokens with your TESTNET NEM Address to get XPX tokens
+***Grab the Address and get XEMs/XPXs.***  
+
+Visit the XEM/XPX Testnet faucet at [https://proximaxfaucet20180730014353.azurewebsites.net/](https://proximaxfaucet20180730014353.azurewebsites.net/ "Testnet Faucet")
 
 ### Upload / Upload Async
 

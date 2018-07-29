@@ -28,8 +28,8 @@
 	</scm>
 	<licenses>
 		<license>
-			<name>MIT License</name>
-			<url>https://opensource.org/licenses/MIT</url>
+			<name>Apache License</name>
+			<url>https://opensource.org/licenses/Apache-2.0</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
