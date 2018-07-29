@@ -236,6 +236,27 @@ UploadTextDataParameter parameter = UploadTextDataParameter.create()
 final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
 ```
 
+***Upload Path***
+
+Note that this feature works on local peer connection and linux/mac machine only
+
+```java
+UploadPathParameter parameter = UploadPathParameter.create()
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
+				.path("src/test/resources/")
+				.metadata(METADATA_AS_MAP)
+				.keywords(KEYWORDS_PLAIN_AND_PATH)
+				.mosaics(MOSAIC_LAND_REGISTRY)
+				.build();
+
+final UploadResult uploadResult = unitUnderTest.uploadPath(parameter);
+```
+
+You will now be able to visit the path via our proximax or ipfs gateways
+
+*Note: Path is by default, public. Please be careful when loading a directory as it exposes it the open public gateways*
+
 ### Securing uploaded content with Privacy Strategies 
 By default, any upload will use a plain privacy strategy. This basically means that the file is not in anyway encrypted and can be accessed publicly. 
 In order to secure the content being uploaded, other privacy strategies can be use to protect and secure your files. 
