@@ -1,4 +1,4 @@
-# Official Proximax P2P Storage Java SDK
+# Official Proximax P2P Storage Java SDK (NIS1 Compatible Only)
 ![banner](https://proximax.io/wp-content/uploads/2018/03/ProximaX-logotype.png)
 
 ProximaX is a project that utilizes the NEM blockchain technology with the IPFS P2P storage technology to form a very powerful proofing solution for documents or files which are stored in an immutable and irreversible manner, similar to the blockchain technology solutions. 
