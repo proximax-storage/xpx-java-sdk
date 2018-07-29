@@ -12,14 +12,14 @@ Extact and place the JAR on your local machine and install it on your repository
 If you're using Maven, you can install the JAR on your m2 repository
 
 ```xml
-mvn install:install-file -Dfile=<path-to-file.jar> -DgroupId=io.nem.xpx -DartifactId=xpx-java-sdk -Dversion=0.1.0-beta.6 -Dpackaging=jar
+mvn install:install-file -Dfile=<path-to-file.jar> -DgroupId=io.proximax -DartifactId=xpx-java-sdk -Dversion=0.1.0-beta.6 -Dpackaging=jar
 ```
 
 Import the following dependency to your Java Project. Replace with the latest version. 
 
 ```xml
 <dependency>
-    <groupId>io.nem.xpx</groupId>
+    <groupId>io.proximax.xpx</groupId>
     <artifactId>xpx-java-sdk</artifactId>
     <version>0.1.0-beta.6</version>
 </dependency>
@@ -439,7 +439,7 @@ Download it [__here__](https://testnet.gateway.proximax.io/xpxfs/4b04b20335de384
 
 ```xml
 <dependency>
-    <groupId>io.nem.xpx</groupId>
+    <groupId>io.proximax.xpx</groupId>
     <artifactId>proximax-nem-txn-monitor</artifactId>
     <version>0.1.0-beta.x</version>
 </dependency>
@@ -451,8 +451,8 @@ Call code to Monitor
 
 WsNemTransactionMonitor.networkName("testnet").host("23.228.67.85").port("7890").wsPort("7778")
 	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
-	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitorHandler1()) // multiple subscription and a handler
-	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new CustomTransactionMonitorHandler2())
+	.subscribe(io.proximax.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitorHandler1()) // multiple subscription and a handler
+	.subscribe(io.proximax.utils.Constants.URL_WS_UNCONFIRMED, new CustomTransactionMonitorHandler2())
 	.monitor(); // trigger the monitoring process
 			
 ```

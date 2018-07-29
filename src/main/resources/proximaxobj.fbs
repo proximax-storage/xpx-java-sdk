@@ -1,4 +1,4 @@
-namespace io.nem.xpx.core.model;
+namespace io.proximax.xpx.core.model;
 table ResourceHashMessage {
 	
 	digest:string;
