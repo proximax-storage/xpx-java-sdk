@@ -57,6 +57,10 @@ Aside from the testnet connection above, one can also use the following testnet 
 
 These testnet gateways are privately hosted storage contributor nodes on our ProximaX servers. All of them are connected to NEM Testnet and Public IPFS network. 
 
+We also have mainnet and mijinnet (NIS Mijin)
+
++ [https://mainnet.gateway.proximax.io](https://mainnet.gateway.proximax.io "Mainnet")
++ [https://mijin.gateway.proximax.io](https://mijin.gateway.proximax.io "Mijin")
 
 ***Local Connection***
 
