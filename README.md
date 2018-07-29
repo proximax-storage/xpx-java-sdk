@@ -84,23 +84,23 @@ To easily access each feature/function, we need to initialze the object passing 
 ```java
 //  To Upload
 final Upload upload = new Upload(peerConnection); // blocking
-final UploadAsync upload = new UploadAsync(peerConnection); // non-blocking (async)
+final UploadAsync uploadAsync = new UploadAsync(peerConnection); // non-blocking (async)
 
 //  To Download
 final Download download = new Download(peerConnection);
-final DownloadAsync download = new DownloadAsync(peerConnection);
+final DownloadAsync downloadAsync = new DownloadAsync(peerConnection);
 
 //  More functions that can be used
-final Search download = new Search(peerConnection);
-final SearchAsync download = new SearchAsync(peerConnection);
+final Search search = new Search(peerConnection);
+final SearchAsync searchAsync = new SearchAsync(peerConnection);
 
 //  To look up Account
-final Account download = new Account(peerConnection);
-final AccountAsync download = new AccountAsync(peerConnection);
+final Account account = new Account(peerConnection);
+final AccountAsync accountAsync = new AccountAsync(peerConnection);
 
 //  To look up XPX / Proximax Transactions
-final Transactions download = new Transactions(peerConnection);
-final TransactionsAsync download = new TransactionsAsync(peerConnection);
+final Transactions transactions = new Transactions(peerConnection);
+final TransactionsAsync transactionsAsync = new TransactionsAsync(peerConnection);
 ```
 
 ### Create / Generate new NEM Account
