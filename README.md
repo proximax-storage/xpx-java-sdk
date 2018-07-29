@@ -51,16 +51,16 @@ RemotePeerConnection remotePeerConnection = new RemotePeerConnection("https://te
 ```
 Aside from the testnet connection above, one can also use the following testnet gateways.
 
-+ [https://testnet1.gateway.proximax.io](https://testnet1.gateway.proximax.io "Testnet 1")
-+ [https://testnet2.gateway.proximax.io](https://testnet2.gateway.proximax.io "Testnet 2")
-+ [https://testnet3.gateway.proximax.io](https://testnet3.gateway.proximax.io "Testnet 3")
++ [https://testnet1.gateway.proximax.io](https://testnet1.gateway.proximax.io/node/info "Testnet 1")
++ [https://testnet2.gateway.proximax.io](https://testnet2.gateway.proximax.io/node/info "Testnet 2")
++ [https://testnet3.gateway.proximax.io](https://testnet3.gateway.proximax.io/node/info "Testnet 3")
 
 These testnet gateways are privately hosted storage contributor nodes on our ProximaX servers. All of them are connected to NEM Testnet and Public IPFS network. 
 
 We also have mainnet and mijinnet (NIS Mijin)
 
-+ [https://mainnet.gateway.proximax.io](https://mainnet.gateway.proximax.io "Mainnet")
-+ [https://mijin.gateway.proximax.io](https://mijin.gateway.proximax.io "Mijin")
++ [https://mainnet.gateway.proximax.io](https://mainnet.gateway.proximax.io/node/info "Mainnet")
++ [https://mijin.gateway.proximax.io](https://mijin.gateway.proximax.io/node/info "Mijin")
 
 ***Local Connection***
 
