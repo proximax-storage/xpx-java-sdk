@@ -1,28 +1,29 @@
-# Official Proximax P2P Storage Java SDK
+# Official Proximax P2P Storage Java SDK (NIS1 Compatible Only)
 ![banner](https://proximax.io/wp-content/uploads/2018/03/ProximaX-logotype.png)
-[![Build Status](https://travis-ci.com/proximax-storage/xpx-java-sdk.svg?token=eGkpLEqVyC41fTyC53bq&branch=master)](https://travis-ci.com/proximax-storage/xpx-java-sdk)
 
 ProximaX is a project that utilizes the NEM blockchain technology with the IPFS P2P storage technology to form a very powerful proofing solution for documents or files which are stored in an immutable and irreversible manner, similar to the blockchain technology solutions. 
 
 ## Getting started with ProximaX Java SDK (NIS1)
-Download and extract the Java SDK [__here__](https://testnet1.gateway.proximax.io/xpxfs/e36ff76af162f561cf41d7c82f04ab1c73f93a33edff666ce8d08d50a2bccf68)
-
-Extact and place the JAR on your local machine and install it on your repository
-
-If you're using Maven, you can install the JAR on your m2 repository
-
-```xml
-mvn install:install-file -Dfile=<path-to-file.jar> -DgroupId=io.nem.xpx -DartifactId=xpx-java-sdk -Dversion=0.1.0-beta.6 -Dpackaging=jar
-```
-
 Import the following dependency to your Java Project. Replace with the latest version. 
 
+**Maven**
 ```xml
 <dependency>
-    <groupId>io.nem.xpx</groupId>
+    <groupId>io.proximax</groupId>
     <artifactId>xpx-java-sdk</artifactId>
-    <version>0.1.0-beta.6</version>
+    <version>0.1.0-beta.7</version>
 </dependency>
+```
+**Gradle**
+```xml
+compile 'io.proximax:xpx-java-sdk:0.1.0-beta.7'
+```
+
+**Groovy**
+```xml
+@Grapes( 
+    @Grab(group='io.proximax', module='xpx-java-sdk', version='0.1.0-beta.7') 
+)
 ```
 
 ### Get your XPX Test Tokens
@@ -50,12 +51,16 @@ RemotePeerConnection remotePeerConnection = new RemotePeerConnection("https://te
 ```
 Aside from the testnet connection above, one can also use the following testnet gateways.
 
-+ [https://testnet1.gateway.proximax.io](https://testnet1.gateway.proximax.io "Testnet 1")
-+ [https://testnet2.gateway.proximax.io](https://testnet2.gateway.proximax.io "Testnet 2")
-+ [https://testnet3.gateway.proximax.io](https://testnet3.gateway.proximax.io "Testnet 3")
++ [https://testnet1.gateway.proximax.io](https://testnet1.gateway.proximax.io/node/info "Testnet 1")
++ [https://testnet2.gateway.proximax.io](https://testnet2.gateway.proximax.io/node/info "Testnet 2")
++ [https://testnet3.gateway.proximax.io](https://testnet3.gateway.proximax.io/node/info "Testnet 3")
 
 These testnet gateways are privately hosted storage contributor nodes on our ProximaX servers. All of them are connected to NEM Testnet and Public IPFS network. 
 
+We also have mainnet and mijinnet (NIS Mijin)
+
++ [https://mainnet.gateway.proximax.io](https://mainnet.gateway.proximax.io/node/info "Mainnet")
++ [https://mijin.gateway.proximax.io](https://mijin.gateway.proximax.io/node/info "Mijin")
 
 ***Local Connection***
 
@@ -230,6 +235,27 @@ UploadTextDataParameter parameter = UploadTextDataParameter.create()
 
 final UploadResult uploadResult = unitUnderTest.uploadTextData(parameter);
 ```
+
+***Upload Path***
+
+Note that this feature works on local peer connection and linux/mac machine only
+
+```java
+UploadPathParameter parameter = UploadPathParameter.create()
+				.senderPrivateKey(TEST_PRIVATE_KEY)
+				.receiverPublicKey(TEST_PUBLIC_KEY)
+				.path("src/test/resources/")
+				.metadata(METADATA_AS_MAP)
+				.keywords(KEYWORDS_PLAIN_AND_PATH)
+				.mosaics(MOSAIC_LAND_REGISTRY)
+				.build();
+
+final UploadResult uploadResult = unitUnderTest.uploadPath(parameter);
+```
+
+You will now be able to visit the path via our proximax or ipfs gateways
+
+*Note: Path is by default, public. Please be careful when loading a directory as it exposes it the open public gateways*
 
 ### Securing uploaded content with Privacy Strategies 
 By default, any upload will use a plain privacy strategy. This basically means that the file is not in anyway encrypted and can be accessed publicly. 
@@ -439,7 +465,7 @@ Download it [__here__](https://testnet.gateway.proximax.io/xpxfs/4b04b20335de384
 
 ```xml
 <dependency>
-    <groupId>io.nem.xpx</groupId>
+    <groupId>io.proximax.xpx</groupId>
     <artifactId>proximax-nem-txn-monitor</artifactId>
     <version>0.1.0-beta.x</version>
 </dependency>
@@ -451,8 +477,8 @@ Call code to Monitor
 
 WsNemTransactionMonitor.networkName("testnet").host("23.228.67.85").port("7890").wsPort("7778")
 	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
-	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitorHandler1()) // multiple subscription and a handler
-	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new CustomTransactionMonitorHandler2())
+	.subscribe(io.proximax.utils.Constants.URL_WS_TRANSACTIONS, new CustomTransactionMonitorHandler1()) // multiple subscription and a handler
+	.subscribe(io.proximax.utils.Constants.URL_WS_UNCONFIRMED, new CustomTransactionMonitorHandler2())
 	.monitor(); // trigger the monitoring process
 			
 ```
@@ -464,4 +490,3 @@ We'd love to get more people involve in the project. We're looking for enthusias
 + Pick up a task, code and raise a PR
 
 Copyright (c) 2018 ProximaX Limited
-

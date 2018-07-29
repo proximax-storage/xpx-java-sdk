@@ -1,6 +1,6 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "io.nem.xpx",
+    organization := "io.proximax.xpx",
     name := "xpx-java-sdk",
     version := "1.0.0",
     scalaVersion := "2.11.4",
