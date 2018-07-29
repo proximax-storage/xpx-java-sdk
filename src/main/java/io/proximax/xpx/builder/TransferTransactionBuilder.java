@@ -264,9 +264,8 @@ public class TransferTransactionBuilder {
 	public TransferTransactionBuilder addMosaic(MosaicId mosaic, Quantity quantity) {
 		if (this.attachment == null) {
 			this.attachment = (AttachmentFactory.createTransferTransactionAttachment());
-		} else {
-			this.attachment.addMosaic(mosaic, quantity);
 		}
+		this.attachment.addMosaic(mosaic, quantity);
 		return this;
 	}
 
@@ -280,12 +279,11 @@ public class TransferTransactionBuilder {
 	public TransferTransactionBuilder addMosaics(Mosaic... mosaics) {
 		if (this.attachment == null) {
 			this.attachment = (AttachmentFactory.createTransferTransactionAttachment());
-		} else {
-			for (Mosaic mosaic : mosaics) {
-				this.attachment.addMosaic(mosaic);
-			}
 		}
 
+		for (Mosaic mosaic : mosaics) {
+			this.attachment.addMosaic(mosaic);
+		}
 		return this;
 	}
 

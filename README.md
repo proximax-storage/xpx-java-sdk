@@ -490,4 +490,3 @@ We'd love to get more people involve in the project. We're looking for enthusias
 + Pick up a task, code and raise a PR
 
 Copyright (c) 2018 ProximaX Limited
-
