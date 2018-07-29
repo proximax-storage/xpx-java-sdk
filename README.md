@@ -1,28 +1,29 @@
 # Official Proximax P2P Storage Java SDK
 ![banner](https://proximax.io/wp-content/uploads/2018/03/ProximaX-logotype.png)
-[![Build Status](https://travis-ci.com/proximax-storage/xpx-java-sdk.svg?token=eGkpLEqVyC41fTyC53bq&branch=master)](https://travis-ci.com/proximax-storage/xpx-java-sdk)
 
 ProximaX is a project that utilizes the NEM blockchain technology with the IPFS P2P storage technology to form a very powerful proofing solution for documents or files which are stored in an immutable and irreversible manner, similar to the blockchain technology solutions. 
 
 ## Getting started with ProximaX Java SDK (NIS1)
-Download and extract the Java SDK [__here__](https://testnet1.gateway.proximax.io/xpxfs/e36ff76af162f561cf41d7c82f04ab1c73f93a33edff666ce8d08d50a2bccf68)
-
-Extact and place the JAR on your local machine and install it on your repository
-
-If you're using Maven, you can install the JAR on your m2 repository
-
-```xml
-mvn install:install-file -Dfile=<path-to-file.jar> -DgroupId=io.proximax -DartifactId=xpx-java-sdk -Dversion=0.1.0-beta.6 -Dpackaging=jar
-```
-
 Import the following dependency to your Java Project. Replace with the latest version. 
 
+**Maven**
 ```xml
 <dependency>
-    <groupId>io.proximax.xpx</groupId>
+    <groupId>io.proximax</groupId>
     <artifactId>xpx-java-sdk</artifactId>
-    <version>0.1.0-beta.6</version>
+    <version>0.1.0-beta.7</version>
 </dependency>
+```
+**Gradle**
+```xml
+compile 'io.proximax:xpx-java-sdk:0.1.0-beta.7'
+```
+
+**Groovy**
+```xml
+@Grapes( 
+    @Grab(group='io.proximax', module='xpx-java-sdk', version='0.1.0-beta.7') 
+)
 ```
 
 ### Get your XPX Test Tokens
