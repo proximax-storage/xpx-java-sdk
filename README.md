@@ -3,6 +3,29 @@
 
 ProximaX is a project that utilizes the NEM blockchain technology with the IPFS P2P storage technology to form a very powerful proofing solution for documents or files which are stored in an immutable and irreversible manner, similar to the blockchain technology solutions. 
 
+## Adding Jitpack Repository
+There are dependencies hosted from Jitpack. Add the JitPack repository to your build file
+
+**Maven**
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+**Gradle**
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
 ## Getting started with ProximaX Java SDK (NIS1)
 Import the following dependency to your Java Project. Replace with the latest version. 
 
