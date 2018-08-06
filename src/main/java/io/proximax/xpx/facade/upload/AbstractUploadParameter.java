@@ -21,6 +21,7 @@ import io.proximax.xpx.exceptions.MetadataAboveMaxLengthLimitException;
 import io.proximax.xpx.strategy.privacy.PrivacyStrategy;
 import io.proximax.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.proximax.xpx.utils.JsonUtils;
+import org.nem.core.model.Account;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.util.Map;
@@ -44,6 +45,10 @@ public abstract class AbstractUploadParameter {
 	
 	/** The receiver public key. */
 	private String receiverPublicKey;
+
+	private Account senderPrivateKeyAccount;
+
+	private Account receiverPublicKeyAccount;
 	
 	/** The content type. */
 	private String contentType;
@@ -64,7 +69,24 @@ public abstract class AbstractUploadParameter {
 	/** The privacy strategy. */
 	private PrivacyStrategy privacyStrategy = PrivacyStrategyFactory.plainPrivacy();
 
+	public Account getSenderPrivateKeyAccount() {
+		return senderPrivateKeyAccount;
+	}
+
+	public void setSenderPrivateKeyAccount(Account senderPrivateKeyAccount) {
+		this.senderPrivateKeyAccount = senderPrivateKeyAccount;
+	}
+
+	public Account getReceiverPublicKeyAccount() {
+		return receiverPublicKeyAccount;
+	}
+
+	public void setReceiverPublicKeyAccount(Account receiverPublicKeyAccount) {
+		this.receiverPublicKeyAccount = receiverPublicKeyAccount;
+	}
+
 	/**
+
 	 * Gets the sender private key.
 	 *
 	 * @return the sender private key

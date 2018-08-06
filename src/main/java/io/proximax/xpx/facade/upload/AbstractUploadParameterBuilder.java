@@ -20,6 +20,7 @@ import io.proximax.xpx.builder.steps.*;
 import io.proximax.xpx.strategy.privacy.PrivacyStrategy;
 import io.proximax.xpx.strategy.privacy.PrivacyStrategyFactory;
 import io.proximax.xpx.strategy.privacy.SecuredWithShamirSecretSharingPrivacyStrategy.SecretPart;
+import org.nem.core.model.Account;
 import org.nem.core.model.mosaic.Mosaic;
 
 import java.util.Collections;
@@ -166,4 +167,16 @@ public abstract class AbstractUploadParameterBuilder<NextBuildStepAfterPublicKey
 		return (NextBuildStepAfterPublicKey) this;
 	}
 
+
+	@Override
+	public NextBuildStepAfterPublicKey receiverPublicKey(Account receiverPublicKey) {
+		this.instance.setReceiverPublicKeyAccount(receiverPublicKey);
+		return (NextBuildStepAfterPublicKey) this;
+	}
+
+	@Override
+	public ReceiverPublicKeyStep senderPrivateKey(Account senderPrivateKey) {
+		this.instance.setSenderPrivateKeyAccount(senderPrivateKey);
+		return this;
+	}
 }

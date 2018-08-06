@@ -17,6 +17,8 @@
 package io.proximax.xpx.builder.steps;
 
 
+import org.nem.core.model.Account;
+
 /**
  * The Interface ReceiverPublicKeyStep.
  *
@@ -32,4 +34,6 @@ public interface ReceiverPublicKeyStep<T> {
      */
     T receiverPublicKey(String receiverPublicKey);
 
+    
+    T receiverPublicKey(Account receiverPublicKey);
 }

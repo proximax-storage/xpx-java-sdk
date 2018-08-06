@@ -17,6 +17,8 @@
 package io.proximax.xpx.builder.steps;
 
 
+import org.nem.core.model.Account;
+
 /**
  * The Interface SenderPrivateKeyStep.
  *
@@ -31,4 +33,6 @@ public interface SenderPrivateKeyStep<T> {
      * @return the t
      */
     T senderPrivateKey(String senderPrivateKey);
+
+    T senderPrivateKey(Account senderPrivateKey);
 }

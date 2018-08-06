@@ -32,6 +32,7 @@ import io.proximax.xpx.strategy.privacy.PrivacyStrategy;
 import io.proximax.xpx.utils.ContentTypeUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.nem.core.model.Account;
 import org.nem.core.model.Message;
 import org.nem.core.model.mosaic.Mosaic;
 
@@ -274,6 +275,25 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	private UploadResult handleTextDataUpload(PrivacyStrategy privacyStrategy, Account senderPrivateKey, Account receiverPublicKey,
+											  String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
+											  String textData, String encoding) throws UploadException {
+		try {
+			final byte[] textInBytes = textData.getBytes(encoding);
+
+			final byte[] encryptedTextInBytes = privacyStrategy.encrypt(textInBytes);
+			final ResourceHashMessageWrapper hashMessageWrapper = uploadDelegate.uploadTextToIpfs(
+					encryptedTextInBytes, name, contentType, encoding, keywords, metadata);
+
+			return handlePostUpload(privacyStrategy, senderPrivateKey,
+					receiverPublicKey, mosaics, hashMessageWrapper);
+		} catch (UploadException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new UploadException("Error on uploading text data", e);
+		}
+	}
+
 	/**
 	 * Handle binary upload.
 	 *
@@ -290,6 +310,23 @@ public class Upload extends AbstractFacadeService {
 	 * @throws UploadException the upload exception
 	 */
 	private UploadResult handleBinaryUpload(PrivacyStrategy privacyStrategy, String senderPrivateKey, String receiverPublicKey,
+											String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
+											byte[] binaryContent) throws UploadException {
+		try {
+			byte[] encryptedContent = privacyStrategy.encrypt(binaryContent);
+			final ResourceHashMessageWrapper hashMessageWrapper =
+					uploadDelegate.uploadBinaryToIpfs(encryptedContent, name, contentType, keywords, metadata);
+			return handlePostUpload(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics, hashMessageWrapper);
+
+		} catch (UploadException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new UploadException("Error on uploading binary data", e);
+
+		}
+	}
+
+	private UploadResult handleBinaryUpload(PrivacyStrategy privacyStrategy, Account senderPrivateKey, Account receiverPublicKey,
 											String contentType, String keywords, String metadata, String name, Mosaic[] mosaics,
 											byte[] binaryContent) throws UploadException {
 		try {
@@ -378,6 +415,22 @@ public class Upload extends AbstractFacadeService {
 		}
 	}
 
+	private UploadResult handlePostUpload(PrivacyStrategy privacyStrategy, Account senderPrivateKey, Account receiverPublicKey,
+										  Mosaic[] mosaics, ResourceHashMessageWrapper hashMessageWrapper) throws Exception {
+		try {
+			final String nemHash = createNemTransaction(privacyStrategy, senderPrivateKey, receiverPublicKey, mosaics,
+					hashMessageWrapper.getData());
+
+			ipfsGatewaySyncService.syncToGatewaysAsynchronously(hashMessageWrapper.getResourceHashMessage().hash());
+
+			return new UploadResult(hashMessageWrapper.getResourceHashMessage(), nemHash);
+		} catch (Exception e) {
+			Executors.newSingleThreadExecutor().submit(() ->
+					uploadDelegate.deletePinnedContent(hashMessageWrapper.getResourceHashMessage().hash()));
+			throw e;
+		}
+	}
+
 	/**
 	 * Creates the proximax transaction.
 	 *
@@ -391,6 +444,12 @@ public class Upload extends AbstractFacadeService {
 	 */
 	private String createNemTransaction(PrivacyStrategy privacyStrategy, String senderPrivateKey,
 										String receiverPublicKey, Mosaic[] mosaics, byte[] response) throws Exception {
+		final Message nemMessage = privacyStrategy.encodeToMessage(response);
+		return transactionAnnouncer.announceTransactionForUploadedContent(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
+	}
+
+	private String createNemTransaction(PrivacyStrategy privacyStrategy, Account senderPrivateKey,
+										Account receiverPublicKey, Mosaic[] mosaics, byte[] response) throws Exception {
 		final Message nemMessage = privacyStrategy.encodeToMessage(response);
 		return transactionAnnouncer.announceTransactionForUploadedContent(nemMessage, senderPrivateKey, receiverPublicKey, mosaics);
 	}

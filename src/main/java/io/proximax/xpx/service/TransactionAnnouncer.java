@@ -90,4 +90,38 @@ public class TransactionAnnouncer {
             throw new AnnounceTransactionFailureException(
                     format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
     }
+
+    /**
+     * Announce transaction for uploaded content.
+     *
+     * @param nemMessage the proximax message
+     * @param senderPrivateKey the sender private key
+     * @param receiverPublicKey the receiver public key
+     * @param mosaics the mosaics
+     * @return the string
+     * @throws Exception the exception
+     */
+    public String announceTransactionForUploadedContent(Message nemMessage, Account senderPrivateKey, Account receiverPublicKey,
+                                                        Mosaic[] mosaics) throws Exception {
+
+        Mosaic xpxMosaic = new Mosaic(new MosaicId(new NamespaceId("prx"), "xpx"), Quantity.fromValue(1));
+
+        final TransferTransaction transferTransaction = new TransferTransactionBuilder(transactionFeeCalculators)
+                .sender(senderPrivateKey)
+                .recipient(receiverPublicKey)
+                .version(2)
+                .amount(Amount.fromNem(1l))
+                .message(nemMessage)
+                .addMosaics(mosaics)
+                .addMosaic(xpxMosaic) // XPX Mosaic
+                .buildAndSignTransaction();
+
+        final NemAnnounceResult announceResult = transactionSender.sendTransferTransaction(transferTransaction);
+
+        if (announceResult.getCode() == NemAnnounceResult.CODE_SUCCESS)
+            return announceResult.getTransactionHash().toString();
+        else
+            throw new AnnounceTransactionFailureException(
+                    format("Announcement of Nem transaction failed: %s", announceResult.getMessage()));
+    }
 }

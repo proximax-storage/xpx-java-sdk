@@ -17,6 +17,7 @@
 package io.proximax.xpx.builder.steps;
 
 import io.proximax.xpx.strategy.privacy.PrivacyStrategy;
+import org.nem.core.model.Account;
 
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,8 @@ public interface PrivacyStrategyDownloadStep<T> {
      * @return the t
      */
     T securedWithNemKeysPrivacyStrategy(String senderOrReceiverPrivateKey, String receiverOrSenderPublicKey);
+
+    T securedWithNemKeysPrivacyStrategy(Account senderOrReceiverPrivateKey, Account receiverOrSenderPublicKey);
 
     /**
      * Secured with password privacy strategy.
