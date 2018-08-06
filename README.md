@@ -34,18 +34,18 @@ Import the following dependency to your Java Project. Replace with the latest ve
 <dependency>
     <groupId>io.proximax</groupId>
     <artifactId>xpx-java-sdk</artifactId>
-    <version>0.1.0-beta.7</version>
+    <version>0.1.0-beta.8</version>
 </dependency>
 ```
 **Gradle**
 ```xml
-compile 'io.proximax:xpx-java-sdk:0.1.0-beta.7'
+compile 'io.proximax:xpx-java-sdk:0.1.0-beta.8'
 ```
 
 **Groovy**
 ```xml
 @Grapes( 
-    @Grab(group='io.proximax', module='xpx-java-sdk', version='0.1.0-beta.7') 
+    @Grab(group='io.proximax', module='xpx-java-sdk', version='0.1.0-beta.8') 
 )
 ```
 
