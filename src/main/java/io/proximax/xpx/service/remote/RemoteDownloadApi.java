@@ -57,9 +57,9 @@ import java.util.Map;
  * The Class RemoteDownloadApi.
  */
 public class RemoteDownloadApi implements DownloadApi {
-	
-	/** The api client. */
-	private final ApiClient apiClient;
+
+    /** The api client. */
+    private final ApiClient apiClient;
 
     /**
      * Instantiates a new remote download api.
@@ -91,28 +91,28 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadBinaryUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/download/binary";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (nemHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
         if (transferMode != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -123,8 +123,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -132,7 +132,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download binary using GET validate before call.
      *
@@ -145,25 +145,25 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadBinaryUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'nemHash' is set
         if (nemHash == null) {
             throw new ApiException("Missing the required parameter 'nemHash' when calling downloadBinaryUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'transferMode' is set
         if (transferMode == null) {
             throw new ApiException("Missing the required parameter 'transferMode' when calling downloadBinaryUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadBinaryUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -228,7 +228,7 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
+
     /**
      * Build call for downloadFileUsingGET.
      *
@@ -241,28 +241,28 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadFileUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/download/file";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (nemHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
         if (transferMode != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -273,8 +273,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -282,7 +282,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download file using GET validate before call.
      *
@@ -295,25 +295,25 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadFileUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'nemHash' is set
         if (nemHash == null) {
             throw new ApiException("Missing the required parameter 'nemHash' when calling downloadFileUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'transferMode' is set
         if (transferMode == null) {
             throw new ApiException("Missing the required parameter 'transferMode' when calling downloadFileUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadFileUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -378,7 +378,7 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
+
     /**
      * Build call for downloadSecureBinaryUsingGET.
      *
@@ -392,30 +392,30 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadSecureBinaryUsingGETCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/download/secure/binary";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (nemHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
         if (transferType != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
+            localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -426,8 +426,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -435,7 +435,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download secure binary using GET validate before call.
      *
@@ -449,30 +449,30 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadSecureBinaryUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'xPvkey' is set
         if (xPvkey == null) {
             throw new ApiException("Missing the required parameter 'xPvkey' when calling downloadSecureBinaryUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'nemHash' is set
         if (nemHash == null) {
             throw new ApiException("Missing the required parameter 'nemHash' when calling downloadSecureBinaryUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'transferType' is set
         if (transferType == null) {
             throw new ApiException("Missing the required parameter 'transferType' when calling downloadSecureBinaryUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadSecureBinaryUsingGETCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -540,7 +540,7 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
+
     /**
      * Build call for downloadSecureFileUsingGET.
      *
@@ -554,30 +554,30 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadSecureFileUsingGETCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/download/secure/file";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (nemHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
         if (transferType != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferType", transferType));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xPvkey != null)
-        localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
+            localVarHeaderParams.put("x-pvkey", apiClient.parameterToString(xPvkey));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -588,8 +588,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -597,7 +597,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download secure file using GET validate before call.
      *
@@ -611,30 +611,30 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadSecureFileUsingGETValidateBeforeCall(String xPvkey, String nemHash, String transferType, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'xPvkey' is set
         if (xPvkey == null) {
             throw new ApiException("Missing the required parameter 'xPvkey' when calling downloadSecureFileUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'nemHash' is set
         if (nemHash == null) {
             throw new ApiException("Missing the required parameter 'nemHash' when calling downloadSecureFileUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'transferType' is set
         if (transferType == null) {
             throw new ApiException("Missing the required parameter 'transferType' when calling downloadSecureFileUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadSecureFileUsingGETCall(xPvkey, nemHash, transferType, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -702,7 +702,7 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
+
     /**
      * Build call for downloadTextUsingGET.
      *
@@ -715,28 +715,28 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadTextUsingGETCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
         String localVarPath = "/download/text";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (nemHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "nemHash", nemHash));
         if (transferMode != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
+            localVarQueryParams.addAll(apiClient.parameterToPairs("", "transferMode", transferMode));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -747,8 +747,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -756,7 +756,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download text using GET validate before call.
      *
@@ -769,25 +769,25 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadTextUsingGETValidateBeforeCall(String nemHash, String transferMode, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'nemHash' is set
         if (nemHash == null) {
             throw new ApiException("Missing the required parameter 'nemHash' when calling downloadTextUsingGET(Async)");
         }
-        
+
         // verify the required parameter 'transferMode' is set
         if (transferMode == null) {
             throw new ApiException("Missing the required parameter 'transferMode' when calling downloadTextUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadTextUsingGETCall(nemHash, transferMode, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -852,7 +852,7 @@ public class RemoteDownloadApi implements DownloadApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    
+
     /**
      * Build call for downloadUsingDataHashUsingGET.
      *
@@ -864,26 +864,26 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     public com.squareup.okhttp.Call downloadUsingDataHashUsingGETCall(String dataHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
+
         // create path and map variables
-        String localVarPath = "/download/direct/datahash";
+        String localVarPath = "/download/direct/datahash/"+dataHash;
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (dataHash != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "dataHash", dataHash));
+        //if (dataHash != null)
+        //localVarQueryParams.addAll(apiClient.parameterToPairs("", "dataHash", dataHash));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "*/*"
+                "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+                "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -894,8 +894,8 @@ public class RemoteDownloadApi implements DownloadApi {
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 }
             });
         }
@@ -903,7 +903,7 @@ public class RemoteDownloadApi implements DownloadApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     /**
      * Download using data hash using GET validate before call.
      *
@@ -915,20 +915,20 @@ public class RemoteDownloadApi implements DownloadApi {
      */
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call downloadUsingDataHashUsingGETValidateBeforeCall(String dataHash, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
+
         // verify the required parameter 'dataHash' is set
         if (dataHash == null) {
             throw new ApiException("Missing the required parameter 'dataHash' when calling downloadUsingDataHashUsingGET(Async)");
         }
-        
-        
+
+
         com.squareup.okhttp.Call call = downloadUsingDataHashUsingGETCall(dataHash, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
