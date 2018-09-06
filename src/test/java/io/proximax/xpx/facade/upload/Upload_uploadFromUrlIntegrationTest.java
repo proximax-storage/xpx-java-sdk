@@ -18,6 +18,7 @@ package io.proximax.xpx.facade.upload;
 
 import io.proximax.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URL;
@@ -56,6 +57,7 @@ public class Upload_uploadFromUrlIntegrationTest extends AbstractFacadeIntegrati
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore("test only when required. this test creates dependency to a URL resournce")
 	public void shouldUploadPngFromHttpUrl() throws Exception {
 		UploadFromUrlParameter parameter = UploadFromUrlParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)
@@ -87,6 +89,7 @@ public class Upload_uploadFromUrlIntegrationTest extends AbstractFacadeIntegrati
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore("test only when required. this test creates dependency to a URL resournce")
 	public void shouldUploadHtmlFromHttpUrl() throws Exception {
 		UploadFromUrlParameter parameter = UploadFromUrlParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

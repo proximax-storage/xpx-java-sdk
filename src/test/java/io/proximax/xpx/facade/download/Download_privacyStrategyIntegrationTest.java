@@ -16,7 +16,9 @@
 
 package io.proximax.xpx.facade.download;
 
+import com.codahale.shamir.Scheme;
 import io.proximax.xpx.facade.AbstractFacadeIntegrationTest;
+import io.proximax.xpx.facade.connection.RemotePeerConnection;
 import io.proximax.xpx.model.NemMessageType;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;

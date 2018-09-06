@@ -41,7 +41,7 @@ public class UploadDelegate {
             final byte[] resourceHashMessageData = uploadApi.uploadBytesBinary(binaryData, name, contentType, keywords, metadata);
             return new ResourceHashMessageWrapper(resourceHashMessageData);
         } catch (Exception e) {
-            throw new UploadContentFailureException("Failed to upload text to ipfs", e);
+            throw new UploadContentFailureException("Failed to upload binary to ipfs", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class UploadDelegate {
             final byte[] resourceHashMessageData = uploadApi.uploadPath(path, name, keywords, metadata);
             return new ResourceHashMessageWrapper(resourceHashMessageData);
         } catch (Exception e) {
-            throw new UploadContentFailureException("Failed to upload text to ipfs", e);
+            throw new UploadContentFailureException("Failed to upload path to ipfs", e);
         }
     }
 

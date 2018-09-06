@@ -18,6 +18,7 @@ package io.proximax.xpx.facade.upload;
 
 import io.proximax.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URL;
@@ -55,6 +56,7 @@ public class UploadAsync_uploadFromUrlIntegrationTest extends AbstractFacadeInte
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore("has dependency on an internet resource")
 	public void shouldUploadPngFromHttpUrlAsynchronously() throws Exception {
 		UploadFromUrlParameter parameter = UploadFromUrlParameter.create()
 				.senderPrivateKey(TEST_PRIVATE_KEY)

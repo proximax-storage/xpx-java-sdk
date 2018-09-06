@@ -56,7 +56,8 @@ public class Upload_privacyStrategyIntegrationTest extends AbstractFacadeIntegra
         assertThat(uploadResult.getDataMessage().hash(), is(notNullValue()));
         assertThat(uploadResult.getDataMessage().digest(), is(notNullValue()));
 
-        LOGGER.info("Plain Privacy Strategy uploaded proximax hash: " + uploadResult.getNemHash());
+        LOGGER.info("Plain Privacy Strategy uploaded proximax NEM hash: " + uploadResult.getNemHash());
+        LOGGER.info("Plain Privacy Strategy uploaded proximax IPFS hash: " + uploadResult.getIpfsHash());
     }
 
     @Test
@@ -77,7 +78,8 @@ public class Upload_privacyStrategyIntegrationTest extends AbstractFacadeIntegra
         assertThat(uploadResult.getDataMessage().hash(), is(notNullValue()));
         assertThat(uploadResult.getDataMessage().digest(), is(notNullValue()));
 
-        LOGGER.info("Secured With NEM Keys Privacy Strategy uploaded proximax hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured With NEM Keys Privacy Strategy uploaded proximax NEM hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured With NEM Keys Privacy Strategy uploaded proximax IPFS hash: " + uploadResult.getIpfsHash());
     }
 
     @Test
@@ -98,7 +100,8 @@ public class Upload_privacyStrategyIntegrationTest extends AbstractFacadeIntegra
         assertThat(uploadResult.getDataMessage().hash(), is(notNullValue()));
         assertThat(uploadResult.getDataMessage().digest(), is(notNullValue()));
 
-        LOGGER.info("Secured with Password Privacy Strategy uploaded proximax hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured with Password Privacy Strategy uploaded proximax NEM hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured with Password Privacy Strategy uploaded proximax IPFS hash: " + uploadResult.getIpfsHash());
     }
 
     @Test
@@ -125,6 +128,7 @@ public class Upload_privacyStrategyIntegrationTest extends AbstractFacadeIntegra
         assertThat(uploadResult.getDataMessage().hash(), is(notNullValue()));
         assertThat(uploadResult.getDataMessage().digest(), is(notNullValue()));
 
-        LOGGER.info("Secured with Shamir Secret Sharing Privacy Strategy uploaded proximax hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured with Shamir Secret Sharing Privacy Strategy uploaded proximax NEM hash: " + uploadResult.getNemHash());
+        LOGGER.info("Secured with Shamir Secret Sharing Privacy Strategy uploaded proximax IPFS hash: " + uploadResult.getIpfsHash());
     }
 }

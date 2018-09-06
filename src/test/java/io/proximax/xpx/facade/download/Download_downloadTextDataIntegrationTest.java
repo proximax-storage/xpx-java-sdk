@@ -20,6 +20,7 @@ import io.proximax.xpx.facade.AbstractFacadeIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 
+import static io.proximax.xpx.facade.upload.Upload_uploadTextDataIntegrationTest.ENCODING_UTF_ASCII;
 import static io.proximax.xpx.testsupport.Constants.TEST_PRIVATE_KEY;
 import static io.proximax.xpx.testsupport.Constants.TEST_PUBLIC_KEY;
 import static org.junit.Assert.assertEquals;
@@ -51,14 +52,14 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 	public void shouldDownloadTextData() throws Exception {
 
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
-				.nemHash("7f2d1944016f1259e552b34cb5029d7473074856229094acc5ba479549e59411").build());
+				.nemHash("712f8911302156815b95d19b6f96213713489bd663170c86dd333f882ebe6660").build());
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
-				"!\"#$%&'()*+,-.:\t ;<=>?@[\\]^_`{|}~", result.getString());
+				"plain - the quick brown fox jumps over the lazy dog UTF-8", result.getString());
 	}
 
 	/**
-	 * Should download secure ascii data.
+	 * Should download ascii data.
 	 *
 	 * @throws Exception the exception
 	 */
@@ -66,12 +67,11 @@ public class Download_downloadTextDataIntegrationTest extends AbstractFacadeInte
 	public void shouldDownloadAsciiData() throws Exception {
 
 		final DownloadTextDataResult result = unitUnderTest.downloadTextData(DownloadParameter.create()
-				.nemHash("8fc0a1393a913086895ec784435db74566dd5bf163580e7e87731791530dfffa")
-				.securedWithNemKeysPrivacyStrategy(TEST_PRIVATE_KEY, TEST_PUBLIC_KEY)
+				.nemHash("967cee633d0dec52842d4d1c449051b828ab8baa6fd20549f269aaa5e6d643b7")
 				.build());
 
 		assertEquals("Assertion failed: Decryted data is not equal to expected",
-				"secure - the quick brown fox jumps over the lazy dog ASCII", result.getString());
+				"plain - the quick brown fox jumps over the lazy dog ASCII", result.getString(ENCODING_UTF_ASCII));
 	}
 
 }

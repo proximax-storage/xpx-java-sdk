@@ -67,7 +67,7 @@ public class Constants {
 
     /** The Constant LARGE_FILE. */
     public static final File LARGE_FILE = new File("src//test//resources//test_large_file.zip");
-  
+
     /** The Constant ZIP_FILE. */
     public static final File ZIP_FILE = new File("src//test//resources//zip_file.zip");
 
@@ -83,8 +83,8 @@ public class Constants {
     /** The Constant HTML_FILE. */
     public static final File HTML_FILE = new File("src//test//resources//test_html.html");
 
-    public static final String SAMPLE_URL_HTML = "http://dev-gateway.internal.proximax.io:8881/swagger-ui.html";
-    public static final String SAMPLE_URL_PNG = "http://dev-gateway.internal.proximax.io:8881/webjars/springfox-swagger-ui/images/logo_small.png";
+    public static final String SAMPLE_URL_HTML = "http://testnet.gateway.proximax.io/swagger-ui.html";
+    public static final String SAMPLE_URL_PNG = "http://testnet.gateway.proximax.io/webjars/springfox-swagger-ui/images/logo_small.png";
     public static final String SAMPLE_URL_PDF = "https://proximax.io/ProximaX-Whitepaper-v1.4.pdf";
 
     /** The Constant MOSAIC_LAND_REGISTRY. */
@@ -161,12 +161,12 @@ public class Constants {
     public static final Map<Integer, byte[]> SHAMIR_SECRET_PARTS = SCHEME.split(SHAMIR_SECRET);
 
     public static final String NEM_HASH_PDF_FILE1_PLAIN_PRIVACY_STRATEGY = "f50987901e813bff12375161b540bbda3ed7b74511266ee22480c523d89af563";
-    public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "fe218dd90ff938c39103d1c1c1150bdae9434e3e93e3b5e4fd34e7d408071967";
+    public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "68a338302f4aa52fbc81ec050cb1e677be331e9a9f0b32718c12a1ffdf6f21cb";
     public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_PASSWOR_PRIVACY_STRATEGY = "37a49a0ba2e9915c27e55b5600f1550bce5245ad694ad92217c83eaf91063170";
     public static final String NEM_HASH_PDF_FILE1_SECURED_WITH_SHAMIR_SECRET_SHARING_PRIVACY_STRATEGY = "27cffeec36a1a887d430c3aaaf439dae14c7cb1e8a977c719d3030c30c31b5d5";
 
     public static final String IPFS_HASH_PDF_FILE1_PLAIN_PRIVACY_STRATEGY = "QmUmoLj45TGXhggwEYAMa9vLHwSRmAayNwtSuRVs7recbd";
-    public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "QmRNbrXXYydkwTSNwVbCvgjkxNVGzwN7PqNsi76rhKd867";
+    public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_NEM_KEYS_PRIVACY_STRATEGY = "Qmb6rp72A6LzXURWRRRHr3P2DUSUXFEQpQWuEchbVmh2WP";
     public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_PASSWOR_PRIVACY_STRATEGY = "QmYr8YfHZebZzas9LWrNSLX6o9Nbp94XdHgVXkuzvsaEbE";
     public static final String IPFS_HASH_PDF_FILE1_SECURED_WITH_SHAMIR_SECRET_SHARING_PRIVACY_STRATEGY = "QmaoPXD92YUkdnaUDGuqGnGabpm15dxzhADr8Gy124rXqe";
 
@@ -207,7 +207,8 @@ public class Constants {
      */
     private static RemotePeerConnection getDevRemotePeerConnection() {
         try {
-            return new RemotePeerConnection("http://dev-gateway.internal.proximax.io:8881");
+//            return new RemotePeerConnection("https://testnet.gateway.proximax.io");
+            return new RemotePeerConnection("http://localhost:8881");
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             e.printStackTrace();
