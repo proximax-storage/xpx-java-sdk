@@ -53,6 +53,8 @@ compile 'io.proximax:xpx-java-sdk:0.1.0-beta.10'
 
 Visit the XEM/XPX Testnet faucet at [https://proximaxfaucet20180730014353.azurewebsites.net/](https://proximaxfaucet20180730014353.azurewebsites.net/ "Testnet Faucet")
 
+Mijin/Privatenet faucet at [https://proximaxfaucetmijin.azurewebsites.net/](https://proximaxfaucetmijin.azurewebsites.net/ "Mijinnet Faucet") 
+
 
 ### Establishing a connection
 We support 2 types of connection. 
