@@ -51,9 +51,9 @@ compile 'io.proximax:xpx-java-sdk:0.1.0-beta.10'
 
 ### Get your XPX Test Tokens
 
-Visit the XEM/XPX Testnet faucet at [https://proximaxfaucet20180730014353.azurewebsites.net/](https://proximaxfaucet20180730014353.azurewebsites.net/ "Testnet Faucet")
+Visit the XEM/XPX Testnet faucet at [https://proximaxtestnethackathon.azurewebsites.net/](https://proximaxtestnethackathon.azurewebsites.net/ "Testnet Faucet")
 
-Mijin/Privatenet faucet at [https://proximaxfaucetmijin.azurewebsites.net/](https://proximaxfaucetmijin.azurewebsites.net/ "Mijinnet Faucet") 
+Mijin/Privatenet faucet at [https://proximaxprivatenethackathon.azurewebsites.net/](https://proximaxprivatenethackathon.azurewebsites.net/ "Private/Mijinnet Faucet") 
 
 
 ### Establishing a connection
@@ -138,7 +138,7 @@ peerConnection.getNemAccountApi().generateAccount()
 
 ***Grab the Address and get XEMs/XPXs.***  
 
-Visit the XEM/XPX Testnet faucet at [https://proximaxfaucet20180730014353.azurewebsites.net/](https://proximaxfaucet20180730014353.azurewebsites.net/ "Testnet Faucet")
+Visit the XEM/XPX Testnet faucet at [https://proximaxtestnethackathon.azurewebsites.net/](https://proximaxtestnethackathon.azurewebsites.net/ "Testnet Faucet")
 
 ### Upload / Upload Async
 
